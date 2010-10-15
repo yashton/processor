@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<symbol version="7" name="gpu">
+    <symboltype>BLOCK</symboltype>
+    <timestamp>2010-10-14T21:49:22</timestamp>
+    <attr value="gpu" name="VeriModel" />
+    <pin polarity="Input" x="0" y="-864" name="clk" />
+    <pin polarity="Input" x="0" y="-800" name="rst" />
+    <pin polarity="Output" x="496" y="-864" name="line_shift" />
+    <pin polarity="Output" x="496" y="-800" name="line_load" />
+    <pin polarity="Output" x="496" y="-736" name="line_copy" />
+    <pin polarity="Output" x="496" y="-608" name="line_data(15:0)" />
+    <pin polarity="Output" x="496" y="-672" name="line_addr(9:0)" />
+    <pin polarity="Output" x="496" y="-544" name="line_z(1:0)" />
+    <pin polarity="Output" x="496" y="-480" name="line_palette(3:0)" />
+    <pin polarity="Output" x="496" y="-224" name="brightness(7:0)" />
+    <pin polarity="Input" x="0" y="-608" name="vga_clk_enable" />
+    <pin polarity="Input" x="0" y="-544" name="hbright" />
+    <pin polarity="Input" x="0" y="-480" name="vbright" />
+    <pin polarity="Input" x="0" y="-416" name="bright" />
+    <pin polarity="Input" x="0" y="-352" name="hcount(9:0)" />
+    <pin polarity="Input" x="0" y="-288" name="vcount(9:0)" />
+    <pin polarity="Input" x="0" y="-224" name="x(9:0)" />
+    <pin polarity="Input" x="0" y="-160" name="y(9:0)" />
+    <pin polarity="Input" x="0" y="16" name="writedata(15:0)" />
+    <pin polarity="Input" x="0" y="-34" name="adr(15:0)" />
+    <pin polarity="Input" x="0" y="-84" name="memwrite" />
+    <pin polarity="Output" x="496" y="-20" name="memdata(15:0)" />
+    <pin polarity="Input" x="0" y="-736" name="line_busy" />
+    <pin polarity="Input" x="0" y="-672" name="vlookahead" />
+    <graph>
+        <attrtext style="alignment:BCENTER;fontsize:56;fontname:Arial" attrname="SymbolName" x="236" y="-900" type="symbol" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-864" type="pin clk" />
+        <line x2="0" y1="-864" y2="-864" x1="64" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-800" type="pin rst" />
+        <line x2="56" y1="-800" y2="-800" x1="0" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="424" y="-864" type="pin line_shift" />
+        <line x2="496" y1="-864" y2="-864" x1="432" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="424" y="-800" type="pin line_load" />
+        <line x2="496" y1="-800" y2="-800" x1="432" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="424" y="-736" type="pin line_copy" />
+        <line x2="496" y1="-736" y2="-736" x1="432" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="424" y="-608" type="pin line_data(15:0)" />
+        <rect width="64" x="432" y="-620" height="24" />
+        <line x2="496" y1="-608" y2="-608" x1="432" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="424" y="-672" type="pin line_addr(9:0)" />
+        <rect width="64" x="432" y="-684" height="24" />
+        <line x2="496" y1="-672" y2="-672" x1="432" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="424" y="-544" type="pin line_z(1:0)" />
+        <rect width="64" x="432" y="-556" height="24" />
+        <line x2="496" y1="-544" y2="-544" x1="432" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="424" y="-480" type="pin line_palette(3:0)" />
+        <rect width="64" x="432" y="-492" height="24" />
+        <line x2="496" y1="-480" y2="-480" x1="432" />
+        <rect width="64" x="432" y="-236" height="24" />
+        <line x2="496" y1="-224" y2="-224" x1="432" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="432" y="-224" type="pin brightness(7:0)" />
+        <rect width="368" x="64" y="-896" height="936" />
+        <circle r="4" cx="60" cy="-800" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-608" type="pin vga_clk_enable" />
+        <line x2="0" y1="-608" y2="-608" x1="64" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-544" type="pin hbright" />
+        <line x2="0" y1="-544" y2="-544" x1="64" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-480" type="pin vbright" />
+        <line x2="0" y1="-480" y2="-480" x1="64" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-416" type="pin bright" />
+        <line x2="0" y1="-416" y2="-416" x1="64" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-352" type="pin hcount(9:0)" />
+        <rect width="64" x="0" y="-364" height="24" />
+        <line x2="0" y1="-352" y2="-352" x1="64" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-288" type="pin vcount(9:0)" />
+        <rect width="64" x="0" y="-300" height="24" />
+        <line x2="0" y1="-288" y2="-288" x1="64" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-224" type="pin x(9:0)" />
+        <rect width="64" x="0" y="-236" height="24" />
+        <line x2="0" y1="-224" y2="-224" x1="64" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-160" type="pin y(9:0)" />
+        <rect width="64" x="0" y="-172" height="24" />
+        <line x2="0" y1="-160" y2="-160" x1="64" />
+        <rect width="64" x="0" y="4" height="24" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="232" y="16" type="pin writedata(15:0)" />
+        <line x2="0" y1="16" y2="16" x1="64" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="168" y="-32" type="pin adr(15:0)" />
+        <rect width="64" x="0" y="-44" height="24" />
+        <line x2="0" y1="-32" y2="-32" x1="64" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="176" y="-84" type="pin memwrite" />
+        <line x2="0" y1="-84" y2="-84" x1="64" />
+        <rect width="64" x="432" y="-32" height="24" />
+        <line x2="432" y1="-20" y2="-20" x1="496" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="432" y="-20" type="pin memdata(15:0)" />
+        <line x2="0" y1="-736" y2="-736" x1="64" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-736" type="pin line_busy" />
+        <line x2="0" y1="-672" y2="-672" x1="64" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-672" type="pin vlookahead" />
+    </graph>
+</symbol>

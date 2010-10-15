@@ -11,7 +11,7 @@
 module alu
 	(
 		input [15:0] dst,
-		input [15:0] src
+		input [15:0] src,
 		input [3:0] oper,
 		input [3:0] func,
 		input [3:0] cond,
@@ -20,7 +20,4 @@ module alu
 	);
 	
 	reg [15:0] psr;
-	always @(*) begin
-		// insert code here.
-	end
 endmodule
