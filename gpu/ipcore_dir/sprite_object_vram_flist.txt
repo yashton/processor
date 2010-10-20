@@ -1,0 +1,17 @@
+# Output products list for <sprite_object_vram>
+_xmsgs/pn_parser.xmsgs
+blk_mem_gen_ds512.pdf
+blk_mem_gen_readme.txt
+sprite_object_vram.asy
+sprite_object_vram.gise
+sprite_object_vram.mif
+sprite_object_vram.ngc
+sprite_object_vram.sym
+sprite_object_vram.v
+sprite_object_vram.veo
+sprite_object_vram.vhd
+sprite_object_vram.vho
+sprite_object_vram.xco
+sprite_object_vram.xise
+sprite_object_vram_flist.txt
+sprite_object_vram_xmdf.tcl

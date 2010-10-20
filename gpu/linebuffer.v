@@ -6,183 +6,120 @@
 // Design Name: GPU line buffer.
 // Module Name: line_buffer
 // Project Name: CS3710
-// Description: Provides 640 registers for storing the line back buffer and z priority;
-// and 640 registers for the line front buffer, which is shifted out to the VGA output.
+// Description: Provides memory for storing the line back buffer and z priority;
+// and memory for the line front buffer, which is access and sent to the palette.
+// NOTE: Currently does not handle sprites that overlap the edge of the 
+// screen (addr < 0 or addr + width > 640). It is also possible to have front flip
+// before a write cycle is completed. pixel_update_[front|back] still needs logic to 
+// clear it every line change.
 //////////////////////////////////////////////////////////////////////////////////
 module line_buffer
 	#(
 		parameter WIDTH = 640,
-		parameter SPRITE_DATA_ADDR = 16'h2000,
-		parameter SPRITE_DATA_ADDR_TOP = 16'h3fff
+		parameter START = 4,
+		parameter FIRST = 0,
+		parameter WRFIRST = 1,
+		parameter SECOND = 2,
+		parameter WRSECOND = 3,
+		parameter WAIT = 5
 	)
 	(
 		input clk,
 		input rst,
-		input shift,
-		input load,
 		input front,
+		
+		// Sprite input
+		input load,
 		input [9:0] addr,
-		input [11:0] tile,
 		input [1:0] z,
 		input [3:0] palette,
+		input [2:0] first,
+		input [2:0] last,
+		output line_busy,
+		// tile input
+		output reg [3:0] current_tile,
+		input tile_flip,
+		input [31:0] tile_data,
+		// back line buffer output
 		input [9:0] x,
-		output busy,
-		output reg [7:0] p_index,
-		// mem-mapped IO
-		input [15:0] memaddr,
-		input memwrite,
-		input [15:0] writedata,
-		output reg [15:0] memdata
+		output [7:0] index,
+		output reg enable
    );
-	// VRAM for sprite tiles
-	reg [15:0] tile_data [8191:0];
-	reg [31:0] loaded_tile_data;
-		
-	// VRAM for line front and back buffer.
-	reg [31:0] pixel_buffer [511:0];
-
-	initial begin
-		$readmemh("tile.dat", tile_data);
-	end
+	reg [2:0] last_tile;
 	
-	// Registers for latching inputs
-	reg [11:0] line_tile;
-	reg [9:0] line_addr;
+	reg [7:0] pixel_addr;
+	reg [1:0] offset;
+	
+	wire write_pixel;
+	
+	reg [7:0] pixel_z_data [79:0];
+	reg [3:0] pixel_updated_front [79:0];
+	reg [3:0] pixel_updated_back [79:0];
+	
+	wire [31:0] pixel_read_data;
+	reg [3:0] pixel_read_updated;
+	reg [7:0] pixel_read_z;
+	wire [31:0] pixel_write_data;
+	wire [3:0] pixel_write_updated;
+	wire [7:0] pixel_write_z;
+	
 	reg [1:0] line_z;
 	reg [3:0] line_palette;
-	reg pixel_update;
-	reg [1:0] pixel_z [WIDTH-1:0];
-	// set of flags for values that need to be written. Transparent pixels are ignored.
-	wire [3:0] need_write;
-	assign need_write[0] = line_data[3:0] != 0;
-	assign need_write[1] = line_data[7:4] != 0;
-	assign need_write[2] = line_data[11:8] != 0;
-	assign need_write[3] = line_data[15:12] != 0;
 	
-	// flags for each pixel already written to buffer.
-	reg [3:0] written;
+	// Registers for latching inputs	
+	reg completed_first;
+	reg [3:0] state, next_state;
+	assign write_pixel = state == FIRST || state == SECOND;
 	
-	// flags for values that have not been written yet.
-	wire [3:0] unwritten;
-	assign unwritten = need_write & ~written;
-	
-	// finds the right-most unwritten value.
-	wire [3:0] next_write;
-	assign next_write = (~unwritten + 1) & unwritten;
-	
-	// if there are unwritten values, load one
-	wire load_pixel;
-	wire load_z;
-	reg [1:0] loaded_z;
-	assign load_pixel = next_write != 0 && load_z;
-	assign load_z = line_z > loaded_z;
-	assign busy = load_pixel;
-
-	// calulate which offset is needed
-	reg [1:0] pixel_offset;
-	always @(*) begin
-		case (next_write)
-			1: pixel_offset <= 0;
-			2: pixel_offset <= 1;
-			4: pixel_offset <= 2;
-			8: pixel_offset <= 3;
-			default: pixel_offset <= 0;
-		endcase
-	end
-	
-	// calculate the write offset.
-	wire [9:0] pixel_addr;
-	assign pixel_addr = line_addr + pixel_offset;
-	
-	// Switches the data written to pixel to the correct slice.
-	reg [3:0] pixel_data;
-	always @(*) begin
-		case (pixel_offset)
-			0: pixel_data <= line_data[3:0];
-			1: pixel_data <= line_data[7:4];
-			2: pixel_data <= line_data[11:8];
-			3: pixel_data <= line_data[15:12];
-			default: pixel_data <= line_data[3:0];
-		endcase
-	end
-	
-	
-	
-	
-	
-	wire [7:0] word;
-	wire [1:0] offset;
-	assign word = line_addr[9:2];
-	assign offset = line_addr[1:0];
-
-	reg [31:0] loaded;
-	reg [31:0] write;
 	always @(posedge clk) begin
-		sliceA = {line_palette, line_data[3:0]};
-		sliceB = {line_palette, line_data[7:4]};
-		sliceC = {line_palette, line_data[11:8]};
-		sliceD = {line_palette, line_data[15:12]};
-		sliceE = {line_palette, line_data[19:16]};
-		sliceF = {line_palette, line_data[23:20]};
-		sliceG = {line_palette, line_data[27:24]};
-		sliceH = {line_palette, line_data[31:28]};
-		
-		// first
-		if (state == FIRST || state == THIRD) begin // for third, copy update to previous.
-			if (offset == 0) begin // && (updateA || updateB || updateC || updateD)
-				dataD = updateD ? sliceD : loaded[31:24];
-				dataC = updateC ? sliceC : loaded[23:16];
-				dataB = updateB ? sliceB : loaded[15:8];
-				dataA = updateA ? sliceA : loaded[7:0];
-			end
-			else if (offset == 1) begin // && (updateA || updateB || updateC)
-				dataD = updateC ? sliceC : loaded[31:24];
-				dataC = updateB ? sliceB : loaded[23:16];
-				dataB = updateA ?  sliceA : loaded[15:8];
-				dataA = previousH ? sliceH : loaded[7:0];
-			end
-			else if (offset == 2) begin // && (updateA || updateB)
-				dataD = updateB ? sliceB : loaded[31:24];
-				dataC = updateA ? sliceA : loaded[23:16];
-				dataB = previousH ? sliceH : loaded[15:8];
-				dataA = previousG ? sliceG : loaded[7:0];
-			end
-			else begin // offset == 3 // && (updateA)
-				dataD = updateA ? sliceA : loaded[31:24];
-				dataC = previousH ? sliceH : loaded[23:16];
-				dataB = previousG ? sliceG : loaded[15:8];
-				dataA = previousF ? sliceF : loaded[7:0];
-			end
+		if (!rst) begin
+			offset <= 0;
+			last_tile <= 0;
+			line_z <= 0;
+			line_palette <= 0;
 		end
-		else if (state == SECOND) begin
-			if (offset == 0) begin
-				dataD = updateH ? sliceH : loaded[31:24];
-				dataC = updateG ? sliceG : loaded[23:16];
-				dataB = updateF ? sliceF : loaded[15:8];
-				dataA = updateE ? sliceE : loaded[7:0];
-			end
-			else if (offset == 1) begin
-				dataD = updateG ? sliceG : loaded[31:24];
-				dataC = updateF ? sliceF : loaded[23:16];
-				dataB = updateE ? sliceE : loaded[15:8];
-				dataA = updateD ? sliceD : loaded[7:0];
-			end
-			else if (offset == 2) begin
-				dataD = updateF ? sliceF :loaded[31:24];
-				dataC = updateE ? sliceE : loaded[23:16];
-				dataB = updateD ? sliceD : loaded[15:8];
-				dataA = updateC ? sliceC : loaded[7:0];
-			end
-			else begin
-				dataD = updateE ? sliceE :loaded[31:24];
-				dataC = updateD ? sliceD : loaded[23:16];
-				dataB = updateC ? sliceC : loaded[15:8];
-				dataA = updateB ? sliceB : loaded[7:0];
-			end
+		else if (load) begin
+			offset <= addr[1:0];
+			last_tile <= last;
+			line_z <= z;
+			line_palette <= palette;
 		end
-		write = {dataD, dataC, dataB, dataA};
 	end
-
+	
+	always @(posedge clk) begin
+		if (!rst || load) begin
+			completed_first <= 0;
+		end
+		else if (state == WRFIRST) begin
+			completed_first <= 1;
+		end
+	end
+	
+	always @(posedge clk) begin
+		if (!rst) begin
+			pixel_addr <= 0;
+		end
+		else if (load) begin
+			pixel_addr <= addr[9:2];
+		end
+		else if(state == FIRST || state == SECOND) begin
+			pixel_addr <= pixel_addr + 1;
+		end
+	end
+	
+	always @(posedge clk) begin		
+		if (!rst) begin
+			current_tile <= 0;
+		end
+		else if (load) begin
+			current_tile <= first;
+		end
+		else if ((offset != 0 && state == FIRST && completed_first) 
+			|| (offset == 0 && state == SECOND)) begin
+			current_tile <= current_tile + 1;
+		end
+	end
+	
 	always @(posedge clk) begin
 		if (!rst) begin
 			state <= WAIT;
@@ -192,88 +129,77 @@ module line_buffer
 		end
 	end
 	
+	assign line_busy = state != WAIT;
+	
 	always @(*) begin
 		case (state)
-			WAIT: next_state <= load ? FIRST : WAIT;
-			// if the next word to be written
-			FIRST: next_state <= offset != 0 ? SECOND : (load ? FIRST : WAIT);
-			SECOND: next_state <= load ? FIRST : WAIT;
+			WAIT: next_state <= load ? START : WAIT;
+			START: next_state <= current_tile > last_tile ? WAIT : FIRST;
+			FIRST: next_state <= WRFIRST;
+			WRFIRST: next_state <= offset != 0 && current_tile > last_tile ? WAIT : SECOND;
+			SECOND: next_state <= WRSECOND;
+			WRSECOND: next_state <= offset == 0 && current_tile > last_tile ? WAIT : FIRST;
 			default: next_state <= WAIT;
 		endcase
 	end
 	
+	wire [11:0] remaining;
+	reg [11:0] previous;
+	wire calculate_first;
+	assign calculate_first = state == FIRST;
+	pixel_logic pixel(calculate_first, offset, tile_flip, line_z, line_palette,
+		tile_data, previous, remaining,
+		pixel_read_data, pixel_read_updated, pixel_read_z,
+		pixel_write_data, pixel_write_updated, pixel_write_z);
 	
-
-	/*
-	it takes 2 cycles to read the sprite object data. it takes at least 2 cycles to write an 8 pixel slice,
-	but writing to sequential addresses can be pipelined. After the rightmost slice write is initiated, the
-	object data can use the next 3 write cycles to load the next object data. This means that the gpu control cycle is
-	1 + 2 + 2 * (tiles) cycles. This is min 2 cycles for a cull, max 19 cycles for a full 32 pixel.
-	Writing 32 32-pixel sprites will be 608 cycles. Using all 256 sprites, each a single tile wide, will 
-	take 1280 cycles.
-	
-	*/
-	
-
-	// Memory reads and writes for sprite tile data.
-	reg [12:0] tmem;
-	always @(posedge clk) begin
-		if (memaddr >= SPRITE_DATA_ADDR && memaddr <= SPRITE_DATA_ADDR_TOP) begin
-			tmem <= memaddr - SPRITE_DATA_ADDR;
-			if (memwrite) begin
-				tile_data[tmem] <= writedata;
-			end
-			memdata <= tile_data[tmem];
+	always @(posedge clk) begin		
+		if (!rst || load) begin
+			previous <= 0;
 		end
-		loaded_tile_data <= tile_data[tile];
+		else if (state == WRSECOND) begin
+			previous <= remaining;
+		end
 	end
 	
+	wire [8:0] buffer_addr;
+	assign buffer_addr = {front, pixel_addr};
+	wire [10:0] front_addr;
+	assign front_addr = {!front, x};
+	wire pixel_enable;
+	assign pixel_enable = state != WAIT;
+	// VRAM for line front and back buffer.
+	line_buffer_vram buffer_ram(
+		.addra(buffer_addr), .dina(pixel_write_data), .ena(pixel_enable), .wea(write_pixel), .clka(clk), .douta(pixel_read_data),
+		.addrb(front_addr), .dinb(8'h00), .web(1'b0), .clkb(clk), .doutb(index));
 	
-	
-	
-	
-	
-	wire front_updated [WIDTH-1:0];
-	wire back_updated [WIDTH-1:0];
-	wire pixel_z [WIDTH-1:0];
-	genvar i;
-	generate
-		for (i = 0; i < WIDTH; i = i + 1)
-		begin:buffer
-			wire select;
-			assign select = load_pixel && (pixel_addr == i);
-			line_buffer_latch stage(clk, select, copy, clear, pixel_z, front_z[i], front_update[i], back_updated[i]);
-		end
-	endgenerate
-
-endmodule
-
-module line_updated_buffer
-	(
-		input clk,
-		input load,
-		input copy,
-		input clear,
-		input [1:0] data,
-		output reg [1:0] front_z,
-		output reg front,
-		output reg back
-	);
 	always @(posedge clk) begin
-		if (!clear || copy) begin
-			front <= 0;
-			front_z <= 0;
+		if (write_pixel) begin
+			pixel_z_data[pixel_addr] <= pixel_write_z;
 		end
-		else if (load) begin
-			front <= 1;
-			front_z <= data;
+		pixel_read_z <= pixel_z_data[pixel_addr];
+	end
+	
+	always @(posedge clk) begin
+		if (write_pixel) begin
+			if (front) begin
+				pixel_updated_front[pixel_addr] <= pixel_write_updated | pixel_read_updated;
+			end
+			else begin
+				pixel_updated_back[pixel_addr] <= pixel_write_updated | pixel_read_updated;
+			end
 		end
-		
-		if (!clear) begin
-			back <= 0;
+		if (front) begin
+			pixel_read_updated <= pixel_updated_front[pixel_addr];
 		end
-		else if (copy) begin
-			back <= front;
+		else begin
+			pixel_read_updated <= pixel_updated_back[pixel_addr];
+		end
+		// port B
+		if (!front) begin
+			enable <= pixel_updated_front[x];
+		end
+		else begin
+			enable <= pixel_updated_back[x];
 		end
 	end
 endmodule

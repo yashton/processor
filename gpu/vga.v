@@ -24,18 +24,20 @@ module vga
 	(
 		 input clk,
 		 input rst,
-		 output reg vga_clk_enable,
-		 output reg [9:0] hcount, // horizontal scan count
-		 output reg [9:0] vcount, // vertical scan count
 		 output [9:0] x, // the screen x coordinate
 		 output [9:0] y, // the screen y coordinate
 		 output hbright,
 		 output vbright,
 		 output vlookahead,
+		 output line_start,
+		 output front,
 		 output bright,
 		 output hsync,
 		 output vsync
     );
+	
+	reg [9:0] hcount, vcount;
+	reg vga_clk_enable;
 	
 	// Vertical and horizontal output if count is inside Tdisplay
 	assign hbright = (hcount >= (hPulseWidth + hBackPorch) && hcount < (hPulse - hFrontPorch));
@@ -49,7 +51,11 @@ module vga
 	// the horizontal counter and vertical counters.
 	// will be zero if not inside the enabled range.
 	assign x = hbright ? hcount - (hPulseWidth + hBackPorch) : 0;
-	assign y = vbright ? vcount - (vPulseWidth + vBackPorch) : 0;
+	assign y = vlookahead ? vcount - (vPulseWidth + vBackPorch - 1) : 0;
+	
+	// Front buffer on even y, back buffer on odd y.
+	assign front = y % 2;
+	assign line_start = hcount == 0;
 	
 	// sync pulses on the first part of the count.
 	assign hsync = !(hcount >= 0 && hcount < hPulseWidth);

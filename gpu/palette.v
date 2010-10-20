@@ -18,28 +18,40 @@
 module palette
 	(
 		input clk,
-		input [7:0] index,
+		input [7:0] wrindex,
 		input write,
 		input [23:0] data,
+		input enable,
 		input [7:0] brightness,
-		input [7:0] outindex,
-		output reg [7:0] red,
-		output reg [7:0] green,
-		output reg [7:0] blue
+		input [7:0] index,
+		output [7:0] red,
+		output [7:0] green,
+		output [7:0] blue
 	);
 	
-	reg [31:0] colorData [255:0];
-	
+	reg [23:0] colorData [255:0];
+	reg [7:0] redData, greenData, blueData;
 	initial begin
-		$readmemh("paletteRGB.dat", redGreenData);
+		$readmemh("paletteRGB.dat", colorData);
 	end
-	
+	assign red = redData > brightness ? redData - brightness : 0;
+	assign green = greenData > brightness ? greenData - brightness : 0;
+	assign blue = blueData > brightness ? blueData - brightness : 0;
+		
 	always @(posedge clk) begin
 		if (write) begin
-			colorData[index] <= data;
+			colorData[wrindex] <= data;
 		end
-		red <= colorData[outindex][23:16] > brightness ? redGreenData[outindex][23:16] - brightness : 0;
-		green <= colorData[outindex][15:8] > brightness ? redGreenData[outindex][15:8] - brightness : 0;
-		blue <= colorData[outindex][7:0] > brightness ? blueData[outindex][7:0] - brightness : 0;
+		if (enable) begin
+			redData <= colorData[index][23:16];
+			greenData <= colorData[index][15:8];
+			blueData <= colorData[index][7:0];
+		end
+		else begin
+			redData <= 0;
+			greenData <= 0;
+			blueData <= 0;
+		end
+		
 	end
 endmodule
