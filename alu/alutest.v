@@ -30,27 +30,48 @@ module alutest;
 	reg [3:0] oper;
 	reg [3:0] func;
 	reg [3:0] cond;
-	reg sign_ext_imm;
+	wire [4:0] condIn;
+	reg [4:0] condOut;
+	reg condWr;
+	
+	//operation codes
+	parameter register = 4'b0000, andi = 4'b0001, ori= 4'b0010, xori= 4'b0011, special= 4'b0100, addi= 4'b0101, addui= 4'b0110;
+	parameter addci= 4'b0111, shift= 4'b1000, subi= 4'b1001, subci= 4'b1010, cmpi= 4'b1011, bcond= 4'b1100, movi= 4'b1101, muli= 4'b1110, lui= 4'b1111;
 
+	//shift function codes
+	parameter lshil = 4'b0000, lshir = 4'b0001, ashuil= 4'b0010, ashuir= 4'b0011, lsh= 4'b0100, ashu= 4'b0110;
+
+	//registers
+	parameter fand = 4'b0001, fuor= 4'b0010, fxor= 4'b0011, fnot= 4'b0100, fadd= 4'b0101, faddu= 4'b0110;
+	parameter faddc= 4'b0111, fsub= 4'b1001, fsubc= 4'b1010, fcmp= 4'b1011, fmov= 4'b1101, fmul= 4'b1110, ftest= 4'b1111;
+	
+	//special
+	parameter load = 4'b0000, stor = 4'b0100, jal= 4'b1000, jcond= 4'b1100, scond= 4'b1101;
+	
 	// Outputs
 	wire [15:0] given;
 	wire c, l, f, z, n;
-
+	
+	assign condIn = {c,l,f,z,n};
+	
 	// Instantiate the Unit Under Test (UUT)
 	alu uut (
 		.dst(dst), 
 		.src(src), 
 		.oper(oper), 
 		.func(func), 
-		.cond(cond), 
-		.sign_ext_imm(sign_ext_imm), 
+		.cond(cond),
+		.condIn(condIn),
+		.condOut(condOut),
+		.condWr(condWr)'
 		.result(given)
 	);
 	
 	wire [15:0] sum, sumc, mult, sub, subc, band, bor, bxor, passthrough, sll, srl, sar, sal, lsh, ashu, scond, bcond, jcond, bnot, test;
+	wire ccr, cr;
 	
-	assign sum = dst + src;
-	assign sumc = dst + src + c;
+	assign {cr,sum} = dst + src;
+	assign {ccr,sumc} = dst + src + c;
 	assign mult = dst * src;
 	assign sub = dst - src;
 	assign sub = dst - src - c;
@@ -65,8 +86,8 @@ module alutest;
 	assign lsh = src[15] ? sll : srl;
 	assign ashu = src[15] ? sal : sar;
 	assign scond = condition ? 1:0;
-	assign bcond = Condition ? (dst + src): dst;
-	assign jcond = Condition ? src : dst;
+	assign bcond = condition ? (dst + src): dst;
+	assign jcond = condition ? src : dst;
 	assign bnot = ~dst;
 	assign lui = (dst << 8) || src[7:0];
 
@@ -128,85 +149,118 @@ module alutest;
 	
 	always @(*)
 	begin
-		if (oper == 4'b0000)
+		if (oper == register)
 		begin
-			if( func == 4'b0101 || func == 4'b0110)
+			if( func == fadd || func == faddu)
 				result = sum;
-			else if (func == 4'b0111)
+			else if (func == faddc)
 				result = sumc;
-			else if (func == 4'b1110)
+			else if (func == fmul)
 				result = mult;
-			else if (func == 4'b1011 ||func == 4'b1011)
+			else if (func == fcmp ||func == fsub)
 				result = sub;
-			else if (func == 4'b1010)
+			else if (func == fsubc)
 				result = subc;
-			else if (func == 4'b0001 || func == 4'b1111)
+			else if (func == fand || func == ftest)
 				result = band;
-			else if (func == 4'b0010)
+			else if (func == fuor)
 				result = bor;
-			else if (func == 4'b0011)
+			else if (func == fxor)
 				result = bxor;
-			else if (func == 4'b1101)
+			else if (func == fmov)
 				result =passthrough;
-			else if (func == 4'b0100)
+			else if (func == fnot)
 				result = bnot;
 			else
 				result = 0;
 		end
-		else if (oper == 4'b0001)
+		else if (oper == andi)
 			result = band;
-		else if (oper == 4'b0010)
+		else if (oper == ori)
 			result = bor;
-		else if (oper == 4'b0011)
+		else if (oper == xori)
 			result = bxor;
-		else if (oper == 4'b0100)
+		else if (oper == special)
 		begin
-			if( func == 4'b1000)
+			if( func == jal)
 				result = passthrough;
-			else if (func == 4'b1100)
+			else if (func == jcond)
 				result = jcond;
 			else
 				result = 0;
 		end
-		else if (oper == 4'b0101)
+		else if (oper == addi)
 			result = sum;
-		else if (oper == 4'b0110)
+		else if (oper == addui)
 			result = sum;
-		else if (oper == 4'b0111)
+		else if (oper == addci)
 			result = sumc;
-		else if (oper == 4'b1000)
+		else if (oper == shift)
 		begin
-			if (func == 4'b0000)
+			if (func == lshil)
 				result = sll;
-			else if (func == 4'b0001)
+			else if (func == lshir)
 				result = srl;
-			else if (func == 4'b0010)
+			else if (func == ashuil)
 				result = sal;
-			else if (func == 4'b0011)
+			else if (func == ashuir)
 				result = sar;
-			else if (func == 4'b0100)
+			else if (func == lsh)
 				result = lsh;
-			else if (func == 4'b0110)
+			else if (func == ashui)
 				result = ashu;
 			else
 				result = 0;
 		end
-		else if (oper == 4'b1001)
+		else if (oper == subi)
 			result = sub;
-		else if (oper == 4'b1010)
+		else if (oper == subci)
 			result = subc;
-		else if (oper == 4'b1011)
+		else if (oper == cmpi)
 			result = sub;
-		else if (oper == 4'b1100)
+		else if (oper == bcond)
 			result = bcond;
-		else if (oper == 4'b1101)
+		else if (oper == movi)
 			result = passthrough;
-		else if (oper == 4'b1110)
+		else if (oper == muli)
 			result = mult;
-		else // if (oper == 4'b1111)
+		else // if (oper == lui)
 			result = lui;
 	end
    
+	wire zr, fr, lr, nr;
+	assign zr = result == 0;
+	assign fr = result == 0;
+	assign lr = dst < src;
+	assign nr = result[15] == 1;
+	
+	always @(*)
+	begin
+		if (oper == register)
+		begin
+			if( func == fadd)
+				c_result = {cr, 1'b0, fr, zr, nr};	
+			else if(func == faddc)
+				c_result = {ccr, 1'b0, fr, zr, nr};
+			else if (func == fcmp ||func == fsub)
+				c_result = {1'b0, lr, 1'b0, zr, nr};
+			else if (func == fand || func == ftest  || func = fuor || func == fxor || func == fnot)
+				c_result = {3'b0, zr, 1'b0};
+			else
+				c_result = 0;
+		end
+		else if (oper == andi || oper == ori  || oper == xori)
+			c_result = {3'b0, zr, 1'b0};
+		else if (oper == addi)
+			c_result = {cr, 1'b0, fr, zr, nr};
+		else if (oper == addci)
+			c_result = {ccr, 1'b0, fr, zr, nr};
+		else if (oper == cmpi)
+			c_result = {1'b0, lr, 1'b0, zr, nr};
+		else 
+			c_result = 0;
+	end
+	
 	reg clk;
 	always @(*) begin
 		#5 clk = 0; #5 clk = 1; 
@@ -216,7 +270,7 @@ module alutest;
 	always @(posedge clk) begin
 		for (i = 0; i < 16; i = i + 1) begin
 			oper = i[3:0];
-			if (oper == 4'b0000) begin // register operations
+			if (oper == register) begin // register operations
 				for (j = 0; j < 16; j = j + 1) begin
 					func = j[3:0];
 					if (func != 4'b0000 && func != 4'b1000 && func != 4'b1100) begin
@@ -232,7 +286,7 @@ module alutest;
 					end
 				end
 			end 
-			else if (oper == 4'b0100)
+			else if (oper == special)
 				for (j = 0; j < 16; j = j + 1) begin
 					func = j[3:0];
 					if (func == 4'b1000 || func == 4'b1101 || func == 4'b1100) begin
@@ -253,7 +307,7 @@ module alutest;
 						end
 					end
 				end
-			else if (oper == 4'b1000)
+			else if (oper == shift)
 				for (j = 0; j < 16; j = j + 1) begin
 					func = j[3:0];
 					if (func == 4'b0000 || func != 4'b0001 || func != 4'b0010 || func != 4'b0011 || func != 4'b0100 || func != 4'b0110) begin
@@ -268,7 +322,7 @@ module alutest;
 						end
 					end
 				end
-			else if (oper == 4'b1100)
+			else if (oper == bcond)
 				for (j = 0; j < 16; j = j + 1) begin
 					func = j[3:0];
 					if (func == 4'b0000 || func != 4'b0001 || func != 4'b0010 || func != 4'b0011 || func != 4'b0100 || func != 4'b0110) begin
