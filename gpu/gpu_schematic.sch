@@ -8,71 +8,68 @@
     <netlist>
         <signal name="clk" />
         <signal name="rst" />
-        <signal name="XLXN_272" />
+        <signal name="front" />
         <signal name="XLXN_273" />
-        <signal name="XLXN_277(9:0)" />
-        <signal name="XLXN_278(9:0)" />
+        <signal name="y(9:0)" />
+        <signal name="x(9:0)" />
         <signal name="writedata(15:0)" />
-        <signal name="memwrite" />
-        <signal name="gpudata(15:0)" />
         <signal name="XLXN_306(7:0)" />
         <signal name="XLXN_319" />
-        <signal name="XLXN_427" />
+        <signal name="vlookahead" />
+        <signal name="line_start" />
+        <signal name="XLXN_488" />
+        <signal name="sprite_priority(6:0)" />
+        <signal name="tile_memdata(15:0)" />
+        <signal name="tile_addr(12:0)" />
+        <signal name="sprite_addr(9:0)" />
+        <signal name="sprite_memdata(15:0)" />
+        <signal name="XLXN_510(9:0)" />
+        <signal name="XLXN_511(1:0)" />
+        <signal name="XLXN_512(3:0)" />
+        <signal name="XLXN_513(2:0)" />
+        <signal name="XLXN_514(2:0)" />
+        <signal name="XLXN_515" />
+        <signal name="XLXN_516(2:0)" />
+        <signal name="XLXN_517" />
+        <signal name="XLXN_518(3:0)" />
+        <signal name="XLXN_519(2:0)" />
+        <signal name="XLXN_520(3:0)" />
         <signal name="palette_write" />
-        <signal name="palette_data(23:0)" />
         <signal name="palette_wrindex(7:0)" />
+        <signal name="palette_data(23:0)" />
+        <signal name="R(7:0)" />
         <signal name="G(7:0)" />
         <signal name="B(7:0)" />
-        <signal name="bright" />
-        <signal name="vsync" />
-        <signal name="hsync" />
-        <signal name="R(7:0)" />
         <signal name="brightness(7:0)" />
-        <signal name="XLXN_480" />
-        <signal name="vbright" />
-        <signal name="hbright" />
-        <signal name="memenable" />
-        <signal name="XLXN_484(2:0)" />
-        <signal name="XLXN_485(2:0)" />
-        <signal name="XLXN_486(31:0)" />
-        <signal name="XLXN_487" />
-        <signal name="XLXN_488" />
-        <signal name="XLXN_490(3:0)" />
-        <signal name="XLXN_498(9:0)" />
-        <signal name="XLXN_499(1:0)" />
-        <signal name="XLXN_500(3:0)" />
-        <signal name="XLXN_501" />
-        <signal name="XLXN_502(2:0)" />
-        <signal name="XLXN_503" />
-        <signal name="XLXN_504(3:0)" />
-        <signal name="sprite_priority(6:0)" />
-        <signal name="XLXN_507(2:0)" />
-        <signal name="XLXN_508(3:0)" />
-        <signal name="tiledata(15:0)" />
-        <signal name="tile_addr(12:0)" />
-        <signal name="spriteaddr(9:0)" />
+        <signal name="XLXN_529(3:0)" />
+        <signal name="XLXN_530" />
+        <signal name="XLXN_531(31:0)" />
+        <signal name="sprite_memenable" />
+        <signal name="tile_memenable" />
+        <signal name="memwrite" />
         <port polarity="Input" name="clk" />
         <port polarity="Input" name="rst" />
+        <port polarity="Input" name="front" />
+        <port polarity="Input" name="y(9:0)" />
+        <port polarity="Input" name="x(9:0)" />
         <port polarity="Input" name="writedata(15:0)" />
-        <port polarity="Input" name="memwrite" />
-        <port polarity="Output" name="gpudata(15:0)" />
+        <port polarity="Input" name="vlookahead" />
+        <port polarity="Input" name="line_start" />
+        <port polarity="Input" name="sprite_priority(6:0)" />
+        <port polarity="Output" name="tile_memdata(15:0)" />
+        <port polarity="Input" name="tile_addr(12:0)" />
+        <port polarity="Input" name="sprite_addr(9:0)" />
+        <port polarity="Output" name="sprite_memdata(15:0)" />
         <port polarity="Input" name="palette_write" />
-        <port polarity="Input" name="palette_data(23:0)" />
         <port polarity="Input" name="palette_wrindex(7:0)" />
+        <port polarity="Input" name="palette_data(23:0)" />
+        <port polarity="Output" name="R(7:0)" />
         <port polarity="Output" name="G(7:0)" />
         <port polarity="Output" name="B(7:0)" />
-        <port polarity="Output" name="bright" />
-        <port polarity="Output" name="vsync" />
-        <port polarity="Output" name="hsync" />
-        <port polarity="Output" name="R(7:0)" />
         <port polarity="Input" name="brightness(7:0)" />
-        <port polarity="Output" name="vbright" />
-        <port polarity="Output" name="hbright" />
-        <port polarity="Input" name="memenable" />
-        <port polarity="Input" name="sprite_priority(6:0)" />
-        <port polarity="Output" name="tiledata(15:0)" />
-        <port polarity="Input" name="tile_addr(12:0)" />
-        <port polarity="Input" name="spriteaddr(9:0)" />
+        <port polarity="Input" name="sprite_memenable" />
+        <port polarity="Input" name="tile_memenable" />
+        <port polarity="Input" name="memwrite" />
         <blockdef name="palette">
             <timestamp>2010-10-18T7:31:0</timestamp>
             <rect width="336" x="64" y="-448" height="524" />
@@ -95,8 +92,7 @@
             <line x2="0" y1="-96" y2="-96" x1="64" />
         </blockdef>
         <blockdef name="line_buffer">
-            <timestamp>2010-10-19T19:50:6</timestamp>
-            <rect width="368" x="64" y="-1216" height="968" />
+            <timestamp>2010-10-21T5:25:9</timestamp>
             <line x2="0" y1="-1184" y2="-1184" x1="64" />
             <line x2="0" y1="-1120" y2="-1120" x1="64" />
             <line x2="0" y1="-928" y2="-928" x1="64" />
@@ -110,81 +106,22 @@
             <line x2="0" y1="-800" y2="-800" x1="64" />
             <rect width="64" x="0" y="-748" height="24" />
             <line x2="0" y1="-736" y2="-736" x1="64" />
-            <rect width="64" x="0" y="-364" height="24" />
-            <line x2="0" y1="-352" y2="-352" x1="64" />
-            <rect width="64" x="0" y="-300" height="24" />
-            <line x2="0" y1="-288" y2="-288" x1="64" />
-            <line x2="496" y1="-352" y2="-352" x1="432" />
-            <rect width="64" x="432" y="-300" height="24" />
-            <line x2="496" y1="-288" y2="-288" x1="432" />
-            <rect width="64" x="0" y="-492" height="24" />
-            <line x2="0" y1="-480" y2="-480" x1="64" />
-            <line x2="0" y1="-544" y2="-544" x1="64" />
-            <line x2="432" y1="-480" y2="-480" x1="496" />
-            <rect width="64" x="432" y="-492" height="24" />
-        </blockdef>
-        <blockdef name="vga">
-            <timestamp>2010-10-19T1:27:12</timestamp>
-            <rect width="256" x="64" y="-644" height="644" />
-            <rect width="64" x="320" y="-108" height="24" />
-            <line x2="384" y1="-96" y2="-96" x1="320" />
-            <rect width="64" x="320" y="-44" height="24" />
-            <line x2="384" y1="-32" y2="-32" x1="320" />
-            <line x2="384" y1="-480" y2="-480" x1="320" />
-            <line x2="384" y1="-544" y2="-544" x1="320" />
-            <line x2="384" y1="-608" y2="-608" x1="320" />
+            <rect width="64" x="0" y="-684" height="24" />
+            <line x2="0" y1="-672" y2="-672" x1="64" />
+            <rect width="64" x="0" y="-620" height="24" />
             <line x2="0" y1="-608" y2="-608" x1="64" />
-            <line x2="128" y1="0" y2="64" x1="128" />
-            <line x2="224" y1="64" y2="0" x1="224" />
-            <line x2="176" y1="64" y2="0" x1="176" />
-            <line x2="320" y1="-352" y2="-352" x1="384" />
-            <line x2="320" y1="-416" y2="-416" x1="384" />
-            <line x2="0" y1="-544" y2="-544" x1="64" />
-        </blockdef>
-        <blockdef name="gpu">
-            <timestamp>2010-10-20T3:36:9</timestamp>
-            <rect width="368" x="64" y="-896" height="976" />
-            <line x2="0" y1="-864" y2="-864" x1="64" />
-            <line x2="0" y1="-800" y2="-800" x1="64" />
-            <line x2="0" y1="-416" y2="-416" x1="64" />
-            <rect width="64" x="0" y="-428" height="24" />
-            <line x2="0" y1="-736" y2="-736" x1="64" />
-            <line x2="496" y1="-480" y2="-480" x1="432" />
-            <rect width="64" x="432" y="-236" height="24" />
-            <line x2="496" y1="-224" y2="-224" x1="432" />
-            <line x2="496" y1="-160" y2="-160" x1="432" />
-            <rect width="64" x="432" y="-172" height="24" />
-            <rect width="64" x="0" y="20" height="24" />
-            <line x2="0" y1="32" y2="32" x1="64" />
-            <line x2="0" y1="-96" y2="-96" x1="64" />
-            <rect width="64" x="0" y="-44" height="24" />
-            <line x2="0" y1="-32" y2="-32" x1="64" />
-            <rect width="64" x="432" y="20" height="24" />
-            <line x2="496" y1="32" y2="32" x1="432" />
-            <line x2="0" y1="-160" y2="-160" x1="64" />
-            <line x2="0" y1="-544" y2="-544" x1="64" />
-            <line x2="0" y1="-480" y2="-480" x1="64" />
-            <rect width="64" x="432" y="-556" height="24" />
-            <line x2="496" y1="-544" y2="-544" x1="432" />
-            <line x2="496" y1="-608" y2="-608" x1="432" />
-            <rect width="64" x="432" y="-812" height="24" />
-            <line x2="496" y1="-800" y2="-800" x1="432" />
-            <rect width="64" x="432" y="-748" height="24" />
-            <line x2="496" y1="-736" y2="-736" x1="432" />
-            <rect width="64" x="432" y="-684" height="24" />
-            <line x2="496" y1="-672" y2="-672" x1="432" />
-            <line x2="496" y1="-864" y2="-864" x1="432" />
-            <rect width="64" x="432" y="-428" height="24" />
-            <line x2="496" y1="-416" y2="-416" x1="432" />
-            <rect width="64" x="432" y="-364" height="24" />
-            <line x2="496" y1="-352" y2="-352" x1="432" />
-            <rect width="64" x="432" y="-300" height="24" />
-            <line x2="496" y1="-288" y2="-288" x1="432" />
-            <rect width="64" x="0" y="-300" height="24" />
-            <line x2="0" y1="-288" y2="-288" x1="64" />
+            <rect width="368" x="64" y="-1208" height="816" />
+            <line x2="496" y1="-496" y2="-496" x1="432" />
+            <rect width="64" x="432" y="-444" height="24" />
+            <line x2="496" y1="-432" y2="-432" x1="432" />
+            <line x2="192" y1="-340" y2="-392" x1="192" />
+            <rect width="24" x="180" y="-392" height="56" />
+            <rect width="24" x="276" y="-392" height="56" />
+            <line x2="240" y1="-340" y2="-392" x1="240" />
+            <line x2="288" y1="-392" y2="-340" x1="288" />
         </blockdef>
         <blockdef name="tile_table">
-            <timestamp>2010-10-19T19:53:50</timestamp>
+            <timestamp>2010-10-21T5:28:56</timestamp>
             <rect width="352" x="64" y="-896" height="968" />
             <line x2="0" y1="-864" y2="-864" x1="64" />
             <line x2="0" y1="-800" y2="-800" x1="64" />
@@ -199,8 +136,6 @@
             <line x2="0" y1="-544" y2="-544" x1="64" />
             <rect width="64" x="0" y="-364" height="24" />
             <line x2="0" y1="-352" y2="-352" x1="64" />
-            <rect width="64" x="0" y="-284" height="24" />
-            <line x2="0" y1="-272" y2="-272" x1="64" />
             <line x2="0" y1="-144" y2="-144" x1="64" />
             <line x2="0" y1="-80" y2="-80" x1="64" />
             <rect width="64" x="0" y="-28" height="24" />
@@ -209,67 +144,71 @@
             <line x2="0" y1="48" y2="48" x1="64" />
             <rect width="64" x="416" y="36" height="24" />
             <line x2="480" y1="48" y2="48" x1="416" />
-            <line x2="480" y1="-336" y2="-336" x1="416" />
-            <rect width="64" x="416" y="-284" height="24" />
-            <line x2="480" y1="-272" y2="-272" x1="416" />
+            <line x2="240" y1="-956" y2="-896" x1="240" />
+            <line x2="288" y1="-956" y2="-896" x1="288" />
+            <line x2="192" y1="-956" y2="-896" x1="192" />
+            <rect width="24" x="276" y="-960" height="64" />
+            <rect width="24" x="180" y="-960" height="64" />
+        </blockdef>
+        <blockdef name="sprite_controller">
+            <timestamp>2010-10-21T5:41:40</timestamp>
+            <rect width="416" x="64" y="-896" height="976" />
+            <line x2="0" y1="-864" y2="-864" x1="64" />
+            <line x2="0" y1="-800" y2="-800" x1="64" />
+            <line x2="0" y1="-416" y2="-416" x1="64" />
+            <rect width="64" x="0" y="-428" height="24" />
+            <line x2="0" y1="-736" y2="-736" x1="64" />
+            <rect width="64" x="0" y="20" height="24" />
+            <line x2="0" y1="32" y2="32" x1="64" />
+            <line x2="0" y1="-96" y2="-96" x1="64" />
+            <rect width="64" x="0" y="-44" height="24" />
+            <line x2="0" y1="-32" y2="-32" x1="64" />
+            <line x2="0" y1="-160" y2="-160" x1="64" />
+            <line x2="0" y1="-544" y2="-544" x1="64" />
+            <line x2="0" y1="-480" y2="-480" x1="64" />
+            <rect width="64" x="0" y="-300" height="24" />
+            <line x2="0" y1="-288" y2="-288" x1="64" />
+            <line x2="544" y1="-352" y2="-352" x1="480" />
+            <rect width="64" x="480" y="-428" height="24" />
+            <line x2="544" y1="-416" y2="-416" x1="480" />
+            <line x2="544" y1="-480" y2="-480" x1="480" />
+            <rect width="64" x="480" y="-300" height="24" />
+            <line x2="544" y1="-288" y2="-288" x1="480" />
+            <rect width="64" x="480" y="-236" height="24" />
+            <line x2="544" y1="-224" y2="-224" x1="480" />
+            <rect width="64" x="480" y="-172" height="24" />
+            <line x2="544" y1="-160" y2="-160" x1="480" />
+            <rect width="64" x="480" y="-620" height="24" />
+            <line x2="544" y1="-608" y2="-608" x1="480" />
+            <line x2="544" y1="-544" y2="-544" x1="480" />
+            <rect width="64" x="480" y="-556" height="24" />
+            <rect width="64" x="480" y="-812" height="24" />
+            <line x2="544" y1="-800" y2="-800" x1="480" />
+            <rect width="64" x="480" y="-748" height="24" />
+            <line x2="544" y1="-736" y2="-736" x1="480" />
+            <rect width="64" x="480" y="-684" height="24" />
+            <line x2="544" y1="-672" y2="-672" x1="480" />
+            <line x2="544" y1="-864" y2="-864" x1="480" />
+            <rect width="64" x="480" y="20" height="24" />
+            <line x2="544" y1="32" y2="32" x1="480" />
         </blockdef>
         <block symbolname="line_buffer" name="line_buff">
             <blockpin signalname="clk" name="clk" />
             <blockpin signalname="rst" name="rst" />
             <blockpin signalname="XLXN_319" name="load" />
-            <blockpin signalname="XLXN_272" name="front" />
+            <blockpin signalname="front" name="front" />
             <blockpin signalname="XLXN_273" name="line_busy" />
-            <blockpin signalname="XLXN_278(9:0)" name="x(9:0)" />
-            <blockpin signalname="XLXN_498(9:0)" name="addr(9:0)" />
-            <blockpin signalname="XLXN_499(1:0)" name="z(1:0)" />
-            <blockpin signalname="XLXN_500(3:0)" name="palette(3:0)" />
-            <blockpin signalname="XLXN_485(2:0)" name="first(2:0)" />
-            <blockpin signalname="XLXN_484(2:0)" name="last(2:0)" />
+            <blockpin signalname="x(9:0)" name="x(9:0)" />
+            <blockpin signalname="XLXN_510(9:0)" name="addr(9:0)" />
+            <blockpin signalname="XLXN_511(1:0)" name="z(1:0)" />
+            <blockpin signalname="XLXN_512(3:0)" name="palette(3:0)" />
+            <blockpin signalname="XLXN_513(2:0)" name="first(2:0)" />
+            <blockpin signalname="XLXN_514(2:0)" name="last(2:0)" />
             <blockpin signalname="XLXN_488" name="enable" />
             <blockpin signalname="XLXN_306(7:0)" name="index(7:0)" />
-            <blockpin signalname="XLXN_486(31:0)" name="tile_data(31:0)" />
-            <blockpin signalname="XLXN_487" name="tile_flip" />
-            <blockpin signalname="XLXN_490(3:0)" name="current_tile(3:0)" />
-        </block>
-        <block symbolname="vga" name="vga_controller">
-            <blockpin signalname="XLXN_278(9:0)" name="x(9:0)" />
-            <blockpin signalname="XLXN_277(9:0)" name="y(9:0)" />
-            <blockpin signalname="XLXN_427" name="vlookahead" />
-            <blockpin signalname="XLXN_272" name="front" />
-            <blockpin signalname="XLXN_480" name="line_start" />
-            <blockpin signalname="clk" name="clk" />
-            <blockpin signalname="bright" name="bright" />
-            <blockpin signalname="vsync" name="vsync" />
-            <blockpin signalname="hsync" name="hsync" />
-            <blockpin signalname="vbright" name="vbright" />
-            <blockpin signalname="hbright" name="hbright" />
-            <blockpin signalname="rst" name="rst" />
-        </block>
-        <block symbolname="gpu" name="sprite_controller">
-            <blockpin signalname="clk" name="clk" />
-            <blockpin signalname="rst" name="rst" />
-            <blockpin signalname="XLXN_277(9:0)" name="y(9:0)" />
-            <blockpin signalname="XLXN_273" name="line_busy" />
-            <blockpin signalname="XLXN_503" name="tile_table" />
-            <blockpin signalname="XLXN_485(2:0)" name="first(2:0)" />
-            <blockpin signalname="XLXN_484(2:0)" name="last(2:0)" />
-            <blockpin signalname="writedata(15:0)" name="writedata(15:0)" />
-            <blockpin signalname="memwrite" name="memwrite" />
-            <blockpin signalname="spriteaddr(9:0)" name="memaddr(9:0)" />
-            <blockpin signalname="gpudata(15:0)" name="memdata(15:0)" />
-            <blockpin signalname="memenable" name="memenable" />
-            <blockpin signalname="XLXN_480" name="scanline_start" />
-            <blockpin signalname="XLXN_427" name="vlookahead" />
-            <blockpin signalname="XLXN_502(2:0)" name="sizeX(2:0)" />
-            <blockpin signalname="XLXN_501" name="hFlip" />
-            <blockpin signalname="XLXN_498(9:0)" name="line_addr(9:0)" />
-            <blockpin signalname="XLXN_499(1:0)" name="line_z(1:0)" />
-            <blockpin signalname="XLXN_500(3:0)" name="line_palette(3:0)" />
-            <blockpin signalname="XLXN_319" name="line_load" />
-            <blockpin signalname="XLXN_504(3:0)" name="tile_y_total(3:0)" />
-            <blockpin signalname="XLXN_507(2:0)" name="tile_y_offset(2:0)" />
-            <blockpin signalname="XLXN_508(3:0)" name="tile_x(3:0)" />
-            <blockpin signalname="sprite_priority(6:0)" name="sprite_priority(6:0)" />
+            <blockpin signalname="XLXN_529(3:0)" name="current_tile(3:0)" />
+            <blockpin signalname="XLXN_530" name="tile_flip" />
+            <blockpin signalname="XLXN_531(31:0)" name="tile_data(31:0)" />
         </block>
         <block symbolname="palette" name="palette_output">
             <blockpin signalname="clk" name="clk" />
@@ -287,283 +226,260 @@
             <blockpin signalname="clk" name="clk" />
             <blockpin signalname="rst" name="rst" />
             <blockpin signalname="XLXN_319" name="load" />
-            <blockpin signalname="XLXN_501" name="hFlip" />
-            <blockpin signalname="XLXN_502(2:0)" name="size_x(2:0)" />
-            <blockpin signalname="XLXN_504(3:0)" name="tile_y_total(3:0)" />
-            <blockpin signalname="XLXN_507(2:0)" name="tile_y_offset(2:0)" />
-            <blockpin signalname="XLXN_503" name="tile_table" />
-            <blockpin signalname="XLXN_508(3:0)" name="tile_x(3:0)" />
-            <blockpin signalname="XLXN_490(3:0)" name="current_tile(3:0)" />
-            <blockpin signalname="memenable" name="memenable" />
+            <blockpin signalname="XLXN_515" name="hFlip" />
+            <blockpin signalname="XLXN_516(2:0)" name="size_x(2:0)" />
+            <blockpin signalname="XLXN_518(3:0)" name="tile_y_total(3:0)" />
+            <blockpin signalname="XLXN_519(2:0)" name="tile_y_offset(2:0)" />
+            <blockpin signalname="XLXN_517" name="tile_table" />
+            <blockpin signalname="XLXN_520(3:0)" name="tile_x(3:0)" />
+            <blockpin signalname="tile_memenable" name="memenable" />
             <blockpin signalname="memwrite" name="memwrite" />
             <blockpin signalname="tile_addr(12:0)" name="memaddr(12:0)" />
             <blockpin signalname="writedata(15:0)" name="writedata(15:0)" />
-            <blockpin signalname="tiledata(15:0)" name="memdata(15:0)" />
-            <blockpin signalname="XLXN_487" name="tile_flip" />
-            <blockpin signalname="XLXN_486(31:0)" name="tile_data(31:0)" />
+            <blockpin signalname="tile_memdata(15:0)" name="memdata(15:0)" />
+            <blockpin signalname="XLXN_529(3:0)" name="current_tile(3:0)" />
+            <blockpin signalname="XLXN_530" name="tile_flip" />
+            <blockpin signalname="XLXN_531(31:0)" name="tile_data(31:0)" />
+        </block>
+        <block symbolname="sprite_controller" name="sprites">
+            <blockpin signalname="clk" name="clk" />
+            <blockpin signalname="rst" name="rst" />
+            <blockpin signalname="y(9:0)" name="y(9:0)" />
+            <blockpin signalname="XLXN_273" name="line_busy" />
+            <blockpin signalname="writedata(15:0)" name="writedata(15:0)" />
+            <blockpin signalname="memwrite" name="memwrite" />
+            <blockpin signalname="sprite_addr(9:0)" name="memaddr(9:0)" />
+            <blockpin signalname="sprite_memenable" name="memenable" />
+            <blockpin signalname="line_start" name="scanline_start" />
+            <blockpin signalname="vlookahead" name="vlookahead" />
+            <blockpin signalname="sprite_priority(6:0)" name="sprite_priority(6:0)" />
+            <blockpin signalname="XLXN_517" name="tile_table" />
+            <blockpin signalname="XLXN_516(2:0)" name="sizeX(2:0)" />
+            <blockpin signalname="XLXN_515" name="hFlip" />
+            <blockpin signalname="XLXN_518(3:0)" name="tile_y_total(3:0)" />
+            <blockpin signalname="XLXN_519(2:0)" name="tile_y_offset(2:0)" />
+            <blockpin signalname="XLXN_520(3:0)" name="tile_x(3:0)" />
+            <blockpin signalname="XLXN_513(2:0)" name="first(2:0)" />
+            <blockpin signalname="XLXN_514(2:0)" name="last(2:0)" />
+            <blockpin signalname="XLXN_510(9:0)" name="line_addr(9:0)" />
+            <blockpin signalname="XLXN_511(1:0)" name="line_z(1:0)" />
+            <blockpin signalname="XLXN_512(3:0)" name="line_palette(3:0)" />
+            <blockpin signalname="XLXN_319" name="line_load" />
+            <blockpin signalname="sprite_memdata(15:0)" name="memdata(15:0)" />
         </block>
     </netlist>
     <sheet sheetnum="1" width="3520" height="2720">
         <branch name="writedata(15:0)">
-            <wire x2="720" y1="1776" y2="1776" x1="400" />
-            <wire x2="944" y1="1776" y2="1776" x1="720" />
-            <wire x2="720" y1="1776" y2="2000" x1="720" />
-            <wire x2="1408" y1="2000" y2="2000" x1="720" />
-            <wire x2="1408" y1="2000" y2="2688" x1="1408" />
-            <wire x2="1888" y1="2688" y2="2688" x1="1408" />
-        </branch>
-        <branch name="gpudata(15:0)">
-            <wire x2="1504" y1="1776" y2="1776" x1="1440" />
+            <wire x2="784" y1="1776" y2="1776" x1="384" />
+            <wire x2="784" y1="1776" y2="2688" x1="784" />
+            <wire x2="1888" y1="2688" y2="2688" x1="784" />
+            <wire x2="944" y1="1776" y2="1776" x1="784" />
         </branch>
         <branch name="XLXN_306(7:0)">
-            <wire x2="2544" y1="1520" y2="1520" x1="2384" />
-            <wire x2="2544" y1="1520" y2="1792" x1="2544" />
-            <wire x2="2784" y1="1792" y2="1792" x1="2544" />
+            <wire x2="2848" y1="1376" y2="1376" x1="2384" />
         </branch>
-        <branch name="XLXN_277(9:0)">
-            <wire x2="688" y1="1056" y2="1056" x1="592" />
-            <wire x2="688" y1="1056" y2="1328" x1="688" />
-            <wire x2="944" y1="1328" y2="1328" x1="688" />
+        <branch name="y(9:0)">
+            <wire x2="736" y1="752" y2="752" x1="544" />
+            <wire x2="736" y1="752" y2="1328" x1="736" />
+            <wire x2="944" y1="1328" y2="1328" x1="736" />
         </branch>
         <branch name="rst">
-            <wire x2="176" y1="224" y2="224" x1="80" />
-            <wire x2="896" y1="224" y2="224" x1="176" />
-            <wire x2="896" y1="224" y2="944" x1="896" />
+            <wire x2="896" y1="288" y2="288" x1="784" />
+            <wire x2="896" y1="288" y2="944" x1="896" />
             <wire x2="944" y1="944" y2="944" x1="896" />
-            <wire x2="1744" y1="224" y2="224" x1="896" />
-            <wire x2="1744" y1="224" y2="688" x1="1744" />
-            <wire x2="1888" y1="688" y2="688" x1="1744" />
-            <wire x2="1744" y1="688" y2="1840" x1="1744" />
-            <wire x2="1888" y1="1840" y2="1840" x1="1744" />
-            <wire x2="176" y1="224" y2="544" x1="176" />
-            <wire x2="208" y1="544" y2="544" x1="176" />
+            <wire x2="1760" y1="288" y2="288" x1="896" />
+            <wire x2="1760" y1="288" y2="688" x1="1760" />
+            <wire x2="1792" y1="688" y2="688" x1="1760" />
+            <wire x2="1888" y1="688" y2="688" x1="1792" />
+            <wire x2="1792" y1="688" y2="1840" x1="1792" />
+            <wire x2="1888" y1="1840" y2="1840" x1="1792" />
         </branch>
-        <instance x="944" y="1744" name="sprite_controller" orien="R0">
-        </instance>
         <branch name="XLXN_273">
             <wire x2="864" y1="480" y2="1008" x1="864" />
             <wire x2="944" y1="1008" y2="1008" x1="864" />
-            <wire x2="2448" y1="480" y2="480" x1="864" />
-            <wire x2="2448" y1="480" y2="880" x1="2448" />
-            <wire x2="2448" y1="880" y2="880" x1="2384" />
+            <wire x2="2416" y1="480" y2="480" x1="864" />
+            <wire x2="2416" y1="480" y2="880" x1="2416" />
+            <wire x2="2416" y1="880" y2="880" x1="2384" />
         </branch>
         <branch name="XLXN_319">
-            <wire x2="1712" y1="880" y2="880" x1="1440" />
-            <wire x2="1888" y1="880" y2="880" x1="1712" />
-            <wire x2="1712" y1="880" y2="1904" x1="1712" />
-            <wire x2="1888" y1="1904" y2="1904" x1="1712" />
+            <wire x2="1776" y1="880" y2="880" x1="1488" />
+            <wire x2="1888" y1="880" y2="880" x1="1776" />
+            <wire x2="1776" y1="880" y2="1904" x1="1776" />
+            <wire x2="1888" y1="1904" y2="1904" x1="1776" />
         </branch>
-        <branch name="XLXN_272">
-            <wire x2="1696" y1="544" y2="544" x1="592" />
-            <wire x2="1696" y1="544" y2="752" x1="1696" />
-            <wire x2="1888" y1="752" y2="752" x1="1696" />
+        <branch name="front">
+            <wire x2="1680" y1="544" y2="544" x1="1280" />
+            <wire x2="1680" y1="544" y2="752" x1="1680" />
+            <wire x2="1888" y1="752" y2="752" x1="1680" />
         </branch>
-        <branch name="memwrite">
-            <wire x2="848" y1="1648" y2="1648" x1="320" />
-            <wire x2="944" y1="1648" y2="1648" x1="848" />
-            <wire x2="848" y1="1648" y2="1872" x1="848" />
-            <wire x2="1456" y1="1872" y2="1872" x1="848" />
-            <wire x2="1456" y1="1872" y2="2560" x1="1456" />
-            <wire x2="1888" y1="2560" y2="2560" x1="1456" />
+        <branch name="x(9:0)">
+            <wire x2="1616" y1="672" y2="672" x1="1280" />
+            <wire x2="1616" y1="672" y2="816" x1="1616" />
+            <wire x2="1888" y1="816" y2="816" x1="1616" />
         </branch>
-        <branch name="XLXN_278(9:0)">
-            <wire x2="624" y1="992" y2="992" x1="592" />
-            <wire x2="624" y1="768" y2="992" x1="624" />
-            <wire x2="1648" y1="768" y2="768" x1="624" />
-            <wire x2="1648" y1="768" y2="816" x1="1648" />
-            <wire x2="1888" y1="816" y2="816" x1="1648" />
-        </branch>
-        <branch name="XLXN_427">
-            <wire x2="736" y1="608" y2="608" x1="592" />
-            <wire x2="736" y1="608" y2="1264" x1="736" />
-            <wire x2="944" y1="1264" y2="1264" x1="736" />
+        <branch name="vlookahead">
+            <wire x2="800" y1="608" y2="608" x1="592" />
+            <wire x2="800" y1="608" y2="1264" x1="800" />
+            <wire x2="944" y1="1264" y2="1264" x1="800" />
         </branch>
         <branch name="clk">
-            <wire x2="208" y1="112" y2="112" x1="96" />
-            <wire x2="208" y1="112" y2="480" x1="208" />
-            <wire x2="208" y1="32" y2="112" x1="208" />
-            <wire x2="928" y1="32" y2="32" x1="208" />
-            <wire x2="928" y1="32" y2="880" x1="928" />
+            <wire x2="928" y1="224" y2="224" x1="784" />
+            <wire x2="928" y1="224" y2="880" x1="928" />
             <wire x2="944" y1="880" y2="880" x1="928" />
-            <wire x2="1776" y1="32" y2="32" x1="928" />
-            <wire x2="2656" y1="32" y2="32" x1="1776" />
-            <wire x2="2656" y1="32" y2="1664" x1="2656" />
-            <wire x2="2784" y1="1664" y2="1664" x1="2656" />
-            <wire x2="1776" y1="32" y2="624" x1="1776" />
-            <wire x2="1888" y1="624" y2="624" x1="1776" />
-            <wire x2="1776" y1="624" y2="1776" x1="1776" />
-            <wire x2="1888" y1="1776" y2="1776" x1="1776" />
+            <wire x2="1808" y1="224" y2="224" x1="928" />
+            <wire x2="2624" y1="224" y2="224" x1="1808" />
+            <wire x2="2624" y1="224" y2="1248" x1="2624" />
+            <wire x2="2848" y1="1248" y2="1248" x1="2624" />
+            <wire x2="1808" y1="224" y2="624" x1="1808" />
+            <wire x2="1888" y1="624" y2="624" x1="1808" />
+            <wire x2="1808" y1="624" y2="1776" x1="1808" />
+            <wire x2="1888" y1="1776" y2="1776" x1="1808" />
         </branch>
-        <instance x="208" y="1088" name="vga_controller" orien="R0">
-        </instance>
         <iomarker fontsize="28" x="320" y="1648" name="memwrite" orien="R180" />
-        <iomarker fontsize="28" x="400" y="1776" name="writedata(15:0)" orien="R180" />
-        <iomarker fontsize="28" x="80" y="224" name="rst" orien="R180" />
-        <iomarker fontsize="28" x="96" y="112" name="clk" orien="R180" />
-        <branch name="palette_write">
-            <wire x2="2784" y1="1984" y2="1984" x1="2752" />
-        </branch>
-        <branch name="palette_wrindex(7:0)">
-            <wire x2="2784" y1="2048" y2="2048" x1="2752" />
-        </branch>
-        <branch name="palette_data(23:0)">
-            <wire x2="2784" y1="2112" y2="2112" x1="2752" />
-        </branch>
-        <iomarker fontsize="28" x="3296" y="1856" name="B(7:0)" orien="R0" />
-        <iomarker fontsize="28" x="3296" y="1792" name="G(7:0)" orien="R0" />
-        <iomarker fontsize="28" x="3296" y="1728" name="R(7:0)" orien="R0" />
-        <instance x="2784" y="2080" name="palette_output" orien="R0">
-        </instance>
-        <branch name="R(7:0)">
-            <wire x2="3296" y1="1728" y2="1728" x1="3248" />
-        </branch>
-        <branch name="G(7:0)">
-            <wire x2="3296" y1="1792" y2="1792" x1="3248" />
-        </branch>
-        <branch name="B(7:0)">
-            <wire x2="3296" y1="1856" y2="1856" x1="3248" />
-        </branch>
-        <iomarker fontsize="28" x="2752" y="1984" name="palette_write" orien="R180" />
-        <iomarker fontsize="28" x="2752" y="2112" name="palette_data(23:0)" orien="R180" />
-        <iomarker fontsize="28" x="2752" y="2048" name="palette_wrindex(7:0)" orien="R180" />
-        <branch name="bright">
-            <wire x2="336" y1="1152" y2="1184" x1="336" />
-        </branch>
-        <iomarker fontsize="28" x="336" y="1184" name="bright" orien="R90" />
-        <branch name="vsync">
-            <wire x2="384" y1="1152" y2="1184" x1="384" />
-        </branch>
-        <iomarker fontsize="28" x="384" y="1184" name="vsync" orien="R90" />
-        <branch name="hsync">
-            <wire x2="432" y1="1152" y2="1184" x1="432" />
-        </branch>
-        <iomarker fontsize="28" x="432" y="1184" name="hsync" orien="R90" />
-        <iomarker fontsize="28" x="1504" y="1776" name="gpudata(15:0)" orien="R0" />
-        <branch name="brightness(7:0)">
-            <wire x2="2784" y1="1856" y2="1856" x1="2752" />
-        </branch>
-        <branch name="XLXN_480">
-            <wire x2="768" y1="480" y2="480" x1="592" />
-            <wire x2="768" y1="480" y2="1200" x1="768" />
-            <wire x2="944" y1="1200" y2="1200" x1="768" />
-        </branch>
-        <branch name="vbright">
-            <wire x2="624" y1="736" y2="736" x1="592" />
-        </branch>
-        <iomarker fontsize="28" x="624" y="736" name="vbright" orien="R0" />
-        <branch name="hbright">
-            <wire x2="624" y1="672" y2="672" x1="592" />
-        </branch>
-        <iomarker fontsize="28" x="624" y="672" name="hbright" orien="R0" />
-        <branch name="memenable">
-            <wire x2="896" y1="1584" y2="1584" x1="416" />
-            <wire x2="944" y1="1584" y2="1584" x1="896" />
-            <wire x2="896" y1="1584" y2="2496" x1="896" />
-            <wire x2="1888" y1="2496" y2="2496" x1="896" />
-        </branch>
-        <iomarker fontsize="28" x="416" y="1584" name="memenable" orien="R180" />
-        <branch name="XLXN_484(2:0)">
-            <wire x2="1664" y1="1584" y2="1584" x1="1440" />
-            <wire x2="1664" y1="1520" y2="1584" x1="1664" />
-            <wire x2="1888" y1="1520" y2="1520" x1="1664" />
-        </branch>
-        <branch name="XLXN_485(2:0)">
-            <wire x2="1648" y1="1520" y2="1520" x1="1440" />
-            <wire x2="1648" y1="1456" y2="1520" x1="1648" />
-            <wire x2="1888" y1="1456" y2="1456" x1="1648" />
-        </branch>
-        <instance x="1888" y="2640" name="tile_tbl" orien="R0">
-        </instance>
-        <branch name="XLXN_486(31:0)">
-            <wire x2="1888" y1="1328" y2="1328" x1="1824" />
-            <wire x2="1824" y1="1328" y2="1600" x1="1824" />
-            <wire x2="2432" y1="1600" y2="1600" x1="1824" />
-            <wire x2="2432" y1="1600" y2="2368" x1="2432" />
-            <wire x2="2432" y1="2368" y2="2368" x1="2368" />
-        </branch>
-        <branch name="XLXN_487">
-            <wire x2="1888" y1="1264" y2="1264" x1="1792" />
-            <wire x2="1792" y1="1264" y2="1632" x1="1792" />
-            <wire x2="2400" y1="1632" y2="1632" x1="1792" />
-            <wire x2="2400" y1="1632" y2="2304" x1="2400" />
-            <wire x2="2400" y1="2304" y2="2304" x1="2368" />
+        <branch name="line_start">
+            <wire x2="832" y1="480" y2="480" x1="592" />
+            <wire x2="832" y1="480" y2="1200" x1="832" />
+            <wire x2="944" y1="1200" y2="1200" x1="832" />
         </branch>
         <branch name="XLXN_488">
-            <wire x2="2592" y1="1456" y2="1456" x1="2384" />
-            <wire x2="2592" y1="1456" y2="1728" x1="2592" />
-            <wire x2="2784" y1="1728" y2="1728" x1="2592" />
-        </branch>
-        <iomarker fontsize="28" x="2752" y="1856" name="brightness(7:0)" orien="R180" />
-        <branch name="XLXN_490(3:0)">
-            <wire x2="2464" y1="1664" y2="1664" x1="1824" />
-            <wire x2="1824" y1="1664" y2="2368" x1="1824" />
-            <wire x2="1888" y1="2368" y2="2368" x1="1824" />
-            <wire x2="2464" y1="1328" y2="1328" x1="2384" />
-            <wire x2="2464" y1="1328" y2="1664" x1="2464" />
+            <wire x2="2848" y1="1312" y2="1312" x1="2384" />
         </branch>
         <instance x="1888" y="1808" name="line_buff" orien="R0">
         </instance>
-        <branch name="XLXN_498(9:0)">
-            <wire x2="1888" y1="944" y2="944" x1="1440" />
-        </branch>
-        <branch name="XLXN_499(1:0)">
-            <wire x2="1888" y1="1008" y2="1008" x1="1440" />
-        </branch>
-        <branch name="XLXN_500(3:0)">
-            <wire x2="1888" y1="1072" y2="1072" x1="1440" />
-        </branch>
-        <branch name="XLXN_501">
-            <wire x2="1728" y1="1136" y2="1136" x1="1440" />
-            <wire x2="1728" y1="1136" y2="1968" x1="1728" />
-            <wire x2="1888" y1="1968" y2="1968" x1="1728" />
-        </branch>
-        <branch name="XLXN_502(2:0)">
-            <wire x2="1760" y1="1200" y2="1200" x1="1440" />
-            <wire x2="1760" y1="1200" y2="2032" x1="1760" />
-            <wire x2="1888" y1="2032" y2="2032" x1="1760" />
-        </branch>
-        <branch name="XLXN_503">
-            <wire x2="1488" y1="1264" y2="1264" x1="1440" />
-            <wire x2="1488" y1="1264" y2="2096" x1="1488" />
-            <wire x2="1888" y1="2096" y2="2096" x1="1488" />
-        </branch>
-        <branch name="XLXN_504(3:0)">
-            <wire x2="1504" y1="1328" y2="1328" x1="1440" />
-            <wire x2="1504" y1="1328" y2="1344" x1="1504" />
-            <wire x2="1856" y1="1344" y2="1344" x1="1504" />
-            <wire x2="1856" y1="1344" y2="2144" x1="1856" />
-            <wire x2="1856" y1="2144" y2="2160" x1="1856" />
-            <wire x2="1888" y1="2160" y2="2160" x1="1856" />
-        </branch>
         <branch name="sprite_priority(6:0)">
-            <wire x2="944" y1="1456" y2="1456" x1="912" />
+            <wire x2="944" y1="1456" y2="1456" x1="896" />
         </branch>
-        <iomarker fontsize="28" x="912" y="1456" name="sprite_priority(6:0)" orien="R180" />
-        <branch name="XLXN_507(2:0)">
-            <wire x2="1472" y1="1392" y2="1392" x1="1440" />
-            <wire x2="1472" y1="1392" y2="2224" x1="1472" />
-            <wire x2="1888" y1="2224" y2="2224" x1="1472" />
-        </branch>
-        <branch name="XLXN_508(3:0)">
-            <wire x2="1504" y1="1456" y2="1456" x1="1440" />
-            <wire x2="1504" y1="1456" y2="1504" x1="1504" />
-            <wire x2="1840" y1="1504" y2="1504" x1="1504" />
-            <wire x2="1840" y1="1504" y2="2288" x1="1840" />
-            <wire x2="1888" y1="2288" y2="2288" x1="1840" />
-        </branch>
-        <branch name="tiledata(15:0)">
+        <branch name="tile_memdata(15:0)">
             <wire x2="2400" y1="2688" y2="2688" x1="2368" />
         </branch>
-        <iomarker fontsize="28" x="2400" y="2688" name="tiledata(15:0)" orien="R0" />
+        <iomarker fontsize="28" x="2400" y="2688" name="tile_memdata(15:0)" orien="R0" />
         <branch name="tile_addr(12:0)">
-            <wire x2="1872" y1="2624" y2="2624" x1="1008" />
-            <wire x2="1888" y1="2624" y2="2624" x1="1872" />
+            <wire x2="672" y1="1904" y2="1904" x1="384" />
+            <wire x2="672" y1="1904" y2="2624" x1="672" />
+            <wire x2="1888" y1="2624" y2="2624" x1="672" />
         </branch>
-        <branch name="spriteaddr(9:0)">
-            <wire x2="928" y1="1712" y2="1712" x1="688" />
+        <branch name="sprite_addr(9:0)">
+            <wire x2="928" y1="1712" y2="1712" x1="384" />
             <wire x2="944" y1="1712" y2="1712" x1="928" />
         </branch>
-        <iomarker fontsize="28" x="688" y="1712" name="spriteaddr(9:0)" orien="R180" />
-        <iomarker fontsize="28" x="1008" y="2624" name="tile_addr(12:0)" orien="R180" />
+        <branch name="sprite_memdata(15:0)">
+            <wire x2="1504" y1="1776" y2="1776" x1="1488" />
+            <wire x2="1504" y1="1776" y2="2432" x1="1504" />
+            <wire x2="1552" y1="2432" y2="2432" x1="1504" />
+        </branch>
+        <branch name="XLXN_510(9:0)">
+            <wire x2="1888" y1="944" y2="944" x1="1488" />
+        </branch>
+        <branch name="XLXN_511(1:0)">
+            <wire x2="1888" y1="1008" y2="1008" x1="1488" />
+        </branch>
+        <branch name="XLXN_512(3:0)">
+            <wire x2="1888" y1="1072" y2="1072" x1="1488" />
+        </branch>
+        <branch name="XLXN_513(2:0)">
+            <wire x2="1888" y1="1136" y2="1136" x1="1488" />
+        </branch>
+        <branch name="XLXN_514(2:0)">
+            <wire x2="1888" y1="1200" y2="1200" x1="1488" />
+        </branch>
+        <branch name="XLXN_515">
+            <wire x2="1760" y1="1264" y2="1264" x1="1488" />
+            <wire x2="1760" y1="1264" y2="1968" x1="1760" />
+            <wire x2="1888" y1="1968" y2="1968" x1="1760" />
+        </branch>
+        <branch name="XLXN_516(2:0)">
+            <wire x2="1744" y1="1328" y2="1328" x1="1488" />
+            <wire x2="1744" y1="1328" y2="2032" x1="1744" />
+            <wire x2="1888" y1="2032" y2="2032" x1="1744" />
+        </branch>
+        <branch name="XLXN_517">
+            <wire x2="1728" y1="1392" y2="1392" x1="1488" />
+            <wire x2="1728" y1="1392" y2="2096" x1="1728" />
+            <wire x2="1888" y1="2096" y2="2096" x1="1728" />
+        </branch>
+        <branch name="XLXN_518(3:0)">
+            <wire x2="1712" y1="1456" y2="1456" x1="1488" />
+            <wire x2="1712" y1="1456" y2="2160" x1="1712" />
+            <wire x2="1888" y1="2160" y2="2160" x1="1712" />
+        </branch>
+        <branch name="XLXN_519(2:0)">
+            <wire x2="1696" y1="1520" y2="1520" x1="1488" />
+            <wire x2="1696" y1="1520" y2="2224" x1="1696" />
+            <wire x2="1888" y1="2224" y2="2224" x1="1696" />
+        </branch>
+        <branch name="XLXN_520(3:0)">
+            <wire x2="1680" y1="1584" y2="1584" x1="1488" />
+            <wire x2="1680" y1="1584" y2="2288" x1="1680" />
+            <wire x2="1888" y1="2288" y2="2288" x1="1680" />
+        </branch>
+        <branch name="palette_write">
+            <wire x2="2848" y1="1568" y2="1568" x1="2816" />
+        </branch>
+        <branch name="palette_wrindex(7:0)">
+            <wire x2="2848" y1="1632" y2="1632" x1="2816" />
+        </branch>
+        <branch name="palette_data(23:0)">
+            <wire x2="2848" y1="1696" y2="1696" x1="2816" />
+        </branch>
+        <instance x="2848" y="1664" name="palette_output" orien="R0">
+        </instance>
+        <branch name="R(7:0)">
+            <wire x2="3360" y1="1312" y2="1312" x1="3312" />
+        </branch>
+        <branch name="G(7:0)">
+            <wire x2="3360" y1="1376" y2="1376" x1="3312" />
+        </branch>
+        <branch name="B(7:0)">
+            <wire x2="3360" y1="1440" y2="1440" x1="3312" />
+        </branch>
+        <branch name="brightness(7:0)">
+            <wire x2="2848" y1="1440" y2="1440" x1="2816" />
+        </branch>
+        <iomarker fontsize="28" x="3360" y="1440" name="B(7:0)" orien="R0" />
+        <iomarker fontsize="28" x="3360" y="1376" name="G(7:0)" orien="R0" />
+        <iomarker fontsize="28" x="3360" y="1312" name="R(7:0)" orien="R0" />
+        <iomarker fontsize="28" x="2816" y="1568" name="palette_write" orien="R180" />
+        <iomarker fontsize="28" x="2816" y="1696" name="palette_data(23:0)" orien="R180" />
+        <iomarker fontsize="28" x="2816" y="1632" name="palette_wrindex(7:0)" orien="R180" />
+        <iomarker fontsize="28" x="2816" y="1440" name="brightness(7:0)" orien="R180" />
+        <instance x="1888" y="2640" name="tile_tbl" orien="R0">
+        </instance>
+        <branch name="XLXN_529(3:0)">
+            <wire x2="2080" y1="1472" y2="1680" x1="2080" />
+        </branch>
+        <branch name="XLXN_530">
+            <wire x2="2128" y1="1472" y2="1680" x1="2128" />
+        </branch>
+        <branch name="XLXN_531(31:0)">
+            <wire x2="2176" y1="1472" y2="1680" x1="2176" />
+        </branch>
+        <iomarker fontsize="28" x="384" y="1712" name="sprite_addr(9:0)" orien="R180" />
+        <iomarker fontsize="28" x="384" y="1776" name="writedata(15:0)" orien="R180" />
+        <iomarker fontsize="28" x="896" y="1456" name="sprite_priority(6:0)" orien="R180" />
+        <instance x="944" y="1744" name="sprites" orien="R0">
+        </instance>
+        <iomarker fontsize="28" x="592" y="608" name="vlookahead" orien="R180" />
+        <iomarker fontsize="28" x="592" y="480" name="line_start" orien="R180" />
+        <iomarker fontsize="28" x="784" y="224" name="clk" orien="R180" />
+        <iomarker fontsize="28" x="784" y="288" name="rst" orien="R180" />
+        <iomarker fontsize="28" x="544" y="752" name="y(9:0)" orien="R180" />
+        <iomarker fontsize="28" x="384" y="1904" name="tile_addr(12:0)" orien="R180" />
+        <iomarker fontsize="28" x="1552" y="2432" name="sprite_memdata(15:0)" orien="R0" />
+        <iomarker fontsize="28" x="1280" y="544" name="front" orien="R180" />
+        <iomarker fontsize="28" x="1280" y="672" name="x(9:0)" orien="R180" />
+        <branch name="sprite_memenable">
+            <wire x2="944" y1="1584" y2="1584" x1="912" />
+        </branch>
+        <iomarker fontsize="28" x="912" y="1584" name="sprite_memenable" orien="R180" />
+        <branch name="tile_memenable">
+            <wire x2="1888" y1="2496" y2="2496" x1="1856" />
+        </branch>
+        <iomarker fontsize="28" x="1856" y="2496" name="tile_memenable" orien="R180" />
+        <branch name="memwrite">
+            <wire x2="848" y1="1648" y2="1648" x1="320" />
+            <wire x2="848" y1="1648" y2="2560" x1="848" />
+            <wire x2="1888" y1="2560" y2="2560" x1="848" />
+            <wire x2="944" y1="1648" y2="1648" x1="848" />
+        </branch>
     </sheet>
 </drawing>

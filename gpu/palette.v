@@ -9,7 +9,7 @@
 // Description: Generates a 24-bit color from a set of color palettes.
 // A 256 color 24-bit color palette is 6144 bits or 768 bytes.
 // Logically divided into 16 palettes, each with 16 colors. Color 0 is considered
-// transparent, but does not have to any particular color. Upper 4 bits are the palette
+// transparent, but does not have to be any particular color. Upper 4 bits are the palette
 // index and the lower 4 bits are the color index.
 // Due to block ram implementation, the current palette uses a 256 x 32-bit block
 // ram. Could possibly double the number of color palettes by increasing the size of the

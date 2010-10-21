@@ -95,169 +95,10 @@
                <xilinx:foundationSym>false</xilinx:foundationSym>
              </xilinx:simulationOptions>
            </xilinx:instanceProperties>
-            <xilinx:generationHistory>
-               <xilinx:fileSet>
-                  <xilinx:name>customization_generator</xilinx:name>
-                  <xilinx:file>
-                     <xilinx:name>./line_buffer_vram.mif</xilinx:name>
-                     <xilinx:userFileType>mif</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:15:40 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x090D827D</xilinx:checkSum>
-                  </xilinx:file>
-               </xilinx:fileSet>
-               <xilinx:fileSet>
-                  <xilinx:name>ip_xco_generator</xilinx:name>
-                  <xilinx:file>
-                     <xilinx:name>./line_buffer_vram.xco</xilinx:name>
-                     <xilinx:userFileType>xco</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:15:40 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x1A9861E7</xilinx:checkSum>
-                  </xilinx:file>
-               </xilinx:fileSet>
-               <xilinx:fileSet>
-                  <xilinx:name>implementation_netlist_generator</xilinx:name>
-                  <xilinx:file>
-                     <xilinx:name>./blk_mem_gen_ds512.pdf</xilinx:name>
-                     <xilinx:userFileType>pdf</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:16:11 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0xB7558D4E</xilinx:checkSum>
-                  </xilinx:file>
-                  <xilinx:file>
-                     <xilinx:name>./blk_mem_gen_readme.txt</xilinx:name>
-                     <xilinx:userFileType>txt</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:16:11 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x4F6653C3</xilinx:checkSum>
-                  </xilinx:file>
-                  <xilinx:file>
-                     <xilinx:name>./line_buffer_vram.asy</xilinx:name>
-                     <xilinx:userFileType>asy</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:15:42 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0xFCA47DBF</xilinx:checkSum>
-                  </xilinx:file>
-                  <xilinx:file>
-                     <xilinx:name>./line_buffer_vram.mif</xilinx:name>
-                     <xilinx:userFileType>mif</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:15:42 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x090D827D</xilinx:checkSum>
-                  </xilinx:file>
-                  <xilinx:file>
-                     <xilinx:name>./line_buffer_vram.ngc</xilinx:name>
-                     <xilinx:userFileType>ngc</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:16:28 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x856067E8</xilinx:checkSum>
-                  </xilinx:file>
-                  <xilinx:file>
-                     <xilinx:name>./line_buffer_vram.sym</xilinx:name>
-                     <xilinx:userFileType>asy</xilinx:userFileType>
-                     <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:16:11 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x576AC3AB</xilinx:checkSum>
-                  </xilinx:file>
-                  <xilinx:file>
-                     <xilinx:name>./line_buffer_vram.v</xilinx:name>
-                     <xilinx:userFileType>verilog</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:16:11 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x5E20CACB</xilinx:checkSum>
-                  </xilinx:file>
-                  <xilinx:file>
-                     <xilinx:name>./line_buffer_vram.veo</xilinx:name>
-                     <xilinx:userFileType>veo</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:16:11 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x5E78499E</xilinx:checkSum>
-                  </xilinx:file>
-                  <xilinx:file>
-                     <xilinx:name>./line_buffer_vram.vhd</xilinx:name>
-                     <xilinx:userFileType>vhdl</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:16:11 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0xEA1A664D</xilinx:checkSum>
-                  </xilinx:file>
-                  <xilinx:file>
-                     <xilinx:name>./line_buffer_vram.vho</xilinx:name>
-                     <xilinx:userFileType>vho</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:16:11 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x9EF6D581</xilinx:checkSum>
-                  </xilinx:file>
-               </xilinx:fileSet>
-               <xilinx:fileSet>
-                  <xilinx:name>instantiation_template_generator</xilinx:name>
-                  <xilinx:file>
-                     <xilinx:name>./line_buffer_vram.veo</xilinx:name>
-                     <xilinx:userFileType>veo</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:16:29 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x5E78499E</xilinx:checkSum>
-                  </xilinx:file>
-                  <xilinx:file>
-                     <xilinx:name>./line_buffer_vram.vho</xilinx:name>
-                     <xilinx:userFileType>vho</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:16:29 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x9EF6D581</xilinx:checkSum>
-                  </xilinx:file>
-               </xilinx:fileSet>
-               <xilinx:fileSet>
-                  <xilinx:name>xco_generator</xilinx:name>
-                  <xilinx:file>
-                     <xilinx:name>./line_buffer_vram.xco</xilinx:name>
-                     <xilinx:userFileType>xco</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:16:34 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0xCDD4EA9E</xilinx:checkSum>
-                  </xilinx:file>
-               </xilinx:fileSet>
-               <xilinx:fileSet>
-                  <xilinx:name>xmdf_generator</xilinx:name>
-                  <xilinx:file>
-                     <xilinx:name>./line_buffer_vram_xmdf.tcl</xilinx:name>
-                     <xilinx:userFileType>tclXmdf</xilinx:userFileType>
-                     <xilinx:userFileType>tcl</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:16:34 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0xD92AF97D</xilinx:checkSum>
-                  </xilinx:file>
-               </xilinx:fileSet>
-               <xilinx:fileSet>
-                  <xilinx:name>ise_generator</xilinx:name>
-                  <xilinx:file>
-                     <xilinx:name>./_xmsgs/pn_parser.xmsgs</xilinx:name>
-                     <xilinx:userFileType>ignore</xilinx:userFileType>
-                     <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:16:39 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x74DF50E6</xilinx:checkSum>
-                  </xilinx:file>
-                  <xilinx:file>
-                     <xilinx:name>./line_buffer_vram.gise</xilinx:name>
-                     <xilinx:userFileType>ignore</xilinx:userFileType>
-                     <xilinx:userFileType>gise</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:16:39 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0xC40F745C</xilinx:checkSum>
-                  </xilinx:file>
-                  <xilinx:file>
-                     <xilinx:name>./line_buffer_vram.xise</xilinx:name>
-                     <xilinx:userFileType>ignore</xilinx:userFileType>
-                     <xilinx:userFileType>xise</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:16:39 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0xC10B7EAB</xilinx:checkSum>
-                  </xilinx:file>
-               </xilinx:fileSet>
-               <xilinx:fileSet>
-                  <xilinx:name>deliver_readme_generator</xilinx:name>
-               </xilinx:fileSet>
-               <xilinx:fileSet>
-                  <xilinx:name>flist_generator</xilinx:name>
-                  <xilinx:file>
-                     <xilinx:name>./line_buffer_vram_flist.txt</xilinx:name>
-                     <xilinx:userFileType>ignore</xilinx:userFileType>
-                     <xilinx:userFileType>txtFlist</xilinx:userFileType>
-                     <xilinx:userFileType>txt</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:16:40 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x4452D212</xilinx:checkSum>
-                  </xilinx:file>
-               </xilinx:fileSet>
-               <xilinx:fileSet>
-                  <xilinx:name>view_readme_generator</xilinx:name>
-               </xilinx:fileSet>
-            </xilinx:generationHistory>
          </spirit:vendorExtensions>
       </spirit:componentInstance>
       <spirit:componentInstance>
-         <spirit:instanceName>sprite_memory</spirit:instanceName>
+         <spirit:instanceName>main_memory</spirit:instanceName>
          <spirit:displayName></spirit:displayName>
          <spirit:description></spirit:description>
          <spirit:componentRef spirit:vendor="xilinx.com" spirit:library="ip" spirit:name="blk_mem_gen" spirit:version="4.2" />
@@ -280,7 +121,7 @@
             <spirit:configurableElementValue spirit:referenceId="parameter_register_porta_input_of_softecc">false</spirit:configurableElementValue>
             <spirit:configurableElementValue spirit:referenceId="parameter_disable_out_of_range_warnings">false</spirit:configurableElementValue>
             <spirit:configurableElementValue spirit:referenceId="parameter_read_width_a">16</spirit:configurableElementValue>
-            <spirit:configurableElementValue spirit:referenceId="parameter_read_width_b">32</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_read_width_b">16</spirit:configurableElementValue>
             <spirit:configurableElementValue spirit:referenceId="parameter_register_portb_output_of_softecc">false</spirit:configurableElementValue>
             <spirit:configurableElementValue spirit:referenceId="parameter_byte_size">9</spirit:configurableElementValue>
             <spirit:configurableElementValue spirit:referenceId="parameter_register_portb_output_of_memory_core">false</spirit:configurableElementValue>
@@ -293,7 +134,7 @@
             <spirit:configurableElementValue spirit:referenceId="parameter_enable_a">Use_ENA_Pin</spirit:configurableElementValue>
             <spirit:configurableElementValue spirit:referenceId="parameter_enable_b">Always_Enabled</spirit:configurableElementValue>
             <spirit:configurableElementValue spirit:referenceId="parameter_port_a_enable_rate">100</spirit:configurableElementValue>
-            <spirit:configurableElementValue spirit:referenceId="parameter_write_depth_a">16</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_write_depth_a">8192</spirit:configurableElementValue>
             <spirit:configurableElementValue spirit:referenceId="parameter_algorithm">Fixed_Primitives</spirit:configurableElementValue>
             <spirit:configurableElementValue spirit:referenceId="parameter_output_reset_value_a">0</spirit:configurableElementValue>
             <spirit:configurableElementValue spirit:referenceId="parameter_output_reset_value_b">0</spirit:configurableElementValue>
@@ -301,12 +142,12 @@
             <spirit:configurableElementValue spirit:referenceId="parameter_port_b_write_rate">50</spirit:configurableElementValue>
             <spirit:configurableElementValue spirit:referenceId="parameter_ecctype">No_ECC</spirit:configurableElementValue>
             <spirit:configurableElementValue spirit:referenceId="parameter_write_width_a">16</spirit:configurableElementValue>
-            <spirit:configurableElementValue spirit:referenceId="parameter_write_width_b">32</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_write_width_b">16</spirit:configurableElementValue>
             <spirit:configurableElementValue spirit:referenceId="parameter_reset_priority_a">CE</spirit:configurableElementValue>
             <spirit:configurableElementValue spirit:referenceId="parameter_reset_priority_b">CE</spirit:configurableElementValue>
             <spirit:configurableElementValue spirit:referenceId="parameter_additional_inputs_for_power_estimation">false</spirit:configurableElementValue>
             <spirit:configurableElementValue spirit:referenceId="parameter_operating_mode_a">WRITE_FIRST</spirit:configurableElementValue>
-            <spirit:configurableElementValue spirit:referenceId="parameter_operating_mode_b">READ_FIRST</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_operating_mode_b">WRITE_FIRST</spirit:configurableElementValue>
             <spirit:configurableElementValue spirit:referenceId="parameter_reset_type">SYNC</spirit:configurableElementValue>
             <spirit:configurableElementValue spirit:referenceId="parameter_register_portb_output_of_memory_primitives">false</spirit:configurableElementValue>
             <spirit:configurableElementValue spirit:referenceId="parameter_port_b_enable_rate">100</spirit:configurableElementValue>
@@ -314,6 +155,283 @@
             <spirit:configurableElementValue spirit:referenceId="parameter_coe_file">no_coe_file_loaded</spirit:configurableElementValue>
             <spirit:configurableElementValue spirit:referenceId="parameter_fill_remaining_memory_locations">false</spirit:configurableElementValue>
             <spirit:configurableElementValue spirit:referenceId="parameter_collision_warnings">ALL</spirit:configurableElementValue>
+         </spirit:configurableElementValues>
+         <spirit:vendorExtensions>
+            <xilinx:instanceProperties>
+             <xilinx:projectOptions>
+               <xilinx:projectName>coregen</xilinx:projectName>
+               <xilinx:outputDirectory>./</xilinx:outputDirectory>
+               <xilinx:workingDirectory>./tmp/</xilinx:workingDirectory>
+               <xilinx:subWorkingDirectory>./tmp/_cg</xilinx:subWorkingDirectory>
+             </xilinx:projectOptions>
+             <xilinx:part>
+               <xilinx:device>xc3s500e</xilinx:device>
+               <xilinx:deviceFamily>spartan3e</xilinx:deviceFamily>
+               <xilinx:package>fg320</xilinx:package>
+               <xilinx:speedGrade>-5</xilinx:speedGrade>
+             </xilinx:part>
+             <xilinx:flowOptions>
+               <xilinx:busFormat>BusFormatAngleBracketNotRipped</xilinx:busFormat>
+               <xilinx:designEntry>Verilog</xilinx:designEntry>
+               <xilinx:asySymbol>true</xilinx:asySymbol>
+               <xilinx:flowVendor>Foundation_ISE</xilinx:flowVendor>
+               <xilinx:addPads>false</xilinx:addPads>
+               <xilinx:removeRPMs>false</xilinx:removeRPMs>
+               <xilinx:createNDF>false</xilinx:createNDF>
+               <xilinx:implementationFileType>Ngc</xilinx:implementationFileType>
+               <xilinx:formalVerification>false</xilinx:formalVerification>
+             </xilinx:flowOptions>
+             <xilinx:simulationOptions>
+               <xilinx:simulationModel>Behavioral</xilinx:simulationModel>
+               <xilinx:simulationLanguage>VHDL_and_Verilog</xilinx:simulationLanguage>
+               <xilinx:foundationSym>false</xilinx:foundationSym>
+             </xilinx:simulationOptions>
+           </xilinx:instanceProperties>
+            <xilinx:generationHistory>
+               <xilinx:fileSet>
+                  <xilinx:name>customization_generator</xilinx:name>
+               </xilinx:fileSet>
+               <xilinx:fileSet>
+                  <xilinx:name>ip_xco_generator</xilinx:name>
+                  <xilinx:file>
+                     <xilinx:name>./main_memory.xco</xilinx:name>
+                     <xilinx:userFileType>xco</xilinx:userFileType>
+                     <xilinx:timeStamp>Thu Oct 21 09:51:10 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0xAB06C785</xilinx:checkSum>
+                  </xilinx:file>
+               </xilinx:fileSet>
+               <xilinx:fileSet>
+                  <xilinx:name>implementation_netlist_generator</xilinx:name>
+                  <xilinx:file>
+                     <xilinx:name>./blk_mem_gen_ds512.pdf</xilinx:name>
+                     <xilinx:userFileType>pdf</xilinx:userFileType>
+                     <xilinx:timeStamp>Thu Oct 21 09:51:47 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0xB7558D4E</xilinx:checkSum>
+                  </xilinx:file>
+                  <xilinx:file>
+                     <xilinx:name>./blk_mem_gen_readme.txt</xilinx:name>
+                     <xilinx:userFileType>txt</xilinx:userFileType>
+                     <xilinx:timeStamp>Thu Oct 21 09:51:47 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x4F6653C3</xilinx:checkSum>
+                  </xilinx:file>
+                  <xilinx:file>
+                     <xilinx:name>./main_memory.asy</xilinx:name>
+                     <xilinx:userFileType>asy</xilinx:userFileType>
+                     <xilinx:timeStamp>Thu Oct 21 09:51:12 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x01253463</xilinx:checkSum>
+                  </xilinx:file>
+                  <xilinx:file>
+                     <xilinx:name>./main_memory.ngc</xilinx:name>
+                     <xilinx:userFileType>ngc</xilinx:userFileType>
+                     <xilinx:timeStamp>Thu Oct 21 09:52:07 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x934A1387</xilinx:checkSum>
+                  </xilinx:file>
+                  <xilinx:file>
+                     <xilinx:name>./main_memory.sym</xilinx:name>
+                     <xilinx:userFileType>asy</xilinx:userFileType>
+                     <xilinx:userFileType>unknown</xilinx:userFileType>
+                     <xilinx:timeStamp>Thu Oct 21 09:51:48 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0xA4B901F1</xilinx:checkSum>
+                  </xilinx:file>
+                  <xilinx:file>
+                     <xilinx:name>./main_memory.v</xilinx:name>
+                     <xilinx:userFileType>verilog</xilinx:userFileType>
+                     <xilinx:timeStamp>Thu Oct 21 09:51:48 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x84688663</xilinx:checkSum>
+                  </xilinx:file>
+                  <xilinx:file>
+                     <xilinx:name>./main_memory.veo</xilinx:name>
+                     <xilinx:userFileType>veo</xilinx:userFileType>
+                     <xilinx:timeStamp>Thu Oct 21 09:51:48 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x604F1300</xilinx:checkSum>
+                  </xilinx:file>
+                  <xilinx:file>
+                     <xilinx:name>./main_memory.vhd</xilinx:name>
+                     <xilinx:userFileType>vhdl</xilinx:userFileType>
+                     <xilinx:timeStamp>Thu Oct 21 09:51:48 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x3CB5D50E</xilinx:checkSum>
+                  </xilinx:file>
+                  <xilinx:file>
+                     <xilinx:name>./main_memory.vho</xilinx:name>
+                     <xilinx:userFileType>vho</xilinx:userFileType>
+                     <xilinx:timeStamp>Thu Oct 21 09:51:48 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x7B3C9CDA</xilinx:checkSum>
+                  </xilinx:file>
+               </xilinx:fileSet>
+               <xilinx:fileSet>
+                  <xilinx:name>instantiation_template_generator</xilinx:name>
+                  <xilinx:file>
+                     <xilinx:name>./main_memory.veo</xilinx:name>
+                     <xilinx:userFileType>veo</xilinx:userFileType>
+                     <xilinx:timeStamp>Thu Oct 21 09:52:08 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x604F1300</xilinx:checkSum>
+                  </xilinx:file>
+                  <xilinx:file>
+                     <xilinx:name>./main_memory.vho</xilinx:name>
+                     <xilinx:userFileType>vho</xilinx:userFileType>
+                     <xilinx:timeStamp>Thu Oct 21 09:52:08 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x7B3C9CDA</xilinx:checkSum>
+                  </xilinx:file>
+               </xilinx:fileSet>
+               <xilinx:fileSet>
+                  <xilinx:name>xco_generator</xilinx:name>
+                  <xilinx:file>
+                     <xilinx:name>./main_memory.xco</xilinx:name>
+                     <xilinx:userFileType>xco</xilinx:userFileType>
+                     <xilinx:timeStamp>Thu Oct 21 09:52:14 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0xFFB0BCDB</xilinx:checkSum>
+                  </xilinx:file>
+               </xilinx:fileSet>
+               <xilinx:fileSet>
+                  <xilinx:name>xmdf_generator</xilinx:name>
+                  <xilinx:file>
+                     <xilinx:name>./main_memory_xmdf.tcl</xilinx:name>
+                     <xilinx:userFileType>tclXmdf</xilinx:userFileType>
+                     <xilinx:userFileType>tcl</xilinx:userFileType>
+                     <xilinx:timeStamp>Thu Oct 21 09:52:14 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x9C8140EB</xilinx:checkSum>
+                  </xilinx:file>
+               </xilinx:fileSet>
+               <xilinx:fileSet>
+                  <xilinx:name>ise_generator</xilinx:name>
+                  <xilinx:file>
+                     <xilinx:name>./_xmsgs/pn_parser.xmsgs</xilinx:name>
+                     <xilinx:userFileType>ignore</xilinx:userFileType>
+                     <xilinx:userFileType>unknown</xilinx:userFileType>
+                     <xilinx:timeStamp>Thu Oct 21 09:52:18 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x87C19573</xilinx:checkSum>
+                  </xilinx:file>
+                  <xilinx:file>
+                     <xilinx:name>./main_memory.gise</xilinx:name>
+                     <xilinx:userFileType>ignore</xilinx:userFileType>
+                     <xilinx:userFileType>gise</xilinx:userFileType>
+                     <xilinx:timeStamp>Thu Oct 21 09:52:18 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0xE4B84AAA</xilinx:checkSum>
+                  </xilinx:file>
+                  <xilinx:file>
+                     <xilinx:name>./main_memory.xise</xilinx:name>
+                     <xilinx:userFileType>ignore</xilinx:userFileType>
+                     <xilinx:userFileType>xise</xilinx:userFileType>
+                     <xilinx:timeStamp>Thu Oct 21 09:52:18 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x83CDD1AD</xilinx:checkSum>
+                  </xilinx:file>
+               </xilinx:fileSet>
+               <xilinx:fileSet>
+                  <xilinx:name>deliver_readme_generator</xilinx:name>
+               </xilinx:fileSet>
+               <xilinx:fileSet>
+                  <xilinx:name>flist_generator</xilinx:name>
+                  <xilinx:file>
+                     <xilinx:name>./main_memory_flist.txt</xilinx:name>
+                     <xilinx:userFileType>ignore</xilinx:userFileType>
+                     <xilinx:userFileType>txtFlist</xilinx:userFileType>
+                     <xilinx:userFileType>txt</xilinx:userFileType>
+                     <xilinx:timeStamp>Thu Oct 21 09:52:19 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x4C4E5D51</xilinx:checkSum>
+                  </xilinx:file>
+               </xilinx:fileSet>
+               <xilinx:fileSet>
+                  <xilinx:name>view_readme_generator</xilinx:name>
+               </xilinx:fileSet>
+            </xilinx:generationHistory>
+         </spirit:vendorExtensions>
+      </spirit:componentInstance>
+      <spirit:componentInstance>
+         <spirit:instanceName>pixel_updated</spirit:instanceName>
+         <spirit:displayName></spirit:displayName>
+         <spirit:description></spirit:description>
+         <spirit:componentRef spirit:vendor="xilinx.com" spirit:library="ip" spirit:name="dist_mem_gen" spirit:version="5.1" />
+         <spirit:configurableElementValues>
+            <spirit:configurableElementValue spirit:referenceId="parameter_default_data">0</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_pipeline_stages">0</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_reset_qspo">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_coefficient_file">no_coe_file_loaded</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_qualify_we_with_i_ce">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_reset_qdpo">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_common_output_clk">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_memory_type">dual_port_ram</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_default_data_radix">16</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_simple_dual_port_address">non_registered</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_common_output_ce">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_depth">160</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_input_clock_enable">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_dual_port_address">non_registered</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_data_width">4</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_single_port_output_clock_enable">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_reset_qsdpo">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_sync_reset_qspo">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_dual_port_output_clock_enable">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_output_options">non_registered</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_sync_reset_qdpo">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_simple_dual_port_output_clock_enable">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_input_options">non_registered</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_ce_overrides">ce_overrides_sync_controls</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_sync_reset_qsdpo">false</spirit:configurableElementValue>
+         </spirit:configurableElementValues>
+         <spirit:vendorExtensions>
+            <xilinx:instanceProperties xmlns:xilinx="http://www.xilinx.com">
+             <xilinx:projectOptions>
+               <xilinx:projectName>coregen</xilinx:projectName>
+               <xilinx:outputDirectory>./</xilinx:outputDirectory>
+               <xilinx:workingDirectory>./tmp/</xilinx:workingDirectory>
+               <xilinx:subWorkingDirectory>./tmp/_cg</xilinx:subWorkingDirectory>
+             </xilinx:projectOptions>
+             <xilinx:part>
+               <xilinx:device>xc3s500e</xilinx:device>
+               <xilinx:deviceFamily>spartan3e</xilinx:deviceFamily>
+               <xilinx:package>fg320</xilinx:package>
+               <xilinx:speedGrade>-5</xilinx:speedGrade>
+             </xilinx:part>
+             <xilinx:flowOptions>
+               <xilinx:busFormat>BusFormatAngleBracketNotRipped</xilinx:busFormat>
+               <xilinx:designEntry>Verilog</xilinx:designEntry>
+               <xilinx:asySymbol>true</xilinx:asySymbol>
+               <xilinx:flowVendor>Foundation_ISE</xilinx:flowVendor>
+               <xilinx:addPads>false</xilinx:addPads>
+               <xilinx:removeRPMs>false</xilinx:removeRPMs>
+               <xilinx:createNDF>false</xilinx:createNDF>
+               <xilinx:implementationFileType>Ngc</xilinx:implementationFileType>
+               <xilinx:formalVerification>false</xilinx:formalVerification>
+             </xilinx:flowOptions>
+             <xilinx:simulationOptions>
+               <xilinx:simulationModel>Behavioral</xilinx:simulationModel>
+               <xilinx:simulationLanguage>VHDL_and_Verilog</xilinx:simulationLanguage>
+               <xilinx:foundationSym>false</xilinx:foundationSym>
+             </xilinx:simulationOptions>
+           </xilinx:instanceProperties>
+         </spirit:vendorExtensions>
+      </spirit:componentInstance>
+      <spirit:componentInstance>
+         <spirit:instanceName>pixel_z_data</spirit:instanceName>
+         <spirit:displayName></spirit:displayName>
+         <spirit:description></spirit:description>
+         <spirit:componentRef spirit:vendor="xilinx.com" spirit:library="ip" spirit:name="dist_mem_gen" spirit:version="5.1" />
+         <spirit:configurableElementValues>
+            <spirit:configurableElementValue spirit:referenceId="parameter_default_data">0</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_pipeline_stages">0</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_reset_qspo">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_coefficient_file">no_coe_file_loaded</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_qualify_we_with_i_ce">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_reset_qdpo">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_common_output_clk">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_memory_type">single_port_ram</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_default_data_radix">16</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_simple_dual_port_address">non_registered</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_common_output_ce">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_depth">160</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_input_clock_enable">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_dual_port_address">non_registered</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_data_width">8</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_single_port_output_clock_enable">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_reset_qsdpo">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_sync_reset_qspo">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_dual_port_output_clock_enable">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_output_options">non_registered</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_sync_reset_qdpo">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_simple_dual_port_output_clock_enable">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_input_options">non_registered</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_ce_overrides">ce_overrides_sync_controls</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_sync_reset_qsdpo">false</spirit:configurableElementValue>
          </spirit:configurableElementValues>
          <spirit:vendorExtensions>
             <xilinx:instanceProperties xmlns:xilinx="http://www.xilinx.com">
@@ -438,165 +556,6 @@
                <xilinx:foundationSym>false</xilinx:foundationSym>
              </xilinx:simulationOptions>
            </xilinx:instanceProperties>
-            <xilinx:generationHistory>
-               <xilinx:fileSet>
-                  <xilinx:name>customization_generator</xilinx:name>
-                  <xilinx:file>
-                     <xilinx:name>./sprite_object_vram.mif</xilinx:name>
-                     <xilinx:userFileType>mif</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:13:44 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x301A21BC</xilinx:checkSum>
-                  </xilinx:file>
-               </xilinx:fileSet>
-               <xilinx:fileSet>
-                  <xilinx:name>ip_xco_generator</xilinx:name>
-                  <xilinx:file>
-                     <xilinx:name>./sprite_object_vram.xco</xilinx:name>
-                     <xilinx:userFileType>xco</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:13:45 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0xD68E9A9F</xilinx:checkSum>
-                  </xilinx:file>
-               </xilinx:fileSet>
-               <xilinx:fileSet>
-                  <xilinx:name>implementation_netlist_generator</xilinx:name>
-                  <xilinx:file>
-                     <xilinx:name>./blk_mem_gen_ds512.pdf</xilinx:name>
-                     <xilinx:userFileType>pdf</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:14:15 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0xB7558D4E</xilinx:checkSum>
-                  </xilinx:file>
-                  <xilinx:file>
-                     <xilinx:name>./blk_mem_gen_readme.txt</xilinx:name>
-                     <xilinx:userFileType>txt</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:14:15 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x4F6653C3</xilinx:checkSum>
-                  </xilinx:file>
-                  <xilinx:file>
-                     <xilinx:name>./sprite_object_vram.asy</xilinx:name>
-                     <xilinx:userFileType>asy</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:13:47 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0xAB5CC537</xilinx:checkSum>
-                  </xilinx:file>
-                  <xilinx:file>
-                     <xilinx:name>./sprite_object_vram.mif</xilinx:name>
-                     <xilinx:userFileType>mif</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:13:47 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x301A21BC</xilinx:checkSum>
-                  </xilinx:file>
-                  <xilinx:file>
-                     <xilinx:name>./sprite_object_vram.ngc</xilinx:name>
-                     <xilinx:userFileType>ngc</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:14:32 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x1BB19666</xilinx:checkSum>
-                  </xilinx:file>
-                  <xilinx:file>
-                     <xilinx:name>./sprite_object_vram.sym</xilinx:name>
-                     <xilinx:userFileType>asy</xilinx:userFileType>
-                     <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:14:16 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x7CFEA9CB</xilinx:checkSum>
-                  </xilinx:file>
-                  <xilinx:file>
-                     <xilinx:name>./sprite_object_vram.v</xilinx:name>
-                     <xilinx:userFileType>verilog</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:14:15 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x4CE00073</xilinx:checkSum>
-                  </xilinx:file>
-                  <xilinx:file>
-                     <xilinx:name>./sprite_object_vram.veo</xilinx:name>
-                     <xilinx:userFileType>veo</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:14:15 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0xC3978489</xilinx:checkSum>
-                  </xilinx:file>
-                  <xilinx:file>
-                     <xilinx:name>./sprite_object_vram.vhd</xilinx:name>
-                     <xilinx:userFileType>vhdl</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:14:15 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x19540DAC</xilinx:checkSum>
-                  </xilinx:file>
-                  <xilinx:file>
-                     <xilinx:name>./sprite_object_vram.vho</xilinx:name>
-                     <xilinx:userFileType>vho</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:14:15 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x021831BB</xilinx:checkSum>
-                  </xilinx:file>
-               </xilinx:fileSet>
-               <xilinx:fileSet>
-                  <xilinx:name>instantiation_template_generator</xilinx:name>
-                  <xilinx:file>
-                     <xilinx:name>./sprite_object_vram.veo</xilinx:name>
-                     <xilinx:userFileType>veo</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:14:33 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0xC3978489</xilinx:checkSum>
-                  </xilinx:file>
-                  <xilinx:file>
-                     <xilinx:name>./sprite_object_vram.vho</xilinx:name>
-                     <xilinx:userFileType>vho</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:14:33 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x021831BB</xilinx:checkSum>
-                  </xilinx:file>
-               </xilinx:fileSet>
-               <xilinx:fileSet>
-                  <xilinx:name>xco_generator</xilinx:name>
-                  <xilinx:file>
-                     <xilinx:name>./sprite_object_vram.xco</xilinx:name>
-                     <xilinx:userFileType>xco</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:14:39 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x98675E02</xilinx:checkSum>
-                  </xilinx:file>
-               </xilinx:fileSet>
-               <xilinx:fileSet>
-                  <xilinx:name>xmdf_generator</xilinx:name>
-                  <xilinx:file>
-                     <xilinx:name>./sprite_object_vram_xmdf.tcl</xilinx:name>
-                     <xilinx:userFileType>tclXmdf</xilinx:userFileType>
-                     <xilinx:userFileType>tcl</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:14:39 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x224D6A51</xilinx:checkSum>
-                  </xilinx:file>
-               </xilinx:fileSet>
-               <xilinx:fileSet>
-                  <xilinx:name>ise_generator</xilinx:name>
-                  <xilinx:file>
-                     <xilinx:name>./_xmsgs/pn_parser.xmsgs</xilinx:name>
-                     <xilinx:userFileType>ignore</xilinx:userFileType>
-                     <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:14:43 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0xF251A0A4</xilinx:checkSum>
-                  </xilinx:file>
-                  <xilinx:file>
-                     <xilinx:name>./sprite_object_vram.gise</xilinx:name>
-                     <xilinx:userFileType>ignore</xilinx:userFileType>
-                     <xilinx:userFileType>gise</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:14:43 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x49C8EA66</xilinx:checkSum>
-                  </xilinx:file>
-                  <xilinx:file>
-                     <xilinx:name>./sprite_object_vram.xise</xilinx:name>
-                     <xilinx:userFileType>ignore</xilinx:userFileType>
-                     <xilinx:userFileType>xise</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:14:43 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x7A85EEF2</xilinx:checkSum>
-                  </xilinx:file>
-               </xilinx:fileSet>
-               <xilinx:fileSet>
-                  <xilinx:name>deliver_readme_generator</xilinx:name>
-               </xilinx:fileSet>
-               <xilinx:fileSet>
-                  <xilinx:name>flist_generator</xilinx:name>
-                  <xilinx:file>
-                     <xilinx:name>./sprite_object_vram_flist.txt</xilinx:name>
-                     <xilinx:userFileType>ignore</xilinx:userFileType>
-                     <xilinx:userFileType>txtFlist</xilinx:userFileType>
-                     <xilinx:userFileType>txt</xilinx:userFileType>
-                     <xilinx:timeStamp>Wed Oct 20 06:14:44 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0xCB43B90B</xilinx:checkSum>
-                  </xilinx:file>
-               </xilinx:fileSet>
-               <xilinx:fileSet>
-                  <xilinx:name>view_readme_generator</xilinx:name>
-               </xilinx:fileSet>
-            </xilinx:generationHistory>
          </spirit:vendorExtensions>
       </spirit:componentInstance>
       <spirit:componentInstance>

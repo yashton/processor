@@ -19,26 +19,25 @@
 
   <version xmlns="http://www.xilinx.com/XMLSchema">11.1</version>
 
-  <sourceproject xmlns="http://www.xilinx.com/XMLSchema" xil_pn:fileType="FILE_XISE" xil_pn:name="tile_vram.xise"/>
+  <sourceproject xmlns="http://www.xilinx.com/XMLSchema" xil_pn:fileType="FILE_XISE" xil_pn:name="pixel_updated.xise"/>
 
   <files xmlns="http://www.xilinx.com/XMLSchema">
-    <file xil_pn:fileType="FILE_USERDOC" xil_pn:name="blk_mem_gen_readme.txt" xil_pn:origination="imported"/>
-    <file xil_pn:fileType="FILE_ASY" xil_pn:name="tile_vram.asy" xil_pn:origination="imported"/>
-    <file xil_pn:fileType="FILE_SYMBOL" xil_pn:name="tile_vram.sym" xil_pn:origination="imported"/>
-    <file xil_pn:fileType="FILE_VEO" xil_pn:name="tile_vram.veo" xil_pn:origination="imported"/>
-    <file xil_pn:fileType="FILE_VHO" xil_pn:name="tile_vram.vho" xil_pn:origination="imported"/>
+    <file xil_pn:fileType="FILE_USERDOC" xil_pn:name="dist_mem_gen_readme.txt" xil_pn:origination="imported"/>
+    <file xil_pn:fileType="FILE_ASY" xil_pn:name="pixel_updated.asy" xil_pn:origination="imported"/>
+    <file xil_pn:fileType="FILE_VEO" xil_pn:name="pixel_updated.veo" xil_pn:origination="imported"/>
+    <file xil_pn:fileType="FILE_VHO" xil_pn:name="pixel_updated.vho" xil_pn:origination="imported"/>
   </files>
 
   <transforms xmlns="http://www.xilinx.com/XMLSchema">
-    <transform xil_pn:end_ts="1287553247" xil_pn:name="TRAN_copyInitialToXSTAbstractSynthesis" xil_pn:start_ts="1287553247">
+    <transform xil_pn:end_ts="1287644549" xil_pn:name="TRAN_copyInitialToXSTAbstractSynthesis" xil_pn:start_ts="1287644549">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1287654760" xil_pn:name="TRAN_schematicsToHdl" xil_pn:prop_ck="4277318214767038040" xil_pn:start_ts="1287654760">
+    <transform xil_pn:end_ts="1287654760" xil_pn:name="TRAN_schematicsToHdl" xil_pn:prop_ck="8292921506760408418" xil_pn:start_ts="1287654760">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1287654760" xil_pn:name="TRAN_regenerateCores" xil_pn:prop_ck="4462024354101987071" xil_pn:start_ts="1287654760">
+    <transform xil_pn:end_ts="1287654760" xil_pn:name="TRAN_regenerateCores" xil_pn:prop_ck="3247072075860834249" xil_pn:start_ts="1287654760">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
@@ -46,7 +45,7 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1287654760" xil_pn:name="TRAN_xawsTohdl" xil_pn:prop_ck="4179793742940201558" xil_pn:start_ts="1287654760">
+    <transform xil_pn:end_ts="1287654760" xil_pn:name="TRAN_xawsTohdl" xil_pn:prop_ck="-8951698437928358048" xil_pn:start_ts="1287654760">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>

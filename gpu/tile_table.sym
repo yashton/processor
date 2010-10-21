@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <symbol version="7" name="tile_table">
     <symboltype>BLOCK</symboltype>
-    <timestamp>2010-10-19T19:53:48</timestamp>
+    <timestamp>2010-10-21T5:28:56</timestamp>
     <attr value="tile_table" name="VeriModel" />
     <pin polarity="Input" x="0" y="-864" name="clk" />
     <pin polarity="Input" x="0" y="-800" name="rst" />
@@ -12,17 +12,16 @@
     <pin polarity="Input" x="0" y="-416" name="tile_y_offset(2:0)" />
     <pin polarity="Input" x="0" y="-544" name="tile_table" />
     <pin polarity="Input" x="0" y="-352" name="tile_x(3:0)" />
-    <pin polarity="Input" x="0" y="-272" name="current_tile(3:0)" />
     <pin polarity="Input" x="0" y="-144" name="memenable" />
     <pin polarity="Input" x="0" y="-80" name="memwrite" />
     <pin polarity="Input" x="0" y="-16" name="memaddr(12:0)" />
     <pin polarity="Input" x="0" y="48" name="writedata(15:0)" />
     <pin polarity="Output" x="480" y="48" name="memdata(15:0)" />
-    <pin polarity="Output" x="480" y="-336" name="tile_flip" />
-    <pin polarity="Output" x="480" y="-272" name="tile_data(31:0)" />
+    <pin polarity="Input" x="192" y="-960" name="current_tile(3:0)" />
+    <pin polarity="Output" x="240" y="-960" name="tile_flip" />
+    <pin polarity="Output" x="288" y="-960" name="tile_data(31:0)" />
     <graph>
         <rect width="352" x="64" y="-896" height="968" />
-        <attrtext style="alignment:BCENTER;fontsize:56;fontname:Arial" attrname="SymbolName" x="240" y="-904" type="symbol" />
         <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-864" type="pin clk" />
         <line x2="0" y1="-864" y2="-864" x1="64" />
         <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-800" type="pin rst" />
@@ -45,9 +44,6 @@
         <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-352" type="pin tile_x(3:0)" />
         <rect width="64" x="0" y="-364" height="24" />
         <line x2="0" y1="-352" y2="-352" x1="64" />
-        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-272" type="pin current_tile(3:0)" />
-        <rect width="64" x="0" y="-284" height="24" />
-        <line x2="0" y1="-272" y2="-272" x1="64" />
         <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-144" type="pin memenable" />
         <line x2="0" y1="-144" y2="-144" x1="64" />
         <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-80" type="pin memwrite" />
@@ -61,10 +57,14 @@
         <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="408" y="48" type="pin memdata(15:0)" />
         <rect width="64" x="416" y="36" height="24" />
         <line x2="480" y1="48" y2="48" x1="416" />
-        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="408" y="-336" type="pin tile_flip" />
-        <line x2="480" y1="-336" y2="-336" x1="416" />
-        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="408" y="-272" type="pin tile_data(31:0)" />
-        <rect width="64" x="416" y="-284" height="24" />
-        <line x2="480" y1="-272" y2="-272" x1="416" />
+        <attrtext style="alignment:VRIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="240" y="-884" type="pin tile_flip" />
+        <attrtext style="alignment:VRIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="288" y="-884" type="pin tile_data(31:0)" />
+        <attrtext style="alignment:VRIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="192" y="-884" type="pin current_tile(3:0)" />
+        <line x2="240" y1="-956" y2="-896" x1="240" />
+        <line x2="288" y1="-956" y2="-896" x1="288" />
+        <line x2="192" y1="-956" y2="-896" x1="192" />
+        <rect width="24" x="276" y="-960" height="64" />
+        <rect width="24" x="180" y="-960" height="64" />
+        <attrtext style="alignment:BCENTER;fontsize:56;fontname:Arial" attrname="SymbolName" x="436" y="-916" type="symbol" />
     </graph>
 </symbol>

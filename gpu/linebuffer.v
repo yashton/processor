@@ -10,18 +10,18 @@
 // and memory for the line front buffer, which is access and sent to the palette.
 // NOTE: Currently does not handle sprites that overlap the edge of the 
 // screen (addr < 0 or addr + width > 640). It is also possible to have front flip
-// before a write cycle is completed. pixel_update_[front|back] still needs logic to 
+// before a write cycle is completed. pixel_updated_(front|back) still needs logic to 
 // clear it every line change.
 //////////////////////////////////////////////////////////////////////////////////
 module line_buffer
 	#(
 		parameter WIDTH = 640,
-		parameter START = 4,
-		parameter FIRST = 0,
-		parameter WRFIRST = 1,
-		parameter SECOND = 2,
-		parameter WRSECOND = 3,
-		parameter WAIT = 5
+		parameter WAIT = 0,
+		parameter START = 1,
+		parameter FIRST = 2,
+		parameter WRFIRST = 3,
+		parameter SECOND = 4,
+		parameter WRSECOND = 5
 	)
 	(
 		input clk,
@@ -43,7 +43,7 @@ module line_buffer
 		// back line buffer output
 		input [9:0] x,
 		output [7:0] index,
-		output reg enable
+		output enable
    );
 	reg [2:0] last_tile;
 	
@@ -51,14 +51,10 @@ module line_buffer
 	reg [1:0] offset;
 	
 	wire write_pixel;
-	
-	reg [7:0] pixel_z_data [79:0];
-	reg [3:0] pixel_updated_front [79:0];
-	reg [3:0] pixel_updated_back [79:0];
-	
+		
 	wire [31:0] pixel_read_data;
-	reg [3:0] pixel_read_updated;
-	reg [7:0] pixel_read_z;
+	wire [3:0] pixel_read_updated;
+	wire [7:0] pixel_read_z;
 	wire [31:0] pixel_write_data;
 	wire [3:0] pixel_write_updated;
 	wire [7:0] pixel_write_z;
@@ -136,9 +132,9 @@ module line_buffer
 			WAIT: next_state <= load ? START : WAIT;
 			START: next_state <= current_tile > last_tile ? WAIT : FIRST;
 			FIRST: next_state <= WRFIRST;
-			WRFIRST: next_state <= offset != 0 && current_tile > last_tile ? WAIT : SECOND;
+			WRFIRST: next_state <= (offset != 0 && completed_first && current_tile > last_tile) ? WAIT : SECOND;
 			SECOND: next_state <= WRSECOND;
-			WRSECOND: next_state <= offset == 0 && current_tile > last_tile ? WAIT : FIRST;
+			WRSECOND: next_state <= (offset == 0 && current_tile > last_tile) ? WAIT : FIRST;
 			default: next_state <= WAIT;
 		endcase
 	end
@@ -170,36 +166,49 @@ module line_buffer
 	// VRAM for line front and back buffer.
 	line_buffer_vram buffer_ram(
 		.addra(buffer_addr), .dina(pixel_write_data), .ena(pixel_enable), .wea(write_pixel), .clka(clk), .douta(pixel_read_data),
-		.addrb(front_addr), .dinb(8'h00), .web(1'b0), .clkb(clk), .doutb(index));
+		.addrb(front_addr), .dinb(8'h0), .web(1'b0), .clkb(clk), .doutb(index));
 	
-	always @(posedge clk) begin
-		if (write_pixel) begin
-			pixel_z_data[pixel_addr] <= pixel_write_z;
-		end
-		pixel_read_z <= pixel_z_data[pixel_addr];
+	pixel_z_data pixel_z(.a(pixel_addr), .d(pixel_write_z), .we(write_pixel), .clk(clk), .spo(pixel_read_z));
+	
+	wire write_updated_front, write_updated_back;
+	assign write_updated_front = write_pixel && front;
+	assign write_updated_back = write_pixel && !front;
+	
+	wire [7:0] partial_x;
+	wire [1:0] offset_x;
+	assign partial_x = x[9:2];
+	assign offset_x = x[1:0];
+	
+	wire [3:0] front_enable_block, back_enable_block;
+	wire [3:0] updated_data, front_data, back_data;
+	assign updated_data = pixel_write_updated | pixel_read_updated;
+	
+	pixel_updated pixel_updated_front(.a(pixel_addr), .d(updated_data), .we(write_updated_front), .clk(clk), .spo(front_data), .dpra(partial_x), .dpo(front_enable_block));
+	pixel_updated pixel_updated_back(.a(pixel_addr), .d(updated_data), .we(write_updated_back), .clk(clk), .spo(back_data), .dpra(partial_x), .dpo(back_enable_block));
+	
+	assign pixel_read_updated = front ? front_data : back_data;
+	
+	reg front_enable;
+	always @(*) begin
+		case (offset_x)
+			0: front_enable <= front_enable_block[0];
+			1: front_enable <= front_enable_block[1];
+			2: front_enable <= front_enable_block[2];
+			3: front_enable <= front_enable_block[3];
+			default: front_enable <= front_enable_block[0];
+		endcase
 	end
 	
-	always @(posedge clk) begin
-		if (write_pixel) begin
-			if (front) begin
-				pixel_updated_front[pixel_addr] <= pixel_write_updated | pixel_read_updated;
-			end
-			else begin
-				pixel_updated_back[pixel_addr] <= pixel_write_updated | pixel_read_updated;
-			end
-		end
-		if (front) begin
-			pixel_read_updated <= pixel_updated_front[pixel_addr];
-		end
-		else begin
-			pixel_read_updated <= pixel_updated_back[pixel_addr];
-		end
-		// port B
-		if (!front) begin
-			enable <= pixel_updated_front[x];
-		end
-		else begin
-			enable <= pixel_updated_back[x];
-		end
+	reg back_enable;
+	always @(*) begin
+		case (offset_x)
+			0: back_enable <= back_enable_block[0];
+			1: back_enable <= back_enable_block[1];
+			2: back_enable <= back_enable_block[2];
+			3: back_enable <= back_enable_block[3];
+			default: back_enable <= back_enable_block[0];
+		endcase
 	end
+	
+	assign enable = !front ? front_enable : back_enable;
 endmodule

@@ -21,7 +21,7 @@ module sprite
 		
 		// Relative data
 		input [9:0] y, // given y coord of scan line.
-		output xbound, // true if sprite is bounded on this scan line
+		//output xbound, // true if sprite is bounded on this scan line
 		output yintersect, // true if intersects this scan line
 		
 		// Tile outputs
@@ -33,7 +33,7 @@ module sprite
 
 	reg [5:0] width;
 	reg [5:0] height;
-	assign xbound = (a + width) >= 0 && a < 640;
+	//assign xbound = (a + width) >= 0 && a < 640;
 	assign yintersect = y >= b && y <= (b + height);
 	
 	always @(*) begin
@@ -70,10 +70,10 @@ module sprite
 		else
 			first <= (-a)/8 + 1;
 			
-		if (a + width < 640)
+		if ((a + width) < 640)
 			last <= sizeX;
 		else
-			last <= sizeX - (a + width - 640)/8;
+			last <= sizeX - ((a + width) - 640)/8;
 	end
 	
 	// relative position
