@@ -19,5 +19,7 @@ module alu
 		output [15:0] result
 	);
 	
+	
+	
 	reg [15:0] psr;
 endmodule
