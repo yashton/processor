@@ -30,7 +30,6 @@ module vga
 		 output vbright,
 		 output vlookahead,
 		 output line_start,
-		 output front,
 		 output bright,
 		 output hsync,
 		 output vsync
@@ -54,8 +53,7 @@ module vga
 	assign y = vlookahead ? vcount - (vPulseWidth + vBackPorch - 1) : 0;
 	
 	// Front buffer on even y, back buffer on odd y.
-	assign front = y % 2;
-	assign line_start = hcount == 0;
+	assign line_start = vga_clk_enable && hcount == 0;
 	
 	// sync pulses on the first part of the count.
 	assign hsync = !(hcount >= 0 && hcount < hPulseWidth);

@@ -1,0 +1,15 @@
+# Output products list for <shift_ram>
+_xmsgs/pn_parser.xmsgs
+shift_ram.asy
+shift_ram.gise
+shift_ram.ngc
+shift_ram.sym
+shift_ram.v
+shift_ram.veo
+shift_ram.vhd
+shift_ram.vho
+shift_ram.xco
+shift_ram.xise
+shift_ram_flist.txt
+shift_ram_readme.txt
+shift_ram_xmdf.tcl

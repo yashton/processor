@@ -1,28 +1,18 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    10:25:43 10/19/2010 
-// Design Name: 
-// Module Name:    pixel_logic 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
+// Company: University of Utah
+// Engineer: Ashton Snelgrove (snelgrov@eng.utah.edu)
 //
-// Dependencies: 
-//
-// Revision: 
-// Revision 0.01 - File Created
-// Additional Comments: 
-//
+// Design Name: GPU pixel combination.
+// Module Name: pixel_logic
+// Project Name: CS3710
+// Description: Takes existing data provided from the current line back buffer
+// and updates it with the 
 //////////////////////////////////////////////////////////////////////////////////
 module pixel_logic
 	(
 		input first,
 		input [1:0] offset,
-		input tile_flip,
 		input [1:0] line_z,
 		input [3:0] line_palette,
 		input [31:0] tile_data,
@@ -37,14 +27,14 @@ module pixel_logic
 	);
 
 	wire [3:0] sliceA, sliceB, sliceC, sliceD, sliceE, sliceF, sliceG, sliceH;
-	assign sliceA = !tile_flip ? tile_data[3:0] : tile_data[31:28];
-	assign sliceB = !tile_flip ? tile_data[7:4] : tile_data[27:24];
-	assign sliceC = !tile_flip ? tile_data[11:8] : tile_data[23:20];
-	assign sliceD = !tile_flip ? tile_data[15:12] : tile_data[19:16];
-	assign sliceE = !tile_flip ? tile_data[19:16] : tile_data[15:12];
-	assign sliceF = !tile_flip ? tile_data[23:20] : tile_data[11:8];
-	assign sliceG = !tile_flip ? tile_data[27:24] : tile_data[7:4];
-	assign sliceH = !tile_flip ? tile_data[31:28] : tile_data[3:0];
+	assign sliceA = tile_data[3:0];
+	assign sliceB = tile_data[7:4];
+	assign sliceC = tile_data[11:8];
+	assign sliceD = tile_data[15:12];
+	assign sliceE = tile_data[19:16];
+	assign sliceF = tile_data[23:20];
+	assign sliceG = tile_data[27:24];
+	assign sliceH = tile_data[31:28];
 	
 	assign previous_out = {sliceH, sliceG, sliceF}; 
 	

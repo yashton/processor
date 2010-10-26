@@ -9,9 +9,7 @@
 // Description: Provides memory for storing the line back buffer and z priority;
 // and memory for the line front buffer, which is access and sent to the palette.
 // NOTE: Currently does not handle sprites that overlap the edge of the 
-// screen (addr < 0 or addr + width > 640). It is also possible to have front flip
-// before a write cycle is completed. pixel_updated_(front|back) still needs logic to 
-// clear it every line change.
+// screen (addr < 0 or addr + width > 640).
 //////////////////////////////////////////////////////////////////////////////////
 module line_buffer
 	#(
@@ -26,7 +24,6 @@ module line_buffer
 	(
 		input clk,
 		input rst,
-		input front,
 		
 		// Sprite input
 		input load,
@@ -38,14 +35,18 @@ module line_buffer
 		output line_busy,
 		// tile input
 		output reg [3:0] current_tile,
-		input tile_flip,
 		input [31:0] tile_data,
 		// back line buffer output
+		input line_start,
 		input [9:0] x,
+		input [9:0] y,
 		output [7:0] index,
 		output enable
    );
 	reg [2:0] last_tile;
+	
+	wire front;
+	assign front = y % 2;
 	
 	reg [7:0] pixel_addr;
 	reg [1:0] offset;
@@ -110,14 +111,13 @@ module line_buffer
 		else if (load) begin
 			current_tile <= first;
 		end
-		else if ((offset != 0 && state == FIRST && completed_first) 
-			|| (offset == 0 && state == SECOND)) begin
+		else if ((offset != 0 && state == FIRST && completed_first) || (offset == 0 && state == SECOND)) begin
 			current_tile <= current_tile + 1;
 		end
 	end
 	
 	always @(posedge clk) begin
-		if (!rst) begin
+		if (!rst || line_start) begin
 			state <= WAIT;
 		end
 		else begin
@@ -143,7 +143,7 @@ module line_buffer
 	reg [11:0] previous;
 	wire calculate_first;
 	assign calculate_first = state == FIRST;
-	pixel_logic pixel(calculate_first, offset, tile_flip, line_z, line_palette,
+	pixel_logic pixel(calculate_first, offset, line_z, line_palette,
 		tile_data, previous, remaining,
 		pixel_read_data, pixel_read_updated, pixel_read_z,
 		pixel_write_data, pixel_write_updated, pixel_write_z);
@@ -159,56 +159,22 @@ module line_buffer
 	
 	wire [8:0] buffer_addr;
 	assign buffer_addr = {front, pixel_addr};
-	wire [10:0] front_addr;
-	assign front_addr = {!front, x};
+	
+	wire [10:0] output_addr;
+	assign output_addr = {!front, x};
+	
 	wire pixel_enable;
 	assign pixel_enable = state != WAIT;
+	
 	// VRAM for line front and back buffer.
 	line_buffer_vram buffer_ram(
-		.addra(buffer_addr), .dina(pixel_write_data), .ena(pixel_enable), .wea(write_pixel), .clka(clk), .douta(pixel_read_data),
-		.addrb(front_addr), .dinb(8'h0), .web(1'b0), .clkb(clk), .doutb(index));
+		.addra(buffer_addr), .dina(pixel_write_data), .ena(pixel_enable), 
+		.wea(write_pixel), .clka(clk), .douta(pixel_read_data),
+		.addrb(output_addr), .dinb(8'h0), .web(1'b0), .clkb(clk), .doutb(index));
 	
-	pixel_z_data pixel_z(.a(pixel_addr), .d(pixel_write_z), .we(write_pixel), .clk(clk), .spo(pixel_read_z));
+	pixel_z_data pixel_z(.a(pixel_addr), .d(pixel_write_z), .we(write_pixel),
+		.clk(clk), .spo(pixel_read_z));
 	
-	wire write_updated_front, write_updated_back;
-	assign write_updated_front = write_pixel && front;
-	assign write_updated_back = write_pixel && !front;
-	
-	wire [7:0] partial_x;
-	wire [1:0] offset_x;
-	assign partial_x = x[9:2];
-	assign offset_x = x[1:0];
-	
-	wire [3:0] front_enable_block, back_enable_block;
-	wire [3:0] updated_data, front_data, back_data;
-	assign updated_data = pixel_write_updated | pixel_read_updated;
-	
-	pixel_updated pixel_updated_front(.a(pixel_addr), .d(updated_data), .we(write_updated_front), .clk(clk), .spo(front_data), .dpra(partial_x), .dpo(front_enable_block));
-	pixel_updated pixel_updated_back(.a(pixel_addr), .d(updated_data), .we(write_updated_back), .clk(clk), .spo(back_data), .dpra(partial_x), .dpo(back_enable_block));
-	
-	assign pixel_read_updated = front ? front_data : back_data;
-	
-	reg front_enable;
-	always @(*) begin
-		case (offset_x)
-			0: front_enable <= front_enable_block[0];
-			1: front_enable <= front_enable_block[1];
-			2: front_enable <= front_enable_block[2];
-			3: front_enable <= front_enable_block[3];
-			default: front_enable <= front_enable_block[0];
-		endcase
-	end
-	
-	reg back_enable;
-	always @(*) begin
-		case (offset_x)
-			0: back_enable <= back_enable_block[0];
-			1: back_enable <= back_enable_block[1];
-			2: back_enable <= back_enable_block[2];
-			3: back_enable <= back_enable_block[3];
-			default: back_enable <= back_enable_block[0];
-		endcase
-	end
-	
-	assign enable = !front ? front_enable : back_enable;
+	pixel_updated_logic pixel_updated_flag(clk, rst, line_start, pixel_addr, write_pixel,
+		pixel_write_updated, pixel_read_updated, x, enable);
 endmodule

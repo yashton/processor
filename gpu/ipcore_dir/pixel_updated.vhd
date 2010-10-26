@@ -44,11 +44,9 @@ ENTITY pixel_updated IS
 	port (
 	a: IN std_logic_VECTOR(7 downto 0);
 	d: IN std_logic_VECTOR(3 downto 0);
-	dpra: IN std_logic_VECTOR(7 downto 0);
 	clk: IN std_logic;
 	we: IN std_logic;
-	spo: OUT std_logic_VECTOR(3 downto 0);
-	dpo: OUT std_logic_VECTOR(3 downto 0));
+	spo: OUT std_logic_VECTOR(3 downto 0));
 END pixel_updated;
 
 ARCHITECTURE pixel_updated_a OF pixel_updated IS
@@ -57,11 +55,9 @@ component wrapped_pixel_updated
 	port (
 	a: IN std_logic_VECTOR(7 downto 0);
 	d: IN std_logic_VECTOR(3 downto 0);
-	dpra: IN std_logic_VECTOR(7 downto 0);
 	clk: IN std_logic;
 	we: IN std_logic;
-	spo: OUT std_logic_VECTOR(3 downto 0);
-	dpo: OUT std_logic_VECTOR(3 downto 0));
+	spo: OUT std_logic_VECTOR(3 downto 0));
 end component;
 
 -- Configuration specification 
@@ -87,11 +83,11 @@ end component;
 			c_depth => 160,
 			c_has_qspo_srst => 0,
 			c_has_qdpo_srst => 0,
-			c_has_dpra => 1,
+			c_has_dpra => 0,
 			c_qce_joined => 0,
-			c_mem_type => 2,
+			c_mem_type => 1,
 			c_has_i_ce => 0,
-			c_has_dpo => 1,
+			c_has_dpo => 0,
 			c_mem_init_file => "no_coe_file_loaded",
 			c_default_data => "0",
 			c_has_spra => 0,
@@ -106,11 +102,9 @@ U0 : wrapped_pixel_updated
 		port map (
 			a => a,
 			d => d,
-			dpra => dpra,
 			clk => clk,
 			we => we,
-			spo => spo,
-			dpo => dpo);
+			spo => spo);
 -- synthesis translate_on
 
 END pixel_updated_a;

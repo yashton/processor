@@ -7,7 +7,7 @@
 // Module Name: tile_table
 // Project Name: CS3710
 // Description: Provides memory for storing the sprite tile table, memory
-// mapped access to the table, and combinational logic for combining
+// mapped access to the table, and logic for access by the line buffer.
 //////////////////////////////////////////////////////////////////////////////////
 module tile_table
 	(
@@ -23,8 +23,7 @@ module tile_table
 		input [2:0] tile_y_offset,
 		// Line buffer connection
 		input [3:0] current_tile,
-		output reg tile_flip,
-		output [31:0] tile_data,
+		output reg [31:0] tile_data,
 		// Memory mapped IO
 		input [12:0] memaddr,
 		input memenable,
@@ -32,30 +31,48 @@ module tile_table
 		input [15:0] writedata,
 		output [15:0] memdata
 	);
-	
+	reg tile_flip;
 	reg [3:0] line_tile_x;
-	reg [7:0] tile_top;
 	wire [3:0] offset = tile_flip ? (size_x - current_tile) : current_tile;
 	wire [3:0] tile_x_total;
 	assign tile_x_total = line_tile_x + offset;
+	reg table_addr;
+	reg [3:0] y_total_addr;
+	reg [2:0] y_offset_addr;
 	wire [11:0] tile_addr;
-	assign tile_addr = {tile_top, tile_x_total};
-
+	assign tile_addr = {table_addr, y_total_addr, tile_x_total, y_offset_addr};
+	
+	wire [31:0] read_tile_data;
 	// VRAM for sprite tiles
 	tile_vram tile_data_vram(
 		.addra(memaddr), .dina(writedata), .ena(memenable), .wea(memwrite), .clka(clk), .douta(memdata),
-		.addrb(tile_addr), .dinb(0), .web(1'b0), .clkb(clk), .doutb(tile_data));
+		.addrb(tile_addr), .dinb(0), .web(1'b0), .clkb(clk), .doutb(read_tile_data));
 
 	always @(posedge clk) begin
 		if (!rst) begin
 			line_tile_x <= 0;
-			tile_top <= 0;
+			table_addr <= 0;
+			y_total_addr <= 0;
+			y_offset_addr <= 0;
 			tile_flip <= 0;
 		end
 		else if (load) begin
 			line_tile_x <= tile_x;
-			tile_top <= {tile_table, tile_y_total, tile_y_offset};
+			table_addr <= tile_table;
+			y_total_addr <= tile_y_total;
+			y_offset_addr <= tile_y_offset;
 			tile_flip <= hFlip;
+		end
+	end
+	
+	always @(*) begin
+		if (tile_flip) begin
+			tile_data <= {read_tile_data[3:0], read_tile_data[7:4],
+				read_tile_data[11:8], read_tile_data[15:12], read_tile_data[19:16], 
+				read_tile_data[23:20], read_tile_data[27:24], read_tile_data[31:28]};
+		end
+		else begin
+			tile_data <= read_tile_data;
 		end
 	end
 endmodule

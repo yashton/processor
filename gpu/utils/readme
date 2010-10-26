@@ -1,0 +1,18 @@
+Usage notes:
+
+Create an 8mx8n 16-color indexed png using GIMP or some other image manipulation program.
+For GIMP, this is done by selecting Image>Mode>Indexed... and selecting "Generate optimum palette" with max colors of 16.
+Then, select Colors>Map>Rearrange Colormap... and make sure that your transparent color is the first color in the colormap.
+
+Place all pngs in the utils directory and run ./convert.sh
+This will create a series of ascii .dat files, suitable for use by ISE.
+To combine files together, run
+cat `ls *.dat | sort`
+Make sure that the output of ls *.dat | sort is what you expected (ex. out-9.dat is sorted after out-10.dat)
+
+The tile and sprite object data rams use a .coe file. To change this file, take the ascii .dat file created in the previous steps, and replace all '\n' with ',\n' and replace the comma separated values with the new data. Then select the core in ISE and run 'Regenerate Core'.
+
+Once you run gpu_test.v in simulation, run for 16.6 ms (one full refresh) and an ascii screen.dat file is created.
+Copy it into the utils directory and run 
+python3 ascii2dat.py screen.dat raw.dat && convert -depth 8 -size 640x480 raw.dat screen.png
+This will create a png of the output of the gpu for that frame.

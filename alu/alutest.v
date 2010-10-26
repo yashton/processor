@@ -69,7 +69,7 @@ module alutest;
 	
 	wire [15:0] sum, sumc, mult, sub, subc, band, bor, bxor, passthrough, sll, srl, sar, sal, lsh, ashu, scond, bcond, jcond, bnot, test;
 	wire ccr, cr;
-	
+	wire [4:0] amt;
 	assign {cr,sum} = dst + src;
 	assign {ccr,sumc} = dst + src + c;
 	assign mult = dst * src;
@@ -82,7 +82,8 @@ module alutest;
 	assign sll = dst << src[3:0];
 	assign srl = dst >> -(src[4:0]);
 	assign sal = dst << src[3:0];
-	assign sar = dst >> -(src[4:0]) | {-(src[4:0]){dst[15]}} << 16 - (-(src[4:0]));
+	assign amt = -src[4:0];
+	assign sar = dst >> amt | ({amt{dst[15]}} << (16 - amt));
 	assign lsh = src[15] ? sll : srl;
 	assign ashu = src[15] ? sal : sar;
 	assign scond = condition ? 1:0;
@@ -94,40 +95,26 @@ module alutest;
 	always @(*)
 	begin
 		case (cond)
-			0:
-				condition = z;
-			1:
-				condition = !z;
-			2:
-				condition = c;
-			3:
-				condition = !c;
-			4:
-				condition = l;
-			5:
-				condition = !l;
-			6:
-				condition = n;
-			7:
-				condition = !n;
-			8:
-				condition = f;
-			9:
-				condition = !f;
-			10:
-				condition = !l & !z;
-			11:
-				condition = l | z;
-			12:
-				condition = !n & !z;
-			13:
-				condition = n | z;
-			14:
-				condition = 1;
-			15:
-				condition = 0;		
+			0: condition = z;
+			1: condition = !z;
+			2: condition = c;
+			3: condition = !c;
+			4: condition = l;
+			5: condition = !l;
+			6: condition = n;
+			7: condition = !n;
+			8: condition = f;
+			9: condition = !f;
+			10: condition = !l & !z;
+			11: condition = l | z;
+			12: condition = !n & !z;
+			13: condition = n | z;
+			14: condition = 1;
+			15: condition = 0;		
+			default: condition = 0;
 		endcase
 	end
+	
 	initial begin
 		// Initialize Inputs
 		dst = 0;
@@ -168,7 +155,7 @@ module alutest;
 			else if (func == fxor)
 				result = bxor;
 			else if (func == fmov)
-				result =passthrough;
+				result = passthrough;
 			else if (func == fnot)
 				result = bnot;
 			else
@@ -230,7 +217,7 @@ module alutest;
    
 	wire zr, fr, lr, nr;
 	assign zr = result == 0;
-	assign fr = result == 0;
+	assign fr = dst[15] & src[15] & result[15] | ~dst[15] & ~src[15] & result[15];
 	assign lr = dst < src;
 	assign nr = result[15] == 1;
 	

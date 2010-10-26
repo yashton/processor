@@ -34,11 +34,9 @@
 pixel_updated YourInstanceName (
 	.a(a), // Bus [7 : 0] 
 	.d(d), // Bus [3 : 0] 
-	.dpra(dpra), // Bus [7 : 0] 
 	.clk(clk),
 	.we(we),
-	.spo(spo), // Bus [3 : 0] 
-	.dpo(dpo)); // Bus [3 : 0] 
+	.spo(spo)); // Bus [3 : 0] 
 
 // INST_TAG_END ------ End INSTANTIATION Template ---------
 

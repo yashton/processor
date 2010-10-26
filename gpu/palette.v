@@ -34,9 +34,16 @@ module palette
 	initial begin
 		$readmemh("paletteRGB.dat", colorData);
 	end
-	assign red = redData > brightness ? redData - brightness : 0;
-	assign green = greenData > brightness ? greenData - brightness : 0;
-	assign blue = blueData > brightness ? blueData - brightness : 0;
+	
+	wire [8:0] reducedRed, reducedGreen, reducedBlue;
+	assign reducedRed = redData - (255 - brightness);
+	assign reducedGreen = greenData - (255 - brightness);
+	assign reducedBlue = blueData - (255 - brightness);
+	
+	// If the reduced value is positive, output the value, otherwise 0.
+	assign red = !reducedRed[8] ? reducedRed[7:0] : 0;
+	assign green = !reducedGreen[8] ? reducedGreen[7:0] : 0;
+	assign blue = !reducedBlue[8] ? reducedBlue[7:0] : 0;
 		
 	always @(posedge clk) begin
 		if (write) begin

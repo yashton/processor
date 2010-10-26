@@ -40,20 +40,16 @@
 module pixel_updated(
 	a,
 	d,
-	dpra,
 	clk,
 	we,
-	spo,
-	dpo);
+	spo);
 
 
 input [7 : 0] a;
 input [3 : 0] d;
-input [7 : 0] dpra;
 input clk;
 input we;
 output [3 : 0] spo;
-output [3 : 0] dpo;
 
 // synthesis translate_off
 
@@ -64,8 +60,8 @@ output [3 : 0] dpo;
 		.C_FAMILY("spartan3"),
 		.C_HAS_CLK(1),
 		.C_HAS_D(1),
-		.C_HAS_DPO(1),
-		.C_HAS_DPRA(1),
+		.C_HAS_DPO(0),
+		.C_HAS_DPRA(0),
 		.C_HAS_I_CE(0),
 		.C_HAS_QDPO(0),
 		.C_HAS_QDPO_CE(0),
@@ -80,7 +76,7 @@ output [3 : 0] dpo;
 		.C_HAS_SPRA(0),
 		.C_HAS_WE(1),
 		.C_MEM_INIT_FILE("no_coe_file_loaded"),
-		.C_MEM_TYPE(2),
+		.C_MEM_TYPE(1),
 		.C_PARSER_TYPE(1),
 		.C_PIPELINE_STAGES(0),
 		.C_QCE_JOINED(0),
@@ -93,11 +89,10 @@ output [3 : 0] dpo;
 	inst (
 		.A(a),
 		.D(d),
-		.DPRA(dpra),
 		.CLK(clk),
 		.WE(we),
 		.SPO(spo),
-		.DPO(dpo),
+		.DPRA(),
 		.SPRA(),
 		.I_CE(),
 		.QSPO_CE(),
@@ -107,6 +102,7 @@ output [3 : 0] dpo;
 		.QDPO_RST(),
 		.QSPO_SRST(),
 		.QDPO_SRST(),
+		.DPO(),
 		.QSPO(),
 		.QDPO());
 

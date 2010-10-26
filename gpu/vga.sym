@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <symbol version="7" name="vga">
     <symboltype>BLOCK</symboltype>
-    <timestamp>2010-10-21T8:35:47</timestamp>
+    <timestamp>2010-10-21T21:4:24</timestamp>
     <attr value="vga" name="VeriModel" />
     <pin polarity="Input" x="0" y="-608" name="clk" />
     <pin polarity="Input" x="0" y="-544" name="rst" />
@@ -9,7 +9,6 @@
     <pin polarity="Output" x="176" y="-128" name="vsync" />
     <pin polarity="Output" x="224" y="-128" name="hsync" />
     <pin polarity="Output" x="400" y="-480" name="vlookahead" />
-    <pin polarity="Output" x="400" y="-544" name="front" />
     <pin polarity="Output" x="400" y="-608" name="line_start" />
     <pin polarity="Output" x="400" y="-416" name="x(9:0)" />
     <pin polarity="Output" x="400" y="-352" name="y(9:0)" />
@@ -28,8 +27,6 @@
         <line x2="176" y1="-128" y2="-192" x1="176" />
         <attrtext style="alignment:VLEFT;fontsize:24;fontname:Arial" attrname="PinName" x="176" y="-200" type="pin vsync" />
         <line x2="400" y1="-480" y2="-480" x1="336" />
-        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="328" y="-544" type="pin front" />
-        <line x2="400" y1="-544" y2="-544" x1="336" />
         <line x2="400" y1="-608" y2="-608" x1="336" />
         <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="232" y="-608" type="pin line_start" />
         <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="328" y="-480" type="pin vlookahead" />

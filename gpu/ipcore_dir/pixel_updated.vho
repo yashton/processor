@@ -33,11 +33,9 @@ component pixel_updated
 	port (
 	a: IN std_logic_VECTOR(7 downto 0);
 	d: IN std_logic_VECTOR(3 downto 0);
-	dpra: IN std_logic_VECTOR(7 downto 0);
 	clk: IN std_logic;
 	we: IN std_logic;
-	spo: OUT std_logic_VECTOR(3 downto 0);
-	dpo: OUT std_logic_VECTOR(3 downto 0));
+	spo: OUT std_logic_VECTOR(3 downto 0));
 end component;
 
 -- Synplicity black box declaration
@@ -54,11 +52,9 @@ your_instance_name : pixel_updated
 		port map (
 			a => a,
 			d => d,
-			dpra => dpra,
 			clk => clk,
 			we => we,
-			spo => spo,
-			dpo => dpo);
+			spo => spo);
 -- INST_TAG_END ------ End INSTANTIATION Template ------------
 
 -- You must compile the wrapper file pixel_updated.vhd when simulating

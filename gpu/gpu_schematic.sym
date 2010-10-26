@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <symbol version="7" name="gpu_schematic">
     <symboltype>BLOCK</symboltype>
-    <timestamp>2010-10-21T8:28:16</timestamp>
+    <timestamp>2010-10-21T21:4:8</timestamp>
     <pin polarity="Input" x="0" y="-1056" name="clk" />
     <pin polarity="Input" x="0" y="-736" name="x(9:0)" />
     <pin polarity="Input" x="0" y="-672" name="y(9:0)" />
@@ -23,7 +23,6 @@
     <pin polarity="Output" x="560" y="-928" name="B(7:0)" />
     <pin polarity="Output" x="560" y="-992" name="G(7:0)" />
     <pin polarity="Output" x="560" y="-1056" name="R(7:0)" />
-    <pin polarity="Input" x="0" y="-864" name="front" />
     <pin polarity="Input" x="0" y="-800" name="vlookahead" />
     <graph>
         <attrtext style="alignment:BCENTER;fontsize:56;fontname:Arial" attrname="SymbolName" x="248" y="-1096" type="symbol" />
@@ -84,8 +83,6 @@
         <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="488" y="-1056" type="pin R(7:0)" />
         <rect width="64" x="496" y="-1068" height="24" />
         <line x2="560" y1="-1056" y2="-1056" x1="496" />
-        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-864" type="pin front" />
-        <line x2="0" y1="-864" y2="-864" x1="64" />
         <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-800" type="pin vlookahead" />
         <line x2="0" y1="-800" y2="-800" x1="64" />
     </graph>
