@@ -14,5 +14,5 @@ The tile and sprite object data rams use a .coe file. To change this file, take 
 
 Once you run gpu_test.v in simulation, run for 16.6 ms (one full refresh) and an ascii screen.dat file is created.
 Copy it into the utils directory and run 
-python3 ascii2dat.py screen.dat raw.dat && convert -depth 8 -size 640x480 raw.dat screen.png
+python3 ascii2dat.py screen.dat raw.dat && convert -depth 8 -size 640x480 rgb:raw.dat screen.png
 This will create a png of the output of the gpu for that frame.
