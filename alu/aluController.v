@@ -37,18 +37,28 @@ module aluController(
 	 
 	 always @(*)
 		case(oper)
-			4'b0000: case(func)
-							4'b0001 aluCont <= 3'b011;
-							4'b0010 aluCont <= 3'b100;
-							4'b0011 aluCont <= 3'b101;
-							4'b0101 aluCont <= 3'b000;
-							4'b0110 aluCont <= 3'b000;
-							4'b0111 aluCont <= 3'b000;
-							4'b1001 aluCont <= 3'b001;
-							4'b1010 aluCont <= 3'b001;
-							4'b1011 aluCont <= 3'b001;
-							4'b1101 aluCont <= 3'b111;
-							4'b1110 aluCont <= 3'b111;
+			4'b0000: // Register: boolean and arithmetic operations
+				case(func)  
+					4'b0001: aluCont <= 3'b011; // logical and
+					4'b0010: aluCont <= 3'b100; // logical or
+					4'b0011: aluCont <= 3'b101; // logical xor
+					4'b0101: aluCont <= 3'b000; // add (for add)
+					4'b0110: aluCont <= 3'b000; // add (for addc)
+					4'b0111: aluCont <= 3'b000; // add (for addu)
+					4'b1001: aluCont <= 3'b001; // sub
+					4'b1010: aluCont <= 3'b001; // sub (for subc)
+					4'b1011: aluCont <= 3'b001; // sub (for cmp)
+					4'b1101: aluCont <= 3'b111; // mov
+					4'b1110: aluCont <= 3'b111; // mul
+					default: alucont <= 3'b010; // should never happen
+				endcase
+			4'b0100:  // Special: loads, stores, tests, jumps
+				case(func)
+					4'b0000: aluCont <= 3'b
+			4'b1000: // Shift
+			4'b1100: // Bcond
+		endcase
+		
 
 
 endmodule
