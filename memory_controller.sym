@@ -13,7 +13,7 @@
     <pin polarity="Output" x="624" y="-288" name="sprite_object_enable" />
     <pin polarity="Input" x="0" y="-96" name="tile_data(15:0)" />
     <pin polarity="Input" x="0" y="-288" name="sprite_object_data(15:0)" />
-    <pin polarity="Output" x="624" y="-496" name="pcdata(15:0)" />
+    <pin polarity="Output" x="624" y="-496" name="instruction(15:0)" />
     <pin polarity="Input" x="0" y="-496" name="pcaddr(15:0)" />
     <pin polarity="Input" x="0" y="-560" name="memaddr(15:0)" />
     <pin polarity="Output" x="624" y="-560" name="memdata(15:0)" />
@@ -49,7 +49,7 @@
         <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-288" type="pin sprite_object_data(15:0)" />
         <rect width="64" x="0" y="-300" height="24" />
         <line x2="0" y1="-288" y2="-288" x1="64" />
-        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="552" y="-496" type="pin pcdata(15:0)" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="552" y="-496" type="pin instruction(15:0)" />
         <rect width="64" x="560" y="-508" height="24" />
         <line x2="624" y1="-496" y2="-496" x1="560" />
         <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-496" type="pin pcaddr(15:0)" />
