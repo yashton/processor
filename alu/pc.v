@@ -14,19 +14,16 @@ module pc
 		input write,
 		input clk,
 		input rst,
-		output reg [15:0] pc,
 		output reg [15:0] pc_plus_one
 	);
-	
+	reg [15:0] pc;
+	assign pc_plus_one = pc + 1;
 	always @(posedge clk) begin
 		if (!rst) begin
 			pc <= 0;
 		end
-		else begin
-			if (write) begin
-				pc <= data;
-			end
-			pc <= pc + 1;
+		else if (write) begin
+			pc <= data;
 		end
 	end
 endmodule
