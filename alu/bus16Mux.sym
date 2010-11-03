@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<symbol version="7" name="bus16Mux">
+    <symboltype>BLOCK</symboltype>
+    <timestamp>2010-10-11T4:8:46</timestamp>
+    <attr value="bus16Mux" name="VeriModel" />
+    <pin polarity="Input" x="208" y="16" name="c" />
+    <pin polarity="Input" x="64" y="-192" name="x(15:0)" />
+    <pin polarity="Input" x="64" y="-96" name="y(15:0)" />
+    <pin polarity="Output" x="336" y="-144" name="z(15:0)" />
+    <graph>
+        <line x2="272" y1="0" y2="-72" x1="128" />
+        <line x2="128" y1="-200" y2="-272" x1="272" />
+        <line x2="128" y1="0" y2="-272" x1="128" />
+        <attrtext style="alignment:BCENTER;fontsize:56;fontname:Arial" attrname="SymbolName" x="208" y="-272" type="symbol" />
+        <line x2="272" y1="-72" y2="-200" x1="272" />
+        <line x2="208" y1="16" y2="-40" x1="208" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="204" y="-60" type="pin c" />
+        <rect width="64" x="64" y="-204" height="24" />
+        <line x2="64" y1="-192" y2="-192" x1="128" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="136" y="-192" type="pin x(15:0)" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="136" y="-96" type="pin y(15:0)" />
+        <rect width="64" x="64" y="-108" height="24" />
+        <line x2="64" y1="-96" y2="-96" x1="128" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="264" y="-144" type="pin z(15:0)" />
+        <rect width="64" x="272" y="-156" height="24" />
+        <line x2="336" y1="-144" y2="-144" x1="272" />
+    </graph>
+</symbol>

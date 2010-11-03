@@ -15,11 +15,10 @@ module alu
 		input [3:0] oper,
 		input [3:0] func,
 		input [3:0] cond,
-		input sign_ext_imm,
+		input [4:0] condId,
+		output [4:0] condOut
 		output [15:0] result
 	);
-	
-	
-	
-	reg [15:0] psr;
+	wire [2:0] ctrl;
+	aluController aluctrl (oper, func, cond, ctrl);
 endmodule

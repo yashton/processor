@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module memoryMap
+module memory_controller
 	#(
 		parameter SPRITE_ADDR = 16'h2000,
 		parameter TILE_ADDR = 16'h2400,
