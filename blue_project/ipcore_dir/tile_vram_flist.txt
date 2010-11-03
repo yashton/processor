@@ -1,0 +1,17 @@
+# Output products list for <tile_vram>
+_xmsgs\pn_parser.xmsgs
+blk_mem_gen_ds512.pdf
+blk_mem_gen_readme.txt
+tile_vram.asy
+tile_vram.gise
+tile_vram.mif
+tile_vram.ngc
+tile_vram.sym
+tile_vram.v
+tile_vram.veo
+tile_vram.vhd
+tile_vram.vho
+tile_vram.xco
+tile_vram.xise
+tile_vram_flist.txt
+tile_vram_xmdf.tcl

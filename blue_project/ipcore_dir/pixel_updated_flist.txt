@@ -1,0 +1,17 @@
+# Output products list for <pixel_updated>
+_xmsgs/pn_parser.xmsgs
+dist_mem_gen_ds322.pdf
+dist_mem_gen_readme.txt
+pixel_updated.asy
+pixel_updated.gise
+pixel_updated.ngc
+pixel_updated.sym
+pixel_updated.v
+pixel_updated.veo
+pixel_updated.vhd
+pixel_updated.vho
+pixel_updated.xco
+pixel_updated.xise
+pixel_updated_flist.txt
+pixel_updated_readme.txt
+pixel_updated_xmdf.tcl
