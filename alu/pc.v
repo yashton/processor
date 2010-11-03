@@ -14,7 +14,7 @@ module pc
 		input write,
 		input clk,
 		input rst,
-		output reg [15:0] pc_plus_one
+		output [15:0] pc_plus_one
 	);
 	reg [15:0] pc;
 	assign pc_plus_one = pc + 1;

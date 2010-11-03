@@ -8,16 +8,16 @@ module bus16x4Mux
 		input [WIDTH - 1:0] x,
 		input [WIDTH - 1:0] y,
 		input [WIDTH - 1:0] z,
-		output [WIDTH - 1:0] out,
+		output reg [WIDTH - 1:0] mout,
 		input [1:0] c
 	);
 	always @(*) begin
 		case(c)
-			0: out <= w;
-			1: out <= x;
-			2: out <= y;
-			3: out <= z;
-			default: out <= w;
+			0: mout <= w;
+			1: mout <= x;
+			2: mout <= y;
+			3: mout <= z;
+			default: mout <= w;
 		endcase
 	end
 endmodule

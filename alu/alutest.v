@@ -63,7 +63,7 @@ module alutest;
 		.cond(cond),
 		.condIn(condIn),
 		.condOut(condOut),
-		.condWr(condWr)'
+		.condWr(condWr),
 		.result(given)
 	);
 	
@@ -231,7 +231,7 @@ module alutest;
 				c_result = {ccr, 1'b0, fr, zr, nr};
 			else if (func == fcmp ||func == fsub)
 				c_result = {1'b0, lr, 1'b0, zr, nr};
-			else if (func == fand || func == ftest  || func = fuor || func == fxor || func == fnot)
+			else if (func == fand || func == ftest  || func == fuor || func == fxor || func == fnot)
 				c_result = {3'b0, zr, 1'b0};
 			else
 				c_result = 0;
@@ -262,7 +262,7 @@ module alutest;
 					func = j[3:0];
 					if (func != 4'b0000 && func != 4'b1000 && func != 4'b1100) begin
 						for (x = 0; x < 2**16; x = x + 43) begin
-							dst = x[15:0]
+							dst = x[15:0];
 							for (y = 0; y < 2**16; y = y + 23) begin
 								src = n[15:0]; #5;
 								if (given != result) begin
@@ -278,11 +278,11 @@ module alutest;
 					func = j[3:0];
 					if (func == 4'b1000 || func == 4'b1101 || func == 4'b1100) begin
 						for (k = 0; k < 16; k = k + 1) begin
-							cond = k[3:0]
+							cond = k[3:0];
 							for (h = 0; h < 16; h = h + 1) begin
 								{c,f,z,n,l} = h[4:0];
 								for (x = 0; x < 2**16; x = x + 43) begin
-									dst = x[15:0]
+									dst = x[15:0];
 									for (y = 0; y < 2**16; y = y + 23) begin
 										src = y[15:0]; #5;
 										if (given != result) begin
@@ -299,7 +299,7 @@ module alutest;
 					func = j[3:0];
 					if (func == 4'b0000 || func != 4'b0001 || func != 4'b0010 || func != 4'b0011 || func != 4'b0100 || func != 4'b0110) begin
 						for (x = 0; x < 2**16; x = x + 43) begin
-							dst = x[15:0]
+							dst = x[15:0];
 							for (y = 0; y < 300; y = y + 1) begin
 								src = y[15:0]; #5;
 								if (given != result) begin
@@ -314,11 +314,11 @@ module alutest;
 					func = j[3:0];
 					if (func == 4'b0000 || func != 4'b0001 || func != 4'b0010 || func != 4'b0011 || func != 4'b0100 || func != 4'b0110) begin
 						for (k = 0; k < 16; k = k + 1) begin
-							cond = k[3:0]
+							cond = k[3:0];
 							for (h = 0; h < 16; h = h + 1) begin
 								{c,f,z,n,l} = h[4:0];
 								for (x = 0; x < 2**16; x = x + 113) begin
-									dst = x[15:0]
+									dst = x[15:0];
 									for (y = 0; y < 2**16; y = y + 23) begin
 										src = y[15:0]; #5;
 										if (given != result) begin
@@ -332,7 +332,7 @@ module alutest;
 				end
 			else begin
 				for (m = 0; m < 2**16; m = m + 213) begin
-					dst = m[15:0]
+					dst = m[15:0];
 					for (n = 0; n < 2**16; n = n + 47) begin
 						src = n[15:0]; #5;
 						if (given != result) begin

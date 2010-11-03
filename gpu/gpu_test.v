@@ -2,7 +2,7 @@
 
 `timescale 1ns / 1ps
 
-module system_system_sch_tb();
+module gpu_test();
 
 // Inputs
    reg rst;
@@ -23,7 +23,7 @@ module system_system_sch_tb();
 // Bidirs
 
 // Instantiate the UUT
-   system UUT (
+   gpu_test_system UUT (
 		.B(B), 
 		.G(G), 
 		.R(R), 

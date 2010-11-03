@@ -50,13 +50,16 @@ module aluController(
 					4'b1011: aluCont <= 3'b001; // sub (for cmp)
 					4'b1101: aluCont <= 3'b111; // mov
 					4'b1110: aluCont <= 3'b111; // mul
-					default: alucont <= 3'b010; // should never happen
+					default: aluCont <= 3'b010; // should never happen
 				endcase
 			4'b0100:  // Special: loads, stores, tests, jumps
 				case(func)
-					4'b0000: aluCont <= 3'b
-			4'b1000: // Shift
-			4'b1100: // Bcond
+					4'b0000: aluCont <= 3'b000;
+					default: aluCont <= 3'b000;
+				endcase
+			4'b1000: aluCont <= 3'b000; // Shift
+			4'b1100: aluCont <= 3'b000; // Bcond
+			default: aluCont <= 3'b000; // Bcond
 		endcase
 		
 

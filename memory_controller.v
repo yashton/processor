@@ -29,10 +29,11 @@ module memory_controller
 	)
 	(
 		input clk,
+		input rst,
 		input [15:0] memaddr,
 		input memwrite,
 		input [15:0] writedata,
-		output [15:0] memdata,
+		output reg [15:0] memdata,
 		input [15:0] pcaddr,
 		output [15:0] instruction,
 		// Memory mapped input and other RAM blocks.
@@ -47,24 +48,14 @@ module memory_controller
 	 );
 
 	wire programen;
-	assign programen = (addr < SPRITE_ADDR);
-	assign sprite_object_enable = !programen && (addr < TILE_ADDR);
-	assign tile_data_enable = !sprite_object_enable && (addr < PALETTE_ADDR);
+	assign programen = (memaddr < SPRITE_ADDR);
+	assign sprite_object_enable = !programen && (memaddr < TILE_ADDR);
+	assign tile_data_enable = !sprite_object_enable && (memaddr < PALETTE_ADDR);
 	assign sprite_object_addr = memaddr - SPRITE_ADDR;
 	assign tile_data_addr = memaddr - TILE_ADDR;
 	wire [15:0] programout;
 	main_memory programMemory (.clka(clk), .clkb(clk), .addra(memaddr), .wea(memwrite), .ena(programen), .dina(writedata), .douta(programout), 
-										 .addrb(pcaddr), .web(1'b0), .dinb(15'b0), .doutb(instruction))
-	always @(*) begin
-		if (programen)
-			memdata <= programout;
-		else if (sprite_object_enable)
-			memdata <= sprite_object_data;
-		else if (tile_data_enable)
-			memdata <= tile_data;
-		else
-			memdata <= other_memdata;
-	end
+										 .addrb(pcaddr), .web(1'b0), .dinb(15'b0), .doutb(instruction));
 	
 	// Memory mapped access - misc
 	reg [15:0] other_memdata;
@@ -75,13 +66,13 @@ module memory_controller
 		end
 		else begin
 			if (memaddr == BRIGHTNESS_ADDR) begin
-				if (memmemwrite) begin
+				if (memwrite) begin
 					brightness <= writedata;
 				end
 				other_memdata <= brightness;
 			end
 			else if (memaddr == PRIORITY_ADDR) begin
-				if (memmemwrite) begin
+				if (memwrite) begin
 					sprite_priority <= writedata;
 				end
 				other_memdata <= sprite_priority;
@@ -93,5 +84,16 @@ module memory_controller
 				other_memdata = 0;
 			end
 		end
+	end
+	
+	always @(*) begin
+		if (programen)
+			memdata <= programout;
+		else if (sprite_object_enable)
+			memdata <= sprite_object_data;
+		else if (tile_data_enable)
+			memdata <= tile_data;
+		else
+			memdata <= other_memdata;
 	end
 endmodule
