@@ -22,18 +22,30 @@ module aluController(
     input [3:0] oper,
     input [3:0] func,
     input [3:0] cond,
-    output [2:0] aluCont
+    output [4:0] aluCont
+	 output [4:0] 
     );
 	 
 	 // aluCont table
-	 // 000 = +
-	 // 001 = -
-	 // 010 = *
-	 // 011 = &
-	 // 100 = |
-	 // 101 = ^
-	 // 110 = ~
-	 // 111 = <<
+	 // 00000 = dst + src
+	 // 00001 = dst - src
+	 // 00010 = dst * src
+	 // 00011 = dst & src
+	 // 00100 = dst | src
+	 // 00101 = dst ^ src
+	 // 00110 = dst ~ src
+	 // 00111 = 1 if condition is true, 0 if false (condition code stored in src[3:0])(Scond)	
+	 // 01000 = src 
+	 // 01001 = Dst << 8|src (LUI)
+	 // 01010 = ~dst
+	 // 01011 = Amt = -src; Src < 0 ? Dst >> amt[3:0] : Dst << Src[3:0] (LSH)
+	 // 01100 = Dst << Src[3:0] (LSHI Left & ASHUI Left)
+	 // 01101 = Dst >> -Src[4:0] (LSHI Right)
+	 // 01110 = Amt = -src; Src < 0 ? (Dst >> Src[3:0]) | ({amt{Dst[15]}} << (16-amt)) : Dst << Src [3:0] (ASHU)
+	 // 01111 = amt = -Src[4:0]; (Dst >> amt) | ({amt{Dst[15]}} << (16-amt)) (ASHUI Right)
+	 // 10000= cond ? Dst + src : Dst (Bcond)
+	 // 10001= cond ? Src : Dst (Jcond)
+	 
 	 
 	 always @(*)
 		case(oper)
