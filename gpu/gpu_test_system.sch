@@ -113,105 +113,6 @@
             <line x2="336" y1="-224" y2="-224" x1="400" />
             <line x2="336" y1="-288" y2="-288" x1="400" />
         </blockdef>
-        <blockdef name="alu_schematic">
-            <timestamp>2010-11-3T6:5:36</timestamp>
-            <line x2="0" y1="32" y2="32" x1="64" />
-            <rect width="64" x="0" y="84" height="24" />
-            <line x2="0" y1="96" y2="96" x1="64" />
-            <rect width="64" x="368" y="20" height="24" />
-            <line x2="432" y1="32" y2="32" x1="368" />
-            <rect width="64" x="368" y="84" height="24" />
-            <line x2="432" y1="96" y2="96" x1="368" />
-            <rect width="64" x="368" y="148" height="24" />
-            <line x2="432" y1="160" y2="160" x1="368" />
-            <line x2="0" y1="-928" y2="-928" x1="64" />
-            <line x2="0" y1="-864" y2="-864" x1="64" />
-            <line x2="0" y1="-800" y2="-800" x1="64" />
-            <rect width="64" x="0" y="-748" height="24" />
-            <line x2="0" y1="-736" y2="-736" x1="64" />
-            <rect width="64" x="0" y="-684" height="24" />
-            <line x2="0" y1="-672" y2="-672" x1="64" />
-            <rect width="64" x="0" y="-620" height="24" />
-            <line x2="0" y1="-608" y2="-608" x1="64" />
-            <line x2="0" y1="-544" y2="-544" x1="64" />
-            <line x2="0" y1="-480" y2="-480" x1="64" />
-            <rect width="64" x="0" y="-428" height="24" />
-            <line x2="0" y1="-416" y2="-416" x1="64" />
-            <rect width="64" x="0" y="-364" height="24" />
-            <line x2="0" y1="-352" y2="-352" x1="64" />
-            <rect width="64" x="0" y="-300" height="24" />
-            <line x2="0" y1="-288" y2="-288" x1="64" />
-            <line x2="0" y1="-224" y2="-224" x1="64" />
-            <line x2="0" y1="-160" y2="-160" x1="64" />
-            <line x2="0" y1="-96" y2="-96" x1="64" />
-            <line x2="0" y1="-32" y2="-32" x1="64" />
-            <rect width="304" x="64" y="-960" height="1152" />
-        </blockdef>
-        <blockdef name="memory_controller">
-            <timestamp>2010-10-27T21:27:44</timestamp>
-            <rect width="496" x="64" y="-808" height="752" />
-            <line x2="0" y1="-432" y2="-432" x1="64" />
-            <line x2="0" y1="-368" y2="-368" x1="64" />
-            <rect width="64" x="560" y="-444" height="24" />
-            <line x2="624" y1="-432" y2="-432" x1="560" />
-            <rect width="64" x="560" y="-380" height="24" />
-            <line x2="624" y1="-368" y2="-368" x1="560" />
-            <rect width="64" x="560" y="-108" height="24" />
-            <line x2="624" y1="-96" y2="-96" x1="560" />
-            <line x2="624" y1="-160" y2="-160" x1="560" />
-            <rect width="64" x="560" y="-236" height="24" />
-            <line x2="624" y1="-224" y2="-224" x1="560" />
-            <line x2="624" y1="-288" y2="-288" x1="560" />
-            <rect width="64" x="0" y="-108" height="24" />
-            <line x2="0" y1="-96" y2="-96" x1="64" />
-            <rect width="64" x="0" y="-300" height="24" />
-            <line x2="0" y1="-288" y2="-288" x1="64" />
-            <rect width="64" x="560" y="-508" height="24" />
-            <line x2="624" y1="-496" y2="-496" x1="560" />
-            <rect width="64" x="0" y="-508" height="24" />
-            <line x2="0" y1="-496" y2="-496" x1="64" />
-            <rect width="64" x="0" y="-572" height="24" />
-            <line x2="0" y1="-560" y2="-560" x1="64" />
-            <rect width="64" x="560" y="-572" height="24" />
-            <line x2="624" y1="-560" y2="-560" x1="560" />
-            <rect width="64" x="0" y="-636" height="24" />
-            <line x2="0" y1="-624" y2="-624" x1="64" />
-            <line x2="0" y1="-688" y2="-688" x1="64" />
-            <circle r="4" cx="60" cy="-736" />
-            <line x2="0" y1="-736" y2="-736" x1="64" />
-            <line x2="0" y1="-784" y2="-784" x1="64" />
-            <line x2="560" y1="-464" y2="-464" x1="64" />
-        </blockdef>
-        <blockdef name="controller">
-            <timestamp>2010-11-3T6:7:42</timestamp>
-            <rect width="336" x="64" y="-960" height="960" />
-            <line x2="0" y1="-928" y2="-928" x1="64" />
-            <line x2="0" y1="-480" y2="-480" x1="64" />
-            <rect width="64" x="0" y="-44" height="24" />
-            <line x2="0" y1="-32" y2="-32" x1="64" />
-            <line x2="464" y1="-928" y2="-928" x1="400" />
-            <line x2="464" y1="-864" y2="-864" x1="400" />
-            <line x2="464" y1="-800" y2="-800" x1="400" />
-            <line x2="464" y1="-736" y2="-736" x1="400" />
-            <line x2="464" y1="-672" y2="-672" x1="400" />
-            <line x2="464" y1="-608" y2="-608" x1="400" />
-            <line x2="464" y1="-544" y2="-544" x1="400" />
-            <line x2="464" y1="-480" y2="-480" x1="400" />
-            <rect width="64" x="400" y="-428" height="24" />
-            <line x2="464" y1="-416" y2="-416" x1="400" />
-            <rect width="64" x="400" y="-364" height="24" />
-            <line x2="464" y1="-352" y2="-352" x1="400" />
-            <rect width="64" x="400" y="-300" height="24" />
-            <line x2="464" y1="-288" y2="-288" x1="400" />
-            <rect width="64" x="400" y="-236" height="24" />
-            <line x2="464" y1="-224" y2="-224" x1="400" />
-            <rect width="64" x="400" y="-172" height="24" />
-            <line x2="464" y1="-160" y2="-160" x1="400" />
-            <rect width="64" x="400" y="-108" height="24" />
-            <line x2="464" y1="-96" y2="-96" x1="400" />
-            <rect width="64" x="400" y="-44" height="24" />
-            <line x2="464" y1="-32" y2="-32" x1="400" />
-        </blockdef>
         <block symbolname="gpu_schematic" name="gpu">
             <blockpin signalname="clk" name="clk" />
             <blockpin signalname="XLXN_15(9:0)" name="x(9:0)" />
@@ -248,68 +149,6 @@
             <blockpin signalname="XLXN_17(9:0)" name="y(9:0)" />
             <blockpin signalname="vbright" name="vbright" />
             <blockpin signalname="hbright" name="hbright" />
-        </block>
-        <block symbolname="alu_schematic" name="XLXI_2">
-            <blockpin name="pcSrc" />
-            <blockpin name="src_addr(3:0)" />
-            <blockpin name="dst_addr(3:0)" />
-            <blockpin name="regwrite" />
-            <blockpin name="oper(3:0)" />
-            <blockpin name="func(3:0)" />
-            <blockpin name="cond(3:0)" />
-            <blockpin name="clk" />
-            <blockpin name="rst" />
-            <blockpin name="pcWrite" />
-            <blockpin name="pcAddrSrc" />
-            <blockpin name="regsrc" />
-            <blockpin name="memdata(15:0)" />
-            <blockpin name="aluSrcB" />
-            <blockpin name="aluSrcA" />
-            <blockpin name="signExtImm" />
-            <blockpin name="Immediate(7:0)" />
-            <blockpin name="writedata(15:0)" />
-            <blockpin name="pcaddr(15:0)" />
-            <blockpin name="memaddr(15:0)" />
-        </block>
-        <block symbolname="memory_controller" name="XLXI_3">
-            <blockpin name="hbright" />
-            <blockpin name="vbright" />
-            <blockpin name="brightness(7:0)" />
-            <blockpin name="sprite_priority(6:0)" />
-            <blockpin name="tile_data_addr(12:0)" />
-            <blockpin name="tile_data_enable" />
-            <blockpin name="sprite_object_addr(9:0)" />
-            <blockpin name="sprite_object_enable" />
-            <blockpin name="tile_data(15:0)" />
-            <blockpin name="sprite_object_data(15:0)" />
-            <blockpin name="pcdata(15:0)" />
-            <blockpin name="pcaddr(15:0)" />
-            <blockpin name="memaddr(15:0)" />
-            <blockpin name="memdata(15:0)" />
-            <blockpin name="writedata(15:0)" />
-            <blockpin name="memwrite" />
-            <blockpin name="rst" />
-            <blockpin name="clk" />
-        </block>
-        <block symbolname="controller" name="XLXI_4">
-            <blockpin name="clk" />
-            <blockpin name="rst" />
-            <blockpin name="instruction(15:0)" />
-            <blockpin name="alusrca" />
-            <blockpin name="alusrcb" />
-            <blockpin name="memwrite" />
-            <blockpin name="regwrite" />
-            <blockpin name="pcwrite" />
-            <blockpin name="pcsrc" />
-            <blockpin name="pcaddrsrc" />
-            <blockpin name="sign_ext_imm" />
-            <blockpin name="oper(3:0)" />
-            <blockpin name="func(3:0)" />
-            <blockpin name="cond(3:0)" />
-            <blockpin name="immediate(7:0)" />
-            <blockpin name="dstaddr(3:0)" />
-            <blockpin name="srcaddr(3:0)" />
-            <blockpin name="regsrc(1:0)" />
         </block>
     </netlist>
     <sheet sheetnum="1" width="3520" height="2720">
@@ -439,11 +278,5 @@
         <instance x="1552" y="1120" name="vga_ctrl" orien="R0">
         </instance>
         <iomarker fontsize="28" x="176" y="304" name="rst" orien="R180" />
-        <instance x="880" y="1440" name="XLXI_2" orien="R0">
-        </instance>
-        <instance x="208" y="1584" name="XLXI_4" orien="R0">
-        </instance>
-        <instance x="896" y="2560" name="XLXI_3" orien="R0">
-        </instance>
     </sheet>
 </drawing>

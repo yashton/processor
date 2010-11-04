@@ -39,10 +39,11 @@ module memory_controller
 		// Memory mapped input and other RAM blocks.
 		input hbright,
 		input vbright,
-		input [15:0] sprite_object_data, tile_data,
-		output sprite_object_enable, tile_data_enable,
+		input [15:0] sprite_object_data, tile_data, palette_data,
+		output sprite_object_enable, tile_data_enable, palette_enable,
 		output [9:0] sprite_object_addr,
 		output [12:0] tile_data_addr,
+		output [9:0] palette_addr,
 		output reg [6:0] sprite_priority,
 		output reg [7:0] brightness
 	 );
@@ -51,11 +52,13 @@ module memory_controller
 	assign programen = (memaddr < SPRITE_ADDR);
 	assign sprite_object_enable = !programen && (memaddr < TILE_ADDR);
 	assign tile_data_enable = !sprite_object_enable && (memaddr < PALETTE_ADDR);
+	assign palette_enable = !tile_data_enable && (memaddr < GPU_SR_ADDR);
 	assign sprite_object_addr = memaddr - SPRITE_ADDR;
 	assign tile_data_addr = memaddr - TILE_ADDR;
+	assign palette_addr = memaddr - PALETTE_ADDR;
 	wire [15:0] programout;
-	main_memory programMemory (.clka(clk), .clkb(clk), .addra(memaddr), .wea(memwrite), .ena(programen), .dina(writedata), .douta(programout), 
-										 .addrb(pcaddr), .web(1'b0), .dinb(15'b0), .doutb(instruction));
+	main_memory programMemory (.clka(clk), .clkb(clk), .addra(memaddr[12:0]), .wea(memwrite), .ena(programen), .dina(writedata), .douta(programout), 
+										 .addrb(pcaddr[12:0]), .web(1'b0), .dinb(16'b0), .doutb(instruction));
 	
 	// Memory mapped access - misc
 	reg [15:0] other_memdata;
@@ -81,7 +84,7 @@ module memory_controller
 				other_memdata <= {hbright, vbright, 8'b00000000}; 
 			end
 			else begin
-				other_memdata = 0;
+				other_memdata <= 0;
 			end
 		end
 	end
@@ -93,6 +96,8 @@ module memory_controller
 			memdata <= sprite_object_data;
 		else if (tile_data_enable)
 			memdata <= tile_data;
+		else if (palette_enable)
+			memdata <= palette_data;
 		else
 			memdata <= other_memdata;
 	end

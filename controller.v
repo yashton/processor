@@ -31,7 +31,7 @@ module controller(
 		output reg [1:0] regsrc,
 		output pcwrite,
 		output pcsrc,
-		output pcaddrsrc,
+		output [1:0] pcaddrsrc,
 		output sign_ext_imm
     );
 	parameter register = 4'b0000, andi = 4'b0001, ori= 4'b0010, xori= 4'b0011, special= 4'b0100, addi= 4'b0101, addui= 4'b0110;
@@ -55,28 +55,31 @@ module controller(
 	assign func = instruction[7:4];
 	assign cond = (oper == special && func == scond) ?  instruction[3:0] : instruction[7:4];
 	assign immediate = instruction[7:0];
+	
 	assign srcaddr = instruction[3:0];
 	assign dstaddr = instruction[11:8];
+	
 	assign pcsrc = !alusrca;
+	assign pcwrite = nextstate == DECODE;
+	assign pcaddrsrc[1] = !pcwrite;
+	assign pcaddrsrc[0] = pcsrc;
+	
 	assign alusrca = !(oper == bcond 
 			|| (oper == special && (func == load || func == jal)));
-	assign alusrcb = (oper != register && oper != special && oper != bcond && oper != shift) 
-			|| (oper == shift && func[3:2] == 0);
-	assign sign_ext_imm = ((oper[3:2] == 2'b01 ||  oper[3:2] == 2'b10) && (oper[1:0] != 2'b00)) 
-			|| oper == bcond 
-			|| (oper == special && (func[3:2] == 2'b01 
-			||  func[3:2] == 2'b10) && (func[1:0] != 2'b00));
-	assign pcaddrsrc = pcsrc; 
+	assign alusrcb = (oper[1:0] != 2'b00) 
+			|| (oper == shift && func[3:2] == 2'b00);
+	
+	assign sign_ext_imm = ((oper[3:2] == 2'b01 ||  oper[3:2] == 2'b10) && (oper[1:0] != 2'b00))
+			|| oper == bcond || oper == muli;
+	
 	assign memwrite = oper == special && func == stor && state == CALCULATE;
+	
 	assign regwrite = state == LOAD 
 			|| (state == CALCULATE 
 					&& !(oper == cmpi 
 						|| oper == bcond 
-						|| (oper == func && func == fcmp) 
-						|| (oper == special && (func == stor || func == jcond))
-						|| (oper == special && (func == stor || func == jcond)))); 
-
-	assign pcwrite = state == CALCULATE;	 
+						|| (oper == register && func == fcmp) 
+						|| (oper == special && (func == stor || func == jcond || func == load))));  
 
 	always @(*) begin
 		if (oper == special && func == jal)
@@ -95,7 +98,6 @@ module controller(
 	end 
 
 	always @(*) begin
-
 		case (state)
 			DECODE: 
 				nextstate <= CALCULATE;

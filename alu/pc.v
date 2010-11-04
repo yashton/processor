@@ -14,9 +14,9 @@ module pc
 		input write,
 		input clk,
 		input rst,
+		output reg [15:0] pc,
 		output [15:0] pc_plus_one
 	);
-	reg [15:0] pc;
 	assign pc_plus_one = pc + 1;
 	always @(posedge clk) begin
 		if (!rst) begin

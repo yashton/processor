@@ -21,13 +21,12 @@
 module signExtend(
     input [7:0] immediate,
     input signExtImm,
-    output [15:0] extImm
+    output reg [15:0] extImm
     );
-	 
-	 if (signExtImm)
-		assign extImm = {{8{immediate[7]}},immediate};
-		
-	 else
-		assign extImm = {{8{0}},immediate};
-
+	 always @(*) begin
+		if (signExtImm)
+			extImm <= {{8{immediate[7]}},immediate};	
+		else
+			extImm <= {{8{0}},immediate};
+	end
 endmodule

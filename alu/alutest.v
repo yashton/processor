@@ -24,35 +24,42 @@
 
 module alutest;
 
+	parameter M_DEFAULT = 0, M_COND = 1, M_CARRY = 2, M_SKIP = 3;
+	
+	// OPERATION codes
+	parameter REGISTER = 4'b0000, ANDI = 4'b0001, ORI= 4'b0010, XORI= 4'b0011, SPECIAL= 4'b0100, ADDI= 4'b0101, ADDUI= 4'b0110;
+	parameter ADDCI= 4'b0111, SHIFT= 4'b1000, SUBI= 4'b1001, SUBCI= 4'b1010, CMPI= 4'b1011, BCOND= 4'b1100, MOVI= 4'b1101, MULI= 4'b1110, LUI= 4'b1111;
+
+	// SHIFT function codes
+	parameter LSHI_L = 4'b0000, LSHI_R = 4'b0001, ASHUI_L= 4'b0010, ASHUI_R= 4'b0011, LSH= 4'b0100, ASHU= 4'b0110;
+	
+	// REGISTER function codes
+	parameter F_AND = 4'b0001, F_OR= 4'b0010, F_XOR= 4'b0011, F_NOT= 4'b0100, F_ADD= 4'b0101, F_ADDU= 4'b0110;
+	parameter F_ADDC= 4'b0111, F_SUB= 4'b1001, F_SUBC= 4'b1010, F_CMP= 4'b1011, F_MOV= 4'b1101, F_MUL= 4'b1110, F_TEST= 4'b1111;
+	
+	// SPECIAL function codes.
+	parameter LOAD = 4'b0000, STORE = 4'b0100, JAL= 4'b1000, JCOND= 4'b1100, SCOND= 4'b1101;
+
+	// CONDITION codes
+	parameter EQ = 0, NE = 1, CS = 2, CC = 3, HI = 4, LS = 5, GT = 6, LE = 7;
+	parameter FS = 8, FC = 9, LO = 10, HS = 11, LT = 12, GE = 13, UC = 14;
+
+	// CONTROL codes
+	parameter C_ADD = 0, C_MULT = 1, C_SUB = 2, C_AND = 3, C_OR = 4, C_XOR = 5, C_PASS = 6, C_SLL = 7;
+	parameter C_SRL = 8, C_SAR = 9, C_LSH = 10, C_ASHU = 11, C_SCOND = 12, C_JUMP = 13, C_NOT = 14, C_LUI = 15;
+	
 	// Inputs
 	reg [15:0] dst;
 	reg [15:0] src;
-	reg [3:0] oper;
-	reg [3:0] func;
-	reg [3:0] cond;
+	wire [3:0] oper;
+	wire [3:0] func;
+	wire [3:0] cond;
 	wire [4:0] condIn;
-	reg [4:0] condOut;
-	reg condWr;
-	
-	//operation codes
-	parameter register = 4'b0000, andi = 4'b0001, ori= 4'b0010, xori= 4'b0011, special= 4'b0100, addi= 4'b0101, addui= 4'b0110;
-	parameter addci= 4'b0111, shift= 4'b1000, subi= 4'b1001, subci= 4'b1010, cmpi= 4'b1011, bcond= 4'b1100, movi= 4'b1101, muli= 4'b1110, lui= 4'b1111;
-
-	//shift function codes
-	parameter lshil = 4'b0000, lshir = 4'b0001, ashuil= 4'b0010, ashuir= 4'b0011, lsh= 4'b0100, ashu= 4'b0110;
-
-	//registers
-	parameter fand = 4'b0001, fuor= 4'b0010, fxor= 4'b0011, fnot= 4'b0100, fadd= 4'b0101, faddu= 4'b0110;
-	parameter faddc= 4'b0111, fsub= 4'b1001, fsubc= 4'b1010, fcmp= 4'b1011, fmov= 4'b1101, fmul= 4'b1110, ftest= 4'b1111;
-	
-	//special
-	parameter load = 4'b0000, stor = 4'b0100, jal= 4'b1000, jcond= 4'b1100, scond= 4'b1101;
 	
 	// Outputs
-	wire [15:0] given;
-	wire c, l, f, z, n;
-	
-	assign condIn = {c,l,f,z,n};
+	wire [15:0] uut_result, mock_result;
+	wire [4:0] uut_condOut, mock_condOut;
+	wire uut_condWr, mock_condWr;
 	
 	// Instantiate the Unit Under Test (UUT)
 	alu uut (
@@ -62,289 +69,290 @@ module alutest;
 		.func(func), 
 		.cond(cond),
 		.condIn(condIn),
-		.condOut(condOut),
-		.condWr(condWr),
-		.result(given)
+		.condOut(uut_condOut),
+		.condWr(uut_condWr),
+		.result(uut_result)
 	);
 	
-	wire [15:0] sum, sumc, mult, sub, subc, band, bor, bxor, passthrough, sll, srl, sar, sal, lsh, ashu, scond, bcond, jcond, bnot, test;
-	wire ccr, cr;
+	alu_mockup uut(
+		.dst(dst), 
+		.src(src), 
+		.oper(oper), 
+		.func(func), 
+		.cond(cond),
+		.condIn(condIn),
+		.condOut(mock_condOut),
+		.condWr(mock_condWr),
+		.result(mock_result)
+	);
+
+	
+	reg clk;
+	initial begin
+		clk = 0;
+	end
+	
+	always @(*) begin
+		#10 clk = ~clk; 
+	end
+	
+	always @(posedge clk) begin
+		dst <= $random();
+		src <= $random();
+	end
+
+	reg [1:0] mode;
+	always @(*) begin
+		if (oper == BCOND || (oper == SPECIAL && (func == JCOND || func == SCOND))) begin
+			mode <= M_COND;
+		end
+		else if (oper == ADDCI || oper == SUBCI || (oper == REGISTER && (func == F_ADDC || func == F_SUBC))) begin
+			mode <= M_CARRY;
+		end
+		else if (oper[1:0] != 2'b00 
+			|| (oper == REGISTER && (func[1:0] != 2'b00 || func == F_NOT)) 
+			|| (oper == SPECIAL && func == JAL)
+			|| (oper == SHIFT && (func[3:2] == 2'b00 || func == LSH || func == ASHU)) begin
+			mode <= M_DEFAULT;
+		end
+		else begin
+			mode <= M_SKIP;
+		end
+	end
+
+	integer i;
+	reg [7:0] code;
+	assign {oper, func} = code;
+	reg [8:0] condCode;
+	assign {cond, condIn} = condCode;
+	always @(posedge clk) begin
+		if (mode == M_SKIP || i > 2048) begin
+			i <= 0;
+			code <= code + 1;
+		end
+		else
+			i <= i + 1;
+		end
+		
+		if (mode == M_CARRY) begin
+			condCode = i[0] ? 16 : 0; // toggle the C flag if doing Carry operations
+		end
+		else begin
+			condCode = i;
+		end
+	end
+
+	always @(posedge clk) begin
+		if (mode != M_SKIP) begin
+			if (uut_result != mock_result) begin
+				$display("UUT result did not equal expected result.\nuut_result: %h mock_result: %h oper: %b func: %b cond: %b condIn: %b\n",
+					uut_result, mock_result, oper, func, cond, condIn);
+			end
+			if (uut_condWr != uut_condWr) begin
+				$display("UUT PSR write signal did not equal expected value.\nuut_condWr: %b mock_condWr: %b oper: %b func: %b cond: %b\n",
+					uut_condWr, mock_condWr, oper, func, cond);
+			end
+			if (uut_condOut != uut_condWr) begin
+				$display("UUT PSR output did not equal expected value.\nuut_condWr: %b mock_condWr: %b oper: %b func: %b cond: %b\n",
+					uut_condOut, mock_condOut, oper, func, cond);
+			end
+		end
+	end
+endmodule
+
+module alu_mockup
+	(
+		input [15:0] dst,
+		input [15:0] src,
+		input [3:0] oper,
+		input [3:0] func,
+		input [3:0] cond,
+		input [4:0] condIn,
+		output [4:0] condOut,
+		output reg [15:0] result
+	);
+	
+	// OPERATION codes
+	parameter REGISTER = 4'b0000, ANDI = 4'b0001, ORI= 4'b0010, XORI= 4'b0011, SPECIAL= 4'b0100, ADDI= 4'b0101, ADDUI= 4'b0110;
+	parameter ADDCI= 4'b0111, SHIFT= 4'b1000, SUBI= 4'b1001, SUBCI= 4'b1010, CMPI= 4'b1011, BCOND= 4'b1100, MOVI= 4'b1101, MULI= 4'b1110, LUI= 4'b1111;
+
+	// SHIFT function codes
+	parameter LSHI_L = 4'b0000, LSHI_R = 4'b0001, ASHUI_L= 4'b0010, ASHUI_R= 4'b0011, LSH= 4'b0100, ASHU= 4'b0110;
+	
+	// REGISTER function codes
+	parameter F_AND = 4'b0001, F_OR= 4'b0010, F_XOR= 4'b0011, F_NOT= 4'b0100, F_ADD= 4'b0101, F_ADDU= 4'b0110;
+	parameter F_ADDC= 4'b0111, F_SUB= 4'b1001, F_SUBC= 4'b1010, F_CMP= 4'b1011, F_MOV= 4'b1101, F_MUL= 4'b1110, F_TEST= 4'b1111;
+	
+	// SPECIAL function codes.
+	parameter LOAD = 4'b0000, STORE = 4'b0100, JAL= 4'b1000, JCOND= 4'b1100, SCOND= 4'b1101;
+
+	// CONDITION codes
+	parameter EQ = 0, NE = 1, CS = 2, CC = 3, HI = 4, LS = 5, GT = 6, LE = 7;
+	parameter FS = 8, FC = 9, LO = 10, HS = 11, LT = 12, GE = 13, UC = 14;
+
+	// CONTROL codes
+	parameter C_ADD = 0, C_MULT = 1, C_SUB = 2, C_AND = 3, C_OR = 4, C_XOR = 5, C_PASS = 6, C_SLL = 7;
+	parameter C_SRL = 8, C_SAR = 9, C_LSH = 10, C_ASHU = 11, C_SCOND = 12, C_JUMP = 13, C_NOT = 14, C_LUI = 15;
+
+	reg condition;
+	wire c, l, f, z, n;
+	assign {c,l,f,z,n} = condIn;
+	always @(*) begin
+		case (cond)
+			EQ: condition = z;
+			NE: condition = !z;
+			CS: condition = c;
+			CC: condition = !c;
+			HI: condition = l;
+			LS: condition = !l;
+			GT: condition = n;
+			LE: condition = !n;
+			FS: condition = f;
+			FC: condition = !f;
+			LO: condition = !l & !z;
+			HS: condition = l | z;
+			LT: condition = !n & !z;
+			GE: condition = n | z;
+			UC: condition = 1;
+			default: condition = 0;
+		endcase
+	end
+	
+	wire [15:0] sum, mult, sub, band, bor, bxor, passthrough, sll, srl, sar, lsh, ashu, scond, jump, bnot, lui;
+	wire cr, br, zr, fr, lr, nr;
+	assign zr = result == 0;
+	assign fr = (dst[15] & src[15] & ~result[15]) | (~dst[15] & ~src[15] & result[15]);
+	assign lr = dst < src;
+	assign nr = result[15];
+	
+	wire cIn;
+	assign cIn = (oper == ADDCI || oper == SUBCI || (oper == REGISTER && (func == F_ADDC || func == F_SUBC))) & c;
+	
+	wire [15:0] addr;
+	wire relative;
+	assign relative = func == BCOND;
+	assign addr = relative ? sum : src;
+	
 	wire [4:0] amt;
-	assign {cr,sum} = dst + src;
-	assign {ccr,sumc} = dst + src + c;
+	assign amt = -(src[4:0]);
+	
+	assign {cr,sum} = dst + src + cIn;
 	assign mult = dst * src;
-	assign sub = dst - src;
-	assign sub = dst - src - c;
+	assign {br, sub} = dst - src - cIn;
 	assign band = dst & src;
 	assign bor = dst | src;
 	assign bxor = dst ^ src;
 	assign passthrough = src;
 	assign sll = dst << src[3:0];
-	assign srl = dst >> -(src[4:0]);
-	assign sal = dst << src[3:0];
-	assign amt = -src[4:0];
-	assign sar = dst >> amt | ({amt{dst[15]}} << (16 - amt));
-	assign lsh = src[15] ? sll : srl;
-	assign ashu = src[15] ? sal : sar;
-	assign scond = condition ? 1:0;
-	assign bcond = condition ? (dst + src): dst;
-	assign jcond = condition ? src : dst;
+	assign srl = dst >> amt;
+	assign sar = dst >>> amt;
+	assign lsh = src[15] ? srl : sll;
+	assign ashu = src[15] ? sar : sll;
+	assign scond = condition;
+	assign jump = condition ? addr : dst;
 	assign bnot = ~dst;
-	assign lui = (dst << 8) || src[7:0];
+	assign lui = {src[7:0], dst[7:0]};
+	
+	reg [3:0] ctrl;	
+	always @(*) begin
+		case (ctrl)
+			C_ADD: result = sum;
+			C_MULT: result = mult;
+			C_SUB: result = sub;
+			C_AND: result = band;
+			C_OR: result = bor;
+			C_XOR: result = bxor;
+			C_PASS: result = passthrough;
+			C_SLL: result = sll;
+			C_SRL: result = srl;
+			C_SAR: result = sar;
+			C_LSH: result = lsh;
+			C_ASHU: result = ashu;
+			C_SCOND: result = scond;
+			C_JUMP: result = jump;
+			C_NOT: result = bnot;
+			C_LUI: result = lui;		
+			default: result = sum;
+		endcase
+	end
+   
+  reg [3:0] regCtrl, specCtrl, shiftCtrl;
+	always @(*) begin
+		case (oper)
+			REGISTER: ctrl = regCtrl;
+			ANDI: ctrl = C_AND;
+			ORI: ctrl = C_OR;
+			XORI: ctrl = C_XOR;
+			SPECIAL: ctrl = specCtrl;
+			ADDI: ctrl = C_ADD;
+			ADDUI: ctrl = C_ADD;
+			ADDCI: ctrl = C_ADD;
+			SHIFT: ctrl = shiftCtrl;
+			SUBI: ctrl = C_SUB;
+			SUBCI: ctrl = C_SUB;
+			CMPI: ctrl = C_SUB;
+			BCOND: ctrl = C_JUMP;
+			MOVI: ctrl = C_PASS;
+			MULI: ctrl = C_MULT;
+			LUI: ctrl = C_LUI;		
+			default: ctrl = C_ADD;
+		endcase
+	end
 
-	always @(*)
-	begin
-		case (cond)
-			0: condition = z;
-			1: condition = !z;
-			2: condition = c;
-			3: condition = !c;
-			4: condition = l;
-			5: condition = !l;
-			6: condition = n;
-			7: condition = !n;
-			8: condition = f;
-			9: condition = !f;
-			10: condition = !l & !z;
-			11: condition = l | z;
-			12: condition = !n & !z;
-			13: condition = n | z;
-			14: condition = 1;
-			15: condition = 0;		
-			default: condition = 0;
+	always @(*) begin
+		case (func)
+			F_AND: regCtrl = C_AND;
+			F_OR: regCtrl = C_OR;
+			F_XOR: regCtrl = C_XOR;
+			F_NOT: regCtrl = C_NOT;
+			F_ADD: regCtrl = C_ADD;
+			F_ADDU: regCtrl = C_ADD;
+			F_ADDC: regCtrl = C_ADD;
+			F_SUB: regCtrl = C_SUB;
+			F_SUBC: regCtrl = C_SUB;
+			F_CMP: regCtrl = C_SUB;
+			F_MOV: regCtrl = C_PASS;
+			F_MUL: regCtrl = C_MULT;
+			F_TEST: regCtrl = C_AND;		
+			default: regCtrl = C_ADD;
 		endcase
 	end
 	
-	initial begin
-		// Initialize Inputs
-		dst = 0;
-		src = 0;
-		oper = 0;
-		func = 0;
-		cond = 0;
-		sign_ext_imm = 0;
-		
-		// Wait 100 ns for global reset to finish
-		#100;
-        
-		// Add stimulus here
-
-	end
-	
-	reg [15:0] result;
-	
-	
-	always @(*)
-	begin
-		if (oper == register)
-		begin
-			if( func == fadd || func == faddu)
-				result = sum;
-			else if (func == faddc)
-				result = sumc;
-			else if (func == fmul)
-				result = mult;
-			else if (func == fcmp ||func == fsub)
-				result = sub;
-			else if (func == fsubc)
-				result = subc;
-			else if (func == fand || func == ftest)
-				result = band;
-			else if (func == fuor)
-				result = bor;
-			else if (func == fxor)
-				result = bxor;
-			else if (func == fmov)
-				result = passthrough;
-			else if (func == fnot)
-				result = bnot;
-			else
-				result = 0;
-		end
-		else if (oper == andi)
-			result = band;
-		else if (oper == ori)
-			result = bor;
-		else if (oper == xori)
-			result = bxor;
-		else if (oper == special)
-		begin
-			if( func == jal)
-				result = passthrough;
-			else if (func == jcond)
-				result = jcond;
-			else
-				result = 0;
-		end
-		else if (oper == addi)
-			result = sum;
-		else if (oper == addui)
-			result = sum;
-		else if (oper == addci)
-			result = sumc;
-		else if (oper == shift)
-		begin
-			if (func == lshil)
-				result = sll;
-			else if (func == lshir)
-				result = srl;
-			else if (func == ashuil)
-				result = sal;
-			else if (func == ashuir)
-				result = sar;
-			else if (func == lsh)
-				result = lsh;
-			else if (func == ashui)
-				result = ashu;
-			else
-				result = 0;
-		end
-		else if (oper == subi)
-			result = sub;
-		else if (oper == subci)
-			result = subc;
-		else if (oper == cmpi)
-			result = sub;
-		else if (oper == bcond)
-			result = bcond;
-		else if (oper == movi)
-			result = passthrough;
-		else if (oper == muli)
-			result = mult;
-		else // if (oper == lui)
-			result = lui;
-	end
-   
-	wire zr, fr, lr, nr;
-	assign zr = result == 0;
-	assign fr = dst[15] & src[15] & result[15] | ~dst[15] & ~src[15] & result[15];
-	assign lr = dst < src;
-	assign nr = result[15] == 1;
-	
-	always @(*)
-	begin
-		if (oper == register)
-		begin
-			if( func == fadd)
-				c_result = {cr, 1'b0, fr, zr, nr};	
-			else if(func == faddc)
-				c_result = {ccr, 1'b0, fr, zr, nr};
-			else if (func == fcmp ||func == fsub)
-				c_result = {1'b0, lr, 1'b0, zr, nr};
-			else if (func == fand || func == ftest  || func == fuor || func == fxor || func == fnot)
-				c_result = {3'b0, zr, 1'b0};
-			else
-				c_result = 0;
-		end
-		else if (oper == andi || oper == ori  || oper == xori)
-			c_result = {3'b0, zr, 1'b0};
-		else if (oper == addi)
-			c_result = {cr, 1'b0, fr, zr, nr};
-		else if (oper == addci)
-			c_result = {ccr, 1'b0, fr, zr, nr};
-		else if (oper == cmpi)
-			c_result = {1'b0, lr, 1'b0, zr, nr};
-		else 
-			c_result = 0;
-	end
-	
-	reg clk;
 	always @(*) begin
-		#5 clk = 0; #5 clk = 1; 
+		case (func)
+			JAL: specCtrl = C_PASS;
+			JCOND: specCtrl = C_JUMP;
+			SCOND: specCtrl = C_SCOND;
+			default: specCtrl = C_ADD;
+		endcase
 	end
-
-	integer h, i, j, k, x, y;
-	always @(posedge clk) begin
-		for (i = 0; i < 16; i = i + 1) begin
-			oper = i[3:0];
-			if (oper == register) begin // register operations
-				for (j = 0; j < 16; j = j + 1) begin
-					func = j[3:0];
-					if (func != 4'b0000 && func != 4'b1000 && func != 4'b1100) begin
-						for (x = 0; x < 2**16; x = x + 43) begin
-							dst = x[15:0];
-							for (y = 0; y < 2**16; y = y + 23) begin
-								src = n[15:0]; #5;
-								if (given != result) begin
-									$display("Actual result did not equal expected result.");
-								end
-							end
-						end
-					end
-				end
-			end 
-			else if (oper == special)
-				for (j = 0; j < 16; j = j + 1) begin
-					func = j[3:0];
-					if (func == 4'b1000 || func == 4'b1101 || func == 4'b1100) begin
-						for (k = 0; k < 16; k = k + 1) begin
-							cond = k[3:0];
-							for (h = 0; h < 16; h = h + 1) begin
-								{c,f,z,n,l} = h[4:0];
-								for (x = 0; x < 2**16; x = x + 43) begin
-									dst = x[15:0];
-									for (y = 0; y < 2**16; y = y + 23) begin
-										src = y[15:0]; #5;
-										if (given != result) begin
-											$display("Actual result did not equal expected result.");
-										end
-									end
-								end
-							end
-						end
-					end
-				end
-			else if (oper == shift)
-				for (j = 0; j < 16; j = j + 1) begin
-					func = j[3:0];
-					if (func == 4'b0000 || func != 4'b0001 || func != 4'b0010 || func != 4'b0011 || func != 4'b0100 || func != 4'b0110) begin
-						for (x = 0; x < 2**16; x = x + 43) begin
-							dst = x[15:0];
-							for (y = 0; y < 300; y = y + 1) begin
-								src = y[15:0]; #5;
-								if (given != result) begin
-									$display("Actual result did not equal expected result.");
-								end
-							end
-						end
-					end
-				end
-			else if (oper == bcond)
-				for (j = 0; j < 16; j = j + 1) begin
-					func = j[3:0];
-					if (func == 4'b0000 || func != 4'b0001 || func != 4'b0010 || func != 4'b0011 || func != 4'b0100 || func != 4'b0110) begin
-						for (k = 0; k < 16; k = k + 1) begin
-							cond = k[3:0];
-							for (h = 0; h < 16; h = h + 1) begin
-								{c,f,z,n,l} = h[4:0];
-								for (x = 0; x < 2**16; x = x + 113) begin
-									dst = x[15:0];
-									for (y = 0; y < 2**16; y = y + 23) begin
-										src = y[15:0]; #5;
-										if (given != result) begin
-											$display("Actual result did not equal expected result.");
-										end
-									end
-								end
-							end
-						end
-					end
-				end
-			else begin
-				for (m = 0; m < 2**16; m = m + 213) begin
-					dst = m[15:0];
-					for (n = 0; n < 2**16; n = n + 47) begin
-						src = n[15:0]; #5;
-						if (given != result) begin
-							$display("Actual result did not equal expected result.");
-						end
-					end
-				end
-			end
-			// set cond, condition codes, oper, and func
-			// set dst, src
-			// compare given with result.
-		end
+	
+	always @(*) begin
+		case (func)
+			LSHI_L: shiftCtrl = C_SLL;
+			LSHI_R: shiftCtrl = C_SRL;
+			ASHUI_L: shiftCtrl = C_SLL;
+			ASHUI_R: shiftCtrl = C_SAR;
+			LSH: shiftCtrl = C_LSH;
+			ASHU: shiftCtrl = C_ASHU;
+			default: shiftCtrl = C_ADD;
+		endcase
 	end
+	
+	wire cr_f, lr_f, fr_f, zr_f, nr_f;
+	wire addFunc, subFunc, cmpFunc, zFunc;
+	assign addFunc = (oper == ADDI || oper == ADDCI || (oper == REGISTER && (func == F_ADD || func == F_ADDC)));
+	assign subFunc = (oper == SUBI || oper == SUBCI || (oper == REGISTER && (func == F_SUB || func == F_SUBC)));
+	assign cmpFunc = (oper == CMPI || (oper == REGISTER && func == F_CMP));
+	// This mess is the output of two Karnaugh maps of the operations that use zero flag.
+	// Additionally, the Z flag is set for every operation that updates the register
+	// and therefore zFunc can be used as the write enable signal for the PSR
+	assign zFunc = ((oper[1:0] != 2'b00 && oper[3:2] != 2'b11 && oper[2:0] != 3'b110) 
+		|| (oper == REGISTER && ((~func[2] & func[1:0] != 2'b00) | func[1:0] == 2'b11 |  func[3:1] == 3'b010)));
+	assign cr_f = (cr & addFunc) || (br && subFunc);
+	assign lr_f = lr & cmpFunc;
+	assign fr_f = fr & (subFunc | addFunc);
+	assign zr_f = zr & zFunc;
+	assign nr_f = nr & (cmpFunc | addFunc | subFunc);
+	assign condOut = {cr_f, lr_f, fr_f, zr_f, nr_f};
 endmodule
-

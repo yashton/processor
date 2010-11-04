@@ -15,10 +15,10 @@ module alu
 		input [3:0] oper,
 		input [3:0] func,
 		input [3:0] cond,
-		input [4:0] condId,
-		output [4:0] condOut
-		output [15:0] result
+		input [4:0] condIn,
+		output [4:0] condOut,
+		output condWr,
+		output reg [15:0] result
 	);
-	wire [2:0] ctrl;
-	aluController aluctrl (oper, func, cond, ctrl);
+
 endmodule
