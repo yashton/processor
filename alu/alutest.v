@@ -112,7 +112,7 @@ module alutest;
 		else if (oper[1:0] != 2'b00 
 			|| (oper == REGISTER && (func[1:0] != 2'b00 || func == F_NOT)) 
 			|| (oper == SPECIAL && func == JAL)
-			|| (oper == SHIFT && (func[3:2] == 2'b00 || func == LSH || func == ASHU)) begin
+			|| (oper == SHIFT && (func[3:2] == 2'b00 || func == LSH || func == ASHU))) begin
 			mode <= M_DEFAULT;
 		end
 		else begin
@@ -130,15 +130,15 @@ module alutest;
 			i <= 0;
 			code <= code + 1;
 		end
-		else
+		else begin
 			i <= i + 1;
 		end
 		
 		if (mode == M_CARRY) begin
-			condCode = i[0] ? 16 : 0; // toggle the C flag if doing Carry operations
+			condCode <= i[0] ? 16 : 0; // toggle the C flag if doing Carry operations
 		end
 		else begin
-			condCode = i;
+			condCode <= i;
 		end
 	end
 
