@@ -25,7 +25,8 @@ module memory_controller
 		parameter PALETTE_ADDR = 16'h4400,
 		parameter PRIORITY_ADDR = 16'h4801,
 		parameter BRIGHTNESS_ADDR = 16'h4802,
-		parameter GPU_SR_ADDR = 16'h4800
+		parameter GPU_SR_ADDR = 16'h4800,
+		parameter SWITCH_LED_ADDR = 16'h4803
 	)
 	(
 		input clk,
@@ -46,6 +47,9 @@ module memory_controller
 		output [9:0] palette_addr,
 		output reg [6:0] sprite_priority,
 		output reg [7:0] brightness
+		//inputs and outputs for switches and leds
+		input [3:0] switches;
+		output reg [7:0] test_out;
 	 );
 
 	wire programen;
@@ -83,6 +87,11 @@ module memory_controller
 			else if (memaddr == GPU_SR_ADDR) begin
 				other_memdata <= {hbright, vbright, 8'b00000000}; 
 			end
+			else if (memaddr ==  SWITCH_LED_ADDR) begin
+				if (memwrite) begin
+					test_out <= writedata;
+				end
+				other_memdata <= switches;
 			else begin
 				other_memdata <= 0;
 			end
