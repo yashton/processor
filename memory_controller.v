@@ -46,10 +46,10 @@ module memory_controller
 		output [12:0] tile_data_addr,
 		output [9:0] palette_addr,
 		output reg [6:0] sprite_priority,
-		output reg [7:0] brightness
+		output reg [7:0] brightness,
 		//inputs and outputs for switches and leds
-		input [3:0] switches;
-		output reg [7:0] test_out;
+		input [3:0] switches,
+		output reg [7:0] test_out
 	 );
 
 	wire programen;
@@ -92,6 +92,7 @@ module memory_controller
 					test_out <= writedata;
 				end
 				other_memdata <= switches;
+			end
 			else begin
 				other_memdata <= 0;
 			end
