@@ -1,0 +1,9 @@
+For gedit:
+if your system is using gtksourceview-1.0 (CADE lab), put cs3710-1.0.lang into 
+~/.gnome2/gtksourceview-1.0/language-specs/
+if your system is using gtksourceview-2.0, put cs3710-2.0.lang into
+~/.local/share/gtksourceview-2.0/language-specs/
+
+For Notepad++:
+View>User-Defined Dialogue...
+Click "Import", then select cs3710-npp.xml

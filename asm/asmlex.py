@@ -28,7 +28,7 @@ def t_COMMENT(t):
 	r'\#.*'
 	pass
 
-t_REG = r'\$(?:1[0-5]|[0-9]|t[0-3]|s[0-3]|a[0-3]|v[0-1]|sp|fp|ra)'
+t_REG = r'\$(?:1[0-5]|[0-9]|t[0-3]|s[0-3]|a[0-2]|v[0-1]|sp|fp|ra)'
 t_COMMA = r'\,'
 
 def t_MOVWI(t):

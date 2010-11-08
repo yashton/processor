@@ -53,10 +53,10 @@
 	bar: 0x12 # bar is a pointer to this word.
 	# Any numeric value in the .data segment is stored as a word.
 	
-	# baz is an array of six 16 bit words.
+	# baz is an array of six 16-bit words.
 	baz: 0x1234, 0x4567, 0x89ab, 128, 0x1, 65500
 	
 	heap:
-	# in typical use, the memory is organize with .text segment first,
+	# typically, memory is organize with the .text segment first,
 	# followed by the .data segment, then by the heap. This trailing label creates     
 	# a pointer to the location of the first element of the heap space.

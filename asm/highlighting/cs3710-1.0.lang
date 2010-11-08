@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+<language _name="CS3170 Assembly" version="1.0" _section="Sources" mimetypes="text/x-asm">
+
+	<line-comment _name="Line Comment" style="Comment">
+		<start-regex>#</start-regex>
+	</line-comment>
+
+	<syntax-item _name = "Define" style = "Preprocessor">
+		<start-regex>^.define</start-regex>
+		<end-regex>\n</end-regex>
+	</syntax-item>
+	
+	<keyword-list _name="Operations" style="Keyword" case-sensitive="TRUE">
+		<keyword>add</keyword>
+      <keyword>addi</keyword>
+      <keyword>addu</keyword>
+      <keyword>addui</keyword>
+      <keyword>addc</keyword>
+      <keyword>addci</keyword>
+      <keyword>mul</keyword>
+      <keyword>muli</keyword>
+      <keyword>sub</keyword>
+      <keyword>subi</keyword>
+      <keyword>subc</keyword>
+      <keyword>subci</keyword>
+      <keyword>cmp</keyword>
+      <keyword>cmpi</keyword>
+      <keyword>and</keyword>
+      <keyword>andi</keyword>
+      <keyword>or</keyword>
+      <keyword>ori</keyword>
+      <keyword>xor</keyword>
+      <keyword>movi</keyword>
+      <keyword>lsh</keyword>
+      <keyword>lshi</keyword>
+      <keyword>ashu</keyword>
+      <keyword>ashui</keyword>
+      <keyword>lui</keyword>
+      <keyword>load</keyword>
+      <keyword>stor</keyword>
+      <keyword>snxb</keyword>
+      <keyword>zrxb</keyword>
+      <keyword>jal</keyword>
+      <keyword>tbit</keyword>
+      <keyword>tbiti</keyword>
+      <keyword>lpr</keyword>
+      <keyword>spr</keyword>
+      <keyword>di</keyword>
+      <keyword>ei</keyword>
+      <keyword>excp</keyword>
+      <keyword>retx</keyword>
+      <keyword>wait</keyword>
+      <keyword>not</keyword>
+      <keyword>test</keyword>
+      <keyword>seq</keyword>
+      <keyword>sne</keyword>
+      <keyword>sge</keyword>
+      <keyword>scs</keyword>
+      <keyword>scc</keyword>
+      <keyword>shi</keyword>
+      <keyword>sls</keyword>
+      <keyword>slo</keyword>
+      <keyword>shs</keyword>
+      <keyword>sgt</keyword>
+      <keyword>sle</keyword>
+      <keyword>sfs</keyword>
+      <keyword>sfc</keyword>
+      <keyword>slt</keyword>
+      <keyword>suc</keyword>
+      <keyword>beq</keyword>
+      <keyword>bne</keyword>
+      <keyword>bge</keyword>
+      <keyword>bcs</keyword>
+      <keyword>bcc</keyword>
+      <keyword>bhi</keyword>
+      <keyword>bls</keyword>
+      <keyword>blo</keyword>
+      <keyword>bhs</keyword>
+      <keyword>bgt</keyword>
+      <keyword>ble</keyword>
+      <keyword>bfs</keyword>
+      <keyword>bfc</keyword>
+      <keyword>blt</keyword>
+      <keyword>buc</keyword>
+      <keyword>jeq</keyword>
+      <keyword>jne</keyword>
+      <keyword>jge</keyword>
+      <keyword>jcs</keyword>
+      <keyword>jcc</keyword>
+      <keyword>jhi</keyword>
+      <keyword>jls</keyword>
+      <keyword>jlo</keyword>
+      <keyword>jhs</keyword>
+      <keyword>jgt</keyword>
+      <keyword>jle</keyword>
+      <keyword>jfs</keyword>
+      <keyword>jfc</keyword>
+      <keyword>jlt</keyword>
+      <keyword>juc</keyword>
+      <keyword>movwi</keyword>
+	</keyword-list>
+
+	<keyword-list _name="Keywords" style="Keyword" case-sensitive="TRUE">
+		<keyword>data</keyword>
+		<keyword>text</keyword>
+	</keyword-list>
+
+	<pattern-item _name="Register" style="Others">
+		<regex>(\$[0-9])|\$t[0-3]|\$1[0-5]|\$s[0-3]|\$a[0-2]|\$v[0-1]|\$sp|\$fp|\$ra</regex>
+	</pattern-item>
+	
+	<pattern-item _name="Decimal Number" style="Decimal">
+		<regex>\b-?[0-9]+\b</regex>
+	</pattern-item>
+	
+	<pattern-item _name="Label" style="Data Type">
+		<regex>\b[a-zA-Z][a-zA-Z_0-9]*\:</regex>
+	</pattern-item>
+	
+	<string _name = "String" style = "String" end-at-line-end = "TRUE">
+		<start-regex>&quot;</start-regex>
+		<end-regex>&quot;</end-regex>
+	</string>
+	
+	<pattern-item _name="Hexadecimal Number" style="Base-N Integer">
+		<regex>\b-?0[xX][a-fA-F0-9]+\b</regex>
+	</pattern-item>
+
+</language>
