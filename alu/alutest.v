@@ -68,9 +68,9 @@ module alutest;
 		.oper(oper), 
 		.func(func), 
 		.cond(cond),
-		.condIn(psrRead),
-		.condOut(uut_psrWrite),
-		.condWr(uut_psrWrEn),
+		.condIn(condIn),
+		.condOut(uut_condOut),
+		.condWr(uut_condWr),
 		.result(uut_result)
 	);
 	
@@ -156,11 +156,11 @@ module alutest;
 				$display("UUT result did not equal expected result.\nuut_result: %h mock_result: %h oper: %b func: %b cond: %b condIn: %b\n",
 					uut_result, mock_result, oper, func, cond, condIn);
 			end
-			if (uut_condWr != uut_condWr) begin
+			if (uut_condWr != mock_condWr) begin
 				$display("UUT PSR write signal did not equal expected value.\nuut_condWr: %b mock_condWr: %b oper: %b func: %b cond: %b\n",
 					uut_condWr, mock_condWr, oper, func, cond);
 			end
-			if (uut_condOut != uut_condWr) begin
+			if (uut_condOut != mock_condWr) begin
 				$display("UUT PSR output did not equal expected value.\nuut_condWr: %b mock_condWr: %b oper: %b func: %b cond: %b\n",
 					uut_condOut, mock_condOut, oper, func, cond);
 			end

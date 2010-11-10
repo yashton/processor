@@ -35,5 +35,9 @@ module psr(
 		if (psrWrEn[3]) psrReg[3] <= psrWrite[3];
 		if (psrWrEn[4]) psrReg[4] <= psrWrite[4];
 	 end
+	 always
+	 begin
+		psrRead = psrReg;
+	 end
 	 
 endmodule
