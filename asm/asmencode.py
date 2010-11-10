@@ -114,31 +114,12 @@ class RType:
 		self.dst = dst
 		self.src = src
 	def encode(self, symbol_table):
-		if self.oper == 'ashu' or self.oper == 'lsh':
-			op = oper_table['shift']
-			func = shift_table[self.oper]
-		elif self.oper == 'jal' or self.oper == 'stor' or self.oper == 'load':
-			op = oper_table['special']
-			func = special_table[self.oper]
-		else:
-			op = oper_table['register']
-			func = func_table[self.oper]
 		
-		dstR = reg_table[self.dst]
-		srcR = reg_table[self.src]
-		return op + dstR + func + srcR
 
 class IType:
 	def __init__(self, oper, dst, imm):
 #		print("parsed i-type.", "\toper:", oper, "\tdst:", dst, "\timmed:", imm)
-		self.oper = oper
-		self.dst = dst
-		self.imm = imm
 	def encode(self, symbol_table):
-		op = oper_table[self.oper]
-		dst = reg_table[self.dst]
-		imm = hexstr((self.imm & 0xFF), 2)
-		return op + dst + imm
 	
 class ShiftImm:
 	def __init__(self, oper, dst, imm):
@@ -147,15 +128,11 @@ class ShiftImm:
 		self.dst = dst
 		self.imm = imm	
 	def encode(self, symbol_table):
-		op = oper_table['shift']
-		dst = reg_table[self.dst]
 		if self.imm >= 0:
 			func = shift_table[self.oper + "_l"]
 		else:
 			func = shift_table[self.oper + "_r"]
-			
-		imm = hex(self.imm & 0xF)[2:]
-		return op + dst + func + imm
+
 		
 class Bcond:
 	def __init__(self, cond, current, label, line):
@@ -182,26 +159,12 @@ class Bcond:
 class Jcond:
 	def __init__(self, cond, target):
 		#print("parsed jcond.", "\tcond:", cond, "\tdst:", dst)
-		self.cond = cond
-		self.target = target
 	def encode(self, symbol_table):
-		op = oper_table['special']
-		func = special_table['jcond']
-		cond = cond_table[self.cond]
-		reg = reg_table[self.target]
-		return op + cond + func + reg
 
 class Scond:
 	def __init__(self, cond, dst):
 		#print("parsed scond.", "\tcond:", cond, "\tdst:", dst)
-		self.cond = cond
-		self.dst = dst
 	def encode(self, symbol_table):
-		op = oper_table['special']
-		func = special_table['scond']
-		cond = cond_table[self.cond]
-		reg = reg_table[self.dst]
-		return op + reg + func + cond
 		
 class Not:
 	def __init__(self, dst):
