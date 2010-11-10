@@ -3,10 +3,39 @@
 // Company: University of Utah
 // Engineer: Ashton Snelgrove (snelgrov@eng.utah.edu)
 // 
-// Design Name: Graphics processing unit.
-// Module Name: gpu
+// Design Name: Sprite object controller.
+// Module Name: sprite_controller
 // Project Name: CS3710
-// Description: 
+// Description: This module is responsible for storing and loading sprite object
+// data.
+// The machine works like a for loop. Psuedo-code:
+//	 -- START/INCR
+//	for (sprite_i = sprite_priority; scanline_start; sprite_i++)
+// 	{
+//    -- LOAD_Y
+//		load {sizeX, sizeY, hFlip, vFlip, line_z, active, b}
+//		-- LOAD_X
+//		load {line_palette, tile_table, tile_x, tile_y, a}
+//		if (active && yintersect)
+//		{
+//			-- LOAD_SLICE_WORD
+//			while (line_busy)
+//			{
+//				wait
+//			}
+//			write to line buffer
+//		}		
+//	}
+// At the start of a scanline, sprite_priority is loaded into sprite_i
+// Then each sprite object is loaded. If the object intersects this scanline,
+// and is active, then the sprite will be sent to the line buffer.
+// Since the writing to the line buffer takes much longer than loading the
+// object data, once this machine gets to write stage it waits until the line
+// buffer is not busy, after which the data is loaded into the line buffer.
+// Unlike the SNES, there is no fixed limit to the number of sprites than can
+// be written. The only limitation is the 1600 cycles each scanline occupies.
+// The line buffer is the limiting factor, but the limits of the line buffer
+// allow, at a minimum, 32 maximum width sprites to be written for each line.
 //////////////////////////////////////////////////////////////////////////////////
 module sprite_controller
 	#(
@@ -49,7 +78,6 @@ module sprite_controller
 		output reg [2:0] sizeX,
 		output [2:0] first,
 		output [2:0] last,
-		
 		input line_busy
 	);
 	
@@ -68,7 +96,7 @@ module sprite_controller
 	
 	assign line_addr = a[9:0];
 	
-	// State machine logic
+	// State machine logic 
 	reg [4:0] state;
 	reg [4:0] next_state;
 	
@@ -116,6 +144,7 @@ module sprite_controller
 			sprite_i <= sprite_i + 1;
 		end
 		
+		// Y coordinate and meta-data B
 		if (!rst) begin
 			sizeX <= 0;
 			sizeY <= 0;
@@ -136,6 +165,7 @@ module sprite_controller
 			//{sizeX, sizeY, hFlip, vFlip, line_z, active, b} <= line_sprite_data;
 		end
 		
+		// X coordinate and meta-data A
 		if (!rst) begin
 			line_palette <= 0;
 			tile_table <= 0;
@@ -154,9 +184,8 @@ module sprite_controller
 	end
 	
 	assign line_load = state == LOAD_SLICE_WORD && !line_busy;
-//	wire sprite_load;
-//	assign sprite_load = state == LOAD_X || state == LOAD_Y;
-	
+
+	// Sprite object vram
 	sprite_object_vram sprite_ram(
 		.addra(memaddr), .dina(writedata), .ena(memenable), .wea(memwrite), .clka(clk), .douta(memdata),
 		.addrb(sprite_addr), .dinb(0), .web(1'b0), .clkb(clk), .doutb(loaded_sprite_data));

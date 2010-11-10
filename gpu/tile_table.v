@@ -31,6 +31,8 @@ module tile_table
 		input [15:0] writedata,
 		output [15:0] memdata
 	);
+	
+	// Address calculations
 	reg tile_flip;
 	reg [3:0] line_tile_x;
 	wire [3:0] offset = tile_flip ? (size_x - current_tile) : current_tile;
@@ -42,12 +44,13 @@ module tile_table
 	wire [11:0] tile_addr;
 	assign tile_addr = {table_addr, y_total_addr, tile_x_total, y_offset_addr};
 	
-	wire [31:0] read_tile_data;
 	// VRAM for sprite tiles
+	wire [31:0] read_tile_data;
 	tile_vram tile_data_vram(
 		.addra(memaddr), .dina(writedata), .ena(memenable), .wea(memwrite), .clka(clk), .douta(memdata),
 		.addrb(tile_addr), .dinb(0), .web(1'b0), .clkb(clk), .doutb(read_tile_data));
 
+	// On load, latch the address information
 	always @(posedge clk) begin
 		if (!rst) begin
 			line_tile_x <= 0;
@@ -65,6 +68,7 @@ module tile_table
 		end
 	end
 	
+	// For horizontal flips, pixel values need to be reversed.
 	always @(*) begin
 		if (tile_flip) begin
 			tile_data <= {read_tile_data[3:0], read_tile_data[7:4],

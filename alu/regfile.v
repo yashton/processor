@@ -15,17 +15,19 @@ module regfile
 		input [3:0] src_addr,
 		input [15:0] data,
 		input write,
-		output [15:0] dst_data,
-		output [15:0] src_data
+		output reg [15:0] dst_data,
+		output reg [15:0] src_data
 	);
 	
 	reg [15:0] RAM [15:0];
 	
 	// write back
-	always @(posedge clk)
-		if (write) RAM[dst_addr] <= data;
-		
-	assign dst_data = dst_addr ? RAM[dst_addr] : 0;
-	assign src_data = src_addr ? RAM[src_addr] : 0;	
+	always @(posedge clk) begin
+		if (write) begin
+			RAM[dst_addr] <= data;
+		end
+		dst_data <= RAM[dst_addr];
+		src_data <= RAM[src_addr];
+	end	
 
 endmodule

@@ -3,6 +3,8 @@
 import ply.lex as lex
 import math
 
+# once the lexer reaches a DATA token, data is set to True, and 
+# subsequent IMM tokens are parsed as data, not immediates.
 data = False
 tokens = (
 	'COMMA',
@@ -33,6 +35,7 @@ t_COMMA = r'\,'
 
 def t_MOVWI(t):
 	'movwi'
+	# movwi expands into movi, lui, so increment instruction count by 2
 	t.lexer.instr_count += 2
 	return t
 
@@ -59,6 +62,7 @@ def t_SCOND(t):
 	
 def t_BCOND(t):
 	r'b(?:eq|ne|ge|cs|cc|hi|ls|lo|hs|gt|le|fs|fc|lt|uc)'
+	# branch needs to know it's memory location to calculate relative jumps.
 	t.value = (t.value[1:], t.lexer.instr_count)
 	t.lexer.instr_count += 1
 	return t
@@ -71,7 +75,6 @@ def t_JCOND(t):
 	
 def t_NOT(t):
 	'not'
-	t.value = (t.value, t.lexer.instr_count)
 	t.lexer.instr_count += 1
 	return t
 
@@ -83,11 +86,13 @@ def t_IMM(t):
 	else:
 		t.value = int(t.value, 10)
 	if data:
+		# if inside the data segment, immediates encode to data
 		t.lexer.instr_count += 1
 	return t	
 
 def t_LABEL_DEF(t):
 	r"[a-zA-Z][_a-zA-Z0-9]*\:"
+	# on finding a label, add the label and the memory location it points to
 	t.lexer.symbol_table[t.value[:len(t.value)-1]] = t.lexer.instr_count
 	
 t_LABEL = r'[a-zA-Z][_a-zA-Z0-9]*'
@@ -115,12 +120,14 @@ def t_STRING(t):
 	return t
 
 def t_error(t):
-	print('Illegal character "' + t.value[0] + '"')
+	print('Illegal character "' + t.value + '" on line ' + str(t.lexer.lineno))
 	t.lexer.skip(1)
 
+# symbol table is a dictionary, with labels as keys and memory pointers as values 
 symbol_table = dict()
 	
 # lexing
 lexer = lex.lex()
+# instruction count allows the lexer to track the memory location for labels
 lexer.instr_count = 0
 lexer.symbol_table = symbol_table

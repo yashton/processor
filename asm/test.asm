@@ -24,6 +24,14 @@
 	# this instruction loads a pointer to the string foo (from the data segment)
 	movwi $s0, foo
 	
+	lshi $s0, 13
+	
+	movi $s1, 244
+	
+
+	movwi $t0, start
+	jne $t0
+
 	jhs $ra
 	top: add  $1, $0 # labels can be defined on their own line, or inline
 	stor $1, $12
@@ -32,6 +40,8 @@
 	
 	# labels are referenced by name (without the trailing colon)
 	beq	start
+	
+	jal $t0
 	
 	label: sub $5, $t1 # bork bork bork
 	bne start

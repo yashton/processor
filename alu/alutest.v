@@ -59,7 +59,7 @@ module alutest;
 	// Outputs
 	wire [15:0] uut_result, mock_result;
 	wire [4:0] uut_condOut, mock_condOut;
-	wire uut_condWr, mock_condWr;
+	wire [4:0] uut_condWr, mock_condWr;
 	
 	// Instantiate the Unit Under Test (UUT)
 	alu uut (
@@ -96,11 +96,17 @@ module alutest;
 		#10 clk = ~clk; 
 	end
 	
+	// Every clock edge, generate two random inputs.
 	always @(posedge clk) begin
 		dst <= $random();
 		src <= $random();
 	end
 
+	// There are four modes
+	// M_COND for operations that use a condition
+	// M_CARRY for addition and subtraction with carry
+	// M_DEFAULT for other operations
+	// M_SKIP for unused operations and don't cares.
 	reg [1:0] mode;
 	always @(*) begin
 		if (oper == BCOND || (oper == SPECIAL && (func == JCOND || func == SCOND))) begin
@@ -126,6 +132,7 @@ module alutest;
 	reg [8:0] condCode;
 	assign {cond, condIn} = condCode;
 	always @(posedge clk) begin
+		// For every non-skip operation, do 2048 tests.
 		if (mode == M_SKIP || i > 2048) begin
 			i <= 0;
 			code <= code + 1;
@@ -143,6 +150,7 @@ module alutest;
 	end
 
 	always @(posedge clk) begin
+		// At every clock edge, for non-skip operations, compare results.
 		if (mode != M_SKIP) begin
 			if (uut_result != mock_result) begin
 				$display("UUT result did not equal expected result.\nuut_result: %h mock_result: %h oper: %b func: %b cond: %b condIn: %b\n",
@@ -168,6 +176,7 @@ module alu_mockup
 		input [3:0] func,
 		input [3:0] cond,
 		input [4:0] condIn,
+		output [4:0] condWr,
 		output [4:0] condOut,
 		output reg [15:0] result
 	);
@@ -194,6 +203,7 @@ module alu_mockup
 	parameter C_ADD = 0, C_MULT = 1, C_SUB = 2, C_AND = 3, C_OR = 4, C_XOR = 5, C_PASS = 6, C_SLL = 7;
 	parameter C_SRL = 8, C_SAR = 9, C_LSH = 10, C_ASHU = 11, C_SCOND = 12, C_JUMP = 13, C_NOT = 14, C_LUI = 15;
 
+	// Condition code logic
 	reg condition;
 	wire c, l, f, z, n;
 	assign {c,l,f,z,n} = condIn;
@@ -218,12 +228,35 @@ module alu_mockup
 		endcase
 	end
 	
-	wire [15:0] sum, mult, sub, band, bor, bxor, passthrough, sll, srl, sar, lsh, ashu, scond, jump, bnot, lui;
-	wire cr, br, zr, fr, lr, nr;
+	// PSR Condition code generation.
+	wire cr_t, cr, br, zr, fr, lr, nr;
+	assign cr_t = (cr & addFunc) | (br && subFunc); // cr and br calculated in result
 	assign zr = result == 0;
 	assign fr = (dst[15] & src[15] & ~result[15]) | (~dst[15] & ~src[15] & result[15]);
 	assign lr = dst < src;
 	assign nr = result[15];
+	
+	assign condOut = {cr_t, lr, fr, zr, nr};
+	 
+	// PSR Condition code write flags.
+	wire cr_wr, lr_wr, fr_wr, zr_wr, nr_wr;
+	assign condWr = {cr_wr, lr_wr, fr_wr, zr_wr, nr_wr};
+	wire addFunc, subFunc, cmpFunc, zFunc;
+	assign addFunc = (oper == ADDI || oper == ADDCI || (oper == REGISTER && (func == F_ADD || func == F_ADDC)));
+	assign subFunc = (oper == SUBI || oper == SUBCI || (oper == REGISTER && (func == F_SUB || func == F_SUBC)));
+	assign cmpFunc = (oper == CMPI || (oper == REGISTER && func == F_CMP));
+	// This mess is the output of two Karnaugh maps of the operations that use zero flag.
+	assign zFunc = ((oper[1:0] != 2'b00 && oper[3:2] != 2'b11 && oper[2:0] != 3'b110) 
+		|| (oper == REGISTER && ((~func[2] & func[1:0] != 2'b00) | func[1:0] == 2'b11 |  func[3:1] == 3'b010)));
+	
+	assign cr_wr = addFunc | subFunc;
+	assign lr_wr = cmpFunc;
+	assign fr_wr = addFunc | subFunc;
+	assign zr_wr = zFunc;
+	assign nr_wr = cmpFunc | subFunc | addFunc;
+	
+	// Result calculations
+	wire [15:0] sum, mult, sub, band, bor, bxor, passthrough, sll, srl, sar, lsh, ashu, scond, jump, bnot, lui;
 	
 	wire cIn;
 	assign cIn = (oper == ADDCI || oper == SUBCI || (oper == REGISTER && (func == F_ADDC || func == F_SUBC))) & c;
@@ -253,6 +286,7 @@ module alu_mockup
 	assign bnot = ~dst;
 	assign lui = {src[7:0], dst[7:0]};
 	
+	// Output result mux.
 	reg [3:0] ctrl;	
 	always @(*) begin
 		case (ctrl)
@@ -276,6 +310,7 @@ module alu_mockup
 		endcase
 	end
    
+  // ALU operation selection logic.
   reg [3:0] regCtrl, specCtrl, shiftCtrl;
 	always @(*) begin
 		case (oper)
@@ -339,20 +374,5 @@ module alu_mockup
 		endcase
 	end
 	
-	wire cr_f, lr_f, fr_f, zr_f, nr_f;
-	wire addFunc, subFunc, cmpFunc, zFunc;
-	assign addFunc = (oper == ADDI || oper == ADDCI || (oper == REGISTER && (func == F_ADD || func == F_ADDC)));
-	assign subFunc = (oper == SUBI || oper == SUBCI || (oper == REGISTER && (func == F_SUB || func == F_SUBC)));
-	assign cmpFunc = (oper == CMPI || (oper == REGISTER && func == F_CMP));
-	// This mess is the output of two Karnaugh maps of the operations that use zero flag.
-	// Additionally, the Z flag is set for every operation that updates the register
-	// and therefore zFunc can be used as the write enable signal for the PSR
-	assign zFunc = ((oper[1:0] != 2'b00 && oper[3:2] != 2'b11 && oper[2:0] != 3'b110) 
-		|| (oper == REGISTER && ((~func[2] & func[1:0] != 2'b00) | func[1:0] == 2'b11 |  func[3:1] == 3'b010)));
-	assign cr_f = (cr & addFunc) || (br && subFunc);
-	assign lr_f = lr & cmpFunc;
-	assign fr_f = fr & (subFunc | addFunc);
-	assign zr_f = zr & zFunc;
-	assign nr_f = nr & (cmpFunc | addFunc | subFunc);
-	assign condOut = {cr_f, lr_f, fr_f, zr_f, nr_f};
+
 endmodule

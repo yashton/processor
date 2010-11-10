@@ -6,10 +6,40 @@
 // Design Name: GPU line buffer.
 // Module Name: line_buffer
 // Project Name: CS3710
-// Description: Provides memory for storing the line back buffer and z priority;
-// and memory for the line front buffer, which is access and sent to the palette.
-// NOTE: Currently does not handle sprites that overlap the edge of the 
-// screen (addr < 0 or addr + width > 640).
+// Description: Provides a front and back scan line buffer.
+//
+// Scanlines are calculated for the next upcoming line (the back buffer), while
+// the current scanline is being read into the palette color generator (the front
+// buffer). 
+// The front and back buffer is implemented using a single 1-kiloword block ram.
+// The top half of the memory block is used for one buffer, the bottom half
+// for the other. The topmost bit of the address switches which is the front.
+// Each buffer is 1024 bytes, of which only 640 are use. This is a benefit,
+// however, as any location off the screen will be written to the upper portion
+// of the buffer, which will never be drawn. Negative locations wrap around
+// to the top, while locations > 640 will simply be written above. Due to the
+// nature of the bounding, this will never be more than one tile on either side.
+// Additionally, there are small distributed memory blocks for storing a 
+// set of stale state flags for the front and back buffer. Because the RAM
+// cannot be cleared at the beginning of the next scanline, a separate flag
+// bit must be set. See pixel_updated_logic.v for details.
+// Additionally, the z information for each pixel must be stored, and another
+// small distributed memory is used for this.
+// 
+// The state machine of this module is fairly complicated, and utilizes a
+// form of pipelining to streamline the writing of large blocks of pixels.
+// The basic concept is a for loop
+//	for (current_tile = first; current_tile <= last; current_tile++)
+//	{
+//		write tile to buffer
+//	}
+//
+// Each tile is a 8-pixel slice, each pixel being 4 bits. To write a slice, 
+// there are two cases. If the slice falls evenly on a two 32 bit words, then two
+// writes can be performed. Otherwise, the slice falls offset across three 32
+// words. The key to the pipelining is that often more than one tile is being
+// written at a time, and the third word of an offset is the same as the 
+// first word of the next tile. This allows sequential writes to occur quickly.
 //////////////////////////////////////////////////////////////////////////////////
 module line_buffer
 	#(

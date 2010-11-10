@@ -13,6 +13,7 @@
 // Due to block ram implementation, the current palette uses a 512 x 32-bit block
 // ram. When accessing colors using the system memory bus, even addresses are {green, red}
 // and odd addresses are {unused, blue}.
+// Brightness is a scaling factor used for screen fading. 0 is fully off, 255 is full brightness
 //////////////////////////////////////////////////////////////////////////////////
 module palette
 	(

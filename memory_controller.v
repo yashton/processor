@@ -85,7 +85,7 @@ module memory_controller
 				other_memdata <= sprite_priority;
 			end
 			else if (memaddr == GPU_SR_ADDR) begin
-				other_memdata <= {hbright, vbright, 8'b00000000}; 
+				other_memdata <= {hbright, vbright}; 
 			end
 			else if (memaddr ==  SWITCH_LED_ADDR) begin
 				if (memwrite) begin
