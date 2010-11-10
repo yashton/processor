@@ -1,6 +1,5 @@
 TODO:
 Processor:
-	Implement PSR register
 		- modify alu.sym to include condWr[4:0]
 
 Testing:

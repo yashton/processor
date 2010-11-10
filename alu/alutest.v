@@ -68,9 +68,9 @@ module alutest;
 		.oper(oper), 
 		.func(func), 
 		.cond(cond),
-		.condIn(condIn),
-		.condOut(uut_condOut),
-		.condWr(uut_condWr),
+		.condIn(psrRead),
+		.condOut(uut_psrWrite),
+		.condWr(uut_psrWrEn),
 		.result(uut_result)
 	);
 	

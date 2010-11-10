@@ -23,7 +23,7 @@ module aluController(
     input [3:0] func,
     input [3:0] cond,
     output [4:0] aluCont,
-	 output [4:0] psrEn
+	 output [4:0] psrWrEn
     );
 	 
 	 // aluCont table
