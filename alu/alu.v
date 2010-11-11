@@ -8,20 +8,20 @@
 // Project Name: CS3710
 // Description: 
 //////////////////////////////////////////////////////////////////////////////////
-module alu(parameter WIDTH = 16)
+module alu#(parameter WIDTH = 16)
 	(
 		input [WIDTH-1:0] dst,
 		input [WIDTH-1:0] src,
 		input [3:0] oper,
 		input [3:0] func,
 		input [3:0] cond,
-		input [4:0] psrIn,
-		output [4:0] psrOut,
+		input [4:0] psrRead,
 		output [4:0] psrWrite,
+		output [4:0] psrWrEn,
 		output reg [WIDTH-1:0] result
 	);
 	wire [4:0] ctrl;
-	aluController aluctrl (oper, func, cond, ctrl, flagen);
+	aluController aluctrl (oper, func, cond, ctrl, psrWrEn);
 
 	 // aluCont table
 	 // 00000 = dst + src
@@ -53,7 +53,7 @@ module alu(parameter WIDTH = 16)
 			if ( ( (ctrl == 5'b00000) && ((oper == 4'b0111)  || (func == 4'b0111)) )
 				||((ctrl == 5'b00001) && ((oper == 4'b1010)  || (func == 4'b1010)) ) )
 			begin
-				c = psrIn[4];
+				c = psrRead[4];
 			end
 			else begin
 				c = 0;
@@ -91,5 +91,33 @@ module alu(parameter WIDTH = 16)
 			5'b01111: result <= dst >>> amt[4:0];
 		endcase
 	end
+	
+	// psrWrite = CLFZN
+	 if (result == 15'b0)
+	 begin
+		assign psrWrite[1] = 1;
+	 end
+	 
+	 if (result[15] == 1)
+	 begin
+		assign psrWrite[0] = 1;
+	 end
+	 
+	 if (result[15] == 1)
+	 begin
+		assign psrWrite[3] = 1;
+	 end
+	 
+	 assign psr[4] = cr;
+	 
+	 if(destination[15] & source[15])
+	 begin
+		assign psr[2] = ! result[15];
+	 end
+	 if(!destination[15] & ! source[15])
+	 begin
+		assign psr[2] = result[15];
+	 end
+	 
 endmodule
 
