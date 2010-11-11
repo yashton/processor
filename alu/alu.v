@@ -1,3 +1,4 @@
+
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: University of Utah
@@ -8,7 +9,8 @@
 // Project Name: CS3710
 // Description: 
 //////////////////////////////////////////////////////////////////////////////////
-module alu#(parameter WIDTH = 16)
+module alu
+	#(parameter WIDTH = 16)
 	(
 		input [WIDTH-1:0] dst,
 		input [WIDTH-1:0] src,
@@ -16,8 +18,8 @@ module alu#(parameter WIDTH = 16)
 		input [3:0] func,
 		input [3:0] cond,
 		input [4:0] psrRead,
-		output [4:0] psrWrite,
 		output [4:0] psrWrEn,
+		output [4:0] psrWrite,
 		output reg [WIDTH-1:0] result
 	);
 	wire [4:0] ctrl;
@@ -43,8 +45,9 @@ module alu#(parameter WIDTH = 16)
 	 // 01111 = amt = -Src[4:0]; (Dst >> amt) | ({amt{Dst[15]}} << (16-amt)) (ASHUI Right)
 	 // 10000= cond ? Dst + src : Dst (Bcond)
 	 // 10001= cond ? Src : Dst (Jcond)
-	wire [WIDTH-1:0]  amt, lsh, rsh, src2, sum, sumc;
-	wire cr, c;  
+	wire [WIDTH-1:0]  amt, lsh, rsh, src2, sum;//, sumc;
+	reg [WIDTH-1:0] sumc;
+	reg cr, c;  
 	assign amt 	= -src; //shift amount for right shift
 	assign lsh 	= dst<<src[3:0];
 	assign rsh 	= dst>>amt[3:0];
@@ -53,10 +56,10 @@ module alu#(parameter WIDTH = 16)
 			if ( ( (ctrl == 5'b00000) && ((oper == 4'b0111)  || (func == 4'b0111)) )
 				||((ctrl == 5'b00001) && ((oper == 4'b1010)  || (func == 4'b1010)) ) )
 			begin
-				c = psrRead[4];
+				c <= psrRead[4];
 			end
 			else begin
-				c = 0;
+				c <= 0;
 			end
 		end
 		
@@ -91,33 +94,5 @@ module alu#(parameter WIDTH = 16)
 			5'b01111: result <= dst >>> amt[4:0];
 		endcase
 	end
-	
-	// psrWrite = CLFZN
-	 if (result == 15'b0)
-	 begin
-		assign psrWrite[1] = 1;
-	 end
-	 
-	 if (result[15] == 1)
-	 begin
-		assign psrWrite[0] = 1;
-	 end
-	 
-	 if (result[15] == 1)
-	 begin
-		assign psrWrite[3] = 1;
-	 end
-	 
-	 assign psr[4] = cr;
-	 
-	 if(destination[15] & source[15])
-	 begin
-		assign psr[2] = ! result[15];
-	 end
-	 if(!destination[15] & ! source[15])
-	 begin
-		assign psr[2] = result[15];
-	 end
-	 
 endmodule
 
