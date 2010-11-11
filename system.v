@@ -9,7 +9,7 @@ module system
 	input [3:0] switches,
 	output [7:0] test_out
 	);
-   wire hbright;
+/*   wire hbright;
    wire vbright;
    wire [9:0] x, y;
    wire line_start;
@@ -21,7 +21,7 @@ module system
    wire sprite_memenable;
    wire [9:0] sprite_addr;
    wire tile_memenable;
-   wire [12:0] tile_addr;
+   wire [12:0] tile_addr; */
    wire [3:0] dst_addr;
    wire [3:0] src_addr;
    wire [1:0] regsrc;
@@ -42,9 +42,9 @@ module system
    wire [15:0] writedata;
    wire [15:0] memaddr;
    wire memwrite;
-   wire palette_memenable;
+  /* wire palette_memenable;
    wire [15:0] palette_memdata;
-   wire [9:0] palette_addr;
+   wire [9:0] palette_addr; */
 
    
    alu_schematic  alu (.aluSrcA(aluSrcA), 
@@ -109,26 +109,26 @@ module system
 //                      .tile_memdata(tile_memdata),
 //                      .palette_memdata(palette_memdata));
    memory_controller  memory (.clk(clk), 
-                             .hbright(hbright), 
-                             .memaddr(memaddr), 
-                             .memwrite(memwrite), 
-                             .pcaddr(pcaddr), 
                              .rst(rst), 
-                             .sprite_object_data(sprite_memdata), 
-                             .tile_data(tile_memdata), 
-                             .vbright(vbright), 
+                             .memaddr(memaddr), 
+                             .memwrite(memwrite),
                              .writedata(writedata), 
-                             .brightness(brightness), 
+                             .memdata(memdata),  
+                             .pcaddr(pcaddr), 
                              .instruction(instruction), 
-                             .memdata(memdata), 
-                             .sprite_object_addr(sprite_addr), 
-                             .sprite_object_enable(sprite_memenable), 
-                             .sprite_priority(sprite_priority), 
-                             .tile_data_addr(tile_addr), 
-                             .tile_data_enable(tile_memenable),
-                             .palette_enable(palette_memenable),
-                             .palette_addr(palette_addr),
-                             .palette_data(palette_memdata),
+//                             .sprite_object_data(sprite_memdata), 
+//                             .tile_data(tile_memdata), 
+//                             .vbright(vbright), 
+//                             .hbright(hbright), 
+//                             .brightness(brightness), 
+//                             .sprite_object_addr(sprite_addr), 
+//                             .sprite_object_enable(sprite_memenable), 
+//                             .sprite_priority(sprite_priority), 
+//                             .tile_data_addr(tile_addr), 
+//                             .tile_data_enable(tile_memenable),
+//                             .palette_enable(palette_memenable),
+//                             .palette_addr(palette_addr),
+//                             .palette_data(palette_memdata),
 									  .switches(switches),
 									  .test_out(test_out)
 									  );

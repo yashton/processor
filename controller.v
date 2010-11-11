@@ -60,7 +60,7 @@ module controller(
 	assign dstaddr = instruction[11:8];
 	
 	assign pcsrc = !alusrca;
-	assign pcwrite = nextstate == DECODE;
+	assign pcwrite = (oper == special && func == load) ? state == LOAD : state == CALCULATE;
 	assign pcaddrsrc[1] = !pcwrite;
 	assign pcaddrsrc[0] = state == BOOT ? 0 : pcsrc;
 
@@ -78,7 +78,7 @@ module controller(
 			|| (state == CALCULATE 
 					&& !(oper == cmpi 
 						|| oper == bcond 
-						|| (oper == register && func == fcmp) 
+						|| (oper == register && (func == fcmp || func == 4'b000)) 
 						|| (oper == special && (func == stor || func == jcond || func == load))));  
 
 	always @(*) begin
@@ -91,7 +91,7 @@ module controller(
 	end
 
 	always @(posedge clk) begin
-		if (rst)
+		if (!rst)
 			state <= BOOT;
 		else
 			state <= nextstate;

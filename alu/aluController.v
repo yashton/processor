@@ -77,7 +77,11 @@ module aluController(
 							aluContReg <= 5'b00000; 
 							psrEn  <= 5'b10111; 
 						end
-					4'b0111: aluContReg <= 5'b00000; // add (for addu)
+					4'b0111: 
+					 begin
+							aluContReg <= 5'b00000; // add (for addu)
+							psrEn  <= 5'b00000; 
+						end
 					4'b1001:  begin // sub (for sub)
 							aluContReg <= 5'b00001;
 							psrEn  <= 5'b10111; 
@@ -90,32 +94,90 @@ module aluController(
 							aluContReg <= 5'b00001;
 							psrEn  <= 5'b01011; 
 						end
-					4'b1101: aluContReg <= 5'b01000; // mov
-					4'b1110: aluContReg <= 5'b00010; // mul
+					4'b1101: begin
+						aluContReg <= 5'b01000; // mov
+						psrEn <= 5'b00000;
+						end
+					4'b1110: begin
+						aluContReg <= 5'b00010; // mul
+						psrEn <= 5'b00000;
+						end
 					4'b1111: begin // dst & src (for test)
 							 aluContReg <= 5'b00011; 
 							 psrEn  <= 5'b00010;
 						end
-					default: aluContReg <= 5'b00000; // don't care
+					default: 
+					 begin
+						aluContReg <= 5'b00000; // don't care
+						psrEn <= 5'b00000;
+						end
 				endcase
 			4'b0100:  // Special: loads, stores, tests, jumps
 				case(func)
-					4'b1000: aluContReg <= 5'b01000; // JAL
-					4'b1100: aluContReg <= 5'b10001; // jcond
-					4'b1101: aluContReg <= 5'b00111; // scond
-					default: aluContReg <= 5'b00000; // don't care
+					4'b1000: 
+						begin
+						aluContReg <= 5'b01000; // JAL
+						psrEn <= 5'b00000;
+						end
+					4'b1100: 
+						begin
+						aluContReg <= 5'b10001; // jcond
+						psrEn <= 5'b00000;
+						end
+					4'b1101: 
+						begin
+						aluContReg <= 5'b00111; // scond
+						psrEn <= 5'b00000;
+						end
+					default: 
+						begin
+						aluContReg <= 5'b00000; // don't care
+						psrEn <= 5'b00000;
+						end
 				endcase
 			4'b1000: // Shift
 				case(func)
-					4'b0000: aluContReg <= 5'b01100; // LSHI left
-					4'b0001: aluContReg <= 5'b01101; // LSHI right
-					4'b0010: aluContReg <= 5'b01100; // ASHUI left
-					4'b0011: aluContReg <= 5'b01111; // ASHUI right
-					4'b0100: aluContReg <= 5'b01011; // LSH
-					4'b0110: aluContReg <= 5'b01110; // ASHU
-					default: aluContReg <= 5'b00000; // don't care
+					4'b0000: 
+					begin
+						aluContReg <= 5'b01100; // LSHI left
+						psrEn <= 5'b00000;
+						end
+					4'b0001:
+					begin
+						aluContReg <= 5'b01101; // LSHI right
+						psrEn <= 5'b00000;
+						end
+					4'b0010: 
+					begin
+						aluContReg <= 5'b01100; // ASHUI left
+						psrEn <= 5'b00000;
+						end
+					4'b0011: 
+					begin
+						aluContReg <= 5'b01111; // ASHUI right
+						psrEn <= 5'b00000;
+						end
+					4'b0100: 
+					begin
+						aluContReg <= 5'b01011; // LSH
+						psrEn <= 5'b00000;
+						end
+					4'b0110: 
+					begin
+						aluContReg <= 5'b01110; // ASHU
+						psrEn <= 5'b00000;
+						end
+					default: 
+					begin
+						aluContReg <= 5'b00000; // don't care
+						psrEn <= 5'b00000;
+						end
 				endcase
-			4'b1100: aluContReg <= 5'b10000; // Bcond
+			4'b1100:
+				begin
+						aluContReg <= 5'b10000; // Bcond
+						psrEn <= 5'b00000;
+						end 
 			4'b0001: begin // logical andi
 					aluContReg <= 5'b00011; 
 					psrEn  <= 5'b00010;
@@ -136,7 +198,10 @@ module aluController(
 					aluContReg <= 5'b00000; 
 					psrEn  <= 5'b10111; 
 				end			
-			4'b0111: aluContReg <= 5'b00000; // add (for addui)
+			4'b0111: begin
+				aluContReg <= 5'b00000; // add (for addui)
+				psrEn <= 5'b00000;
+				end
 			4'b1001: begin // sub (for subi)
 					aluContReg <= 5'b00001;
 					psrEn  <= 5'b10111; 
@@ -147,12 +212,28 @@ module aluController(
 				end
 			4'b1011: begin // sub (for cmpi)
 					aluContReg <= 5'b00001;
-					psrEn  <= 5'b01011; 
+					psrEn  <= 5'b10111; 
 				end
-			4'b1101: aluContReg <= 5'b01000; // movi
-			4'b1110: aluContReg <= 5'b00010; // muli
-			4'b1111: aluContReg <= 5'b01001; // LUI
-			default: aluContReg <= 5'b00000; // don't care
+			4'b1101: 
+			 begin 
+					aluContReg <= 5'b01000; // movi
+					psrEn  <= 5'b00000; 
+				end
+			4'b1110:
+			 begin 
+					 aluContReg <= 5'b00010; // muli
+					psrEn  <= 5'b00000; 
+				end
+			4'b1111: 
+			 begin 
+					aluContReg <= 5'b01001; // LUI
+					psrEn  <= 5'b00000; 
+				end
+			default: 
+			 begin
+					aluContReg <= 5'b00000; // don't care
+					psrEn  <= 5'b00000; 
+				end
 		endcase
 		
 		assign aluCont = aluContReg;
