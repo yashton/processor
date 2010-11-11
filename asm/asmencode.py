@@ -104,12 +104,10 @@ reg_table = {
 	}
 	
 def hexstr(a, width):
-	'''Create a pure hexadecimal string of length width from integer a.'''
 	bytes = hex(a)[2:]
 	return '0'*(width-len(bytes)) + bytes
 	
 class RType:
-	'''Encodes R-type instructions'''
 	def __init__(self, oper, dst, src):
 		#print("parsed r-type.", "\toper:", oper, "\tdst:", dst, "\tsrc", src)
 		self.oper = oper
@@ -119,13 +117,11 @@ class RType:
 		
 
 class IType:
-	'''Encodes I-type isntructions'''
 	def __init__(self, oper, dst, imm):
 #		print("parsed i-type.", "\toper:", oper, "\tdst:", dst, "\timmed:", imm)
 	def encode(self, symbol_table):
 	
 class ShiftImm:
-	'''Encodes arithmetic and logical shifts by immediate values'''
 	def __init__(self, oper, dst, imm):
 #		print("parsed shift by immed.", "\toper:", oper, "\tdst:", dst, "\timmed:", imm)
 		self.oper = oper
@@ -139,7 +135,6 @@ class ShiftImm:
 
 		
 class Bcond:
-	'''Encodes branches'''
 	def __init__(self, cond, current, label, line):
 		#print("parsed bcond @", str(current), "." "\tcond", cond, "\ttarget:", label)
 		self.cond = cond
@@ -162,19 +157,16 @@ class Bcond:
 		return op + cond + imm
 
 class Jcond:
-	'''Encodes jumps'''
 	def __init__(self, cond, target):
 		#print("parsed jcond.", "\tcond:", cond, "\tdst:", dst)
 	def encode(self, symbol_table):
 
 class Scond:
-	'''Encodes status accesses'''
 	def __init__(self, cond, dst):
 		#print("parsed scond.", "\tcond:", cond, "\tdst:", dst)
 	def encode(self, symbol_table):
 		
 class Not:
-	'''Encodes the not operation'''
 	def __init__(self, dst):
 		#print("parsed not.", "\tdst:", dst)
 		self.dst = dst
@@ -185,7 +177,6 @@ class Not:
 		return op + reg + func + '0'
 		
 class Movwi:
-	'''Encodes the movwi pseudo-instruction. Encodes into a movi and a lui.'''
 	def __init__(self, dst, data, isLabel, line):
 #		if isLabel:
 #			print("parsed movwi.", "\tdst:", dst, "\tlabel:", data)
@@ -214,7 +205,6 @@ class Movwi:
 			return lower.encode(symbol_table) + "\n" + upper.encode(symbol_table)
 			
 class StringData:
-	'''Encodes ascii strings.'''
 	def __init__(self, data):
 		#print("parsed string.", "\tvalue: \"" + dst + "\"")
 		self.data = data
@@ -239,7 +229,6 @@ class StringData:
 		return output
 		
 class NumericData:
-	'''Encodes a 16-bit numerica data value'''
 	def __init__(self, data):
 		#print("parsed numeric data.", "\tvalue:", data)
 		self.data = data
