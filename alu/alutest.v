@@ -126,8 +126,8 @@ module alutest;
 		end
 		else if (oper[1:0] != 2'b00 
 			|| (oper == REGISTER && (func[1:0] != 2'b00 || func == F_NOT)) 
-			|| (oper == SPECIAL && func == JAL)
-			|| (oper == SHIFT && (func[3:2] == 2'b00 || func == LSH || func == ASHU))) begin
+			|| (oper == SPECIAL && func == JAL))begin
+			//|| (oper == SHIFT && (func[3:2] == 2'b00 || func == LSH || func == ASHU))) begin
 			mode <= M_DEFAULT;
 		end
 		else begin
@@ -162,6 +162,7 @@ module alutest;
 			if (uut_result != mock_result) begin
 				$display("UUT result did not equal expected result.\nuut_result: %h mock_result: %h oper: %b func: %b cond: %b psrRead: %b\n",
 					uut_result, mock_result, oper, func, cond, psrRead);
+				$finish();
 			end
 			if (uut_psrWrEn != mock_psrWrEn) begin
 				$display("UUT PSR write signal did not equal expected value.\nuut_condWr: %b mock_psrWrite: %b oper: %b func: %b cond: %b\n",
@@ -270,7 +271,7 @@ module alu_mockup
 	
 	wire [15:0] addr;
 	wire relative;
-	assign relative = func == BCOND;
+	assign relative = oper == BCOND;
 	assign addr = relative ? sum : src;
 	
 	wire [4:0] amt;
