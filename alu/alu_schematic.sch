@@ -34,10 +34,9 @@
         <signal name="pcaddrsrc(1:0)" />
         <signal name="signExtImm" />
         <signal name="Immediate(7:0)" />
-        <signal name="XLXN_130" />
         <signal name="XLXN_132(4:0)" />
-        <signal name="XLXN_133(4:0)" />
-        <signal name="XLXN_134(4:0)" />
+        <signal name="XLXN_135(4:0)" />
+        <signal name="XLXN_136(4:0)" />
         <port polarity="Input" name="pcSrc" />
         <port polarity="Output" name="writedata(15:0)" />
         <port polarity="Input" name="src_addr(3:0)" />
@@ -111,22 +110,22 @@
             <line x2="84" y1="-32" y2="-32" x1="0" />
         </blockdef>
         <blockdef name="bus16x4Mux">
-            <timestamp>2010-11-3T7:14:10</timestamp>
+            <timestamp>2010-11-11T6:48:24</timestamp>
             <line x2="320" y1="-272" y2="-176" x1="128" />
             <line x2="128" y1="-272" y2="124" x1="128" />
-            <rect width="64" x="64" y="-204" height="24" />
-            <line x2="64" y1="-192" y2="-192" x1="128" />
             <line x2="320" y1="128" y2="32" x1="128" />
             <line x2="320" y1="-176" y2="32" x1="320" />
             <line x2="240" y1="128" y2="72" x1="240" />
             <rect width="64" x="320" y="-92" height="24" />
             <line x2="384" y1="-80" y2="-80" x1="320" />
+            <rect width="64" x="64" y="36" height="24" />
+            <line x2="64" y1="48" y2="48" x1="128" />
             <rect width="64" x="64" y="-124" height="24" />
             <line x2="64" y1="-112" y2="-112" x1="128" />
             <rect width="64" x="64" y="-44" height="24" />
             <line x2="64" y1="-32" y2="-32" x1="128" />
-            <rect width="64" x="64" y="36" height="24" />
-            <line x2="64" y1="48" y2="48" x1="128" />
+            <rect width="64" x="64" y="-204" height="24" />
+            <line x2="64" y1="-192" y2="-192" x1="128" />
         </blockdef>
         <blockdef name="alu">
             <timestamp>2010-11-11T0:45:38</timestamp>
@@ -161,15 +160,16 @@
             <line x2="384" y1="-256" y2="-256" x1="448" />
         </blockdef>
         <blockdef name="psr">
-            <timestamp>2010-11-11T1:12:24</timestamp>
-            <rect width="304" x="64" y="-192" height="192" />
+            <timestamp>2010-11-11T5:16:24</timestamp>
+            <rect width="304" x="64" y="-192" height="252" />
             <line x2="0" y1="-160" y2="-160" x1="64" />
-            <rect width="64" x="0" y="-108" height="24" />
-            <line x2="0" y1="-96" y2="-96" x1="64" />
-            <rect width="64" x="0" y="-44" height="24" />
-            <line x2="0" y1="-32" y2="-32" x1="64" />
             <rect width="64" x="368" y="-172" height="24" />
             <line x2="432" y1="-160" y2="-160" x1="368" />
+            <rect width="64" x="0" y="-44" height="24" />
+            <line x2="0" y1="-32" y2="-32" x1="64" />
+            <rect width="64" x="0" y="20" height="24" />
+            <line x2="0" y1="32" y2="32" x1="64" />
+            <line x2="0" y1="-96" y2="-96" x1="64" />
         </blockdef>
         <block symbolname="regfile" name="registerFile">
             <blockpin signalname="XLXN_20(15:0)" name="data(15:0)" />
@@ -195,12 +195,12 @@
             <blockpin signalname="XLXN_129(15:0)" name="pc(15:0)" />
         </block>
         <block symbolname="bus16x4Mux" name="regsrcMux">
-            <blockpin signalname="result(15:0)" name="x(15:0)" />
             <blockpin signalname="regsrc(1:0)" name="c(1:0)" />
             <blockpin signalname="XLXN_20(15:0)" name="mout(15:0)" />
-            <blockpin signalname="XLXN_115(15:0)" name="y(15:0)" />
-            <blockpin signalname="memdata(15:0)" name="w(15:0)" />
             <blockpin signalname="memdata(15:0)" name="z(15:0)" />
+            <blockpin signalname="XLXN_115(15:0)" name="x(15:0)" />
+            <blockpin signalname="memdata(15:0)" name="y(15:0)" />
+            <blockpin signalname="result(15:0)" name="w(15:0)" />
         </block>
         <block symbolname="bus16Mux" name="aluSrcBMux">
             <blockpin signalname="aluSrcB" name="c" />
@@ -215,19 +215,19 @@
             <blockpin signalname="XLXN_6(15:0)" name="z(15:0)" />
         </block>
         <block symbolname="bus16x4Mux" name="pcMux">
-            <blockpin signalname="XLXN_115(15:0)" name="x(15:0)" />
             <blockpin signalname="pcaddrsrc(1:0)" name="c(1:0)" />
             <blockpin signalname="pcaddr(15:0)" name="mout(15:0)" />
-            <blockpin signalname="result(15:0)" name="y(15:0)" />
-            <blockpin signalname="XLXN_129(15:0)" name="w(15:0)" />
             <blockpin signalname="XLXN_129(15:0)" name="z(15:0)" />
+            <blockpin signalname="result(15:0)" name="x(15:0)" />
+            <blockpin signalname="XLXN_129(15:0)" name="y(15:0)" />
+            <blockpin signalname="XLXN_115(15:0)" name="w(15:0)" />
         </block>
         <block symbolname="signExtend" name="signExt">
             <blockpin signalname="XLXN_126(15:0)" name="extImm(15:0)" />
             <blockpin signalname="Immediate(7:0)" name="immediate(7:0)" />
             <blockpin signalname="signExtImm" name="signExtImm" />
         </block>
-        <block symbolname="alu" name="XLXI_2">
+        <block symbolname="alu" name="aluChip">
             <blockpin signalname="XLXN_6(15:0)" name="dst(15:0)" />
             <blockpin signalname="oper(3:0)" name="oper(3:0)" />
             <blockpin signalname="func(3:0)" name="func(3:0)" />
@@ -235,14 +235,15 @@
             <blockpin signalname="cond(3:0)" name="cond(3:0)" />
             <blockpin signalname="XLXN_132(4:0)" name="psrRead(4:0)" />
             <blockpin signalname="result(15:0)" name="result(15:0)" />
-            <blockpin signalname="XLXN_133(4:0)" name="psrWrite(4:0)" />
-            <blockpin signalname="XLXN_134(4:0)" name="psrWrEn(4:0)" />
+            <blockpin signalname="XLXN_135(4:0)" name="psrWrite(4:0)" />
+            <blockpin signalname="XLXN_136(4:0)" name="psrWrEn(4:0)" />
         </block>
-        <block symbolname="psr" name="XLXI_4">
+        <block symbolname="psr" name="psrReg">
             <blockpin signalname="clk" name="clk" />
-            <blockpin signalname="XLXN_133(4:0)" name="psrWrEn(4:0)" />
-            <blockpin signalname="XLXN_134(4:0)" name="psrWrite(4:0)" />
             <blockpin signalname="XLXN_132(4:0)" name="psrRead(4:0)" />
+            <blockpin signalname="XLXN_136(4:0)" name="psrWrEn(4:0)" />
+            <blockpin signalname="XLXN_135(4:0)" name="psrWrite(4:0)" />
+            <blockpin signalname="rst" name="rst" />
         </block>
     </netlist>
     <sheet sheetnum="1" width="3520" height="2720">
@@ -360,7 +361,10 @@
         </branch>
         <iomarker fontsize="28" x="2608" y="816" name="pcaddrsrc(1:0)" orien="R180" />
         <branch name="rst">
-            <wire x2="480" y1="1152" y2="1152" x1="240" />
+            <wire x2="384" y1="1152" y2="1152" x1="240" />
+            <wire x2="480" y1="1152" y2="1152" x1="384" />
+            <wire x2="384" y1="1152" y2="2400" x1="384" />
+            <wire x2="2208" y1="2400" y2="2400" x1="384" />
         </branch>
         <instance x="480" y="1184" name="programCounter" orien="R0">
         </instance>
@@ -416,7 +420,7 @@
         <instance x="1936" y="2144" name="aluSrcBMux" orien="R0">
         </instance>
         <iomarker fontsize="28" x="2160" y="1488" name="aluSrcA" orien="R180" />
-        <instance x="2528" y="1984" name="XLXI_2" orien="R0">
+        <instance x="2528" y="1984" name="aluChip" orien="R0">
         </instance>
         <branch name="oper(3:0)">
             <wire x2="2672" y1="1952" y2="2080" x1="2672" />
@@ -435,25 +439,25 @@
             <wire x2="2144" y1="2160" y2="2304" x1="2144" />
         </branch>
         <iomarker fontsize="28" x="1920" y="2304" name="aluSrcB" orien="R180" />
-        <instance x="2208" y="2496" name="XLXI_4" orien="R0">
+        <instance x="2208" y="2496" name="psrReg" orien="R0">
         </instance>
         <branch name="XLXN_132(4:0)">
             <wire x2="2816" y1="2336" y2="2336" x1="2640" />
             <wire x2="2816" y1="1952" y2="2336" x1="2816" />
         </branch>
-        <branch name="XLXN_133(4:0)">
-            <wire x2="2208" y1="2400" y2="2400" x1="2064" />
-            <wire x2="2064" y1="2400" y2="2624" x1="2064" />
-            <wire x2="3072" y1="2624" y2="2624" x1="2064" />
-            <wire x2="3072" y1="1680" y2="1680" x1="2976" />
-            <wire x2="3072" y1="1680" y2="2624" x1="3072" />
+        <branch name="XLXN_135(4:0)">
+            <wire x2="2208" y1="2528" y2="2528" x1="2128" />
+            <wire x2="2128" y1="2528" y2="2640" x1="2128" />
+            <wire x2="3056" y1="2640" y2="2640" x1="2128" />
+            <wire x2="3056" y1="1680" y2="1680" x1="2976" />
+            <wire x2="3056" y1="1680" y2="2640" x1="3056" />
         </branch>
-        <branch name="XLXN_134(4:0)">
-            <wire x2="2208" y1="2464" y2="2464" x1="2128" />
-            <wire x2="2128" y1="2464" y2="2544" x1="2128" />
-            <wire x2="3040" y1="2544" y2="2544" x1="2128" />
+        <branch name="XLXN_136(4:0)">
+            <wire x2="2208" y1="2464" y2="2464" x1="2160" />
+            <wire x2="2160" y1="2464" y2="2608" x1="2160" />
+            <wire x2="3040" y1="2608" y2="2608" x1="2160" />
             <wire x2="3040" y1="1728" y2="1728" x1="2976" />
-            <wire x2="3040" y1="1728" y2="2544" x1="3040" />
+            <wire x2="3040" y1="1728" y2="2608" x1="3040" />
         </branch>
     </sheet>
 </drawing>

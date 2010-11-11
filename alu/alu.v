@@ -1,4 +1,4 @@
-
+	
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: University of Utah
@@ -23,7 +23,7 @@ module alu
 		output reg [WIDTH-1:0] result
 	);
 	wire [4:0] ctrl;
-	aluController aluctrl (oper, func, cond, ctrl, psrWrEn);
+	aluController aluctrl (oper, func, ctrl, psrWrEn);
 
 	 // aluCont table
 	 // 00000 = dst + src
@@ -49,7 +49,7 @@ module alu
 	localparam EQ = 0, NE = 1, CS = 2, CC = 3, HI = 4, LS = 5, GT = 6, LE = 7;
 	localparam FS = 8, FC = 9, LO = 10, HS = 11, LT = 12, GE = 13, UC = 14;
 
-	wire [WIDTH-1:0]  lsh, rsh, src2, sum;//, sumc;
+	wire [WIDTH-1:0]  lsh, rsh;//, sumc;
 	reg [WIDTH-1:0] sumc;
 	wire [4:0] amt;
 	reg cr, car;  
@@ -130,6 +130,13 @@ module alu
 		endcase
 	end
 	
+	// psrWrite = CLFZN
+	assign psrWrite[1] = (result == 15'b0);
+	assign psrWrite[0] = result[15];
+	assign psrWrite[3] = result[15];
+	assign psrWrite[4] = cr;
+	assign psrWrite[2] = (dst[15] & src[15] & !result[15])
+			|(!dst[15] & !src[15] & result[15]);
 
 endmodule
 

@@ -48,7 +48,7 @@ module controller(
 	parameter load = 4'b0000, stor = 4'b0100, jal= 4'b1000, jcond= 4'b1100, scond= 4'b1101;
 	
 	// state machine
-	parameter [1:0] DECODE = 0, CALCULATE = 1, LOAD = 2;
+	parameter [1:0] DECODE = 0, CALCULATE = 1, LOAD = 2, BOOT = 3;
 	reg [1:0]state, nextstate;
 	
 	assign oper = instruction[15:12];
@@ -62,8 +62,8 @@ module controller(
 	assign pcsrc = !alusrca;
 	assign pcwrite = nextstate == DECODE;
 	assign pcaddrsrc[1] = !pcwrite;
-	assign pcaddrsrc[0] = pcsrc;
-	
+	assign pcaddrsrc[0] = state == BOOT ? 0 : pcsrc;
+
 	assign alusrca = !(oper == bcond 
 			|| (oper == special && (func == load || func == jal)));
 	assign alusrcb = (oper[1:0] != 2'b00) 
@@ -91,14 +91,16 @@ module controller(
 	end
 
 	always @(posedge clk) begin
-		if (!rst)
-			state <= DECODE;
+		if (rst)
+			state <= BOOT;
 		else
 			state <= nextstate;
 	end 
 
 	always @(*) begin
 		case (state)
+			BOOT:
+				nextstate <= DECODE;
 			DECODE: 
 				nextstate <= CALCULATE;
 			CALCULATE:

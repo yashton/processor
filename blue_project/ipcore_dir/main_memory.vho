@@ -38,6 +38,7 @@ component main_memory
 	dina: IN std_logic_VECTOR(15 downto 0);
 	douta: OUT std_logic_VECTOR(15 downto 0);
 	clkb: IN std_logic;
+	rstb: IN std_logic;
 	web: IN std_logic_VECTOR(0 downto 0);
 	addrb: IN std_logic_VECTOR(12 downto 0);
 	dinb: IN std_logic_VECTOR(15 downto 0);
@@ -63,6 +64,7 @@ your_instance_name : main_memory
 			dina => dina,
 			douta => douta,
 			clkb => clkb,
+			rstb => rstb,
 			web => web,
 			addrb => addrb,
 			dinb => dinb,

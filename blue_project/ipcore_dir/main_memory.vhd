@@ -49,6 +49,7 @@ ENTITY main_memory IS
 	dina: IN std_logic_VECTOR(15 downto 0);
 	douta: OUT std_logic_VECTOR(15 downto 0);
 	clkb: IN std_logic;
+	rstb: IN std_logic;
 	web: IN std_logic_VECTOR(0 downto 0);
 	addrb: IN std_logic_VECTOR(12 downto 0);
 	dinb: IN std_logic_VECTOR(15 downto 0);
@@ -66,6 +67,7 @@ component wrapped_main_memory
 	dina: IN std_logic_VECTOR(15 downto 0);
 	douta: OUT std_logic_VECTOR(15 downto 0);
 	clkb: IN std_logic;
+	rstb: IN std_logic;
 	web: IN std_logic_VECTOR(0 downto 0);
 	addrb: IN std_logic_VECTOR(12 downto 0);
 	dinb: IN std_logic_VECTOR(15 downto 0);
@@ -100,7 +102,7 @@ end component;
 			c_xdevicefamily => "spartan3e",
 			c_write_depth_b => 8192,
 			c_write_depth_a => 8192,
-			c_has_rstb => 0,
+			c_has_rstb => 1,
 			c_has_rsta => 0,
 			c_has_mux_output_regs_b => 0,
 			c_inita_val => "0",
@@ -140,6 +142,7 @@ U0 : wrapped_main_memory
 			dina => dina,
 			douta => douta,
 			clkb => clkb,
+			rstb => rstb,
 			web => web,
 			addrb => addrb,
 			dinb => dinb,

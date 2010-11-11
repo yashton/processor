@@ -22,22 +22,27 @@ module psr(
     input [4:0] psrWrEn,
     input [4:0] psrWrite,
 	 input clk,
+	 input rst,
     output [4:0] psrRead
     );
 	 
 	 reg [4:0] psrReg;
 	 
+	 
 	 always@(posedge clk)
 	 begin
-		if (psrWrEn[0]) psrReg[0] <= psrWrite[0];
-		if (psrWrEn[1]) psrReg[1] <= psrWrite[1];
-		if (psrWrEn[2]) psrReg[2] <= psrWrite[2];
-		if (psrWrEn[3]) psrReg[3] <= psrWrite[3];
-		if (psrWrEn[4]) psrReg[4] <= psrWrite[4];
+		if (!rst) psrReg[4:0] <= 5'b0;
+		else
+		begin
+			if (psrWrEn[0]) psrReg[0] <= psrWrite[0];
+			if (psrWrEn[1]) psrReg[1] <= psrWrite[1];
+			if (psrWrEn[2]) psrReg[2] <= psrWrite[2];
+			if (psrWrEn[3]) psrReg[3] <= psrWrite[3];
+			if (psrWrEn[4]) psrReg[4] <= psrWrite[4];
+		end
 	 end
-	 always
-	 begin
-		psrRead = psrReg;
-	 end
+ 
+	assign psrRead = psrReg;
+
 	 
 endmodule

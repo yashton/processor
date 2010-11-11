@@ -4,9 +4,11 @@ module system
 	(
    input clk,
    input rst,
-   output bright, hsync, vsync,
-   output [7:0] R, G, B
-  );
+   //output bright, hsync, vsync,
+   //output [7:0] R, G, B
+	input [3:0] switches,
+	output [7:0] test_out
+	);
    wire hbright;
    wire vbright;
    wire [9:0] x, y;
@@ -43,6 +45,7 @@ module system
    wire palette_memenable;
    wire [15:0] palette_memdata;
    wire [9:0] palette_addr;
+
    
    alu_schematic  alu (.aluSrcA(aluSrcA), 
                       .aluSrcB(aluSrcB), 
@@ -82,29 +85,29 @@ module system
                        .regwrite(regwrite), 
                        .sign_ext_imm(signExtImm), 
                        .srcaddr(src_addr));
-   gpu_schematic  gpu (
-                      .clk(clk), 
-                      .rst(rst), 
-                      .line_start(line_start), 
-                      .memwrite(memwrite), 
-                      .brightness(brightness), 
-                      .palette_addr(palette_addr), 
-                      .palette_memenable(palette_memenable),
-                      .sprite_addr(sprite_addr), 
-                      .sprite_memenable(sprite_memenable), 
-                      .sprite_priority(sprite_priority), 
-                      .tile_addr(tile_addr), 
-                      .tile_memenable(tile_memenable), 
-                      .vlookahead(vlookahead), 
-                      .writedata(writedata), 
-                      .x(x), 
-                      .y(y), 
-                      .R(R), 
-                      .G(G), 
-                      .B(B), 
-                      .sprite_memdata(sprite_memdata), 
-                      .tile_memdata(tile_memdata),
-                      .palette_memdata(palette_memdata));
+//   gpu_schematic  gpu (
+//                      .clk(clk), 
+//                      .rst(rst), 
+//                      .line_start(line_start), 
+//                      .memwrite(memwrite), 
+//                      .brightness(brightness), 
+//                      .palette_addr(palette_addr), 
+//                      .palette_memenable(palette_memenable),
+//                      .sprite_addr(sprite_addr), 
+//                      .sprite_memenable(sprite_memenable), 
+//                      .sprite_priority(sprite_priority), 
+//                      .tile_addr(tile_addr), 
+//                      .tile_memenable(tile_memenable), 
+//                      .vlookahead(vlookahead), 
+//                      .writedata(writedata), 
+//                      .x(x), 
+//                      .y(y), 
+//                      //.R(R), 
+//                      //.G(G), 
+//                      //.B(B), 
+//                      .sprite_memdata(sprite_memdata), 
+//                      .tile_memdata(tile_memdata),
+//                      .palette_memdata(palette_memdata));
    memory_controller  memory (.clk(clk), 
                              .hbright(hbright), 
                              .memaddr(memaddr), 
@@ -125,16 +128,19 @@ module system
                              .tile_data_enable(tile_memenable),
                              .palette_enable(palette_memenable),
                              .palette_addr(palette_addr),
-                             .palette_data(palette_memdata));
-   vga  vga_ctrl (.clk(clk), 
-                 .rst(rst), 
-                 .bright(bright), 
-                 .hbright(hbright), 
-                 .hsync(hsync), 
-                 .line_start(line_start), 
-                 .vbright(vbright), 
-                 .vlookahead(vlookahead), 
-                 .vsync(vsync), 
-                 .x(x), 
-                 .y(y));
+                             .palette_data(palette_memdata),
+									  .switches(switches),
+									  .test_out(test_out)
+									  );
+//   vga  vga_ctrl (.clk(clk), 
+//                 .rst(rst), 
+//                 .bright(bright), 
+//                 //.hbright(hbright), 
+//                 .hsync(hsync), 
+//                 .line_start(line_start), 
+//                 //.vbright(vbright), 
+//                 .vlookahead(vlookahead), 
+//                 .vsync(vsync), 
+//                 .x(x), 
+//                 .y(y));
 endmodule

@@ -18,7 +18,7 @@ module pc
 		output [15:0] pc_plus_one
 	);
 	assign pc_plus_one = pc + 1;
-	always @(posedge clk) begin
+	always @(posedge clk, negedge rst) begin
 		if (!rst) begin
 			pc <= 0;
 		end

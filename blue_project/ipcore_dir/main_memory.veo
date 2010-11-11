@@ -39,6 +39,7 @@ main_memory YourInstanceName (
 	.dina(dina), // Bus [15 : 0] 
 	.douta(douta), // Bus [15 : 0] 
 	.clkb(clkb),
+	.rstb(rstb),
 	.web(web), // Bus [0 : 0] 
 	.addrb(addrb), // Bus [12 : 0] 
 	.dinb(dinb), // Bus [15 : 0] 

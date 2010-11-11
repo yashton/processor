@@ -27,6 +27,6 @@ module signExtend(
 		if (signExtImm)
 			extImm <= {{8{immediate[7]}},immediate};	
 		else
-			extImm <= {{8{0}},immediate};
+			extImm <= {8'b0,immediate};
 	end
 endmodule

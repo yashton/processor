@@ -45,6 +45,7 @@ module main_memory(
 	dina,
 	douta,
 	clkb,
+	rstb,
 	web,
 	addrb,
 	dinb,
@@ -58,6 +59,7 @@ input [12 : 0] addra;
 input [15 : 0] dina;
 output [15 : 0] douta;
 input clkb;
+input rstb;
 input [0 : 0] web;
 input [12 : 0] addrb;
 input [15 : 0] dinb;
@@ -85,7 +87,7 @@ output [15 : 0] doutb;
 		.C_HAS_REGCEA(0),
 		.C_HAS_REGCEB(0),
 		.C_HAS_RSTA(0),
-		.C_HAS_RSTB(0),
+		.C_HAS_RSTB(1),
 		.C_HAS_SOFTECC_INPUT_REGS_A(0),
 		.C_HAS_SOFTECC_OUTPUT_REGS_B(0),
 		.C_INITA_VAL("0"),
@@ -127,13 +129,13 @@ output [15 : 0] doutb;
 		.DINA(dina),
 		.DOUTA(douta),
 		.CLKB(clkb),
+		.RSTB(rstb),
 		.WEB(web),
 		.ADDRB(addrb),
 		.DINB(dinb),
 		.DOUTB(doutb),
 		.RSTA(),
 		.REGCEA(),
-		.RSTB(),
 		.ENB(),
 		.REGCEB(),
 		.INJECTSBITERR(),

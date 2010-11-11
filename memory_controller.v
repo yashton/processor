@@ -62,7 +62,7 @@ module memory_controller
 	assign palette_addr = memaddr - PALETTE_ADDR;
 	wire [15:0] programout;
 	main_memory programMemory (.clka(clk), .clkb(clk), .addra(memaddr[12:0]), .wea(memwrite), .ena(programen), .dina(writedata), .douta(programout), 
-										 .addrb(pcaddr[12:0]), .web(1'b0), .dinb(16'b0), .doutb(instruction));
+										 .addrb(pcaddr[12:0]), .web(1'b0), .dinb(16'b0), .doutb(instruction), .rstb(~rst));
 	
 	// Memory mapped access - misc
 	reg [15:0] other_memdata;

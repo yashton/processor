@@ -21,13 +21,12 @@
 module aluController(
     input [3:0] oper,
     input [3:0] func,
-    input [3:0] cond,
     output [4:0] aluCont,
 	 output [4:0] psrWrEn
     );
 	 
-	 reg [15:0] aluContReg;
-	 reg [15:0] psrEn;
+	 reg [4:0] aluContReg;
+	 reg [4:0] psrEn;
 	 
 	 // aluCont table
 	 // 00000 = dst + src
