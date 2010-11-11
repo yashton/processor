@@ -54,12 +54,13 @@ module alutest;
 	wire [3:0] oper;
 	wire [3:0] func;
 	wire [3:0] cond;
-	wire [4:0] condIn;
-	
+	wire [4:0] psrRead;
+	//wire [4:0] psrWrite;
+	//wire [4:0] psrWrEn;
 	// Outputs
 	wire [15:0] uut_result, mock_result;
-	wire [4:0] uut_condOut, mock_condOut;
-	wire [4:0] uut_condWr, mock_condWr;
+	wire [4:0] uut_psrWrite, mock_psrWrite;
+	wire [4:0] uut_psrWrEn, mock_psrWrEn;
 	
 	// Instantiate the Unit Under Test (UUT)
 	alu uut (
@@ -68,46 +69,54 @@ module alutest;
 		.oper(oper), 
 		.func(func), 
 		.cond(cond),
-		.condIn(condIn),
-		.condOut(uut_condOut),
-		.condWr(uut_condWr),
+		.psrRead(psrRead),
+		.psrWrite(uut_psrWrite),
+		.psrWrEn(uut_psrWrEn),
 		.result(uut_result)
 	);
 	
-	alu_mockup uut(
+	alu_mockup mock(
 		.dst(dst), 
 		.src(src), 
 		.oper(oper), 
 		.func(func), 
 		.cond(cond),
-		.condIn(condIn),
-		.condOut(mock_condOut),
-		.condWr(mock_condWr),
+		.psrRead(psrRead),
+		.psrWrite(mock_psrWrite),
+		.psrWrEn(mock_psrWrEn),
 		.result(mock_result)
 	);
 
 	
+	integer i;
 	reg clk;
+	reg [1:0] mode;
+	reg [7:0] code;
+	reg [8:0] condCode;
 	initial begin
 		clk = 0;
+		i = 0;
+		mode = 0;
+		code = 0;
+		condCode = 0;
+		code = 0;
 	end
 	
-	always @(*) begin
+	always begin
 		#10 clk = ~clk; 
 	end
 	
 	// Every clock edge, generate two random inputs.
 	always @(posedge clk) begin
 		dst <= $random();
-		src <= $random();
+		src <= $random();  
 	end
-
+ 
 	// There are four modes
 	// M_COND for operations that use a condition
 	// M_CARRY for addition and subtraction with carry
 	// M_DEFAULT for other operations
 	// M_SKIP for unused operations and don't cares.
-	reg [1:0] mode;
 	always @(*) begin
 		if (oper == BCOND || (oper == SPECIAL && (func == JCOND || func == SCOND))) begin
 			mode <= M_COND;
@@ -126,11 +135,9 @@ module alutest;
 		end
 	end
 
-	integer i;
-	reg [7:0] code;
 	assign {oper, func} = code;
-	reg [8:0] condCode;
-	assign {cond, condIn} = condCode;
+
+	assign {cond, psrRead} = condCode;
 	always @(posedge clk) begin
 		// For every non-skip operation, do 2048 tests.
 		if (mode == M_SKIP || i > 2048) begin
@@ -153,16 +160,16 @@ module alutest;
 		// At every clock edge, for non-skip operations, compare results.
 		if (mode != M_SKIP) begin
 			if (uut_result != mock_result) begin
-				$display("UUT result did not equal expected result.\nuut_result: %h mock_result: %h oper: %b func: %b cond: %b condIn: %b\n",
-					uut_result, mock_result, oper, func, cond, condIn);
+				$display("UUT result did not equal expected result.\nuut_result: %h mock_result: %h oper: %b func: %b cond: %b psrRead: %b\n",
+					uut_result, mock_result, oper, func, cond, psrRead);
 			end
-			if (uut_condWr != mock_condWr) begin
-				$display("UUT PSR write signal did not equal expected value.\nuut_condWr: %b mock_condWr: %b oper: %b func: %b cond: %b\n",
-					uut_condWr, mock_condWr, oper, func, cond);
+			if (uut_psrWrEn != mock_psrWrEn) begin
+				$display("UUT PSR write signal did not equal expected value.\nuut_condWr: %b mock_psrWrite: %b oper: %b func: %b cond: %b\n",
+					uut_psrWrEn, mock_psrWrEn, oper, func, cond);
 			end
-			if (uut_condOut != mock_condWr) begin
-				$display("UUT PSR output did not equal expected value.\nuut_condWr: %b mock_condWr: %b oper: %b func: %b cond: %b\n",
-					uut_condOut, mock_condOut, oper, func, cond);
+			if (uut_psrWrite != mock_psrWrite) begin
+				$display("UUT PSR output did not equal expected value.\nuut_condWr: %b mock_psrWrite: %b oper: %b func: %b cond: %b\n",
+					uut_psrWrite, mock_psrWrite, oper, func, cond);
 			end
 		end
 	end
@@ -175,9 +182,9 @@ module alu_mockup
 		input [3:0] oper,
 		input [3:0] func,
 		input [3:0] cond,
-		input [4:0] condIn,
-		output [4:0] condWr,
-		output [4:0] condOut,
+		input [4:0] psrRead,
+		output [4:0] psrWrite,
+		output [4:0] psrWrEn,
 		output reg [15:0] result
 	);
 	
@@ -206,7 +213,7 @@ module alu_mockup
 	// Condition code logic
 	reg condition;
 	wire c, l, f, z, n;
-	assign {c,l,f,z,n} = condIn;
+	assign {c,l,f,z,n} = psrRead;
 	always @(*) begin
 		case (cond)
 			EQ: condition = z;
