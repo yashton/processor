@@ -31,29 +31,35 @@
 
 
 
-# Register usage: $0=n, $1=f1, $2=f2, $3 = i, $4 = x $5 = 0x4803
+.define SWITCHES 0x4803
+# Register usage: $0=n, $1=f1, $2=f2, $3 = i, $4 = x $5 = 0x4803 $6 = temp
 # return value written to register $7
-fibn:		movi $0, 8		# initialize n = 8
+fibn:	movi $0, 16		# initialize n = 8
 		movi $1, 1		# initialize f1 = 1
 		movi $2, -1		# initialize f2 = -1
-		movi $3, 0		#int i = 0
-		movi $5, 0x03
-		lui  $5, 0x48
-loop:		cmpi $0,0 
-		beq  end		# Done with loop if n = 0
+		lui $2, -1
+		movi $3, 0		# int i = 0
+		movwi $6, 0x1000 # pointer to array (accessor)
+		movwi $9, 0x1000 # pointer to array 
+		movwi $5, SWITCHES
+loop:	cmpi $0,0 
+		beq  end		# Done with loop if n == 0
 		add  $1, $2		# f1 = f1 + f2
-		sub  $2, $1		# f2 = f1 - f2
+		mov  $10, $1	# temp = f1
+		sub  $10, $2		# temp = temp - f2
+		mov  $2, $10	# f2 = temp
 		subi $0, 1		# n = n - 1
-		stor $1, $6
-		subi $6, $6, 1
-		j loop			# repeat until done
+		stor $1, $6		
+		addi $6, 1		#ptr++
+		movwi $8, loop	# repeat until done
+		juc  $8		
 end:
 loop2:
-		load $7, $5
-		add  $7, $6
+		load $7, $5		#value of switches into return register
+		add  $7, $9		
 		load $4, $7
-		stor $5, $7
-j loop2
+		stor $4, $5
+		buc  loop2		# repeat until done
 		
 # C-code that this assembly code came from
 #

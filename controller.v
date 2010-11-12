@@ -53,7 +53,7 @@ module controller(
 	
 	assign oper = instruction[15:12];
 	assign func = instruction[7:4];
-	assign cond = (oper == special && func == scond) ?  instruction[3:0] : instruction[7:4];
+	assign cond = (oper == special && func == scond) ?  instruction[3:0] : instruction[11:8];
 	assign immediate = instruction[7:0];
 	
 	assign srcaddr = instruction[3:0];
@@ -65,9 +65,10 @@ module controller(
 	assign pcaddrsrc[0] = state == BOOT ? 0 : pcsrc;
 
 	assign alusrca = !(oper == bcond 
-			|| (oper == special && (func == load || func == jal)));
+			|| (oper == special && (func == jcond || func == jal)));
 	assign alusrcb = (oper[1:0] != 2'b00) 
-			|| (oper == shift && func[3:2] == 2'b00);
+			|| (oper == shift && func[3:2] == 2'b00)
+			|| oper == bcond;
 	
 	assign sign_ext_imm = ((oper[3:2] == 2'b01 ||  oper[3:2] == 2'b10) && (oper[1:0] != 2'b00))
 			|| oper == bcond || oper == muli;

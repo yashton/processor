@@ -157,7 +157,7 @@
             <spirit:configurableElementValue spirit:referenceId="parameter_reset_priority_b">CE</spirit:configurableElementValue>
          </spirit:configurableElementValues>
          <spirit:vendorExtensions>
-            <xilinx:instanceProperties xmlns:xilinx="http://www.xilinx.com">
+            <xilinx:instanceProperties>
              <xilinx:projectOptions>
                <xilinx:projectName>coregen</xilinx:projectName>
                <xilinx:outputDirectory>./</xilinx:outputDirectory>
@@ -189,84 +189,66 @@
            </xilinx:instanceProperties>
             <xilinx:generationHistory>
                <xilinx:fileSet>
-                  <xilinx:name>customization_generator</xilinx:name>
-                  <xilinx:file>
-                     <xilinx:name>./main_memory.mif</xilinx:name>
-                     <xilinx:userFileType>mif</xilinx:userFileType>
-                     <xilinx:timeStamp>Thu Nov 11 06:36:46 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x1B032796</xilinx:checkSum>
-                  </xilinx:file>
-               </xilinx:fileSet>
-               <xilinx:fileSet>
-                  <xilinx:name>ip_xco_generator</xilinx:name>
-                  <xilinx:file>
-                     <xilinx:name>./main_memory.xco</xilinx:name>
-                     <xilinx:userFileType>xco</xilinx:userFileType>
-                     <xilinx:timeStamp>Thu Nov 11 06:36:46 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x055CE314</xilinx:checkSum>
-                  </xilinx:file>
-               </xilinx:fileSet>
-               <xilinx:fileSet>
                   <xilinx:name>implementation_netlist_generator</xilinx:name>
                   <xilinx:file>
                      <xilinx:name>./blk_mem_gen_ds512.pdf</xilinx:name>
                      <xilinx:userFileType>pdf</xilinx:userFileType>
-                     <xilinx:timeStamp>Thu Nov 11 06:37:35 GMT 2010</xilinx:timeStamp>
+                     <xilinx:timeStamp>Thu Nov 11 22:17:36 GMT 2010</xilinx:timeStamp>
                      <xilinx:checkSum>0x7914E183</xilinx:checkSum>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./blk_mem_gen_readme.txt</xilinx:name>
                      <xilinx:userFileType>txt</xilinx:userFileType>
-                     <xilinx:timeStamp>Thu Nov 11 06:37:34 GMT 2010</xilinx:timeStamp>
+                     <xilinx:timeStamp>Thu Nov 11 22:17:35 GMT 2010</xilinx:timeStamp>
                      <xilinx:checkSum>0x4F6653C3</xilinx:checkSum>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./main_memory.asy</xilinx:name>
                      <xilinx:userFileType>asy</xilinx:userFileType>
-                     <xilinx:timeStamp>Thu Nov 11 06:36:48 GMT 2010</xilinx:timeStamp>
+                     <xilinx:timeStamp>Thu Nov 11 22:16:47 GMT 2010</xilinx:timeStamp>
                      <xilinx:checkSum>0x2C6D8F8B</xilinx:checkSum>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./main_memory.mif</xilinx:name>
                      <xilinx:userFileType>mif</xilinx:userFileType>
-                     <xilinx:timeStamp>Thu Nov 11 06:36:48 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x1B032796</xilinx:checkSum>
+                     <xilinx:timeStamp>Thu Nov 11 22:16:47 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0xA26376D4</xilinx:checkSum>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./main_memory.ngc</xilinx:name>
                      <xilinx:userFileType>ngc</xilinx:userFileType>
-                     <xilinx:timeStamp>Thu Nov 11 06:37:48 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0xB4934D05</xilinx:checkSum>
+                     <xilinx:timeStamp>Thu Nov 11 22:17:47 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0xFD0986C3</xilinx:checkSum>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./main_memory.sym</xilinx:name>
                      <xilinx:userFileType>asy</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Thu Nov 11 06:37:35 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0xC4B8C4DE</xilinx:checkSum>
+                     <xilinx:timeStamp>Thu Nov 11 22:17:37 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0xA9531939</xilinx:checkSum>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./main_memory.v</xilinx:name>
                      <xilinx:userFileType>verilog</xilinx:userFileType>
-                     <xilinx:timeStamp>Thu Nov 11 06:37:35 GMT 2010</xilinx:timeStamp>
+                     <xilinx:timeStamp>Thu Nov 11 22:17:37 GMT 2010</xilinx:timeStamp>
                      <xilinx:checkSum>0x349DBE70</xilinx:checkSum>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./main_memory.veo</xilinx:name>
                      <xilinx:userFileType>veo</xilinx:userFileType>
-                     <xilinx:timeStamp>Thu Nov 11 06:37:35 GMT 2010</xilinx:timeStamp>
+                     <xilinx:timeStamp>Thu Nov 11 22:17:37 GMT 2010</xilinx:timeStamp>
                      <xilinx:checkSum>0x2E1037E5</xilinx:checkSum>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./main_memory.vhd</xilinx:name>
                      <xilinx:userFileType>vhdl</xilinx:userFileType>
-                     <xilinx:timeStamp>Thu Nov 11 06:37:35 GMT 2010</xilinx:timeStamp>
+                     <xilinx:timeStamp>Thu Nov 11 22:17:37 GMT 2010</xilinx:timeStamp>
                      <xilinx:checkSum>0x0C3248C2</xilinx:checkSum>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./main_memory.vho</xilinx:name>
                      <xilinx:userFileType>vho</xilinx:userFileType>
-                     <xilinx:timeStamp>Thu Nov 11 06:37:35 GMT 2010</xilinx:timeStamp>
+                     <xilinx:timeStamp>Thu Nov 11 22:17:37 GMT 2010</xilinx:timeStamp>
                      <xilinx:checkSum>0xAA4C7AFC</xilinx:checkSum>
                   </xilinx:file>
                </xilinx:fileSet>
@@ -275,13 +257,13 @@
                   <xilinx:file>
                      <xilinx:name>./main_memory.veo</xilinx:name>
                      <xilinx:userFileType>veo</xilinx:userFileType>
-                     <xilinx:timeStamp>Thu Nov 11 06:37:49 GMT 2010</xilinx:timeStamp>
+                     <xilinx:timeStamp>Thu Nov 11 22:17:48 GMT 2010</xilinx:timeStamp>
                      <xilinx:checkSum>0x2E1037E5</xilinx:checkSum>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./main_memory.vho</xilinx:name>
                      <xilinx:userFileType>vho</xilinx:userFileType>
-                     <xilinx:timeStamp>Thu Nov 11 06:37:49 GMT 2010</xilinx:timeStamp>
+                     <xilinx:timeStamp>Thu Nov 11 22:17:48 GMT 2010</xilinx:timeStamp>
                      <xilinx:checkSum>0xAA4C7AFC</xilinx:checkSum>
                   </xilinx:file>
                </xilinx:fileSet>
@@ -290,8 +272,8 @@
                   <xilinx:file>
                      <xilinx:name>./main_memory.xco</xilinx:name>
                      <xilinx:userFileType>xco</xilinx:userFileType>
-                     <xilinx:timeStamp>Thu Nov 11 06:37:55 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x940489F5</xilinx:checkSum>
+                     <xilinx:timeStamp>Thu Nov 11 22:17:54 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x8CBBA6FC</xilinx:checkSum>
                   </xilinx:file>
                </xilinx:fileSet>
                <xilinx:fileSet>
@@ -300,7 +282,7 @@
                      <xilinx:name>./main_memory_xmdf.tcl</xilinx:name>
                      <xilinx:userFileType>tclXmdf</xilinx:userFileType>
                      <xilinx:userFileType>tcl</xilinx:userFileType>
-                     <xilinx:timeStamp>Thu Nov 11 06:37:55 GMT 2010</xilinx:timeStamp>
+                     <xilinx:timeStamp>Thu Nov 11 22:17:54 GMT 2010</xilinx:timeStamp>
                      <xilinx:checkSum>0x670B195D</xilinx:checkSum>
                   </xilinx:file>
                </xilinx:fileSet>
@@ -310,22 +292,22 @@
                      <xilinx:name>./_xmsgs/pn_parser.xmsgs</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Thu Nov 11 06:37:58 GMT 2010</xilinx:timeStamp>
+                     <xilinx:timeStamp>Thu Nov 11 22:17:57 GMT 2010</xilinx:timeStamp>
                      <xilinx:checkSum>0x146A265F</xilinx:checkSum>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./main_memory.gise</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>gise</xilinx:userFileType>
-                     <xilinx:timeStamp>Thu Nov 11 06:37:59 GMT 2010</xilinx:timeStamp>
+                     <xilinx:timeStamp>Thu Nov 11 22:17:58 GMT 2010</xilinx:timeStamp>
                      <xilinx:checkSum>0xE4B84AAA</xilinx:checkSum>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./main_memory.xise</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>xise</xilinx:userFileType>
-                     <xilinx:timeStamp>Thu Nov 11 06:37:59 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x17892B40</xilinx:checkSum>
+                     <xilinx:timeStamp>Thu Nov 11 22:17:57 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x089DD314</xilinx:checkSum>
                   </xilinx:file>
                </xilinx:fileSet>
                <xilinx:fileSet>
@@ -338,12 +320,9 @@
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>txtFlist</xilinx:userFileType>
                      <xilinx:userFileType>txt</xilinx:userFileType>
-                     <xilinx:timeStamp>Thu Nov 11 06:37:59 GMT 2010</xilinx:timeStamp>
+                     <xilinx:timeStamp>Thu Nov 11 22:17:58 GMT 2010</xilinx:timeStamp>
                      <xilinx:checkSum>0x403DEBFF</xilinx:checkSum>
                   </xilinx:file>
-               </xilinx:fileSet>
-               <xilinx:fileSet>
-                  <xilinx:name>view_readme_generator</xilinx:name>
                </xilinx:fileSet>
             </xilinx:generationHistory>
          </spirit:vendorExtensions>

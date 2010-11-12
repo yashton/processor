@@ -63,6 +63,7 @@
       <keyword>ori</keyword>
       <keyword>xor</keyword>
       <keyword>movi</keyword>
+	  <keyword>mov<keyword>
       <keyword>lsh</keyword>
       <keyword>lshi</keyword>
       <keyword>ashu</keyword>

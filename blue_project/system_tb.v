@@ -43,18 +43,18 @@ module system_tb;
 	initial begin
 		// Initialize Inputs
 		clk = 0;
-		rst = 1;
-		switches = 0;
+		rst = 0;
+		switches = 4;
 
 		// Wait 100 ns for global reset to finish
 		#100;
-      rst = 0;
+      rst = 1;
 		// Add stimulus here
 
 	end
       
-	always
+	always begin
 		#10 clk = ~clk;
-		
+	end
 endmodule
 

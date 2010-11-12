@@ -1,44 +1,21 @@
 TODO:
 Processor:
-		- modify alu.sym to include condWr[4:0]
-
-Testing:
-	Make a test assembly file to check correct output of assembler
-	Write test code for processor execution testing.
-		- Program code is stored in program.coe
-		- After coe file is changed, you must regenerate the program_memory core.	
+	Replace coregen block ram main_memory in memory_controller with exmem style verilog memory.
+	Jake
+		- Having to regenerate the core to load program is annoying.
 
 Application:
 	Boot code - set initial $fp, $sp
 	Macros for memory locations in memory map
-	Approve register conventions
-	Review procedure call conventions
 	
 Gpu:
 	Increase the size of the the palette field in sprite object to 5 bits
+	Ashton
 		- Increase the line buffer width to 36-bits (use coregen)
 		- Make all intermediate palette steps use 5 bits (don't forget schem. symbols)
 		- Palette module index already correct size.
-
-Controllers:
-	3.3v compatibility
-		- SNES provides 5 volts, will it work with 3.3?
-	Add to memory map (add to memory_controller and system)
-	Logic for shifting/storage
-		- Once per VBLANK?
-	Some sort of connector
-		- Cannibalize (Thrift store hunting)
-		- Simple solution is a bunch of ~14 gauge wire.
-		- Maybe drill some holes in plexiglass to keep pins aligned.
-	
-Nintendo Zapper:
-	Zapper protocol
-		- Two output wires, one for trigger, one for light sensor
-	3.3v compatibility
-	
-BONUS FEATURES:
-Gpu:
 	Create a glyph-style background module. 
+	Matt
 		- The pixel from the background will be combined with the current output of the gpu.
 		- Use last 1kw block ram for a background glyph table (leaves 8 kw for program)
 		- this is 64x64 pixels at 16 colors. Could organize as
@@ -50,11 +27,24 @@ Gpu:
 		- Could use fewer colors, get a larger table,
 			- 64x128 at 4 colors
 			- 8 32x32, 3 address bits per segment, (300x3bits)
-	? Clipping windows
-		- 4, one for each z-layer
-	? Zoom mode - 320x240
-		- trick is flipping front and back every 2 lines instead of 1.
-
+			
+	Zoom mode - 320x240
+		- modify vga to increment x and y at half speed.
+		
+Controllers:
+	Jake
+	3.3v compatibility
+		- SNES provides 5 volts, will it work with 3.3?
+	Add to memory map (add to memory_controller and system)
+	Logic for shifting/storage
+		- Once per VBLANK?
+	Some sort of connector
+		- Cannibalize (Thrift store hunting)
+		- Simple solution is a bunch of ~14 gauge wire.
+		- Maybe drill some holes in plexiglass to keep pins aligned.
+	Zapper protocol
+		- Two output wires, one for trigger, one for light sensor
+	
 Assembler:
 	nop
 	jal $t0
@@ -62,20 +52,29 @@ Assembler:
 	neg $ra
 		not $ra
 		addi $ra, 1
+	push $ra
+		stor $ra, $fp
+		subi $fp, 1
+	pop $ra
+		load $ra, $fp
+		addi $fp, 1
 	parameterized macros
 	
+Sound:
+	Billy
+	
 Processor:
-	Implement wait operation
+	*Implement wait operation
 		- wait $ra, $rb
 		- 16-bit processor interrupt register, flags for things like VBLANK
 		- rb is a mask for the PIR, and the processor waits until rb&PIR is non-zero
 		- as processor starts up again, rb&PIR is written to $ra
-	Any other operations?
+	*Any other operations
 		- modulo
 		- tbit, tbiti
-	Counter
+	*Counter
 		- 32-bit, incr every clock (86 sec period)
 	Random number generator 
 		- 16 linear feedback shift registers
-	Direct memory access controller
+	*Direct memory access controller
 		- suspend processor while copy from flash to block memory

@@ -1,7 +1,7 @@
 #Created by Constraints Editor (xc3s500e-fg320-5) - 2010/11/04
 NET "clk" LOC = "C9" | TNM_NET = clk;
 TIMESPEC TS_clk = PERIOD "clk" 20 ns HIGH 50%;
-NET "rst" LOC = "K17" | IOSTANDARD = LVTTL | PULLDOWN ;
+NET "rst" LOC = "K17" | IOSTANDARD = LVTTL | PULLUP ;
 
 # VGA sync
 #NET "hsync" LOC = "C7" | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = FAST;

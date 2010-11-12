@@ -100,6 +100,7 @@ module alutest;
 		code = 0;
 		condCode = 0;
 		code = 0;
+		#100
 	end
 	
 	always begin

@@ -1,0 +1,27 @@
+d008 movi $0, 8
+d101 movi $1, 1	
+d2ff movi $2, -1
+f2ff lui $2, -1
+d300 movi $3, 0	
+d600 movwi $6, 0x1000
+f610
+d900 movwi $9, 0x1000
+f910
+d503 movwi $5, SWITCHES
+f548 
+b000 cmpi $0,0
+c00a beq  end
+0152 add  $1, $2
+0ad1 mov  $10, $1
+0a92 sub  $10, $2
+02da mov  $2, $10
+9001 subi $0, 1
+4146 stor $1, $6
+5601 addi $6, 1
+d80a movwi $8, loop (no lui)
+4ec8 juc  $8	
+4705 load $7, $5
+0759 add  $7, $9	
+4407 load $4, $7
+4445 stor $4, $5
+cefb buc  loop2
