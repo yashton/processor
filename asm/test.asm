@@ -9,7 +9,7 @@
 .text
 	movi $s0, 0x13 # immediate values may be in C-style hex
 	subi $s0, 19 # or in decimal
-
+	
 	addi $1, MONKEY # the value MONKEY will be replaced with 6 during preproccessing
 	
 	# labels follow the C naming standard. They must start with an letter,
@@ -37,19 +37,47 @@
 	stor $1, $12
  	
  					 	sls	    $a1     # any amount of whitespace is allowed
+	neg $t0
+	
 	
 	# labels are referenced by name (without the trailing colon)
 	beq	start
-	
+
+	# procedure calls	
+	push $ra
+	movwi $t0, start
 	jal $t0
+	pop $ra
 	
-	label: sub $5, $t1 # bork bork bork
+	# equivalent pseudo-op for above procedure call
+	call start
+	
+	nop
+	
+	sub $5, $t1 # bork bork bork
 	bne start
 	movi $8, 0x1
 	
 	test $ra, $t0
-	start: ashui $1, 9  	# blah blah blah
 	
+	# procedure
+	start: 
+		push $fp
+		mov $fp, $sp
+		ashui $a0, -9  	# blah blah blah
+		mov $v0, $a0
+		mov $sp, $fp
+		pop $fp
+		juc $ra
+		
+	# equivalent procedure using pseudo-ops
+	start2:
+		frame
+		ashui $a0, -9
+		mov $v0, $a0
+		leave
+		juc $ra
+		
 # .data is used for strings and static data.
 .data
 	foo: "testing" # foo is a pointer to the start of this string.

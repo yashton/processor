@@ -1,7 +1,9 @@
 import ply.yacc as yacc
 
 from asmlex import tokens, symbol_table
-from asmencode import RType, IType, ShiftImm, Bcond, Jcond, Scond, Not, Movwi, StringData, NumericData
+from asmencode import RType, IType, ShiftImm, Bcond, Jcond, Scond, Not, Neg
+from asmencode import Jal, Push, Pop, Nop, Movwi, Call, StringData, NumericData
+from asmencode import Frame, Leave
 
 # Context free grammar definitions
 
@@ -57,6 +59,34 @@ def p_instr_not(p):
 	'instr : NOT REG'
 	p[0] = Not(p[2])
 	
+def p_instr_nop(p):
+	'instr : NOP'
+	p[0] = Nop()
+	
+def p_instr_jal(p):
+	'instr : JAL REG COMMA REG'
+	p[0] = Jal(p[2], p[4])
+	
+def p_instr_jal_impl(p):
+	'instr : JAL REG'
+	p[0] = Jal(p[2])
+	
+def p_instr_push(p):
+	'instr : PUSH REG'
+	p[0] = Push(p[2])
+	
+def p_instr_pop(p):
+	'instr : POP REG'
+	p[0] = Pop(p[2])
+	
+def p_instr_neg(p):
+	'instr : NEG REG'
+	p[0] = Neg(p[2])
+	
+def p_instr_call(p):
+	'instr : CALL LABEL'
+	p[0] = Call(p[2], p.lexer.lineno)
+	
 def p_instr_jcond(p):
 	'instr : JCOND REG'
 	p[0] = Jcond(p[1], p[2])
@@ -80,6 +110,14 @@ def p_instr_movwi_imm(p):
 def p_instr_movwi_label(p):
 	'instr : MOVWI REG COMMA LABEL'
 	p[0] = Movwi(p[2], p[4], True, p.lexer.lineno)
+	
+def p_instr_frame(p):
+	'instr : FRAME'
+	p[0] = Frame()
+
+def p_instr_leave(p):
+	'instr : LEAVE'
+	p[0] = Leave()
 	
 # .data segment
 def p_d(p):

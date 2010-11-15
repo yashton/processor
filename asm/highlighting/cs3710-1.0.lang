@@ -12,7 +12,12 @@
 	</syntax-item>
 	
 	<keyword-list _name="Operations" style="Keyword" case-sensitive="TRUE">
-		<keyword>add</keyword>
+			<keyword>call</keyword>
+			<keyword>add</keyword>
+			<keyword>neg</keyword>
+			<keyword>nop</keyword>
+			<keyword>push</keyword>
+			<keyword>pop</keyword>
       <keyword>addi</keyword>
       <keyword>addu</keyword>
       <keyword>addui</keyword>
@@ -125,6 +130,10 @@
 	
 	<pattern-item _name="Hexadecimal Number" style="Base-N Integer">
 		<regex>\b-?0[xX][a-fA-F0-9]+\b</regex>
+	</pattern-item>
+	
+	<pattern-item _name="Binary Number" style="Base-N Integer">
+		<regex>\b-?0[bB][01]+\b</regex>
 	</pattern-item>
 
 </language>

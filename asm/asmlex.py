@@ -5,7 +5,6 @@ import math
 
 # once the lexer reaches a DATA token, data is set to True, and 
 # subsequent IMM tokens are parsed as data, not immediates.
-data = False
 tokens = (
 	'COMMA',
 	'REG',
@@ -16,7 +15,15 @@ tokens = (
 	'BCOND',
 	'JCOND',
 	'NOT',
+	'NEG',
+	'PUSH',
+	'POP',
+	'JAL',
+	'CALL',
+	'NOP',
 	'MOVWI',
+	'FRAME',
+	'LEAVE',
 	'IMM',
 	'LABEL',
 	'LABEL_DEF',
@@ -33,12 +40,44 @@ def t_COMMENT(t):
 t_REG = r'\$(?:1[0-5]|[0-9]|t[0-3]|s[0-3]|a[0-2]|v[0-1]|sp|fp|ra)'
 t_COMMA = r'\,'
 
+# 2 operation pseudo instructions, increase instruction count by 2.
 def t_MOVWI(t):
 	'movwi'
-	# movwi expands into movi, lui, so increment instruction count by 2
+	t.lexer.instr_count += 2
+	return t
+	
+def t_NEG(t):
+	'neg'
 	t.lexer.instr_count += 2
 	return t
 
+def t_PUSH(t):
+	'push'
+	t.lexer.instr_count += 2
+	return t
+	
+def t_POP(t):
+	'pop'
+	t.lexer.instr_count += 2
+	return t
+	
+def t_LEAVE(t):
+	'leave'
+	t.lexer.instr_count += 3
+	return t
+	
+def t_FRAME(t):
+	'frame'
+	t.lexer.instr_count += 3
+	return t
+	
+# call expands into push, movwi, jal, pop
+def t_CALL(t):
+	'call'
+	t.lexer.instr_count += 7
+	return t
+
+# instructions
 def t_SHIFT(t):
 	r'lshi|ashui'
 	t.lexer.instr_count += 1
@@ -50,7 +89,7 @@ def t_ITYPE(t):
 	return t
 	
 def t_RTYPE(t):
-	r"and|or|xor|add|addu|addc|sub|subc|cmp|mov|mul|test|jal|lsh|ashu|load|stor"
+	r"and|or|xor|add|addu|addc|sub|subc|cmp|mov|mul|test|lsh|ashu|load|stor"
 	t.lexer.instr_count += 1
 	return t
 	
@@ -78,38 +117,30 @@ def t_NOT(t):
 	t.lexer.instr_count += 1
 	return t
 
+def t_NOP(t):
+	'nop'
+	t.lexer.instr_count += 1
+	return t
 
+def t_JAL(t):
+	'jal'
+	t.lexer.instr_count += 1
+	return t
+
+# Immediate
 def t_IMM(t):
-	r'(?:-?0[xX][a-fA-F0-9]+)|(?:-?[0-9]+)'
+	r'(?:-?0[xX][a-fA-F0-9]+)|(?:-?[0-9]+)|(?:0[bB][01]+)'
 	if t.value[0:2].lower() == "0x":
 		t.value = int(t.value, 16)
+	elif t.value[0:2].lower() == "0b":
+		t.value = int(t.value[2:], 2)
 	else:
 		t.value = int(t.value, 10)
-	if data:
-		# if inside the data segment, immediates encode to data
+	if t.lexer.data:
 		t.lexer.instr_count += 1
+		# if inside the data segment, immediate values encode to data
 	return t	
 
-def t_LABEL_DEF(t):
-	r"[a-zA-Z][_a-zA-Z0-9]*\:"
-	# on finding a label, add the label and the memory location it points to
-	t.lexer.symbol_table[t.value[:len(t.value)-1]] = t.lexer.instr_count
-	
-t_LABEL = r'[a-zA-Z][_a-zA-Z0-9]*'
-
-def t_newline(t):
-	r'\n+'
-	t.lexer.lineno += len(t.value)
-	
-t_ignore = ' \t'
-		
-t_TEXT = r'.text'
-
-def t_DATA(t):
-	r'.data'
-	data = True
-	return t
-	
 def t_STRING(t):
 	'".*"'
 	t.value = t.value[1:-1] # strips off the quotation marks.
@@ -119,15 +150,41 @@ def t_STRING(t):
 	t.lexer.instr_count += math.ceil((len(t.value) + 1) / 2)
 	return t
 
+# Labels
+def t_LABEL_DEF(t):
+	r"[a-zA-Z][_a-zA-Z0-9]*\:"
+	# on finding a label, add the label and the memory location it points to
+	label = t.value[:len(t.value)-1] # strips :
+	if label in t.lexer.symbol_table:
+		print('ERROR: Duplicate label on line', t.lexer.lineno)
+	t.lexer.symbol_table[label] = t.lexer.instr_count
+	
+t_LABEL = r'[a-zA-Z][_a-zA-Z0-9]*'
+
+# Keywords
+t_TEXT = r'\.text'
+
+def t_DATA(t):
+	r'\.data'
+	t.lexer.data = True
+	return t
+
+# Lexer constants
+def t_newline(t):
+	r'\n+'
+	t.lexer.lineno += len(t.value)
+	
+t_ignore = ' \t'
+		
 def t_error(t):
-	print('Illegal character "' + t.value + '" on line ' + str(t.lexer.lineno))
+	print('ERROR: Illegal character "' + t.value + '" on line', t.lexer.lineno)
 	t.lexer.skip(1)
 
-# symbol table is a dictionary, with labels as keys and memory pointers as values 
-symbol_table = dict()
-	
 # lexing
 lexer = lex.lex()
 # instruction count allows the lexer to track the memory location for labels
 lexer.instr_count = 0
+# symbol table is a dictionary, with labels as keys and memory pointers as values 
+symbol_table = dict()
+lexer.data = False
 lexer.symbol_table = symbol_table

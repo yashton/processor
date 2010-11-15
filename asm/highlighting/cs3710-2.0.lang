@@ -16,6 +16,7 @@
     <style id="register" _name="Type" map-to="def:builtin"/>
     <style id="decimal" _name="Decimal number"      map-to="def:decimal"/>
     <style id="hexadecimal" _name="Hexadecimal number"  map-to="def:base-n-integer"/>
+    <style id="binary" _name="Binary number"  map-to="def:base-n-integer"/>
     <style id="string" _name="String" map-to="def:string"/>
   </styles>
 
@@ -43,6 +44,11 @@
     </context>
 
     <context id="operations" style-ref="operations">
+    	<keyword>call</keyword>
+			<keyword>neg</keyword>
+			<keyword>nop</keyword>
+			<keyword>push</keyword>
+			<keyword>pop</keyword>
       <keyword>add</keyword>
       <keyword>addi</keyword>
       <keyword>addu</keyword>
@@ -63,7 +69,7 @@
       <keyword>ori</keyword>
       <keyword>xor</keyword>
       <keyword>movi</keyword>
-	  <keyword>mov<keyword>
+	  	<keyword>mov</keyword>
       <keyword>lsh</keyword>
       <keyword>lshi</keyword>
       <keyword>ashu</keyword>
@@ -157,6 +163,14 @@
       </match>
     </context>
     
+    <context id="binary" style-ref="binary">
+      <match extended="true">
+        (?&lt;![\w\.])
+        -?0[bB][01]+
+        (?![\w\.])
+      </match>
+    </context>
+    
     <context id="label" style-ref="label">
       <match extended="true">
         (?&lt;![\w\.])
@@ -182,6 +196,7 @@
         <context ref="operations"/>
         <context ref="decimal"/>
         <context ref="hexadecimal"/>
+        <context ref="binary"/>
         <context ref="register"/>
         <context ref="string"/>
       </include>

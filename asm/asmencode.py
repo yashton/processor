@@ -1,18 +1,20 @@
+import math
+
 cond_table = {
 	'eq': '0',
 	'ne': '1',
-	'ge': '2',
-	'cs': '3',
-	'cc': '4',
-	'hi': '5',
-	'ls': '6',
-	'lo': '7',
-	'hs': '8',
-	'gt': '9',
-	'le': 'a',
-	'fs': 'b',
-	'fc': 'c',
-	'lt': 'd',
+	'cs': '2',
+	'cc': '3',
+	'hi': '4',
+	'ls': '5',
+	'gt': '6',
+	'le': '7',
+	'fs': '8',
+	'fc': '9',
+	'lo': 'a',
+	'hs': 'b',
+	'lt': 'c',
+	'ge': 'd',
 	'uc': 'e'
 	}
 	
@@ -108,11 +110,13 @@ def hexstr(a, width):
 	return '0'*(width-len(bytes)) + bytes
 	
 class RType:
+	size = 1
 	def __init__(self, oper, dst, src):
-		#print("parsed r-type.", "\toper:", oper, "\tdst:", dst, "\tsrc", src)
 		self.oper = oper
 		self.dst = dst
 		self.src = src
+	def recall(self):
+		return self.oper + "\t" + self.dst + ",\t" + self.src
 	def encode(self, symbol_table):
 		if self.oper == 'ashu' or self.oper == 'lsh':
 			op = oper_table['shift']
@@ -129,23 +133,21 @@ class RType:
 		return op + dstR + func + srcR
 
 class IType:
+	size = 1
 	def __init__(self, oper, dst, imm):
-#		print("parsed i-type.", "\toper:", oper, "\tdst:", dst, "\timmed:", imm)
 		self.oper = oper
 		self.dst = dst
 		self.imm = imm
+	def recall(self):
+		return self.oper + "\t" + self.dst + ",\t" + hex(self.imm)
 	def encode(self, symbol_table):
 		op = oper_table[self.oper]
 		dst = reg_table[self.dst]
 		imm = hexstr((self.imm & 0xFF), 2)
 		return op + dst + imm
 	
-class ShiftImm:
-	def __init__(self, oper, dst, imm):
-#		print("parsed shift by immed.", "\toper:", oper, "\tdst:", dst, "\timmed:", imm)
-		self.oper = oper
-		self.dst = dst
-		self.imm = imm	
+class ShiftImm(IType):
+	size = 1
 	def encode(self, symbol_table):
 		op = oper_table['shift']
 		dst = reg_table[self.dst]
@@ -158,12 +160,14 @@ class ShiftImm:
 		return op + dst + func + imm
 		
 class Bcond:
+	size = 1
 	def __init__(self, cond, current, label, line):
-		#print("parsed bcond @", str(current), "." "\tcond", cond, "\ttarget:", label)
 		self.cond = cond
 		self.current = current
 		self.label = label
 		self.line = line
+	def recall(self):
+		return "b" + self.cond + "\t" + self.label
 	def encode(self, symbol_table):
 		op = oper_table['bcond']
 		cond = cond_table[self.cond]
@@ -180,10 +184,12 @@ class Bcond:
 		return op + cond + imm
 
 class Jcond:
+	size = 1
 	def __init__(self, cond, target):
-		#print("parsed jcond.", "\tcond:", cond, "\tdst:", dst)
 		self.cond = cond
 		self.target = target
+	def recall(self):
+		return "j" + self.cond + "\t" + self.target
 	def encode(self, symbol_table):
 		op = oper_table['special']
 		func = special_table['jcond']
@@ -192,10 +198,12 @@ class Jcond:
 		return op + cond + func + reg
 
 class Scond:
+	size = 1
 	def __init__(self, cond, dst):
-		#print("parsed scond.", "\tcond:", cond, "\tdst:", dst)
 		self.cond = cond
 		self.dst = dst
+	def recall(self):
+		return "s" + self.cond + "\t" + self.dst
 	def encode(self, symbol_table):
 		op = oper_table['special']
 		func = special_table['scond']
@@ -204,25 +212,42 @@ class Scond:
 		return op + reg + func + cond
 		
 class Not:
+	size = 1
 	def __init__(self, dst):
-		#print("parsed not.", "\tdst:", dst)
 		self.dst = dst
+	def recall(self):
+		return "not\t" + self.dst 
 	def encode(self, symbol_table):
 		op = oper_table['register']
-		func = reg_table['not']
+		func = func_table['not']
 		reg = reg_table[self.dst]
 		return op + reg + func + '0'
-		
+
+class Jal:
+	size = 1
+	def __init__(self, target, link="$ra"):
+		self.target = target
+		self.link = link
+	def recall(self):
+		return "jal\t" + self.link + ",\t" + self.target 
+	def encode(self, symbol_table):
+		op = RType("jal", self.link, self.target)
+		return op.encode(symbol_table)
+
+# Pseudo instructions		
 class Movwi:
+	size = 2
 	def __init__(self, dst, data, isLabel, line):
-#		if isLabel:
-#			print("parsed movwi.", "\tdst:", dst, "\tlabel:", data)
-#		else:
-#			print("parsed movwi.", "\tdst:", dst, "\timmed:", data)
 		self.dst = dst
 		self.data = data
 		self.isLabel = isLabel
 		self.line = line
+	def recall(self):
+		if not self.isLabel:
+			val = hex(self.data)
+		else:
+			val = self.data
+		return "movwi\t" + self.dst + ",\t" + val
 	def encode(self, symbol_table):
 		if self.isLabel:
 			if self.data not in symbol_table:
@@ -235,39 +260,103 @@ class Movwi:
 		top = (imm & 0xFF00) >> 8
 		lower = IType('movi', self.dst, bottom)
 		upper = IType('lui', self.dst, top)
-		if top == 0:
-			# if the upper byte is 0, the load upper is redundant
-			return lower.encode(symbol_table)
-		else:
-			return lower.encode(symbol_table) + "\n" + upper.encode(symbol_table)
+		return lower.encode(symbol_table) + "\n" + upper.encode(symbol_table)
+		
+class Nop:
+	size = 1
+	def recall(self):
+		return "nop"
+	def encode(self, symbol_table):
+		op = IType("addi", "$0", 0)
+		return op.encode(symbol_table)
+
+class Neg:
+	size = 2
+	def __init__(self, reg):
+		self.reg = reg
+	def recall(self):
+		return "neg\t" + self.reg
+	def encode(self, symbol_table):
+		inv = Not(self.reg)
+		add1 = IType("addi", self.reg, 1)
+		return inv.encode(symbol_table) + "\n" + add1.encode(symbol_table)
+
+class Push:
+	size = 2
+	def __init__(self, reg):
+		self.reg = reg
+	def recall(self):
+		return "push\t" + self.reg
+	def encode(self, symbol_table):
+		write = RType("stor", self.reg, "$sp")
+		stack = IType("subi", "$sp", 1)
+		return write.encode(symbol_table) + "\n" + stack.encode(symbol_table)
+		
+class Pop:
+	size = 2
+	def __init__(self, reg):
+		self.reg = reg
+	def recall(self):
+		return "pop\t" + self.reg
+	def encode(self, symbol_table):
+		read = RType("load", self.reg, "$sp")
+		stack = IType("addi", "$sp", 1)
+		return read.encode(symbol_table) + "\n" + stack.encode(symbol_table)
+
+class Call:
+	size = 7
+	def __init__(self, label, line):
+		self.label = label
+		self.line = line
+	def recall(self):
+		return "call\t" + self.label
+	def encode(self, symbol_table):
+		return Push("$ra").encode(symbol_table) + "\n"\
+			+ Movwi("$t0", self.label, True, self.line).encode(symbol_table) + "\n"\
+			+ Jal("$t0").encode(symbol_table) + "\n"\
+			+ Pop("$ra").encode(symbol_table)
+
+class Frame:
+	size = 3
+	def recall(self):
+		return "frame"
+	def encode(self, symbol_table):
+		return Push("$fp").encode(symbol_table) + "\n"\
+			+ RType("mov", "$fp", "$sp").encode(symbol_table)
 			
+class Leave:
+	size = 3
+	def recall(self):
+		return "leave"
+	def encode(self, symbol_table):
+		return RType("mov", "$sp", "$fp").encode(symbol_table) + "\n"\
+			 + Pop("$fp").encode(symbol_table)
+
 class StringData:
 	def __init__(self, data):
-		#print("parsed string.", "\tvalue: \"" + dst + "\"")
 		self.data = data
+		self.size = math.ceil((len(data) + 1) / 2)
+	def recall(self):
+		return '"' + self.data + '"'
 	def encode(self, symbol_table):
-		offset = 0
 		output = ""
-		for char in self.data:
-			# generate the byte for the char and add to output
-			a = hex(ord(char))[2:]
-			output += a
-			# if that byte just completed a word, add a newline.
-			if offset == 1:
-				output += "\n"
-				offset = 0
-			else:
-				offset += 1
-		# add \0 terminator to end
-		output += '00'
-		# keep the word alignment if there is an unused byte.
-		if offset == 0: 
-			output += '00'
+		offset = len(self.data) % 2
+		
+		for i in range(0, len(self.data)-offset, 2):
+			output += hexstr(ord(self.data[i]), 2) + hexstr(ord(self.data[i+1]), 2) + "\n"
+			
+		if offset == 1:
+			output += hexstr(ord(self.data[-1]), 2) + "00"
+		else:
+			output += "0000"
 		return output
 		
 class NumericData:
+	size = 1
 	def __init__(self, data):
-		#print("parsed numeric data.", "\tvalue:", data)
 		self.data = data
+	def recall(self):
+		return ""
+		#return ".data\t" + hex(self.data)
 	def encode(self, symbol_table):
 		return hexstr(self.data, 4)
