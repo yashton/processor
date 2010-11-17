@@ -1,22 +1,12 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
+// Company: University of Utah
+// Engineer: Matthew Steadman
 // 
-// Create Date:    17:03:56 10/21/2010 
-// Design Name: 
-// Module Name:    aluController 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
+// Design Name: Arithmetic logic unit controller
+// Module Name: aluController
+// Project Name: CS3710
 // Description: 
-//
-// Dependencies: 
-//
-// Revision: 
-// Revision 0.01 - File Created
-// Additional Comments: 
-//
 //////////////////////////////////////////////////////////////////////////////////
 module aluController(
     input [3:0] oper,

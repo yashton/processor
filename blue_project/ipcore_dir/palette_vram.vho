@@ -29,24 +29,24 @@
 -- The following code must appear in the VHDL architecture header:
 
 ------------- Begin Cut here for COMPONENT Declaration ------ COMP_TAG
-component line_buffer_vram
+component palette_vram
 	port (
 	clka: IN std_logic;
-	ena: IN std_logic;
 	wea: IN std_logic_VECTOR(0 downto 0);
 	addra: IN std_logic_VECTOR(8 downto 0);
-	dina: IN std_logic_VECTOR(35 downto 0);
-	douta: OUT std_logic_VECTOR(35 downto 0);
+	dina: IN std_logic_VECTOR(31 downto 0);
+	douta: OUT std_logic_VECTOR(31 downto 0);
 	clkb: IN std_logic;
+	enb: IN std_logic;
 	web: IN std_logic_VECTOR(0 downto 0);
-	addrb: IN std_logic_VECTOR(10 downto 0);
-	dinb: IN std_logic_VECTOR(8 downto 0);
-	doutb: OUT std_logic_VECTOR(8 downto 0));
+	addrb: IN std_logic_VECTOR(9 downto 0);
+	dinb: IN std_logic_VECTOR(15 downto 0);
+	doutb: OUT std_logic_VECTOR(15 downto 0));
 end component;
 
 -- Synplicity black box declaration
 attribute syn_black_box : boolean;
-attribute syn_black_box of line_buffer_vram: component is true;
+attribute syn_black_box of palette_vram: component is true;
 
 -- COMP_TAG_END ------ End COMPONENT Declaration ------------
 
@@ -54,23 +54,23 @@ attribute syn_black_box of line_buffer_vram: component is true;
 -- body. Substitute your own instance name and net names.
 
 ------------- Begin Cut here for INSTANTIATION Template ----- INST_TAG
-your_instance_name : line_buffer_vram
+your_instance_name : palette_vram
 		port map (
 			clka => clka,
-			ena => ena,
 			wea => wea,
 			addra => addra,
 			dina => dina,
 			douta => douta,
 			clkb => clkb,
+			enb => enb,
 			web => web,
 			addrb => addrb,
 			dinb => dinb,
 			doutb => doutb);
 -- INST_TAG_END ------ End INSTANTIATION Template ------------
 
--- You must compile the wrapper file line_buffer_vram.vhd when simulating
--- the core, line_buffer_vram. When compiling the wrapper file, be sure to
+-- You must compile the wrapper file palette_vram.vhd when simulating
+-- the core, palette_vram. When compiling the wrapper file, be sure to
 -- reference the XilinxCoreLib VHDL simulation library. For detailed
 -- instructions, please refer to the "CORE Generator Help".
 

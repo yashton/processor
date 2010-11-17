@@ -1,0 +1,17 @@
+# Output products list for <palette_vram>
+_xmsgs/pn_parser.xmsgs
+blk_mem_gen_ds512.pdf
+blk_mem_gen_readme.txt
+palette_vram.asy
+palette_vram.gise
+palette_vram.mif
+palette_vram.ngc
+palette_vram.sym
+palette_vram.v
+palette_vram.veo
+palette_vram.vhd
+palette_vram.vho
+palette_vram.xco
+palette_vram.xise
+palette_vram_flist.txt
+palette_vram_xmdf.tcl

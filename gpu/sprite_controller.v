@@ -52,7 +52,7 @@ module sprite_controller
 	(
 		input clk,
 		input rst,
-		input [6:0] sprite_priority,
+		input [7:0] sprite_priority,
 		// Processor memory mapped io inputs.
 		input memenable,
 		input [9:0] memaddr,
@@ -69,7 +69,7 @@ module sprite_controller
 		output reg hFlip,
 		output line_load,
 		output reg [1:0] line_z,
-		output reg [3:0] line_palette,
+		output reg [4:0] line_palette,
 		output [9:0] line_addr,
 		output reg tile_table,
 		output reg [3:0] tile_x,
@@ -174,7 +174,7 @@ module sprite_controller
 			a <= 0;
 		end
 		else if (state == LOAD_X) begin
-			line_palette <= loaded_sprite_data[28:25];
+			line_palette <= loaded_sprite_data[29:25];
 			tile_table <= loaded_sprite_data[24];
 			tile_x <= loaded_sprite_data[23:20];
 			tile_y <= loaded_sprite_data[19:16];

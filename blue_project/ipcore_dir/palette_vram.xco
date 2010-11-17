@@ -1,7 +1,7 @@
 ##############################################################
 #
 # Xilinx Core Generator version 12.2
-# Date: Sun Nov 14 01:19:59 2010
+# Date: Thu Nov  4 07:08:10 2010
 #
 ##############################################################
 #
@@ -36,21 +36,21 @@ SELECT Block_Memory_Generator family Xilinx,_Inc. 4.2
 # END Select
 # BEGIN Parameters
 CSET additional_inputs_for_power_estimation=false
-CSET algorithm=Fixed_Primitives
-CSET assume_synchronous_clk=true
+CSET algorithm=Minimum_Area
+CSET assume_synchronous_clk=false
 CSET byte_size=9
-CSET coe_file=no_coe_file_loaded
+CSET coe_file=/home/yashton/Desktop/blue/gpu/palette.coe
 CSET collision_warnings=ALL
-CSET component_name=line_buffer_vram
+CSET component_name=palette_vram
 CSET disable_collision_warnings=false
 CSET disable_out_of_range_warnings=false
 CSET ecc=false
 CSET ecctype=No_ECC
-CSET enable_a=Use_ENA_Pin
-CSET enable_b=Always_Enabled
+CSET enable_a=Always_Enabled
+CSET enable_b=Use_ENB_Pin
 CSET error_injection_type=Single_Bit_Error_Injection
 CSET fill_remaining_memory_locations=false
-CSET load_init_file=false
+CSET load_init_file=true
 CSET memory_type=True_Dual_Port_RAM
 CSET operating_mode_a=WRITE_FIRST
 CSET operating_mode_b=WRITE_FIRST
@@ -63,9 +63,9 @@ CSET port_a_write_rate=50
 CSET port_b_clock=100
 CSET port_b_enable_rate=100
 CSET port_b_write_rate=50
-CSET primitive=512x36
-CSET read_width_a=36
-CSET read_width_b=9
+CSET primitive=8kx2
+CSET read_width_a=32
+CSET read_width_b=16
 CSET register_porta_input_of_softecc=false
 CSET register_porta_output_of_memory_core=false
 CSET register_porta_output_of_memory_primitives=false
@@ -86,8 +86,8 @@ CSET use_regceb_pin=false
 CSET use_rsta_pin=false
 CSET use_rstb_pin=false
 CSET write_depth_a=512
-CSET write_width_a=36
-CSET write_width_b=9
+CSET write_width_a=32
+CSET write_width_b=16
 # END Parameters
 GENERATE
-# CRC: 4d877d8c
+# CRC: ad9e556a

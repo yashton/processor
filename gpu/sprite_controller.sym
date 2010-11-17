@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <symbol version="7" name="sprite_controller">
     <symboltype>BLOCK</symboltype>
-    <timestamp>2010-10-21T5:41:40</timestamp>
+    <timestamp>2010-11-14T1:12:37</timestamp>
     <attr value="sprite_controller" name="VeriModel" />
     <pin polarity="Input" x="0" y="-864" name="clk" />
     <pin polarity="Input" x="0" y="-800" name="rst" />
@@ -13,7 +13,7 @@
     <pin polarity="Input" x="0" y="-160" name="memenable" />
     <pin polarity="Input" x="0" y="-544" name="scanline_start" />
     <pin polarity="Input" x="0" y="-480" name="vlookahead" />
-    <pin polarity="Input" x="0" y="-288" name="sprite_priority(6:0)" />
+    <pin polarity="Input" x="0" y="-288" name="sprite_priority(7:0)" />
     <pin polarity="Output" x="544" y="-352" name="tile_table" />
     <pin polarity="Output" x="544" y="-416" name="sizeX(2:0)" />
     <pin polarity="Output" x="544" y="-480" name="hFlip" />
@@ -24,7 +24,7 @@
     <pin polarity="Output" x="544" y="-544" name="last(2:0)" />
     <pin polarity="Output" x="544" y="-800" name="line_addr(9:0)" />
     <pin polarity="Output" x="544" y="-736" name="line_z(1:0)" />
-    <pin polarity="Output" x="544" y="-672" name="line_palette(3:0)" />
+    <pin polarity="Output" x="544" y="-672" name="line_palette(4:0)" />
     <pin polarity="Output" x="544" y="-864" name="line_load" />
     <pin polarity="Output" x="544" y="32" name="memdata(15:0)" />
     <graph>
@@ -54,7 +54,7 @@
         <line x2="0" y1="-480" y2="-480" x1="64" />
         <rect width="64" x="0" y="-300" height="24" />
         <line x2="0" y1="-288" y2="-288" x1="64" />
-        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-288" type="pin sprite_priority(6:0)" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-288" type="pin sprite_priority(7:0)" />
         <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="472" y="-352" type="pin tile_table" />
         <line x2="544" y1="-352" y2="-352" x1="480" />
         <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="472" y="-416" type="pin sizeX(2:0)" />
@@ -83,7 +83,7 @@
         <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="472" y="-736" type="pin line_z(1:0)" />
         <rect width="64" x="480" y="-748" height="24" />
         <line x2="544" y1="-736" y2="-736" x1="480" />
-        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="472" y="-672" type="pin line_palette(3:0)" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="472" y="-672" type="pin line_palette(4:0)" />
         <rect width="64" x="480" y="-684" height="24" />
         <line x2="544" y1="-672" y2="-672" x1="480" />
         <line x2="544" y1="-864" y2="-864" x1="480" />

@@ -1,29 +1,29 @@
 # The package naming convention is <core_name>_xmdf
-package provide line_buffer_vram_xmdf 1.0
+package provide palette_vram_xmdf 1.0
 
 # This includes some utilities that support common XMDF operations
 package require utilities_xmdf
 
 # Define a namespace for this package. The name of the name space
 # is <core_name>_xmdf
-namespace eval ::line_buffer_vram_xmdf {
+namespace eval ::palette_vram_xmdf {
 # Use this to define any statics
 }
 
 # Function called by client to rebuild the params and port arrays
 # Optional when the use context does not require the param or ports
 # arrays to be available.
-proc ::line_buffer_vram_xmdf::xmdfInit { instance } {
+proc ::palette_vram_xmdf::xmdfInit { instance } {
 # Variable containg name of library into which module is compiled
 # Recommendation: <module_name>
 # Required
-utilities_xmdf::xmdfSetData $instance Module Attributes Name line_buffer_vram
+utilities_xmdf::xmdfSetData $instance Module Attributes Name palette_vram
 }
-# ::line_buffer_vram_xmdf::xmdfInit
+# ::palette_vram_xmdf::xmdfInit
 
 # Function called by client to fill in all the xmdf* data variables
 # based on the current settings of the parameters
-proc ::line_buffer_vram_xmdf::xmdfApplyParams { instance } {
+proc ::palette_vram_xmdf::xmdfApplyParams { instance } {
 
 set fcount 0
 # Array containing libraries that are assumed to exist
@@ -44,43 +44,47 @@ utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path blk_mem_gen_
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type text
 incr fcount
 
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path line_buffer_vram.asy
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path palette_vram.asy
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type asy
 incr fcount
 
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path line_buffer_vram.ngc
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type ngc
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path line_buffer_vram.sym
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type symbol
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path line_buffer_vram.v
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type verilog
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path line_buffer_vram.veo
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type verilog_template
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path line_buffer_vram.vhd
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type vhdl
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path line_buffer_vram.vho
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type vhdl_template
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path line_buffer_vram.xco
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type coregen_ip
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path line_buffer_vram_xmdf.tcl
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path palette_vram.mif
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type AnyView
 incr fcount
 
-utilities_xmdf::xmdfSetData $instance FileSet $fcount associated_module line_buffer_vram
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path palette_vram.ngc
+utilities_xmdf::xmdfSetData $instance FileSet $fcount type ngc
+incr fcount
+
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path palette_vram.sym
+utilities_xmdf::xmdfSetData $instance FileSet $fcount type symbol
+incr fcount
+
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path palette_vram.v
+utilities_xmdf::xmdfSetData $instance FileSet $fcount type verilog
+incr fcount
+
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path palette_vram.veo
+utilities_xmdf::xmdfSetData $instance FileSet $fcount type verilog_template
+incr fcount
+
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path palette_vram.vhd
+utilities_xmdf::xmdfSetData $instance FileSet $fcount type vhdl
+incr fcount
+
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path palette_vram.vho
+utilities_xmdf::xmdfSetData $instance FileSet $fcount type vhdl_template
+incr fcount
+
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path palette_vram.xco
+utilities_xmdf::xmdfSetData $instance FileSet $fcount type coregen_ip
+incr fcount
+
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path palette_vram_xmdf.tcl
+utilities_xmdf::xmdfSetData $instance FileSet $fcount type AnyView
+incr fcount
+
+utilities_xmdf::xmdfSetData $instance FileSet $fcount associated_module palette_vram
 incr fcount
 
 }

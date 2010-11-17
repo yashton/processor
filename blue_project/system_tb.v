@@ -27,7 +27,7 @@ module system_tb;
 	// Inputs
 	reg clk;
 	reg rst;
-	reg [3:0] switches;
+	reg [7:0] switches;
 
 	// Outputs
 	wire [7:0] test_out;
@@ -36,8 +36,7 @@ module system_tb;
 	system uut (
 		.clk(clk), 
 		.rst(rst), 
-		.switches(switches), 
-		.test_out(test_out)
+		.switches(switches)
 	);
 
 	initial begin

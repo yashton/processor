@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <symbol version="7" name="line_buffer">
     <symboltype>BLOCK</symboltype>
-    <timestamp>2010-10-26T2:3:46</timestamp>
+    <timestamp>2010-11-14T1:4:47</timestamp>
     <attr value="line_buffer" name="VeriModel" />
     <pin polarity="Input" x="0" y="-928" name="load" />
     <pin polarity="Output" x="496" y="-928" name="line_busy" />
     <pin polarity="Input" x="0" y="-864" name="addr(9:0)" />
     <pin polarity="Input" x="0" y="-800" name="z(1:0)" />
-    <pin polarity="Input" x="0" y="-736" name="palette(3:0)" />
+    <pin polarity="Input" x="0" y="-736" name="palette(4:0)" />
     <pin polarity="Input" x="0" y="-672" name="first(2:0)" />
     <pin polarity="Input" x="0" y="-608" name="last(2:0)" />
     <pin polarity="Output" x="496" y="-496" name="enable" />
-    <pin polarity="Output" x="496" y="-432" name="index(7:0)" />
+    <pin polarity="Output" x="496" y="-432" name="index(8:0)" />
     <pin polarity="Output" x="192" y="-336" name="current_tile(3:0)" />
     <pin polarity="Input" x="288" y="-336" name="tile_data(31:0)" />
     <pin polarity="Input" x="0" y="-992" name="y(9:0)" />
@@ -30,7 +30,7 @@
         <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-800" type="pin z(1:0)" />
         <rect width="64" x="0" y="-812" height="24" />
         <line x2="0" y1="-800" y2="-800" x1="64" />
-        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-736" type="pin palette(3:0)" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-736" type="pin palette(4:0)" />
         <rect width="64" x="0" y="-748" height="24" />
         <line x2="0" y1="-736" y2="-736" x1="64" />
         <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-672" type="pin first(2:0)" />
@@ -41,7 +41,7 @@
         <line x2="0" y1="-608" y2="-608" x1="64" />
         <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="424" y="-496" type="pin enable" />
         <line x2="496" y1="-496" y2="-496" x1="432" />
-        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="424" y="-432" type="pin index(7:0)" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="424" y="-432" type="pin index(8:0)" />
         <rect width="64" x="432" y="-444" height="24" />
         <line x2="496" y1="-432" y2="-432" x1="432" />
         <line x2="192" y1="-340" y2="-392" x1="192" />

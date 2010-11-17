@@ -7,20 +7,17 @@
     </attr>
     <netlist>
         <signal name="writedata(15:0)" />
-        <signal name="XLXN_306(7:0)" />
         <signal name="y(9:0)" />
         <signal name="XLXN_273" />
         <signal name="vlookahead" />
         <signal name="line_start" />
         <signal name="XLXN_488" />
-        <signal name="sprite_priority(6:0)" />
         <signal name="tile_memdata(15:0)" />
         <signal name="tile_addr(12:0)" />
         <signal name="sprite_addr(9:0)" />
         <signal name="sprite_memdata(15:0)" />
         <signal name="XLXN_510(9:0)" />
         <signal name="XLXN_511(1:0)" />
-        <signal name="XLXN_512(3:0)" />
         <signal name="XLXN_513(2:0)" />
         <signal name="XLXN_514(2:0)" />
         <signal name="XLXN_515" />
@@ -45,11 +42,13 @@
         <signal name="XLXN_319" />
         <signal name="palette_memdata(15:0)" />
         <signal name="palette_memenable" />
+        <signal name="XLXN_532(4:0)" />
+        <signal name="sprite_priority(7:0)" />
+        <signal name="XLXN_533(8:0)" />
         <port polarity="Input" name="writedata(15:0)" />
         <port polarity="Input" name="y(9:0)" />
         <port polarity="Input" name="vlookahead" />
         <port polarity="Input" name="line_start" />
-        <port polarity="Input" name="sprite_priority(6:0)" />
         <port polarity="Output" name="tile_memdata(15:0)" />
         <port polarity="Input" name="tile_addr(12:0)" />
         <port polarity="Input" name="sprite_addr(9:0)" />
@@ -67,8 +66,9 @@
         <port polarity="Input" name="clk" />
         <port polarity="Output" name="palette_memdata(15:0)" />
         <port polarity="Input" name="palette_memenable" />
+        <port polarity="Input" name="sprite_priority(7:0)" />
         <blockdef name="palette">
-            <timestamp>2010-11-4T5:55:29</timestamp>
+            <timestamp>2010-11-13T21:35:55</timestamp>
             <rect width="336" x="64" y="-448" height="524" />
             <line x2="0" y1="-416" y2="-416" x1="64" />
             <line x2="0" y1="-352" y2="-352" x1="64" />
@@ -92,7 +92,7 @@
             <line x2="0" y1="-160" y2="-160" x1="64" />
         </blockdef>
         <blockdef name="line_buffer">
-            <timestamp>2010-10-26T2:3:46</timestamp>
+            <timestamp>2010-11-14T1:4:47</timestamp>
             <line x2="0" y1="-928" y2="-928" x1="64" />
             <line x2="496" y1="-928" y2="-928" x1="432" />
             <rect width="64" x="0" y="-876" height="24" />
@@ -151,7 +151,7 @@
             <rect width="24" x="180" y="-960" height="64" />
         </blockdef>
         <blockdef name="sprite_controller">
-            <timestamp>2010-10-21T5:41:40</timestamp>
+            <timestamp>2010-11-14T1:12:37</timestamp>
             <rect width="416" x="64" y="-896" height="976" />
             <line x2="0" y1="-864" y2="-864" x1="64" />
             <line x2="0" y1="-800" y2="-800" x1="64" />
@@ -197,11 +197,11 @@
             <blockpin signalname="XLXN_273" name="line_busy" />
             <blockpin signalname="XLXN_510(9:0)" name="addr(9:0)" />
             <blockpin signalname="XLXN_511(1:0)" name="z(1:0)" />
-            <blockpin signalname="XLXN_512(3:0)" name="palette(3:0)" />
+            <blockpin signalname="XLXN_532(4:0)" name="palette(4:0)" />
             <blockpin signalname="XLXN_513(2:0)" name="first(2:0)" />
             <blockpin signalname="XLXN_514(2:0)" name="last(2:0)" />
             <blockpin signalname="XLXN_488" name="enable" />
-            <blockpin signalname="XLXN_306(7:0)" name="index(7:0)" />
+            <blockpin signalname="XLXN_533(8:0)" name="index(8:0)" />
             <blockpin signalname="XLXN_529(3:0)" name="current_tile(3:0)" />
             <blockpin signalname="XLXN_531(31:0)" name="tile_data(31:0)" />
             <blockpin signalname="y(9:0)" name="y(9:0)" />
@@ -213,7 +213,7 @@
         <block symbolname="palette" name="palette_output">
             <blockpin signalname="clk" name="clk" />
             <blockpin signalname="XLXN_488" name="enable" />
-            <blockpin signalname="XLXN_306(7:0)" name="index(7:0)" />
+            <blockpin signalname="XLXN_533(8:0)" name="index(8:0)" />
             <blockpin signalname="brightness(7:0)" name="brightness(7:0)" />
             <blockpin signalname="R(7:0)" name="red(7:0)" />
             <blockpin signalname="G(7:0)" name="green(7:0)" />
@@ -235,7 +235,7 @@
             <blockpin signalname="sprite_memenable" name="memenable" />
             <blockpin signalname="line_start" name="scanline_start" />
             <blockpin signalname="vlookahead" name="vlookahead" />
-            <blockpin signalname="sprite_priority(6:0)" name="sprite_priority(6:0)" />
+            <blockpin signalname="sprite_priority(7:0)" name="sprite_priority(7:0)" />
             <blockpin signalname="XLXN_517" name="tile_table" />
             <blockpin signalname="XLXN_516(2:0)" name="sizeX(2:0)" />
             <blockpin signalname="XLXN_515" name="hFlip" />
@@ -246,7 +246,7 @@
             <blockpin signalname="XLXN_514(2:0)" name="last(2:0)" />
             <blockpin signalname="XLXN_510(9:0)" name="line_addr(9:0)" />
             <blockpin signalname="XLXN_511(1:0)" name="line_z(1:0)" />
-            <blockpin signalname="XLXN_512(3:0)" name="line_palette(3:0)" />
+            <blockpin signalname="XLXN_532(4:0)" name="line_palette(4:0)" />
             <blockpin signalname="XLXN_319" name="line_load" />
             <blockpin signalname="sprite_memdata(15:0)" name="memdata(15:0)" />
         </block>
@@ -281,9 +281,6 @@
             <wire x2="2576" y1="1616" y2="1616" x1="2480" />
             <wire x2="2480" y1="1616" y2="2608" x1="2480" />
         </branch>
-        <branch name="XLXN_306(7:0)">
-            <wire x2="2576" y1="1296" y2="1296" x1="2112" />
-        </branch>
         <branch name="y(9:0)">
             <wire x2="464" y1="672" y2="672" x1="272" />
             <wire x2="464" y1="672" y2="1248" x1="464" />
@@ -317,9 +314,6 @@
         </branch>
         <instance x="1616" y="1728" name="line_buff" orien="R0">
         </instance>
-        <branch name="sprite_priority(6:0)">
-            <wire x2="672" y1="1376" y2="1376" x1="624" />
-        </branch>
         <branch name="tile_memdata(15:0)">
             <wire x2="2160" y1="2496" y2="2496" x1="2096" />
         </branch>
@@ -341,9 +335,6 @@
         </branch>
         <branch name="XLXN_511(1:0)">
             <wire x2="1616" y1="928" y2="928" x1="1216" />
-        </branch>
-        <branch name="XLXN_512(3:0)">
-            <wire x2="1616" y1="992" y2="992" x1="1216" />
         </branch>
         <branch name="XLXN_513(2:0)">
             <wire x2="1616" y1="1056" y2="1056" x1="1216" />
@@ -468,7 +459,6 @@
         <iomarker fontsize="28" x="3088" y="1296" name="G(7:0)" orien="R0" />
         <iomarker fontsize="28" x="3088" y="1232" name="R(7:0)" orien="R0" />
         <iomarker fontsize="28" x="2544" y="1360" name="brightness(7:0)" orien="R180" />
-        <iomarker fontsize="28" x="624" y="1376" name="sprite_priority(6:0)" orien="R180" />
         <iomarker fontsize="28" x="512" y="144" name="clk" orien="R180" />
         <iomarker fontsize="28" x="512" y="208" name="rst" orien="R180" />
         <iomarker fontsize="28" x="272" y="672" name="y(9:0)" orien="R180" />
@@ -489,5 +479,15 @@
             <wire x2="2576" y1="1424" y2="1424" x1="2544" />
         </branch>
         <iomarker fontsize="28" x="2544" y="1424" name="palette_memenable" orien="R180" />
+        <branch name="XLXN_532(4:0)">
+            <wire x2="1616" y1="992" y2="992" x1="1216" />
+        </branch>
+        <branch name="sprite_priority(7:0)">
+            <wire x2="672" y1="1376" y2="1376" x1="640" />
+        </branch>
+        <iomarker fontsize="28" x="640" y="1376" name="sprite_priority(7:0)" orien="R180" />
+        <branch name="XLXN_533(8:0)">
+            <wire x2="2576" y1="1296" y2="1296" x1="2112" />
+        </branch>
     </sheet>
 </drawing>

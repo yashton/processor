@@ -1,25 +1,14 @@
 `timescale 1ns / 1ps
 
 ////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer:
+// Company: University of Utah
+// Engineer: William Graham, Ashton Snelgrove
 //
-// Create Date:   16:58:43 10/19/2010
-// Design Name:   alu
-// Module Name:   //wannsee/Users/u0527893/My Documents/3710/Lab3.1/aluTestbench/alutest.v
-// Project Name:  aluTestbench
-// Target Device:  
-// Tool versions:  
-// Description: 
+// Module Name:   alutest
+// Project Name:  blue
+// Description: Self checking testbench for alu module.
 //
 // Verilog Test Fixture created by ISE for module: alu
-//
-// Dependencies:
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
 ////////////////////////////////////////////////////////////////////////////////
 
 module alutest;
@@ -55,8 +44,6 @@ module alutest;
 	wire [3:0] func;
 	wire [3:0] cond;
 	wire [4:0] psrRead;
-	//wire [4:0] psrWrite;
-	//wire [4:0] psrWrEn;
 	// Outputs
 	wire [15:0] uut_result, mock_result;
 	wire [4:0] uut_psrWrite, mock_psrWrite;
@@ -100,7 +87,7 @@ module alutest;
 		code = 0;
 		condCode = 0;
 		code = 0;
-		#100
+		#100;
 	end
 	
 	always begin
@@ -177,6 +164,8 @@ module alutest;
 	end
 endmodule
 
+
+
 module alu_mockup
 	(
 		input [15:0] dst,
@@ -237,19 +226,9 @@ module alu_mockup
 		endcase
 	end
 	
-	// PSR Condition code generation.
-	wire cr_t, cr, br, zr, fr, lr, nr;
-	assign cr_t = (cr & addFunc) | (br && subFunc); // cr and br calculated in result
-	assign zr = result == 0;
-	assign fr = (dst[15] & src[15] & ~result[15]) | (~dst[15] & ~src[15] & result[15]);
-	assign lr = dst < src;
-	assign nr = result[15];
-	
-	assign condOut = {cr_t, lr, fr, zr, nr};
-	 
 	// PSR Condition code write flags.
 	wire cr_wr, lr_wr, fr_wr, zr_wr, nr_wr;
-	assign condWr = {cr_wr, lr_wr, fr_wr, zr_wr, nr_wr};
+	assign psrWrEn = {cr_wr, lr_wr, fr_wr, zr_wr, nr_wr};
 	wire addFunc, subFunc, cmpFunc, zFunc;
 	assign addFunc = (oper == ADDI || oper == ADDCI || (oper == REGISTER && (func == F_ADD || func == F_ADDC)));
 	assign subFunc = (oper == SUBI || oper == SUBCI || (oper == REGISTER && (func == F_SUB || func == F_SUBC)));
@@ -263,6 +242,17 @@ module alu_mockup
 	assign fr_wr = addFunc | subFunc;
 	assign zr_wr = zFunc;
 	assign nr_wr = cmpFunc | subFunc | addFunc;
+
+	// PSR Condition code generation.
+	wire cr_t, cr, br, zr, fr, lr, nr;
+	assign cr_t = (cr & addFunc) | (br && subFunc); // cr and br calculated in result
+	assign zr = result == 0;
+	assign fr = (dst[15] & src[15] & ~result[15]) | (~dst[15] & ~src[15] & result[15]);
+	//assign lr = dst < src;
+	assign lr = result[15];
+	assign nr = result[15];
+	
+	assign psrWrite = {cr_t, lr, fr, zr, nr};
 	
 	// Result calculations
 	wire [15:0] sum, mult, sub, band, bor, bxor, passthrough, sll, srl, sar, lsh, ashu, scond, jump, bnot, lui;
@@ -382,6 +372,4 @@ module alu_mockup
 			default: shiftCtrl = C_ADD;
 		endcase
 	end
-	
-
 endmodule

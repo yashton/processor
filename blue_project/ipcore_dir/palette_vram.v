@@ -30,21 +30,21 @@
 // supported by Xilinx, Mentor Graphics and Synplicity synthesis
 // tools. Ensure they are correct for your synthesis tool(s).
 
-// You must compile the wrapper file line_buffer_vram.v when simulating
-// the core, line_buffer_vram. When compiling the wrapper file, be sure to
+// You must compile the wrapper file palette_vram.v when simulating
+// the core, palette_vram. When compiling the wrapper file, be sure to
 // reference the XilinxCoreLib Verilog simulation library. For detailed
 // instructions, please refer to the "CORE Generator Help".
 
 `timescale 1ns/1ps
 
-module line_buffer_vram(
+module palette_vram(
 	clka,
-	ena,
 	wea,
 	addra,
 	dina,
 	douta,
 	clkb,
+	enb,
 	web,
 	addrb,
 	dinb,
@@ -52,31 +52,31 @@ module line_buffer_vram(
 
 
 input clka;
-input ena;
 input [0 : 0] wea;
 input [8 : 0] addra;
-input [35 : 0] dina;
-output [35 : 0] douta;
+input [31 : 0] dina;
+output [31 : 0] douta;
 input clkb;
+input enb;
 input [0 : 0] web;
-input [10 : 0] addrb;
-input [8 : 0] dinb;
-output [8 : 0] doutb;
+input [9 : 0] addrb;
+input [15 : 0] dinb;
+output [15 : 0] doutb;
 
 // synthesis translate_off
 
       BLK_MEM_GEN_V4_2 #(
 		.C_ADDRA_WIDTH(9),
-		.C_ADDRB_WIDTH(11),
-		.C_ALGORITHM(0),
+		.C_ADDRB_WIDTH(10),
+		.C_ALGORITHM(1),
 		.C_BYTE_SIZE(9),
-		.C_COMMON_CLK(1),
+		.C_COMMON_CLK(0),
 		.C_DEFAULT_DATA("0"),
 		.C_DISABLE_WARN_BHV_COLL(0),
 		.C_DISABLE_WARN_BHV_RANGE(0),
 		.C_FAMILY("spartan3"),
-		.C_HAS_ENA(1),
-		.C_HAS_ENB(0),
+		.C_HAS_ENA(0),
+		.C_HAS_ENB(1),
 		.C_HAS_INJECTERR(0),
 		.C_HAS_MEM_OUTPUT_REGS_A(0),
 		.C_HAS_MEM_OUTPUT_REGS_B(0),
@@ -90,15 +90,15 @@ output [8 : 0] doutb;
 		.C_HAS_SOFTECC_OUTPUT_REGS_B(0),
 		.C_INITA_VAL("0"),
 		.C_INITB_VAL("0"),
-		.C_INIT_FILE_NAME("no_coe_file_loaded"),
-		.C_LOAD_INIT_FILE(0),
+		.C_INIT_FILE_NAME("palette_vram.mif"),
+		.C_LOAD_INIT_FILE(1),
 		.C_MEM_TYPE(2),
 		.C_MUX_PIPELINE_STAGES(0),
-		.C_PRIM_TYPE(5),
+		.C_PRIM_TYPE(1),
 		.C_READ_DEPTH_A(512),
-		.C_READ_DEPTH_B(2048),
-		.C_READ_WIDTH_A(36),
-		.C_READ_WIDTH_B(9),
+		.C_READ_DEPTH_B(1024),
+		.C_READ_WIDTH_A(32),
+		.C_READ_WIDTH_B(16),
 		.C_RSTRAM_A(0),
 		.C_RSTRAM_B(0),
 		.C_RST_PRIORITY_A("CE"),
@@ -113,28 +113,28 @@ output [8 : 0] doutb;
 		.C_WEA_WIDTH(1),
 		.C_WEB_WIDTH(1),
 		.C_WRITE_DEPTH_A(512),
-		.C_WRITE_DEPTH_B(2048),
+		.C_WRITE_DEPTH_B(1024),
 		.C_WRITE_MODE_A("WRITE_FIRST"),
 		.C_WRITE_MODE_B("WRITE_FIRST"),
-		.C_WRITE_WIDTH_A(36),
-		.C_WRITE_WIDTH_B(9),
+		.C_WRITE_WIDTH_A(32),
+		.C_WRITE_WIDTH_B(16),
 		.C_XDEVICEFAMILY("spartan3e"))
 	inst (
 		.CLKA(clka),
-		.ENA(ena),
 		.WEA(wea),
 		.ADDRA(addra),
 		.DINA(dina),
 		.DOUTA(douta),
 		.CLKB(clkb),
+		.ENB(enb),
 		.WEB(web),
 		.ADDRB(addrb),
 		.DINB(dinb),
 		.DOUTB(doutb),
 		.RSTA(),
+		.ENA(),
 		.REGCEA(),
 		.RSTB(),
-		.ENB(),
 		.REGCEB(),
 		.INJECTSBITERR(),
 		.INJECTDBITERR(),
@@ -147,7 +147,7 @@ output [8 : 0] doutb;
 
 // XST black box declaration
 // box_type "black_box"
-// synthesis attribute box_type of line_buffer_vram is "black_box"
+// synthesis attribute box_type of palette_vram is "black_box"
 
 endmodule
 

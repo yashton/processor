@@ -31,23 +31,23 @@
 // (in parentheses) to your own signal names.
 
 //----------- Begin Cut here for INSTANTIATION Template ---// INST_TAG
-line_buffer_vram YourInstanceName (
+palette_vram YourInstanceName (
 	.clka(clka),
-	.ena(ena),
 	.wea(wea), // Bus [0 : 0] 
 	.addra(addra), // Bus [8 : 0] 
-	.dina(dina), // Bus [35 : 0] 
-	.douta(douta), // Bus [35 : 0] 
+	.dina(dina), // Bus [31 : 0] 
+	.douta(douta), // Bus [31 : 0] 
 	.clkb(clkb),
+	.enb(enb),
 	.web(web), // Bus [0 : 0] 
-	.addrb(addrb), // Bus [10 : 0] 
-	.dinb(dinb), // Bus [8 : 0] 
-	.doutb(doutb)); // Bus [8 : 0] 
+	.addrb(addrb), // Bus [9 : 0] 
+	.dinb(dinb), // Bus [15 : 0] 
+	.doutb(doutb)); // Bus [15 : 0] 
 
 // INST_TAG_END ------ End INSTANTIATION Template ---------
 
-// You must compile the wrapper file line_buffer_vram.v when simulating
-// the core, line_buffer_vram. When compiling the wrapper file, be sure to
+// You must compile the wrapper file palette_vram.v when simulating
+// the core, palette_vram. When compiling the wrapper file, be sure to
 // reference the XilinxCoreLib Verilog simulation library. For detailed
 // instructions, please refer to the "CORE Generator Help".
 

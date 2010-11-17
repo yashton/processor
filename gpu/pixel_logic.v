@@ -14,14 +14,14 @@ module pixel_logic
 		input first,
 		input [1:0] offset,
 		input [1:0] line_z,
-		input [3:0] line_palette,
+		input [4:0] line_palette,
 		input [31:0] tile_data,
 		input [11:0] previous,
 		output [11:0] previous_out,
-		input [31:0] pixel_in_data,
+		input [35:0] pixel_in_data,
 		input [3:0] pixel_in_updated,
 		input [7:0] pixel_in_z,
-		output [31:0] pixel_out_data,
+		output [35:0] pixel_out_data,
 		output [3:0] pixel_out_updated,
 		output [7:0] pixel_out_z
 	);
@@ -114,14 +114,14 @@ module pixel_logic
 	assign pixel_out_z[3:2] = pixel_out_updated[1] ? line_z : pixel_in_z[3:2];
 	assign pixel_out_z[1:0] = pixel_out_updated[0] ? line_z : pixel_in_z[1:0];
 	
-	wire [7:0] combined_z, combined_y, combined_x, combined_w;
+	wire [8:0] combined_z, combined_y, combined_x, combined_w;
 	assign combined_z = {line_palette, dataZ};
 	assign combined_y = {line_palette, dataY};
 	assign combined_x = {line_palette, dataX};
 	assign combined_w = {line_palette, dataW};
 	
-	assign pixel_out_data[31:24] = pixel_out_updated[3] ? combined_z : pixel_in_data[31:24];
-	assign pixel_out_data[23:16] = pixel_out_updated[2] ? combined_y : pixel_in_data[23:16];
-	assign pixel_out_data[15:8] = pixel_out_updated[1] ? combined_x : pixel_in_data[15:8];
-	assign pixel_out_data[7:0] = pixel_out_updated[0] ? combined_w : pixel_in_data[7:0];
+	assign pixel_out_data[35:27] = pixel_out_updated[3] ? combined_z : pixel_in_data[35:27];
+	assign pixel_out_data[26:18] = pixel_out_updated[2] ? combined_y : pixel_in_data[26:18];
+	assign pixel_out_data[17:9] = pixel_out_updated[1] ? combined_x : pixel_in_data[17:9];
+	assign pixel_out_data[8:0] = pixel_out_updated[0] ? combined_w : pixel_in_data[8:0];
 endmodule

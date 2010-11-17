@@ -3,17 +3,14 @@ Processor:
 	Replace coregen block ram main_memory in memory_controller with exmem style verilog memory.
 	Jake
 		- Having to regenerate the core to load program is annoying.
+	Replace coregen block ram main_memory in memory_controller with exmem style verilog memory.
+		- Having to regenerate the core to load program is annoying.
 
 Application:
 	Boot code - set initial $fp, $sp
 	Macros for memory locations in memory map
 	
 Gpu:
-	Increase the size of the the palette field in sprite object to 5 bits
-	Ashton
-		- Increase the line buffer width to 36-bits (use coregen)
-		- Make all intermediate palette steps use 5 bits (don't forget schem. symbols)
-		- Palette module index already correct size.
 	Create a glyph-style background module. 
 	Matt
 		- The pixel from the background will be combined with the current output of the gpu.
@@ -24,9 +21,9 @@ Gpu:
 			- 4 32x32 tile, 2 address bits per segment, and 20x15 segments. (300x2bits)
 			- glyph does not have to be square
 			- No more block rams, make a distributed ram for table.
-		- Could use fewer colors, get a larger table,
+		- Could use fewer colors, fewer palette selections, get a larger table,
 			- 64x128 at 4 colors
-			- 8 32x32, 3 address bits per segment, (300x3bits)
+			- 8 32x32, 3 address bits per segment, (300x3xp bits)
 			
 	Zoom mode - 320x240
 		- modify vga to increment x and y at half speed.
@@ -46,35 +43,19 @@ Controllers:
 		- Two output wires, one for trigger, one for light sensor
 	
 Assembler:
-	nop
-	jal $t0
-		- implied $ra (same as jal $ra, $t0)
-	neg $ra
-		not $ra
-		addi $ra, 1
-	push $ra
-		stor $ra, $fp
-		subi $fp, 1
-	pop $ra
-		load $ra, $fp
-		addi $fp, 1
-	parameterized macros
+	*parameterized macros
 	
 Sound:
 	Billy
 	
 Processor:
 	*Implement wait operation
-		- wait $ra, $rb
+		- wait $rx, $ry
 		- 16-bit processor interrupt register, flags for things like VBLANK
-		- rb is a mask for the PIR, and the processor waits until rb&PIR is non-zero
-		- as processor starts up again, rb&PIR is written to $ra
+		- ry is a mask for the PIR, and the processor waits until ry&PIR is non-zero
+		- as processor starts up again, ry&PIR is written to $rx
 	*Any other operations
 		- modulo
 		- tbit, tbiti
 	*Counter
 		- 32-bit, incr every clock (86 sec period)
-	Random number generator 
-		- 16 linear feedback shift registers
-	*Direct memory access controller
-		- suspend processor while copy from flash to block memory

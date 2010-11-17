@@ -43,7 +43,7 @@ fibn:	movi $0, 16		# initialize n = 8
 		movwi $9, 0x1000 # pointer to array 
 		movwi $5, SWITCHES
 loop:	cmpi $0,0 
-		beq  end		# Done with loop if n == 0
+		beq  loop2		# Done with loop if n == 0
 		add  $1, $2		# f1 = f1 + f2
 		mov  $10, $1	# temp = f1
 		sub  $10, $2		# temp = temp - f2
@@ -53,7 +53,6 @@ loop:	cmpi $0,0
 		addi $6, 1		#ptr++
 		movwi $8, loop	# repeat until done
 		juc  $8		
-end:
 loop2:
 		load $7, $5		#value of switches into return register
 		add  $7, $9		

@@ -26,8 +26,8 @@
 --     (c) Copyright 1995-2009 Xilinx, Inc.                                   --
 --     All rights reserved.                                                   --
 --------------------------------------------------------------------------------
--- You must compile the wrapper file line_buffer_vram.vhd when simulating
--- the core, line_buffer_vram. When compiling the wrapper file, be sure to
+-- You must compile the wrapper file palette_vram.vhd when simulating
+-- the core, palette_vram. When compiling the wrapper file, be sure to
 -- reference the XilinxCoreLib VHDL simulation library. For detailed
 -- instructions, please refer to the "CORE Generator Help".
 
@@ -40,40 +40,40 @@ USE ieee.std_logic_1164.ALL;
 -- synthesis translate_off
 Library XilinxCoreLib;
 -- synthesis translate_on
-ENTITY line_buffer_vram IS
+ENTITY palette_vram IS
 	port (
 	clka: IN std_logic;
-	ena: IN std_logic;
 	wea: IN std_logic_VECTOR(0 downto 0);
 	addra: IN std_logic_VECTOR(8 downto 0);
-	dina: IN std_logic_VECTOR(35 downto 0);
-	douta: OUT std_logic_VECTOR(35 downto 0);
+	dina: IN std_logic_VECTOR(31 downto 0);
+	douta: OUT std_logic_VECTOR(31 downto 0);
 	clkb: IN std_logic;
+	enb: IN std_logic;
 	web: IN std_logic_VECTOR(0 downto 0);
-	addrb: IN std_logic_VECTOR(10 downto 0);
-	dinb: IN std_logic_VECTOR(8 downto 0);
-	doutb: OUT std_logic_VECTOR(8 downto 0));
-END line_buffer_vram;
+	addrb: IN std_logic_VECTOR(9 downto 0);
+	dinb: IN std_logic_VECTOR(15 downto 0);
+	doutb: OUT std_logic_VECTOR(15 downto 0));
+END palette_vram;
 
-ARCHITECTURE line_buffer_vram_a OF line_buffer_vram IS
+ARCHITECTURE palette_vram_a OF palette_vram IS
 -- synthesis translate_off
-component wrapped_line_buffer_vram
+component wrapped_palette_vram
 	port (
 	clka: IN std_logic;
-	ena: IN std_logic;
 	wea: IN std_logic_VECTOR(0 downto 0);
 	addra: IN std_logic_VECTOR(8 downto 0);
-	dina: IN std_logic_VECTOR(35 downto 0);
-	douta: OUT std_logic_VECTOR(35 downto 0);
+	dina: IN std_logic_VECTOR(31 downto 0);
+	douta: OUT std_logic_VECTOR(31 downto 0);
 	clkb: IN std_logic;
+	enb: IN std_logic;
 	web: IN std_logic_VECTOR(0 downto 0);
-	addrb: IN std_logic_VECTOR(10 downto 0);
-	dinb: IN std_logic_VECTOR(8 downto 0);
-	doutb: OUT std_logic_VECTOR(8 downto 0));
+	addrb: IN std_logic_VECTOR(9 downto 0);
+	dinb: IN std_logic_VECTOR(15 downto 0);
+	doutb: OUT std_logic_VECTOR(15 downto 0));
 end component;
 
 -- Configuration specification 
-	for all : wrapped_line_buffer_vram use entity XilinxCoreLib.blk_mem_gen_v4_2(behavioral)
+	for all : wrapped_palette_vram use entity XilinxCoreLib.blk_mem_gen_v4_2(behavioral)
 		generic map(
 			c_has_regceb => 0,
 			c_has_regcea => 0,
@@ -82,23 +82,23 @@ end component;
 			c_rstram_a => 0,
 			c_has_injecterr => 0,
 			c_rst_type => "SYNC",
-			c_prim_type => 5,
-			c_read_width_b => 9,
+			c_prim_type => 1,
+			c_read_width_b => 16,
 			c_initb_val => "0",
 			c_family => "spartan3",
-			c_read_width_a => 36,
+			c_read_width_a => 32,
 			c_disable_warn_bhv_coll => 0,
 			c_use_softecc => 0,
 			c_write_mode_b => "WRITE_FIRST",
-			c_init_file_name => "no_coe_file_loaded",
+			c_init_file_name => "palette_vram.mif",
 			c_write_mode_a => "WRITE_FIRST",
 			c_mux_pipeline_stages => 0,
 			c_has_softecc_output_regs_b => 0,
 			c_has_mem_output_regs_b => 0,
 			c_has_mem_output_regs_a => 0,
-			c_load_init_file => 0,
+			c_load_init_file => 1,
 			c_xdevicefamily => "spartan3e",
-			c_write_depth_b => 2048,
+			c_write_depth_b => 1024,
 			c_write_depth_a => 512,
 			c_has_rstb => 0,
 			c_has_rsta => 0,
@@ -107,22 +107,22 @@ end component;
 			c_has_mux_output_regs_a => 0,
 			c_addra_width => 9,
 			c_has_softecc_input_regs_a => 0,
-			c_addrb_width => 11,
+			c_addrb_width => 10,
 			c_default_data => "0",
 			c_use_ecc => 0,
-			c_algorithm => 0,
+			c_algorithm => 1,
 			c_disable_warn_bhv_range => 0,
-			c_write_width_b => 9,
-			c_write_width_a => 36,
-			c_read_depth_b => 2048,
+			c_write_width_b => 16,
+			c_write_width_a => 32,
+			c_read_depth_b => 1024,
 			c_read_depth_a => 512,
 			c_byte_size => 9,
 			c_sim_collision_check => "ALL",
-			c_common_clk => 1,
+			c_common_clk => 0,
 			c_wea_width => 1,
-			c_has_enb => 0,
+			c_has_enb => 1,
 			c_web_width => 1,
-			c_has_ena => 1,
+			c_has_ena => 0,
 			c_use_byte_web => 0,
 			c_use_byte_wea => 0,
 			c_rst_priority_b => "CE",
@@ -131,20 +131,20 @@ end component;
 -- synthesis translate_on
 BEGIN
 -- synthesis translate_off
-U0 : wrapped_line_buffer_vram
+U0 : wrapped_palette_vram
 		port map (
 			clka => clka,
-			ena => ena,
 			wea => wea,
 			addra => addra,
 			dina => dina,
 			douta => douta,
 			clkb => clkb,
+			enb => enb,
 			web => web,
 			addrb => addrb,
 			dinb => dinb,
 			doutb => doutb);
 -- synthesis translate_on
 
-END line_buffer_vram_a;
+END palette_vram_a;
 

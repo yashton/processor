@@ -59,7 +59,7 @@ module line_buffer
 		input load,
 		input [9:0] addr,
 		input [1:0] z,
-		input [3:0] palette,
+		input [4:0] palette,
 		input [2:0] first,
 		input [2:0] last,
 		output line_busy,
@@ -70,7 +70,7 @@ module line_buffer
 		input line_start,
 		input [9:0] x,
 		input [9:0] y,
-		output [7:0] index,
+		output [8:0] index,
 		output enable
    );
 	reg [2:0] last_tile;
@@ -83,15 +83,15 @@ module line_buffer
 	
 	wire write_pixel;
 		
-	wire [31:0] pixel_read_data;
+	wire [35:0] pixel_read_data;
 	wire [3:0] pixel_read_updated;
 	wire [7:0] pixel_read_z;
-	wire [31:0] pixel_write_data;
+	wire [35:0] pixel_write_data;
 	wire [3:0] pixel_write_updated;
 	wire [7:0] pixel_write_z;
 	
 	reg [1:0] line_z;
-	reg [3:0] line_palette;
+	reg [4:0] line_palette;
 	
 	// Registers for latching inputs	
 	reg completed_first;
@@ -200,7 +200,7 @@ module line_buffer
 	line_buffer_vram buffer_ram(
 		.addra(buffer_addr), .dina(pixel_write_data), .ena(pixel_enable), 
 		.wea(write_pixel), .clka(clk), .douta(pixel_read_data),
-		.addrb(output_addr), .dinb(8'h0), .web(1'b0), .clkb(clk), .doutb(index));
+		.addrb(output_addr), .dinb(9'h0), .web(1'b0), .clkb(clk), .doutb(index));
 	
 	pixel_z_data pixel_z(.a(pixel_addr), .d(pixel_write_z), .we(write_pixel),
 		.clk(clk), .spo(pixel_read_z));
