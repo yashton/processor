@@ -3,7 +3,7 @@
 module system
 	(
 		input clk,
-		input rst,
+		input rst_btn,
 		// VGA
 		output bright, hsync, vsync,
 		output [7:0] R, G, B,
@@ -21,6 +21,9 @@ module system
 		output SF_WE,
 		output SF_BYTE
 	);
+	wire rst;
+	assign rst = !rst_btn;
+	
 	wire hbright;
 	wire vbright;
 	wire [9:0] x, y;
@@ -34,30 +37,19 @@ module system
 	wire [9:0] sprite_addr;
 	wire tile_memenable;
 	wire [12:0] tile_addr;
-	wire [3:0] dst_addr;
-	wire [3:0] src_addr;
-	wire [1:0] regsrc;
-	wire regwrite;
-	wire aluSrcA;
-	wire aluSrcB;
-	wire pcWrite;
-	wire pcSrc;
-	wire [1:0] pcAddrSrc;
-	wire [3:0] oper;
-	wire [3:0] func;
-	wire [3:0] cond;
-	wire [7:0] Immediate;
-	wire signExtImm;
+	
+	// processor
 	wire [15:0] memdata;
 	wire [15:0] instruction;
 	wire proc_en;
-	wire [15:0] pcaddr;
-	wire [15:0] writedata;
-	wire [15:0] memaddr;
-	wire memwrite;
+	wire [15:0] pcaddr;	
 	wire [15:0] proc_writedata;
 	wire [15:0] proc_memaddr;
 	wire proc_memwrite;
+	
+	wire [15:0] writedata;
+	wire [15:0] memaddr;
+	wire memwrite;
 	
 	wire palette_memenable;
 	wire [15:0] palette_memdata;
@@ -78,74 +70,16 @@ module system
 	wire [15:0] dma_memaddr;
 	wire dma_memwrite;
 	
-	alu_schematic  alu (
-			.aluSrcA(aluSrcA), 
-			.aluSrcB(aluSrcB), 
-			.clk(clk), 
-			.cond(cond), 
-			.dst_addr(dst_addr), 
-			.func(func), 
-			.Immediate(Immediate), 
-			.memdata(memdata), 
-			.oper(oper), 
-			.pcaddrsrc(pcAddrSrc), 
-			.pcSrc(pcSrc), 
-			.pcWrite(pcWrite), 
-			.regsrc(regsrc), 
-			.regwrite(regwrite), 
-			.rst(rst), 
-			.signExtImm(signExtImm), 
-			.src_addr(src_addr), 
-			.memaddr(proc_memaddr), 
-			.pcaddr(pcaddr), 
-			.writedata(proc_writedata)
-		);
-		
-	controller  control (
-			.clk(clk), 
-		  .instruction(instruction), 
-		  .rst(rst), 
-		  .en(proc_en),
-		  .alusrca(aluSrcA), 
-		  .alusrcb(aluSrcB), 
-		  .cond(cond), 
-		  .dstaddr(dst_addr), 
-		  .func(func), 
-		  .immediate(Immediate), 
-		  .memwrite(proc_memwrite), 
-		  .oper(oper), 
-		  .pcaddrsrc(pcAddrSrc), 
-		  .pcsrc(pcSrc), 
-		  .pcwrite(pcWrite), 
-		  .regsrc(regsrc), 
-		  .regwrite(regwrite), 
-		  .sign_ext_imm(signExtImm), 
-			.srcaddr(src_addr)
-		);
-		
-	gpu_schematic  gpu (
-		 .clk(clk), 
-		 .rst(rst), 
-		 .line_start(line_start), 
-		 .memwrite(memwrite), 
-		 .brightness(brightness), 
-		 .palette_addr(palette_addr), 
-		 .palette_memenable(palette_memenable),
-		 .sprite_addr(sprite_addr), 
-		 .sprite_memenable(sprite_memenable), 
-		 .sprite_priority(sprite_priority), 
-		 .tile_addr(tile_addr), 
-		 .tile_memenable(tile_memenable), 
-		 .vlookahead(vlookahead), 
-		 .writedata(writedata), 
-		 .x(x), 
-		 .y(y), 
-		 .R(R), 
-		 .G(G), 
-		 .B(B), 
-		 .sprite_memdata(sprite_memdata), 
-		 .tile_memdata(tile_memdata),
-		 .palette_memdata(palette_memdata)
+	processor proc (
+			.clk(clk),
+			.rst(rst),
+			.en(proc_en),
+			.pcaddr(pcaddr),
+			.instruction(instruction),
+			.memaddr(proc_memaddr),
+			.memdata(memdata),
+			.writedata(proc_writedata),
+			.memwrite(proc_memwrite)
 		);
 		
 	assign memaddr = proc_en ? proc_memaddr : dma_memaddr;
@@ -181,6 +115,31 @@ module system
 			.dma_mode(dma_mode)
 	  );
 	  
+	gpu_schematic  gpu (
+		 .clk(clk), 
+		 .rst(rst), 
+		 .line_start(line_start), 
+		 .memwrite(memwrite), 
+		 .brightness(brightness), 
+		 .palette_addr(palette_addr), 
+		 .palette_memenable(palette_memenable),
+		 .sprite_addr(sprite_addr), 
+		 .sprite_memenable(sprite_memenable), 
+		 .sprite_priority(sprite_priority), 
+		 .tile_addr(tile_addr), 
+		 .tile_memenable(tile_memenable), 
+		 .vlookahead(vlookahead), 
+		 .writedata(writedata), 
+		 .x(x), 
+		 .y(y), 
+		 .R(R), 
+		 .G(G), 
+		 .B(B), 
+		 .sprite_memdata(sprite_memdata), 
+		 .tile_memdata(tile_memdata),
+		 .palette_memdata(palette_memdata)
+		);
+	  
 	vga  vga_ctrl (
 			.clk(clk), 
 		  .rst(rst), 
@@ -208,6 +167,7 @@ module system
 		
 	romController rom (
 			.clk(clk),
+			.rst(rst),
 			.addr(rom_addr),
 			.load(rom_load),
 			.data(rom_data),

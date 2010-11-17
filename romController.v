@@ -23,6 +23,7 @@ module romController
 	(
 		// system interface
 		input clk,
+		input rst,
 		input [ROM_ADDR-1:0] addr,
 		input load,
 		output [WIDTH-1:0] data,
@@ -55,7 +56,13 @@ module romController
 	assign ready = !(delay < top);
 
 	always @(posedge clk)	begin
-		if (load) begin
+		if (!rst) begin
+			top <= 0;
+			page <= 0;
+			word <= 0;
+			delay <= 0;
+		end
+		else if (load) begin
 			if (page == addr[ROM_ADDR-1:PAGE_SIZE]) begin
 				top <= P_HIT - 1;
 			end
@@ -66,7 +73,7 @@ module romController
 			word <= addr[PAGE_SIZE-1:0];
 			delay <= 0;
 		end
-		else begin
+		else if (!ready) begin
 			delay <= delay + 1;
 		end
 	end

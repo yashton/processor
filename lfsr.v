@@ -33,11 +33,14 @@ module lfsr
 			data <= SEED;
 		end
 		else if (en) begin
-			data[WIDTH-1:1] <= data[WIDTH-2:0];
-			if (write)
+			if (write) begin
+				data[WIDTH-2:0] <= SEED;
+				data[WIDTH-1] <= din;
+			end
+			else begin
+				data[WIDTH-1:1] <= data[WIDTH-2:0];
 				data[0] <= data[TAP_0] ^ data[TAP_1] ^ data[TAP_2] ^ data[TAP_3];
-			else
-				data[0] <= din;
+			end
 		end
 	end
 endmodule

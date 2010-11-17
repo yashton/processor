@@ -2,7 +2,7 @@
 NET "clk" LOC = "C9" | TNM_NET = clk;
 TIMESPEC TS_clk = PERIOD "clk" 20 ns HIGH 50%;
 # push button south
-NET "rst" LOC = "K17" | IOSTANDARD = LVTTL | PULLUP ;
+NET "rst_btn" LOC = "K17" | IOSTANDARD = LVTTL | PULLDOWN ;
 
 # toggle switches
 NET "switches<0>" LOC = "L13" | IOSTANDARD = LVTTL | PULLUP ;
