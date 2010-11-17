@@ -11,7 +11,7 @@
             <Keywords name="Folder-"></Keywords>
             <Keywords name="Operators">. :</Keywords>
             <Keywords name="Comment">1 2 0#</Keywords>
-            <Keywords name="Words1">add addi addu addui addc addci mul muli sub subi subc subci cmp cmpi and andi or ori xor movi lsh lshi ashu ashui lui load stor snxb zrxb jal tbit tbiti lpr spr di ei excp retx wait not test seq sne sge scs scc shi sls slo shs sgt sle sfs sfc slt suc beq bne bge bcs bcc bhi bls blo bhs bgt ble bfs bfc blt buc jeq jne jge jcs jcc jhi jls jlo jhs jgt jle jfs jfc jlt juc movwi mov neg nop push pop call</Keywords>
+            <Keywords name="Words1">add addi addu addui addc addci mul muli sub subi subc subci cmp cmpi and andi or ori xor movi lsh lshi ashu ashui lui load stor snxb zrxb jal tbit tbiti lpr spr di ei excp retx wait not test seq sne sge scs scc shi sls slo shs sgt sle sfs sfc slt suc beq bne bge bcs bcc bhi bls blo bhs bgt ble bfs bfc blt buc jeq jne jge jcs jcc jhi jls jlo jhs jgt jle jfs jfc jlt juc movwi mov neg nop push pop call frame leave</Keywords>
             <Keywords name="Words2">data text define</Keywords>
             <Keywords name="Words3">$0 $1 $2 $3 $4 $5 $6 $7 $8 $9 $10 $11 $12 $13 $14 $15 $t0 $t1 $t2 $t3 $s0 $s1 $s2 $s3 $a0 $a1 $a2 $v0 $v1 $sp $fp $ra</Keywords>
             <Keywords name="Words4">0x</Keywords>

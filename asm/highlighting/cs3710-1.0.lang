@@ -13,6 +13,8 @@
 	
 	<keyword-list _name="Operations" style="Keyword" case-sensitive="TRUE">
 			<keyword>call</keyword>
+			<keyword>frame</keyword>
+			<keyword>leave</keyword>
 			<keyword>add</keyword>
 			<keyword>neg</keyword>
 			<keyword>nop</keyword>

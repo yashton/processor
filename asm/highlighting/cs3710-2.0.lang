@@ -45,6 +45,8 @@
 
     <context id="operations" style-ref="operations">
     	<keyword>call</keyword>
+			<keyword>frame</keyword>
+			<keyword>leave</keyword>
 			<keyword>neg</keyword>
 			<keyword>nop</keyword>
 			<keyword>push</keyword>
