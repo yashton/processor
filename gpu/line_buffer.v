@@ -114,6 +114,7 @@ module line_buffer
 	end
 	
 	always @(posedge clk) begin
+		if (!rst || load) begin
 			completed_first <= 0;
 		end
 		else if (state == WRFIRST) begin
