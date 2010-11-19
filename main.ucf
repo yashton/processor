@@ -23,17 +23,41 @@ NET "switches<7>" LOC = "V16" | IOSTANDARD = LVTTL | PULLDOWN;
 NET "rot_a" LOC = "K18" | IOSTANDARD = LVTTL | PULLUP ;
 NET "rot_b" LOC = "G18" | IOSTANDARD = LVTTL | PULLUP ;
 
-# controller A
-#NET "ctrlA_clk" LOC = "B4" | IOSTANDARD = LVCMOS33 | DRIVE = 4 | SLEW = FAST;
-#NET "ctrlA_latch" LOC = "A4" | IOSTANDARD = LVCMOS33 | DRIVE = 4 | SLEW = FAST;
-#NET "ctrlA_data" LOC = "D5" | IOSTANDARD = LVCMOS33 | DRIVE = 4 | SLEW = FAST;
-#NET "ctrlA_light" LOC = "C5" | IOSTANDARD = LVCMOS33 | DRIVE = 4 | SLEW = FAST;
 
-# controller B
+
+# controller A (lightgun)
 #NET "ctrlB_clk" LOC = "A6" | IOSTANDARD = LVCMOS33 | DRIVE = 4 | SLEW = FAST;
 #NET "ctrlB_latch" LOC = "B6" | IOSTANDARD = LVCMOS33 | DRIVE = 4 | SLEW = FAST;
 #NET "ctrlB_data" LOC = "E7" | IOSTANDARD = LVCMOS33 | DRIVE = 4 | SLEW = FAST;
 #NET "ctrlB_light" LOC = "F7" | IOSTANDARD = LVCMOS33 | DRIVE = 4 | SLEW = FAST;
+
+# controller A (snes controller)
+#NET "ctrlB_clk" LOC = "A6" | IOSTANDARD = LVCMOS33 | DRIVE = 4 | SLEW = FAST;
+NET "data" LOC = "B6" | IOSTANDARD = LVTTL | DRIVE = 6 | SLEW = SLOW;
+NET "latch" LOC = "E7" | IOSTANDARD = LVTTL | DRIVE = 6 | SLEW = SLOW;
+NET "pulse" LOC = "F7" | IOSTANDARD = LVTTL | DRIVE = 6 | SLEW = SLOW;
+
+# controller B (lightgun)
+#NET "datab" LOC = "B4" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 6 ;
+NET "datab" LOC = "A4" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 6 ;
+NET "latchb" LOC = "D5" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 6 ;
+NET "pulseb" LOC = "C5" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 6 ;
+
+
+
+#LEDs -- note that LED pins are shared by VGA, so you get one or the other.
+#NET "plyr_input<7>" LOC = "F9" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 8 ;
+#NET "plyr_input<6>" LOC = "E9" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 8 ;
+#NET "plyr_input<5>" LOC = "D11" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 8 ;
+#NET "plyr_input<4>" LOC = "C11" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 8 ;
+#NET "plyr_input<3>" LOC = "F11" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 8 ;
+#NET "plyr_input<2>" LOC = "E11" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 8 ;
+#NET "plyr_input<1>" LOC = "E12" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 8 ;
+#NET "plyr_input<0>" LOC = "F12" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 8 ;
+
+
+
+
 
 #LEDs -- note that LED pins are shared by VGA, so you get one or the other.
 #NET "test_out<7>" LOC = "F9" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 8 ;
@@ -52,7 +76,7 @@ NET "vsync" LOC = "D7" | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = FAST;
 ## Video DAC control
 NET "bright" LOC = "C3" | IOSTANDARD = LVCMOS33 | DRIVE = 4 | SLEW = FAST;
 
-# VGA RGB output
+## VGA RGB output
 NET "R[0]" LOC = "F8" | IOSTANDARD = LVCMOS33 | DRIVE = 4 | SLEW = FAST;
 NET "R[1]" LOC = "E8" | IOSTANDARD = LVCMOS33 | DRIVE = 4 | SLEW = FAST;
 NET "R[2]" LOC = "F9" | IOSTANDARD = LVCMOS33 | DRIVE = 4 | SLEW = FAST;
@@ -79,7 +103,7 @@ NET "B[4]" LOC = "B11" | IOSTANDARD = LVCMOS33 | DRIVE = 4 | SLEW = FAST;
 NET "B[5]" LOC = "A11" | IOSTANDARD = LVCMOS33 | DRIVE = 4 | SLEW = FAST;
 NET "B[6]" LOC = "A8" | IOSTANDARD = LVCMOS33 | DRIVE = 4 | SLEW = FAST;
 NET "B[7]" LOC = "G9" | IOSTANDARD = LVCMOS33 | DRIVE = 4 | SLEW = FAST;
-
+#
 # Intel StrataFlash ROM
 NET "SF_A<23>" LOC = "N11" | IOSTANDARD = LVCMOS33 | DRIVE = 4 | SLEW = SLOW ;
 NET "SF_A<22>" LOC = "V12" | IOSTANDARD = LVCMOS33 | DRIVE = 4 | SLEW = SLOW ;
