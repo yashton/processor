@@ -24,7 +24,9 @@ module memory_controller
 		parameter DMA_DST = DMA_REGS + 2,
 		parameter DMA_AMT = DMA_REGS + 3,
 		parameter ROT_ADDR = 16'h4808,
-		parameter RNG_ADDR = 16'h4809
+		parameter RNG_ADDR = 16'h4809,
+		parameter CONA_ADDR = 16'h480a,
+		parameter CONB_ADDR = 16'h480b
 	)
 	(
 		input clk,
@@ -50,6 +52,10 @@ module memory_controller
 		//inputs and outputs for switches and leds
 		//output reg [7:0] test_out,
 		input [7:0] switches,
+		//snes controller
+		input [11:0] plyra_input,
+		input [11:0] plyrb_input,
+
 		// Rotary encoder
 		input [15:0] rot_count,
 		output rot_en,
@@ -113,6 +119,12 @@ module memory_controller
 			end
 			else if (memaddr == ROT_ADDR) begin
 				other_memdata <= rot_count;
+			end
+			else if ( memaddr == CONA_ADDR) begin
+				other_memdata <= {4'b0, plyra_input};
+			end
+			else if ( memaddr == CONB_ADDR) begin
+				other_memdata <= {4'b0, plyrb_input};
 			end
 			else if (rng_en) begin
 				other_memdata <= random;
