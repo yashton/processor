@@ -1,9 +1,19 @@
 `timescale 1ns / 1ps
-
+`define foo 6
 module system
 	(
 		input clk,
 		input rst_btn,
+		//game/user input
+		input data,
+		output latch,
+		output pulse,
+		input datab,
+		output latchb,
+		output pulseb,
+		//snes controller input
+		output [11:0] plyra_input,
+		output [11:0] plyrb_input,
 		// VGA
 		output bright, hsync, vsync,
 		output [7:0] R, G, B,
@@ -69,6 +79,7 @@ module system
 	wire [15:0] dma_writedata;
 	wire [15:0] dma_memaddr;
 	wire dma_memwrite;
+
 	
 	processor proc (
 			.clk(clk),
@@ -109,6 +120,8 @@ module system
 			.palette_addr(palette_addr),
 			.palette_data(palette_memdata),
 			.switches(switches),
+			.plyra_input(plyra_input),
+			.plyrb_input(plyrb_input),
 			.rot_count(rot_count),
 			.rot_en(rot_en),
 			.dma_en(dma_en),
@@ -198,6 +211,26 @@ module system
 		.write(memwrite),
 		.wr_mode(dma_mode),
 		.ctrl_data(writedata)
+	);
+	
+	snes_cont gameinput_snescont (
+		.clk(clk),
+		.en(vsync), 
+		.rst(rst),
+		.latch(latch),
+		.pulse(pulse), 
+		.data(data),
+		.plyr_input(plyra_input)
+	);
+	
+	snes_cont gameinput_neszap (
+		.clk(clk),
+		.en(vsync), 
+		.rst(rst),
+		.latch(latchb),
+		.pulse(pulseb), 
+		.data(datab),
+		.plyr_input(plyrb_input)
 	);
 		
 endmodule
