@@ -29,7 +29,10 @@ module system
 		output SF_CE0,
 		output SF_OE,
 		output SF_WE,
-		output SF_BYTE
+		output SF_BYTE,
+		// Onboard vga
+		output VGA_RED, VGA_GREEN, VGA_BLUE,
+		output VGA_HSYNC, VGA_VSYNC
 	);
 	wire rst;
 	assign rst = !rst_btn;
@@ -152,7 +155,20 @@ module system
 		 .tile_memdata(tile_memdata),
 		 .palette_memdata(palette_memdata)
 		);
-	  
+		
+	vga_reduce vga_reduction (
+		.R(R),
+		.G(G),
+		.B(B),
+		.cutoff(rot_count),
+		.reduce_r(VGA_RED),
+		.reduce_g(VGA_GREEN),
+		.reduce_b(VGA_BLUE)
+		);
+	assign VGA_HSYNC = hsync;
+	assign VGA_VSYNC = vsync;
+	
+	
 	vga  vga_ctrl (
 			.clk(clk), 
 		  .rst(rst), 
