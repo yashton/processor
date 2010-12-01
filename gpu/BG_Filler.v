@@ -27,7 +27,7 @@ module BG_Filler(
     output [8:0] indexOut
     );
 	 
-	 
+	 assign indexOut = indexIn;
 
 
 endmodule

@@ -8,7 +8,7 @@ module gpu_test();
    reg rst;
    reg clk;
    reg [7:0] brightness;
-   reg [6:0] sprite_priority;
+   reg [7:0] sprite_priority;
 
 // Output
    wire [7:0] B;
@@ -19,24 +19,40 @@ module gpu_test();
    wire hsync;
    wire vbright;
    wire hbright;
-
+	
+	wire [9:0] x, y;
+	wire vlookahead;
+	wire line_start;
 // Bidirs
 
 // Instantiate the UUT
-   gpu_test_system UUT (
+   gpu_schematic UUT (
 		.B(B), 
 		.G(G), 
 		.R(R), 
-		.bright(bright), 
-		.vsync(vsync), 
-		.hsync(hsync), 
+		.y(y),
+		.x(x),
+		.line_start(line_start),
+		.vlookahead(vlookahead),
 		.rst(rst), 
-		.clk(clk), 
-		.vbright(vbright), 
-		.hbright(hbright), 
+		.clk(clk),
 		.brightness(brightness), 
 		.sprite_priority(sprite_priority)
    );
+	
+	vga vga_ctrl (
+		.clk(clk),
+		.rst(rst),
+		.x(x),
+		.y(y),
+		.hbright(hbright),
+		.vbright(vbright),	
+		.vlookahead(vlookahead),
+		.line_start,
+		.bright(bright),
+		.hsync(hsync),
+		.vsync(vsync)
+	);
 
 // Initialize Inputs
 	integer fileid;
@@ -55,10 +71,10 @@ module gpu_test();
 		#10 clk = ~clk;
 	end
 	always @(posedge clk) begin
-	 	if (UUT.vga_ctrl.vga_clk_enable && bright) begin
+	 	if (vga_ctrl.vga_clk_enable && bright) begin
 	 		$fdisplay(fileid, "%h%h%h", R, G, B);
 	 	end
-	 	if (!bright && UUT.vga_ctrl.vcount == 521) begin
+	 	if (!bright && vga_ctrl.vcount == 521) begin
 	 		$fclose(fileid);
 	 		$finish();
 	 	end

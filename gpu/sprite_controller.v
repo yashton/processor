@@ -47,7 +47,8 @@ module sprite_controller
 		parameter INCR = 1,
 		parameter LOAD_Y = 2,
 		parameter LOAD_X = 3,
-		parameter LOAD_SLICE_WORD = 4
+		parameter LOAD_SLICE_WORD = 4,
+		parameter FINISH = 5
 	)
 	(
 		input clk,
@@ -109,6 +110,8 @@ module sprite_controller
 		end
 	end
 
+	reg [7:0] sprite_i;
+
 	always @(*) begin
 		if (scanline_start) begin
 			next_state <= START;
@@ -116,17 +119,17 @@ module sprite_controller
 		else begin
 			case (state)
 				START: next_state <= LOAD_Y;
-				INCR: next_state <= LOAD_Y;
+				INCR: next_state <= (sprite_i + 1) == sprite_priority ? FINISH : LOAD_Y;
 				LOAD_Y: next_state <= LOAD_X;
 				LOAD_X: next_state <= active && yintersect ? LOAD_SLICE_WORD : INCR;
 				LOAD_SLICE_WORD: next_state <= line_busy ? LOAD_SLICE_WORD : INCR;
+				FINISH: next_state <= FINISH;
 				default: next_state <= START;
 			endcase
 		end
 	end
 	
 	// sprite lookup calculations.
-	reg [7:0] sprite_i;
 	wire sprite_offset;
 	wire [8:0] sprite_addr;
 	assign sprite_addr = {sprite_i, sprite_offset}; // address is calculated by 2 * i + offset;

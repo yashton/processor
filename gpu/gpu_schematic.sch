@@ -283,7 +283,7 @@
             <blockpin signalname="XLXN_529(3:0)" name="current_tile(3:0)" />
             <blockpin signalname="XLXN_531(31:0)" name="tile_data(31:0)" />
         </block>
-        <block symbolname="BG_Filler" name="BG_Filler">
+        <block symbolname="BG_Filler" name="background">
             <blockpin signalname="clk" name="clk" />
             <blockpin signalname="XLXN_540" name="enable" />
             <blockpin signalname="XLXN_541(8:0)" name="indexIn(8:0)" />
@@ -518,7 +518,7 @@
         <iomarker fontsize="28" x="2848" y="1360" name="brightness(7:0)" orien="R180" />
         <iomarker fontsize="28" x="2848" y="1424" name="palette_memenable" orien="R180" />
         <iomarker fontsize="28" x="2848" y="1552" name="palette_addr(9:0)" orien="R180" />
-        <instance x="2368" y="896" name="BG_Filler" orien="R0">
+        <instance x="2368" y="896" name="background" orien="R0">
         </instance>
         <branch name="XLXN_540">
             <wire x2="2224" y1="1232" y2="1232" x1="2112" />

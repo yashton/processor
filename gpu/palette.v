@@ -33,7 +33,7 @@ module palette
 	);
 	
 	wire [31:0] colorData;
-	
+	wire [7:0] redData, greenData, blueData;
 	assign redData = enable ? colorData[7:0] : 0;
 	assign greenData = enable ? colorData[15:8] : 0;
 	assign blueData = enable ? colorData[23:16] : 0;

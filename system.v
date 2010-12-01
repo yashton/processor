@@ -156,15 +156,9 @@ module system
 		 .palette_memdata(palette_memdata)
 		);
 		
-	vga_reduce vga_reduction (
-		.R(R),
-		.G(G),
-		.B(B),
-		.cutoff(rot_count),
-		.reduce_r(VGA_RED),
-		.reduce_g(VGA_GREEN),
-		.reduce_b(VGA_BLUE)
-		);
+	assign VGA_RED = R[7];
+	assign VGA_GREEN = G[7];
+	assign VGA_BLUE = B[7];
 	assign VGA_HSYNC = hsync;
 	assign VGA_VSYNC = vsync;
 	
