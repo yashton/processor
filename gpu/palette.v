@@ -18,7 +18,6 @@
 module palette
 	(
 		input clk,
-		input enable,
 		input [7:0] brightness,
 		input [8:0] index,
 		output [7:0] red,
@@ -34,9 +33,9 @@ module palette
 	
 	wire [31:0] colorData;
 	wire [7:0] redData, greenData, blueData;
-	assign redData = enable ? colorData[7:0] : 0;
-	assign greenData = enable ? colorData[15:8] : 0;
-	assign blueData = enable ? colorData[23:16] : 0;
+	assign redData = colorData[7:0];
+	assign greenData = colorData[15:8];
+	assign blueData = colorData[23:16];
 	
 	wire [8:0] reducedRed, reducedGreen, reducedBlue;
 	assign reducedRed = redData - (255 - brightness);

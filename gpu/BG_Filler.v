@@ -20,14 +20,12 @@
 //////////////////////////////////////////////////////////////////////////////////
 module BG_Filler(
     input clk,
-    input enable,
-    input [8:0] indexIn,
     input [9:0] y,
     input [9:0] x,
     output [8:0] indexOut
     );
 	 
-	 assign indexOut = indexIn;
+	 assign indexOut = 9'd0;
 //	 
 //	 always @(posedge clk) 
 //	 begin

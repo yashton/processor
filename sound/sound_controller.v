@@ -257,6 +257,42 @@ end
 //			48: s8_duration [15:0] <= writedata;
 //			49: s8_duration [31:16] <= writedata;		
 		endcase
+		
+		if (en) begin
+			b_rom_addr <= b_rom_addr + 1;
+			if (b_duration == 0)
+				b_duration <= b_duration_total;
+			else
+				b_duration  <= b_duration - 1;
+			
+			s0_rom_addr <= s0_rom_addr + 1;
+			if(s0_duration)
+				s0_duration <= s0_duration - 1;
+			s1_rom_addr <= s1_rom_addr + 1;
+			if (s1_duration)
+				s1_duration <= s1_duration - 1;
+			s2_rom_addr <= s2_rom_addr + 1;
+			if(s2_duration)
+				s2_duration <= s2_duration - 1;
+			s3_rom_addr <= s3_rom_addr + 1;
+			if (s3_duration)
+				s3_duration <= s3_duration - 1;
+//			s4_rom_addr <= s4_rom_addr + 1;
+//			if(s4_duration)
+//				s4_duration <= s4_duration - 1;
+//			s5_rom_addr <= s5_rom_addr + 1;
+//			if(s5_duration)
+//				s5_duration <= s5_duration - 1;
+//			s6_rom_addr <= s6_rom_addr + 1;
+//			if (s6_duration)
+//				s6_duration <= s6_duration - 1;
+//			s7_rom_addr <= s7_rom_addr + 1;
+//			if(s7_duration)
+//				s7_duration <= s7_duration - 1;
+//			s8_rom_addr <= s8_rom_addr + 1;
+//			if (s8_duration)
+//				s8_duration <= s8_duration - 1;
+		end
 	end
 	
 	always @(posedge clk) begin
@@ -298,43 +334,5 @@ end
 	//assign sfx5 = s5_duration ? sfx0_data : 8'b0;
 	//assign sfx6 = s6_duration ? sfx0_data : 8'b0;
 	//assign sfx7 = s7_duration ? sfx0_data : 8'b0;
-	
-	always @(posedge clk) begin
-		if (en) begin
-			b_rom_addr <= b_rom_addr + 1;
-			if (b_duration == 0)
-				b_duration <= b_duration_total;
-			else
-				b_duration  <= b_duration - 1;
-			
-			s0_rom_addr <= s0_rom_addr + 1;
-			if(s0_duration)
-				s0_duration <= s0_duration - 1;
-			s1_rom_addr <= s1_rom_addr + 1;
-			if (s1_duration)
-				s1_duration <= s1_duration - 1;
-			s2_rom_addr <= s2_rom_addr + 1;
-			if(s2_duration)
-				s2_duration <= s2_duration - 1;
-			s3_rom_addr <= s3_rom_addr + 1;
-			if (s3_duration)
-				s3_duration <= s3_duration - 1;
-//			s4_rom_addr <= s4_rom_addr + 1;
-//			if(s4_duration)
-//				s4_duration <= s4_duration - 1;
-//			s5_rom_addr <= s5_rom_addr + 1;
-//			if(s5_duration)
-//				s5_duration <= s5_duration - 1;
-//			s6_rom_addr <= s6_rom_addr + 1;
-//			if (s6_duration)
-//				s6_duration <= s6_duration - 1;
-//			s7_rom_addr <= s7_rom_addr + 1;
-//			if(s7_duration)
-//				s7_duration <= s7_duration - 1;
-//			s8_rom_addr <= s8_rom_addr + 1;
-//			if (s8_duration)
-//				s8_duration <= s8_duration - 1;
-		end
-	end
 endmodule
 

@@ -10,9 +10,14 @@
 //////////////////////////////////////////////////////////////////////////////////
 module memory_controller
 	#(
+	
+		parameter PROGRAM_TOP_ADDR = 16'h2000,
 		parameter SPRITE_ADDR = 16'h2000,
-		parameter TILE_ADDR = 16'h2400,
+		parameter SPRITE_TOP_ADDR = 16'h2400,
+		parameter TILE_ADDR = 16'h2400,		
+		parameter TILE_TOP_ADDR = 16'h4400,
 		parameter PALETTE_ADDR = 16'h4400,
+		parameter PALETTE_TOP_ADDR = 16'h4800,
 		parameter GPU_SR_ADDR = 16'h4800,
 		parameter PRIORITY_ADDR = 16'h4801,
 		parameter BRIGHTNESS_ADDR = 16'h4802,
@@ -71,10 +76,10 @@ module memory_controller
 	 );
 
 	wire programen;
-	assign programen = (memaddr < SPRITE_ADDR);
-	assign sprite_object_enable = !programen && (memaddr < TILE_ADDR);
-	assign tile_data_enable = !sprite_object_enable && (memaddr < PALETTE_ADDR);
-	assign palette_enable = !tile_data_enable && (memaddr < GPU_SR_ADDR);
+	assign programen = (memaddr < PROGRAM_TOP_ADDR);
+	assign sprite_object_enable = (memaddr >= SPRITE_ADDR) && (memaddr < SPRITE_TOP_ADDR);
+	assign tile_data_enable = (memaddr >= TILE_ADDR) && (memaddr < TILE_TOP_ADDR);
+	assign palette_enable = (memaddr >= PALETTE_ADDR) && (memaddr < PALETTE_ADDR);
 	assign rot_en = memaddr == ROT_ADDR;
 	assign dma_en = memaddr[15:2] == DMA_REGS;
 	assign dma_mode = memaddr[1:0];
@@ -99,7 +104,7 @@ module memory_controller
 	reg [15:0] other_memdata;
 	always @(posedge clk) begin
 		if (!rst) begin
-			brightness <= 0;
+			brightness <= 8'hFF;
 			sprite_priority <= 0;
 		end
 		else begin
