@@ -8,9 +8,9 @@ module system
 		input data,
 		output latch,
 		output pulse,
-		input datab,
-		output latchb,
-		output pulseb,
+		input shot,
+		output sensor,
+		output trigger,
 		//snes controller input
 		output [11:0] plyra_input,
 		output [11:0] plyrb_input,
@@ -237,6 +237,16 @@ module system
 		.ctrl_data(writedata)
 	);
 	
+	nes_zap gameinput_neszap (
+		.clk(clk),
+		//.en(vsync), 
+		.rst(rst),
+		.sensor(sensor),
+		.trigger(trigger), 
+		.shot(datab),
+		.hit(plyrb_input)
+	);
+	
 	snes_cont gameinput_snescont (
 		.clk(clk),
 		.en(vsync), 
@@ -245,16 +255,6 @@ module system
 		.pulse(pulse), 
 		.data(data),
 		.plyr_input(plyra_input)
-	);
-	
-	snes_cont gameinput_neszap (
-		.clk(clk),
-		.en(vsync), 
-		.rst(rst),
-		.latch(latchb),
-		.pulse(pulseb), 
-		.data(datab),
-		.plyr_input(plyrb_input)
 	);
 		
 	sound_schematic sound (
