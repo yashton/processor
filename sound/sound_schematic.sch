@@ -6,15 +6,6 @@
         <trait edittrait="all:0" />
     </attr>
     <netlist>
-        <signal name="XLXN_34" />
-        <signal name="XLXN_38" />
-        <signal name="XLXN_39" />
-        <signal name="XLXN_40(11:0)" />
-        <signal name="XLXN_41" />
-        <signal name="XLXN_42" />
-        <signal name="XLXN_47" />
-        <signal name="XLXN_79(7:0)" />
-        <signal name="XLXN_80" />
         <signal name="XLXN_1(7:0)" />
         <signal name="XLXN_2(3:0)" />
         <signal name="XLXN_3(7:0)" />
@@ -37,11 +28,9 @@
         <signal name="XLXN_20(3:0)" />
         <signal name="XLXN_21(11:0)" />
         <signal name="XLXN_28(7:0)" />
-        <signal name="XLXN_118(7:0)" />
-        <signal name="XLXN_119" />
         <signal name="XLXN_29" />
         <signal name="writedata(15:0)" />
-        <signal name="select(6:0)" />
+        <signal name="sound_select(6:0)" />
         <signal name="mem_en" />
         <signal name="memwrite" />
         <signal name="rst" />
@@ -59,15 +48,11 @@
         <signal name="flash_cs" />
         <signal name="DAC_cs" />
         <signal name="XLXN_147" />
-        <signal name="XLXN_148" />
         <signal name="XLXN_149" />
         <signal name="XLXN_150" />
-        <signal name="XLXN_151" />
-        <signal name="XLXN_152" />
-        <signal name="XLXN_155" />
-        <signal name="XLXN_156" />
+        <signal name="sound_data(15:0)" />
         <port polarity="Input" name="writedata(15:0)" />
-        <port polarity="Input" name="select(6:0)" />
+        <port polarity="Input" name="sound_select(6:0)" />
         <port polarity="Input" name="mem_en" />
         <port polarity="Input" name="memwrite" />
         <port polarity="Input" name="rst" />
@@ -78,6 +63,7 @@
         <port polarity="Output" name="SCK" />
         <port polarity="Output" name="flash_cs" />
         <port polarity="Output" name="DAC_cs" />
+        <port polarity="Output" name="sound_data(15:0)" />
         <blockdef name="mixer">
             <timestamp>2010-12-2T1:33:46</timestamp>
             <rect width="256" x="64" y="-1280" height="1280" />
@@ -125,7 +111,7 @@
             <line x2="384" y1="-1248" y2="-1248" x1="320" />
         </blockdef>
         <blockdef name="sound_controller">
-            <timestamp>2010-12-2T2:12:14</timestamp>
+            <timestamp>2010-12-2T20:41:25</timestamp>
             <line x2="0" y1="-1376" y2="-1376" x1="64" />
             <line x2="0" y1="-1248" y2="-1248" x1="64" />
             <line x2="0" y1="-1120" y2="-1120" x1="64" />
@@ -178,11 +164,13 @@
             <line x2="464" y1="-96" y2="-96" x1="400" />
             <rect width="64" x="400" y="-44" height="24" />
             <line x2="464" y1="-32" y2="-32" x1="400" />
-            <rect width="336" x="64" y="-1504" height="1504" />
+            <rect width="336" x="64" y="-1504" height="1588" />
             <line x2="464" y1="-1440" y2="-1440" x1="400" />
             <line x2="464" y1="-1376" y2="-1376" x1="400" />
             <rect width="64" x="400" y="-1388" height="24" />
             <line x2="0" y1="-96" y2="-96" x1="64" />
+            <line x2="464" y1="32" y2="32" x1="400" />
+            <rect width="64" x="400" y="20" height="24" />
         </blockdef>
         <blockdef name="DAC_controller">
             <timestamp>2010-12-2T1:56:28</timestamp>
@@ -243,7 +231,7 @@
             <blockpin signalname="mem_en" name="mem_en" />
             <blockpin signalname="memwrite" name="memwrite" />
             <blockpin signalname="writedata(15:0)" name="writedata(15:0)" />
-            <blockpin signalname="select(6:0)" name="select(6:0)" />
+            <blockpin signalname="sound_select(6:0)" name="sound_select(6:0)" />
             <blockpin signalname="XLXN_28(7:0)" name="rom_data(7:0)" />
             <blockpin signalname="XLXN_1(7:0)" name="bground(7:0)" />
             <blockpin signalname="XLXN_2(3:0)" name="bamp(3:0)" />
@@ -268,6 +256,7 @@
             <blockpin signalname="XLXN_23" name="rom_load" />
             <blockpin signalname="XLXN_22(23:0)" name="rom_addr(23:0)" />
             <blockpin signalname="XLXN_29" name="rom_ready" />
+            <blockpin signalname="sound_data(15:0)" name="mem_data(15:0)" />
         </block>
         <block symbolname="mixer" name="XLXI_3">
             <blockpin signalname="XLXN_1(7:0)" name="bground(7:0)" />
@@ -403,22 +392,22 @@
         </branch>
         <branch name="XLXN_28(7:0)">
             <wire x2="672" y1="1840" y2="1840" x1="592" />
-            <wire x2="592" y1="1840" y2="2160" x1="592" />
-            <wire x2="1840" y1="2160" y2="2160" x1="592" />
+            <wire x2="592" y1="1840" y2="2240" x1="592" />
+            <wire x2="1840" y1="2240" y2="2240" x1="592" />
             <wire x2="1840" y1="560" y2="560" x1="1744" />
-            <wire x2="1840" y1="560" y2="2160" x1="1840" />
+            <wire x2="1840" y1="560" y2="2240" x1="1840" />
         </branch>
         <branch name="XLXN_29">
             <wire x2="672" y1="1968" y2="1968" x1="656" />
-            <wire x2="656" y1="1968" y2="2128" x1="656" />
-            <wire x2="1792" y1="2128" y2="2128" x1="656" />
+            <wire x2="656" y1="1968" y2="2192" x1="656" />
+            <wire x2="1792" y1="2192" y2="2192" x1="656" />
             <wire x2="1792" y1="624" y2="624" x1="1744" />
-            <wire x2="1792" y1="624" y2="2128" x1="1792" />
+            <wire x2="1792" y1="624" y2="2192" x1="1792" />
         </branch>
         <branch name="writedata(15:0)">
             <wire x2="672" y1="1584" y2="1584" x1="640" />
         </branch>
-        <branch name="select(6:0)">
+        <branch name="sound_select(6:0)">
             <wire x2="672" y1="1712" y2="1712" x1="640" />
         </branch>
         <branch name="mem_en">
@@ -485,7 +474,7 @@
             <wire x2="1312" y1="368" y2="368" x1="960" />
         </branch>
         <iomarker fontsize="28" x="640" y="1584" name="writedata(15:0)" orien="R180" />
-        <iomarker fontsize="28" x="640" y="1712" name="select(6:0)" orien="R180" />
+        <iomarker fontsize="28" x="640" y="1712" name="sound_select(6:0)" orien="R180" />
         <iomarker fontsize="28" x="640" y="1200" name="mem_en" orien="R180" />
         <iomarker fontsize="28" x="640" y="1328" name="memwrite" orien="R180" />
         <iomarker fontsize="28" x="112" y="48" name="clk" orien="R180" />
@@ -552,5 +541,9 @@
             <wire x2="672" y1="944" y2="944" x1="320" />
             <wire x2="544" y1="2592" y2="2592" x1="464" />
         </branch>
+        <branch name="sound_data(15:0)">
+            <wire x2="1168" y1="2096" y2="2096" x1="1136" />
+        </branch>
+        <iomarker fontsize="28" x="1168" y="2096" name="sound_data(15:0)" orien="R0" />
     </sheet>
 </drawing>

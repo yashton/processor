@@ -31,7 +31,9 @@ module sound_controller
 		input mem_en,
 		input memwrite,
 		input [15:0] writedata,
-		input [6:0] select,
+		input [6:0] sound_select,
+		output reg [15:0] mem_data,
+		
 		// ROM
 		input [7:0] rom_data,
 		input rom_ready,
@@ -42,7 +44,7 @@ module sound_controller
 		// mixer outputs
 		output reg [7:0] bground,
 		output reg [3:0] bamp,
-		output reg [7:0] sfx0, sfx1, sfx2, sfx3, sfx4, sfx5, sfx6, sfx7, sfx8,
+		output [7:0] sfx0, sfx1, sfx2, sfx3, sfx4, sfx5, sfx6, sfx7, sfx8,
 		
 		output reg [3:0] sfx_amp0,
 		output reg [3:0] sfx_amp1,
@@ -54,7 +56,8 @@ module sound_controller
 		output reg [3:0] sfx_amp7,
 		output reg [3:0] sfx_amp8
     );
-	 
+	
+	reg [7:0] sfx0_data, sfx1_data, sfx2_data, sfx3_data;
 // registers to store sound data
 	reg [23:0] b_rom_addr;
 	reg [31:0] b_duration;
@@ -101,10 +104,10 @@ localparam S3_SWITCH = 4;
 //localparam S6_SWITCH = 7;
 //localparam S7_SWITCH = 8;
 //localparam S8_SWITCH = 9;
-reg [3:0] sound_select;
+reg [3:0] sound_sound_select;
 
 always @(*) begin
-	case(sound_select)
+	case(sound_sound_select)
 		BG_SWITCH:
 			rom_addr <= b_rom_addr;
 		S0_SWITCH:
@@ -132,17 +135,17 @@ end
 
 always @(*) begin
 	if(state == valid_state) begin
-		case(sound_select)
+		case(sound_sound_select)
 			BG_SWITCH:
 				bground <= rom_data;
 			S0_SWITCH:
-				sfx0 <= rom_data;
+				sfx0_data <= rom_data;
 			S1_SWITCH:
-				sfx1 <= rom_data;
+				sfx1_data <= rom_data;
 			S2_SWITCH:
-				sfx2 <= rom_data;
+				sfx2_data <= rom_data;
 			S3_SWITCH:
-				sfx3 <= rom_data;
+				sfx3_data <= rom_data;
 //			S4_SWITCH:
 //				sfx4 <= rom_data;
 //			S5_SWITCH:
@@ -176,7 +179,7 @@ end
 			load_state: next_state = wait_state;
 			wait_state: if(!rom_ready) next_state = wait_state;
 				 else next_state = valid_state;
-			valid_state: if(sound_select < MAX_SOUND) next_state = load_state;
+			valid_state: if(sound_sound_select < MAX_SOUND) next_state = load_state;
 				 else next_state = off_state;
 			default: next_state = off_state;
 		endcase
@@ -184,19 +187,19 @@ end
 	
 	always @(posedge clk) begin
 		if (!rst)
-			sound_select <= 0;
+			sound_sound_select <= 0;
 		else if (state == off_state)
-			sound_select <= 0;
+			sound_sound_select <= 0;
 		else if (state == valid_state)
-			sound_select <= sound_select + 1;
+			sound_sound_select <= sound_sound_select + 1;
 		else
-			sound_select <= sound_select;
+			sound_sound_select <= sound_sound_select;
 	end
 	
 	assign rom_load = (state == load_state);
 //stores sound data in registers 
 	always @(posedge clk) begin
-		case (select)
+		case (sound_select)
 			0: b_rom_addr [15:0] <= writedata;
 			1: b_rom_addr [23:16] <= writedata;
 			2: bamp [3:0] <= writedata;
@@ -253,9 +256,39 @@ end
 //			47: sfx_amp8 [3:0] <= writedata;
 //			48: s8_duration [15:0] <= writedata;
 //			49: s8_duration [31:16] <= writedata;		
-	endcase
+		endcase
 	end
-	reg [7:0] sfx0_data, sfx1_data, sfx2_data, sfx3_data, sfx4_data, sfx5_data, sfx6_data, sfx7_data, sfx8_data;
+	
+	always @(posedge clk) begin
+		case (sound_select)
+			0:  mem_data <= b_rom_addr [15:0];
+			1:  mem_data <= b_rom_addr [23:16];
+			2:  mem_data <= bamp [3:0];
+			3:	 mem_data <= b_duration[15:0];
+			4:  mem_data <= b_duration[31:16];
+			5:  mem_data <= s0_rom_addr [15:0];
+			6:  mem_data <= s0_rom_addr [23:16];
+			7:  mem_data <= sfx_amp0[3:0];
+			8:  mem_data <= s0_duration [15:0];
+			9:  mem_data <= s0_duration [31:16];
+			10: mem_data <= s1_rom_addr [15:0];
+			11: mem_data <= s1_rom_addr [20:16];
+			12: mem_data <= sfx_amp1 [3:0];
+			13: mem_data <= s1_duration [15:0];
+			14: mem_data <= s1_duration [31:16];
+			15: mem_data <= s2_rom_addr [15:0];
+			16: mem_data <= s2_rom_addr [23:16];
+			17: mem_data <= sfx_amp2 [3:0];
+			18: mem_data <= s2_duration [15:0];
+			19: mem_data <= s2_duration [31:16];
+			20: mem_data <= s3_rom_addr [15:0];
+			21: mem_data <= s3_rom_addr [23:16];
+			22: mem_data <= sfx_amp3 [3:0];
+			23: mem_data <= s3_duration [15:0];
+			24: mem_data <= s3_duration [31:16];	
+		endcase
+	end
+	
 	
 	assign sfx0 = s0_duration ? sfx0_data : 8'b0;
 	assign sfx1 = s1_duration ? sfx0_data : 8'b0;

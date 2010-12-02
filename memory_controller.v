@@ -26,7 +26,9 @@ module memory_controller
 		parameter ROT_ADDR = 16'h4808,
 		parameter RNG_ADDR = 16'h4809,
 		parameter CONA_ADDR = 16'h480a,
-		parameter CONB_ADDR = 16'h480b
+		parameter CONB_ADDR = 16'h480b,
+		parameter SOUND_ADDR = 16'h480c,
+		parameter SOUND_TOP_ADDR = 16'h4825
 	)
 	(
 		input clk,
@@ -61,7 +63,11 @@ module memory_controller
 		output rot_en,
 		// DMA controller
 		output dma_en,
-		output [1:0] dma_mode
+		output [1:0] dma_mode,
+		//sound controller
+		input [15:0] sound_data,
+		output sound_en,
+		output [6:0] sound_select
 	 );
 
 	wire programen;
@@ -73,7 +79,8 @@ module memory_controller
 	assign dma_en = memaddr[15:2] == DMA_REGS;
 	assign dma_mode = memaddr[1:0];
 	
-	
+	assign sound_en = (memaddr >= SOUND_ADDR) && (memaddr < SOUND_TOP_ADDR);
+	assign sound_select = memaddr - SOUND_ADDR;
 	assign sprite_object_addr = memaddr - SPRITE_ADDR;
 	assign tile_data_addr = memaddr - TILE_ADDR;
 	assign palette_addr = memaddr - PALETTE_ADDR;
@@ -144,6 +151,8 @@ module memory_controller
 			memdata <= tile_data;
 		else if (palette_enable)
 			memdata <= palette_data;
+		else if (sound_en)
+			memdata <= sound_data;
 		else
 			memdata <= other_memdata;
 	end

@@ -28,35 +28,35 @@ module BG_Filler(
     );
 	 
 	 assign indexOut = indexIn;
-	 
-	 always @(posedge clk) 
-	 begin
-		if (y<300)
-		begin
-			if (indexIn[3:0] == 4'b0000)
-			begin
-				indexOut <= 9'b00000000; // sky color index in pallette 0
-			end
-			else
-			begin
-				indexOut <= indexIn;
-			end
-		end
-		else if (y<400)
-		begin
-			// grass code goes here, msb of 3 bits we need is located at (x-1)%52*3+156*(y-300)
-		end
-		else
-		begin
-		if (indexIn[3:0] == 4'b0000)
-			begin
-				indexOut <= 9'b00000111; // ground color index in pallette 0
-			end
-			else
-			begin
-				indexOut <= indexIn;
-			end
-		end
-	end
+//	 
+//	 always @(posedge clk) 
+//	 begin
+//		if (y<300)
+//		begin
+//			if (indexIn[3:0] == 4'b0000)
+//			begin
+//				indexOut <= 9'b00000000; // sky color index in pallette 0
+//			end
+//			else
+//			begin
+//				indexOut <= indexIn;
+//			end
+//		end
+//		else if (y<400)
+//		begin
+//			// grass code goes here, msb of 3 bits we need is located at (x-1)%52*3+156*(y-300)
+//		end
+//		else
+//		begin
+//		if (indexIn[3:0] == 4'b0000)
+//			begin
+//				indexOut <= 9'b00000111; // ground color index in pallette 0
+//			end
+//			else
+//			begin
+//				indexOut <= indexIn;
+//			end
+//		end
+//	end
 	
 endmodule

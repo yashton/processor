@@ -32,7 +32,13 @@ module system
 		output SF_BYTE,
 		// Onboard vga
 		output VGA_RED, VGA_GREEN, VGA_BLUE,
-		output VGA_HSYNC, VGA_VSYNC
+		output VGA_HSYNC, VGA_VSYNC,
+		// SPI 
+		output MISO,
+		output MOSI,
+		output flash_cs,
+		output DAC_cs,
+		output SCK
 	);
 	wire rst;
 	assign rst = !rst_btn;
@@ -82,6 +88,11 @@ module system
 	wire [15:0] dma_writedata;
 	wire [15:0] dma_memaddr;
 	wire dma_memwrite;
+	
+	//sound controller
+	wire sound_en;
+	wire [15:0] sound_data;
+	wire [6:0] sound_select;
 
 	
 	processor proc (
@@ -128,7 +139,10 @@ module system
 			.rot_count(rot_count),
 			.rot_en(rot_en),
 			.dma_en(dma_en),
-			.dma_mode(dma_mode)
+			.dma_mode(dma_mode),
+			.sound_data(sound_data),
+			.sound_select(sound_select),
+			.sound_en(sound_en)
 	  );
 	  
 	gpu_schematic  gpu (
@@ -243,4 +257,19 @@ module system
 		.plyr_input(plyrb_input)
 	);
 		
+	sound_schematic sound (
+		.clk(clk),
+		.rst(rst),
+		.en(1'b1),
+		.MISO(MISO),
+		.MOSI(MOSI),
+		.flash_cs(flash_cs),
+		.DAC_cs(DAC_cs),
+		.SCK(SCK),
+		.sound_select(sound_select),
+		.writedata(writedata),
+		.memwrite(memwrite),
+		.mem_en(sound_en),
+		.sound_data(sound_data)
+	);
 endmodule
