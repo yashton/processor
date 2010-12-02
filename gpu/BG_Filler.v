@@ -28,6 +28,35 @@ module BG_Filler(
     );
 	 
 	 assign indexOut = indexIn;
-
-
+	 
+	 always @(posedge clk) 
+	 begin
+		if (y<300)
+		begin
+			if (indexIn[3:0] == 4'b0000)
+			begin
+				indexOut <= 9'b00000000; // sky color index in pallette 0
+			end
+			else
+			begin
+				indexOut <= indexIn;
+			end
+		end
+		else if (y<400)
+		begin
+			// grass code goes here
+		end
+		else
+		begin
+		if (indexIn[3:0] == 4'b0000)
+			begin
+				indexOut <= 9'b00001111; // sky color index in pallette 0
+			end
+			else
+			begin
+				indexOut <= indexIn;
+			end
+		end
+	end
+	
 endmodule
