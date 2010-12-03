@@ -32,11 +32,13 @@ module vga
 		 output line_start,
 		 output bright,
 		 output hsync,
-		 output vsync
+		 output vsync,
+		 output vga_dac_clk
     );
-	
+    
 	reg [9:0] hcount, vcount;
 	reg vga_clk_enable;
+	assign vga_dac_clk = vga_clk_enable;
 	
 	// Vertical and horizontal output if count is inside Tdisplay
 	assign hbright = (hcount >= (hPulseWidth + hBackPorch) && hcount < (hPulse - hFrontPorch));

@@ -1,0 +1,67 @@
+void main()
+{
+	while(1)
+	{
+		draw_splash();
+		int score = play_game();
+	}
+}
+
+void draw_splash() {
+	while (!player_start)
+		draw some title stuff
+	return;
+}
+
+int play_game()
+{
+	state = NORMAL
+	do
+	{
+		read and interpret inputs
+	
+		if (state == BLANK_SCREEN)
+			set palettes to blank
+		else if (state == HIT)
+			duck.killed = true
+		
+		case (state):
+			NORMAL: next_state = trigger_pulled ? NORMAL : BLANK_SCREEN
+			BLANK_SCREEN: next_state = gun_hit ? HIT : NORMAL
+			HIT: next_state = NORMAL
+	
+		game_over = update_duck(duck);
+		
+		if (vblank)
+			// if current blanking period is not over yet, wait
+			while(vblank);
+		// wait until next frame (negedge vblank)
+		while (!vblank);
+		
+	} while (!game_over)
+	return score;
+}
+
+boolean update_duck(Duck duck)
+{
+	if (!duck.killed)
+	{
+		duck.delta = updateDelta(duck);
+		duck.x += duck.deltaV.X;
+		duck.y += duck.deltaV.Y;
+		keep duck within bounds;
+		return true;
+	}
+	else
+	{
+		if (off_screen)
+		{
+			return false;
+		}
+		else
+		{
+			draw falling animation;
+			return true;
+	}
+}
+

@@ -17,6 +17,7 @@ module system
 		// VGA
 		output bright, hsync, vsync,
 		output [7:0] R, G, B,
+		output vga_dac_clk,
 		// physical switches
 		input [7:0] switches,
 		// rotary encoder
@@ -190,7 +191,8 @@ module system
 		  .vlookahead(vlookahead), 
 		  .vsync(vsync), 
 		  .x(x), 
-			.y(y)
+			.y(y),
+			.vga_dac_clk(vga_dac_clk)
 		);
 					  
 	rotary_encoder rot (
