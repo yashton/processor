@@ -43,10 +43,10 @@
         <signal name="palette_memenable" />
         <signal name="XLXN_532(4:0)" />
         <signal name="sprite_priority(7:0)" />
-        <signal name="XLXN_548(9:0)" />
         <signal name="XLXN_550" />
         <signal name="XLXN_551(8:0)" />
         <signal name="XLXN_552(8:0)" />
+        <signal name="XLXN_553(8:0)" />
         <port polarity="Input" name="writedata(15:0)" />
         <port polarity="Input" name="y(9:0)" />
         <port polarity="Input" name="vlookahead" />
@@ -205,7 +205,7 @@
             <line x2="0" y1="-160" y2="-160" x1="64" />
         </blockdef>
         <blockdef name="color_mux">
-            <timestamp>2010-12-2T22:37:54</timestamp>
+            <timestamp>2010-12-3T4:1:35</timestamp>
             <rect width="304" x="64" y="-192" height="192" />
             <rect width="64" x="368" y="-172" height="24" />
             <line x2="432" y1="-160" y2="-160" x1="368" />
@@ -235,7 +235,7 @@
         </block>
         <block symbolname="palette" name="palette_output">
             <blockpin signalname="clk" name="clk" />
-            <blockpin signalname="XLXN_548(9:0)" name="index(8:0)" />
+            <blockpin signalname="XLXN_553(8:0)" name="index(8:0)" />
             <blockpin signalname="brightness(7:0)" name="brightness(7:0)" />
             <blockpin signalname="R(7:0)" name="red(7:0)" />
             <blockpin signalname="G(7:0)" name="green(7:0)" />
@@ -297,7 +297,7 @@
             <blockpin signalname="x(9:0)" name="x(9:0)" />
         </block>
         <block symbolname="color_mux" name="colormux">
-            <blockpin signalname="XLXN_548(9:0)" name="index(9:0)" />
+            <blockpin signalname="XLXN_553(8:0)" name="index(8:0)" />
             <blockpin signalname="XLXN_552(8:0)" name="bg_index(8:0)" />
             <blockpin signalname="XLXN_550" name="sprite_enable" />
             <blockpin signalname="XLXN_551(8:0)" name="sprite_index(8:0)" />
@@ -529,11 +529,6 @@
         </branch>
         <instance x="2880" y="1584" name="palette_output" orien="R0">
         </instance>
-        <branch name="XLXN_548(9:0)">
-            <wire x2="2752" y1="1168" y2="1168" x1="2640" />
-            <wire x2="2752" y1="1168" y2="1296" x1="2752" />
-            <wire x2="2880" y1="1296" y2="1296" x1="2752" />
-        </branch>
         <branch name="XLXN_550">
             <wire x2="2208" y1="1232" y2="1232" x1="2112" />
         </branch>
@@ -552,5 +547,10 @@
         </instance>
         <instance x="2208" y="1328" name="colormux" orien="R0">
         </instance>
+        <branch name="XLXN_553(8:0)">
+            <wire x2="2752" y1="1168" y2="1168" x1="2640" />
+            <wire x2="2752" y1="1168" y2="1296" x1="2752" />
+            <wire x2="2880" y1="1296" y2="1296" x1="2752" />
+        </branch>
     </sheet>
 </drawing>

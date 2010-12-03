@@ -24,7 +24,8 @@ module nes_zap
 	reg sensor_sync, trigger_sync, sensor_temp, trigger_temp;
 	
 	//TIMER INSTALL
-	reg start, stop, time_up;
+	wire time_up;
+	reg start, stop;
 	shot_timer timer
 	(
 		.clk(clk),
@@ -35,7 +36,8 @@ module nes_zap
 	);
 	
 	//BLANK TIMER INSTALL
-	reg blank_start, blank_stop, blank_time_up;
+	reg blank_start, blank_stop;
+	wire blank_time_up;
 	blank_timer timer2
 	(
 		.clk(clk),
@@ -58,7 +60,7 @@ module nes_zap
 		sensor_sync <= sensor_temp;
 		trigger_temp <= ~trigger;
 		trigger_sync <= trigger_temp;
-		if (!reset) 
+		if (!rst) 
 			state <= IDLE;
 		else 
 			state <= next;
