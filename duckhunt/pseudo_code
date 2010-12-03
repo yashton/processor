@@ -1,9 +1,10 @@
 void main()
 {
-	while(1)
+	while(true)
 	{
 		draw_splash();
 		int score = play_game();
+		draw_result(score); ?
 	}
 }
 
@@ -13,43 +14,60 @@ void draw_splash() {
 	return;
 }
 
+void draw_result(int score)
+{
+	while (!player_start)
+		draw some score stuff
+	return;
+}
+
 int play_game()
 {
 	state = NORMAL
+	score = 0
+	finished = false
+	rounds = 0
+	time = 10
+	duck = create new
 	do
 	{
-		read and interpret inputs
+		controls = read and interpret inputs
+		
+		time -= 1
 	
 		if (state == BLANK_SCREEN)
 			set palettes to blank
 		else if (state == HIT)
 			duck.killed = true
+			score += points
 		
 		case (state):
 			NORMAL: next_state = trigger_pulled ? NORMAL : BLANK_SCREEN
 			BLANK_SCREEN: next_state = gun_hit ? HIT : NORMAL
 			HIT: next_state = NORMAL
 	
-		game_over = update_duck(duck);
+		finished = update_duck(duck, controls);
+		update_duck_sprite(duck);
 		
-		if (vblank)
-			// if current blanking period is not over yet, wait
-			while(vblank);
-		// wait until next frame (negedge vblank)
-		while (!vblank);
-		
-	} while (!game_over)
+		if (finished || time == 0)
+			rounds += 1
+			duck = create new
+			
+		play sounds // implement last
+			
+		wait_until_frame();
+	} while (rounds < 3)
 	return score;
 }
 
-boolean update_duck(Duck duck)
+boolean update_duck(duck, controls)
 {
 	if (!duck.killed)
 	{
-		duck.delta = updateDelta(duck);
-		duck.x += duck.deltaV.X;
-		duck.y += duck.deltaV.Y;
-		keep duck within bounds;
+		(x, y) = update_delta(duck, controls);
+		duck.x += x;
+		duck.y += y;
+		keep duck within bounds; // (bounce off side of screen)
 		return true;
 	}
 	else
@@ -60,8 +78,33 @@ boolean update_duck(Duck duck)
 		}
 		else
 		{
-			draw falling animation;
+			duck.y += 8; // have the duck fall straight down.
 			return true;
 	}
 }
 
+(x, y) update_delta(duck, int gamepad)
+{
+	if (under control of player2)
+	{
+		return (x,y) pair based on gamepad (1 pixel/frame ?)
+	}
+	else
+	{
+		return (x,y) pair based on random number
+	}
+}
+
+void update_duck_sprite(duck)
+{
+	cycle throught animation frames
+}
+
+void wait_until_frame()
+{
+	if (vblank)
+		// if current blanking period is not over yet, wait
+		while(vblank);
+	// wait until next frame (negedge vblank)
+	while (!vblank);
+}
