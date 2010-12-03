@@ -14,8 +14,8 @@
 //////////////////////////////////////////////////////////////////////////////////
 module romController
 	#(
-		parameter WIDTH = 16,
-		parameter ROM_ADDR = 23,
+		parameter WIDTH = 8,
+		parameter ROM_ADDR = 24,
 		parameter PAGE_SIZE = 3,
 		parameter P_MISS = 4, // clock cycles required for a page miss
 		parameter P_HIT = 2 // clock cycles require for page hit
@@ -29,8 +29,7 @@ module romController
 		output [WIDTH-1:0] data,
 		output ready,
 		// pin interface
-		input [WIDTH-1:1] SF_D,
-		input SF_D0,
+		input [WIDTH-1:0] SF_D,
 		output [ROM_ADDR:0] SF_A, // SF_A is byte address, needs extra bit
 		output SF_CE0,
 		output SF_OE,
@@ -51,7 +50,7 @@ module romController
 	assign SF_BYTE = 1;
 	// SF_A addresses are byte, not word, so shift left by 1.
 	assign SF_A = {page, word, 1'b0};
-	assign data = {SF_D, SF_D0};
+	assign data = SF_D;
 	
 	assign ready = !(delay < top);
 

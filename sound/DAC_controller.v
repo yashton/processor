@@ -44,7 +44,7 @@ module DAC_controller
          data <= 0;
       end
       else if (load && SCK) begin
-         data <= {8'b0, COMMAND, ADDR, total_sound, 4'b0};
+         data <= {8'b11111111, COMMAND, ADDR, total_sound, 4'b0};
       end
       else if (en && SCK && count < 32) begin
          data <= data >> 1;

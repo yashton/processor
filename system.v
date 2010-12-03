@@ -23,20 +23,17 @@ module system
 		input rot_a,
 		input rot_b,
 		// StrataFlash ROM
-//		input [15:1] SF_D,
-//		input SPI_MISO_SF_D0,
-//		output [23:0] SF_A,
-//		output SF_CE0,
-//		output SF_OE,
-//		output SF_WE,
-//		output SF_BYTE,
+		input [15:0] SF_D,
+		output [23:0] SF_A,
+		output SF_CE0,
+		output SF_OE,
+		output SF_WE,
+		output SF_BYTE,
 		// Onboard vga
 		output VGA_RED, VGA_GREEN, VGA_BLUE,
 		output VGA_HSYNC, VGA_VSYNC,
 		// SPI 
-		output MISO,
 		output MOSI,
-		output flash_cs,
 		output DAC_cs,
 		output SCK
 	);
@@ -81,10 +78,10 @@ module system
 	// DMA controller
 //	wire dma_en;
 //	wire [1:0] dma_mode;
-//	wire [22:0] rom_addr;
-//	wire [15:0] rom_data;
-//	wire rom_load;
-//	wire rom_ready;
+	wire [23:0] rom_addr;
+	wire [15:0] rom_data;
+	wire rom_load;
+	wire rom_ready;
 //	wire [15:0] dma_writedata;
 //	wire [15:0] dma_memaddr;
 //	wire dma_memwrite;
@@ -110,11 +107,12 @@ module system
 //	assign memaddr = proc_en ? proc_memaddr : dma_memaddr;
 //	assign memwrite = proc_en ? proc_memwrite : dma_memwrite;
 //	assign writedata = proc_en ? proc_writedata : dma_writedata;
+		
 	assign memaddr = proc_memaddr;
 	assign memwrite = proc_memwrite;
 	assign writedata = proc_writedata;
-	assign proc_en = 1;
-	
+	assign proc_en = 1'b1;
+		
 	memory_controller  memory (
 			.clk(clk), 
 			.rst(rst), 
@@ -174,9 +172,9 @@ module system
 		 .palette_memdata(palette_memdata)
 		);
 		
-	assign VGA_RED = R != 0;
-	assign VGA_GREEN = G != 0;
-	assign VGA_BLUE = B != 0;
+	assign VGA_RED = R[7];
+	assign VGA_GREEN = G[7];
+	assign VGA_BLUE = B[7];
 	assign VGA_HSYNC = hsync;
 	assign VGA_VSYNC = vsync;
 	
@@ -206,22 +204,40 @@ module system
 			.writedata(writedata)
 		);	
 		
-//	romController rom (
-//			.clk(clk),
-//			.rst(rst),
-//			.addr(rom_addr),
-//			.load(rom_load),
-//			.data(rom_data),
-//			.ready(rom_ready),
-//			.SF_D(SF_D),
-//			.SF_D0(SPI_MISO_SF_D0),
-//			.SF_A(SF_A),
-//			.SF_CE0(SF_CE0),
-//			.SF_OE(SF_OE),
-//			.SF_WE(SF_WE),
-//			.SF_BYTE(SF_BYTE)
-//		);
-
+		
+	sound_schematic sound (
+		.clk(clk),
+		.rst(rst),
+		.en(1'b1),
+		.MOSI(MOSI),
+		.DAC_cs(DAC_cs),
+		.SCK(SCK),
+		.sound_select(sound_select),
+		.writedata(writedata),
+		.memwrite(memwrite),
+		.mem_en(sound_en),
+		.sound_data(sound_data),
+		.rom_addr(rom_addr),
+		.rom_ready(rom_ready),
+		.rom_load(rom_load),
+		.rom_data(rom_data)
+	);
+	
+	romController rom (
+			.clk(clk),
+			.rst(rst),
+			.addr(rom_addr),
+			.load(rom_load),
+			.data(rom_data),
+			.ready(rom_ready),
+			.SF_D(SF_D),
+			.SF_A(SF_A),
+			.SF_CE0(SF_CE0),
+			.SF_OE(SF_OE),
+			.SF_WE(SF_WE),
+			.SF_BYTE(SF_BYTE)
+		);
+		
 //	dma dma_controller (
 //		.clk(clk),
 //		.rst(rst),
@@ -259,21 +275,5 @@ module system
 		.pulse(pulse), 
 		.data(data),
 		.plyr_input(plyra_input)
-	);
-		
-	sound_schematic sound (
-		.clk(clk),
-		.rst(rst),
-		.en(1'b1),
-		.MISO(MISO),
-		.MOSI(MOSI),
-		.flash_cs(flash_cs),
-		.DAC_cs(DAC_cs),
-		.SCK(SCK),
-		.sound_select(sound_select),
-		.writedata(writedata),
-		.memwrite(memwrite),
-		.mem_en(sound_en),
-		.sound_data(sound_data)
 	);
 endmodule

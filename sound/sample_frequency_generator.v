@@ -21,8 +21,8 @@
 module sample_frequency_generator(
 		input clk,
 		input rst,
-		output spi_mux,
-		output flash_cs,
+		//output spi_mux,
+		//output flash_cs,
 		output DAC_cs,
 		output DAC_load,
 		output sound_load
@@ -39,9 +39,7 @@ module sample_frequency_generator(
 	end
 	assign sound_load = (count == 0);
 
-	parameter flash_lt = 1100;
-	assign DAC_cs = !flash_cs;
-	assign flash_cs = !(count >= 0 & count < flash_lt);
-	assign spi_mux = flash_cs;
+	parameter flash_lt = 1050;
+	assign DAC_cs = 1;
 	assign DAC_load = (count == flash_lt);
 endmodule

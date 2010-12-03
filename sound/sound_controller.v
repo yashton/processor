@@ -37,7 +37,6 @@ module sound_controller
 		// ROM
 		input [7:0] rom_data,
 		input rom_ready,
-		input [7:0] sound,
 		output rom_load,
 		output reg [23:0] rom_addr,
 		
@@ -82,7 +81,7 @@ module sound_controller
 //	reg [31:0] s8_duration;
 
 // states defined
-	parameter [1:0] off_state = 2'b0, wait_state = 2'b01, valid_state = 2'b10, load_state = 2'b11;
+	parameter [3:0] off_state = 4'b0, wait_state = 4'b01, valid_state = 4'b10, load_state = 4'b11;
 
 	reg [3:0] state, next_state;
 	initial state = off_state;
@@ -104,10 +103,10 @@ localparam S3_SWITCH = 4;
 //localparam S6_SWITCH = 7;
 //localparam S7_SWITCH = 8;
 //localparam S8_SWITCH = 9;
-reg [3:0] sound_sound_select;
+reg [3:0] s_select;
 
 always @(*) begin
-	case(sound_sound_select)
+	case(s_select)
 		BG_SWITCH:
 			rom_addr <= b_rom_addr;
 		S0_SWITCH:
@@ -128,14 +127,16 @@ always @(*) begin
 //			rom_addr <= s7_rom_addr;
 //		S8_SWITCH:
 //			rom_addr <= s8_rom_addr;
+		default:
+			rom_addr <= b_rom_addr;
 	endcase
 end
 	
 	
 
-always @(*) begin
+always @(posedge clk) begin
 	if(state == valid_state) begin
-		case(sound_sound_select)
+		case(s_select)
 			BG_SWITCH:
 				bground <= rom_data;
 			S0_SWITCH:
@@ -179,7 +180,7 @@ end
 			load_state: next_state = wait_state;
 			wait_state: if(!rom_ready) next_state = wait_state;
 				 else next_state = valid_state;
-			valid_state: if(sound_sound_select < MAX_SOUND) next_state = load_state;
+			valid_state: if(s_select < MAX_SOUND) next_state = load_state;
 				 else next_state = off_state;
 			default: next_state = off_state;
 		endcase
@@ -187,84 +188,84 @@ end
 	
 	always @(posedge clk) begin
 		if (!rst)
-			sound_sound_select <= 0;
+			s_select <= 0;
 		else if (state == off_state)
-			sound_sound_select <= 0;
+			s_select <= 0;
 		else if (state == valid_state)
-			sound_sound_select <= sound_sound_select + 1;
+			s_select <= s_select + 1;
 		else
-			sound_sound_select <= sound_sound_select;
+			s_select <= s_select;
 	end
 	
 	assign rom_load = (state == load_state);
 //stores sound data in registers 
 	always @(posedge clk) begin
-		case (sound_select)
-			0: b_rom_addr [15:0] <= writedata;
-			1: b_rom_addr [23:16] <= writedata;
-			2: bamp [3:0] <= writedata;
-			3: begin 
-					b_duration [15:0] <= writedata;
-					b_duration_total [15:0] <= writedata;
-				end
-			4: begin
-					b_duration [31:16] <= writedata;
-					b_duration_total [31:16] <= writedata;
-				end
-			5: s0_rom_addr [15:0] <= writedata;
-			6: s0_rom_addr [23:16] <= writedata;
-			7: sfx_amp0 [3:0] <= writedata;
-			8: s0_duration [15:0] <= writedata;
-			9: s0_duration [31:16] <= writedata;
-			10: s1_rom_addr [15:0] <= writedata;
-			11: s1_rom_addr [20:16] <= writedata;
-			12: sfx_amp1 [3:0] <= writedata;
-			13: s1_duration [15:0] <= writedata;
-			14: s1_duration [31:16] <= writedata;
-			15: s2_rom_addr [15:0] <= writedata;
-			16: s2_rom_addr [23:16] <= writedata;
-			17: sfx_amp2 [3:0] <= writedata;
-			18: s2_duration [15:0] <= writedata;
-			19: s2_duration [31:16] <= writedata;
-			20: s3_rom_addr [15:0] <= writedata;
-			21: s3_rom_addr [23:16] <= writedata;
-			22: sfx_amp3 [3:0] <= writedata;
-			23: s3_duration [15:0] <= writedata;
-			24: s3_duration [31:16] <= writedata;
-//			25: s4_rom_addr [15:0] <= writedata;
-//			26: s4_rom_addr [23:16] <= writedata;
-//			27: sfx_amp4 [3:0] <= writedata;
-//			28: s4_duration [15:0] <= writedata;
-//			29: s4_duration [31:16] <= writedata;
-//			30: s5_rom_addr [15:0] <= writedata;
-//			31: s5_rom_addr [23:16] <= writedata;
-//			32: sfx_amp5 [3:0] <= writedata;
-//			33: s5_duration [15:0] <= writedata;
-//			34: s5_duration [31:16] <= writedata;
-//			35: s6_rom_addr [15:0] <= writedata;
-//			36: s6_rom_addr [23:16] <= writedata;
-//			37: sfx_amp6 [3:0] <= writedata;
-//			38: s6_duration [15:0] <= writedata;
-//			39: s6_duration [31:16] <= writedata;
-//			40: s7_rom_addr [15:0] <= writedata;
-//			41: s7_rom_addr [23:16] <= writedata;
-//			42: sfx_amp7 [3:0] <= writedata;
-//			43: s7_duration [15:0] <= writedata;
-//			44: s7_duration [31:16] <= writedata;
-//			45: s8_rom_addr [15:0] <= writedata;
-//			46: s8_rom_addr [23:16] <= writedata;
-//			47: sfx_amp8 [3:0] <= writedata;
-//			48: s8_duration [15:0] <= writedata;
-//			49: s8_duration [31:16] <= writedata;		
-		endcase
-		
+		if(mem_en && memwrite) begin
+			case (sound_select)
+				0: b_rom_addr [15:0] <= writedata;
+				1: b_rom_addr [23:16] <= writedata;
+				2: bamp [3:0] <= writedata;
+				3: begin 
+						b_duration [15:0] <= writedata;
+						b_duration_total [15:0] <= writedata;
+					end
+				4: begin
+						b_duration [31:16] <= writedata;
+						b_duration_total [31:16] <= writedata;
+					end
+				5: s0_rom_addr [15:0] <= writedata;
+				6: s0_rom_addr [23:16] <= writedata;
+				7: sfx_amp0 [3:0] <= writedata;
+				8: s0_duration [15:0] <= writedata;
+				9: s0_duration [31:16] <= writedata;
+				10: s1_rom_addr [15:0] <= writedata;
+				11: s1_rom_addr [20:16] <= writedata;
+				12: sfx_amp1 [3:0] <= writedata;
+				13: s1_duration [15:0] <= writedata;
+				14: s1_duration [31:16] <= writedata;
+				15: s2_rom_addr [15:0] <= writedata;
+				16: s2_rom_addr [23:16] <= writedata;
+				17: sfx_amp2 [3:0] <= writedata;
+				18: s2_duration [15:0] <= writedata;
+				19: s2_duration [31:16] <= writedata;
+				20: s3_rom_addr [15:0] <= writedata;
+				21: s3_rom_addr [23:16] <= writedata;
+				22: sfx_amp3 [3:0] <= writedata;
+				23: s3_duration [15:0] <= writedata;
+				24: s3_duration [31:16] <= writedata;
+	//			25: s4_rom_addr [15:0] <= writedata;
+	//			26: s4_rom_addr [23:16] <= writedata;
+	//			27: sfx_amp4 [3:0] <= writedata;
+	//			28: s4_duration [15:0] <= writedata;
+	//			29: s4_duration [31:16] <= writedata;
+	//			30: s5_rom_addr [15:0] <= writedata;
+	//			31: s5_rom_addr [23:16] <= writedata;
+	//			32: sfx_amp5 [3:0] <= writedata;
+	//			33: s5_duration [15:0] <= writedata;
+	//			34: s5_duration [31:16] <= writedata;
+	//			35: s6_rom_addr [15:0] <= writedata;
+	//			36: s6_rom_addr [23:16] <= writedata;
+	//			37: sfx_amp6 [3:0] <= writedata;
+	//			38: s6_duration [15:0] <= writedata;
+	//			39: s6_duration [31:16] <= writedata;
+	//			40: s7_rom_addr [15:0] <= writedata;
+	//			41: s7_rom_addr [23:16] <= writedata;
+	//			42: sfx_amp7 [3:0] <= writedata;
+	//			43: s7_duration [15:0] <= writedata;
+	//			44: s7_duration [31:16] <= writedata;
+	//			45: s8_rom_addr [15:0] <= writedata;
+	//			46: s8_rom_addr [23:16] <= writedata;
+	//			47: sfx_amp8 [3:0] <= writedata;
+	//			48: s8_duration [15:0] <= writedata;
+	//			49: s8_duration [31:16] <= writedata;
+			endcase
+		end
 		if (en) begin
 			b_rom_addr <= b_rom_addr + 1;
 			if (b_duration == 0)
 				b_duration <= b_duration_total;
 			else
 				b_duration  <= b_duration - 1;
-			
 			s0_rom_addr <= s0_rom_addr + 1;
 			if(s0_duration)
 				s0_duration <= s0_duration - 1;
@@ -277,21 +278,6 @@ end
 			s3_rom_addr <= s3_rom_addr + 1;
 			if (s3_duration)
 				s3_duration <= s3_duration - 1;
-//			s4_rom_addr <= s4_rom_addr + 1;
-//			if(s4_duration)
-//				s4_duration <= s4_duration - 1;
-//			s5_rom_addr <= s5_rom_addr + 1;
-//			if(s5_duration)
-//				s5_duration <= s5_duration - 1;
-//			s6_rom_addr <= s6_rom_addr + 1;
-//			if (s6_duration)
-//				s6_duration <= s6_duration - 1;
-//			s7_rom_addr <= s7_rom_addr + 1;
-//			if(s7_duration)
-//				s7_duration <= s7_duration - 1;
-//			s8_rom_addr <= s8_rom_addr + 1;
-//			if (s8_duration)
-//				s8_duration <= s8_duration - 1;
 		end
 	end
 	
@@ -325,14 +311,13 @@ end
 		endcase
 	end
 	
-	
 	assign sfx0 = s0_duration ? sfx0_data : 8'b0;
-	assign sfx1 = s1_duration ? sfx0_data : 8'b0;
-	assign sfx2 = s2_duration ? sfx0_data : 8'b0;
-	assign sfx3 = s3_duration ? sfx0_data : 8'b0;
-	//assign sfx4 = s4_duration ? sfx0_data : 8'b0;
-	//assign sfx5 = s5_duration ? sfx0_data : 8'b0;
-	//assign sfx6 = s6_duration ? sfx0_data : 8'b0;
-	//assign sfx7 = s7_duration ? sfx0_data : 8'b0;
+	assign sfx1 = s1_duration ? sfx1_data : 8'b0;
+	assign sfx2 = s2_duration ? sfx2_data : 8'b0;
+	assign sfx3 = s3_duration ? sfx3_data : 8'b0;
+	//assign sfx4 = s4_duration ? sfx4_data : 8'b0;
+	//assign sfx5 = s5_duration ? sfx5_data : 8'b0;
+	//assign sfx6 = s6_duration ? sfx6_data : 8'b0;
+	//assign sfx7 = s7_duration ? sfx7_data : 8'b0;
 endmodule
 
