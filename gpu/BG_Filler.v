@@ -29,7 +29,8 @@ module BG_Filler(
 	reg [1:0] state,next_state;
 	reg [3:0] Xbyte;
 	wire[10:0] addr;
-	wire[8:0] dout;	
+	wire[8:0] dout;
+	reg [8:0] indexOutR;
 	
 	//state machine used in grass
 	always @ (*) begin
@@ -62,20 +63,20 @@ module BG_Filler(
 	begin
 	if (y<300)
 		begin
-			indexOut <= 9'b00000101; // sky color index in pallette 0
+			indexOutR = 9'b00000101; // sky color index in pallette 0
 		end
 	else if (y<428)
 		begin
 			case (state)
-				s0: indexOut <= {5'b0,dout[8:6]};
-				s1: indexOut <= {5'b0,dout[5:3]};
-				s2: indexOut <= {5'b0,dout[2:0]};
-				default indexOut <= 8'b00000101; // should never happen
+				s0: indexOutR = {5'b0,dout[8:6]};
+				s1: indexOutR = {5'b0,dout[5:3]};
+				s2: indexOutR = {5'b0,dout[2:0]};
+				default indexOutR = 8'b00000101; // should never happen
 			endcase
 		end
 		else
 		begin
-			indexOut <= 8'b00000111; // ground color index in pallette 0
+			indexOutR = 8'b00000111; // ground color index in pallette 0
 		end
 	end
 	
@@ -84,5 +85,6 @@ module BG_Filler(
 		.addra(addr), .dina(9'b0), .ena(1'b1), .wea(1'b0), .clka(clk), .douta(dout));
 		
 	assign addr = y-300+Xbyte;
+	assign indexOut = indexOutR;
 	
 endmodule
