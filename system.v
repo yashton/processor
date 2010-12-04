@@ -9,10 +9,10 @@ module system
 		output latch,
 		output pulse,
 		input shot,
-		output sensor,
-		output trigger,
+		input sensor,
+		input trigger,
 		//snes controller input
-		output [11:0] plyra_input,
+		output [15:0] plyra_input,
 		output [11:0] plyrb_input,
 		// VGA
 		output bright, hsync, vsync,
