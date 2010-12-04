@@ -1,29 +1,26 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
+// Company: University of Utah
+// Engineer: Jacob Sanders
 // 
-// Create Date:    18:35:06 11/16/2010 
-// Design Name: 
-// Module Name:    snes_cont 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
-//
-// Dependencies: 
-//
-// Revision: 
-// Revision 0.01 - File Created
-// Additional Comments: 
-//
+// Create Date:    	18:35:06 11/16/2010 
+// Design Name: 		SNES Controller Input Module
+// Module Name:    	snes_cont 
+// Project Name:		CS3710
 //////////////////////////////////////////////////////////////////////////////////
-module snes_cont(clk, en, rst, latch, pulse, data, plyr_input);
-	input clk, en, rst, data;
-	output latch, pulse;
-	reg latch, latch1, pulse, pulse1, data1;
-	output [11:0] plyr_input;
-	//output [7:0] plyr_input;
+module snes_cont
+	( 	
+		input clk,
+		input en, 
+		input rst,
+		input data,
+		output reg latch,
+		output reg pulse, 
+		output [15:0] plyr_input
+	);
+
+	reg latch1, pulse1, data1;
+
 	reg B, Y, select, start, up, down, left, right, A, X, L, R;
 	reg B1, Y1, select1, start1, up1, down1, left1, right1, A1, X1, L1, R1;
 	assign plyr_input = {left, right, up, down, A, B, X, Y};//, L, R, select, start};              
@@ -49,8 +46,8 @@ module snes_cont(clk, en, rst, latch, pulse, data, plyr_input);
 	parameter READ_L = 15;
 	parameter READ_R = 16;
 
-	parameter TWELVE_US = 12'h258;    //count for 12 us on a 50 MHz clk
-	parameter SIX_US = 12'h12c; //count for 6 us on a 50 MHz clk
+	parameter TWELVE_US = 12'h258;//count for 12 us on a 50 MHz clk
+	parameter SIX_US = 12'h12c; 	//count for 6 us on a 50 MHz clk
 
 	always @ (posedge clk)
 	begin
