@@ -25,7 +25,7 @@ module BG_Filler(
     output [8:0] indexOut
     );
 	 
-	parameter [1:0] s0 = 2'b00, s1=2'b01, s2 = 2'b10;
+/*	parameter [1:0] s0 = 2'b00, s1=2'b01, s2 = 2'b10;
 	reg [1:0] state,next_state;
 	reg [3:0] Xbyte;
 	wire[10:0] addr;
@@ -82,9 +82,9 @@ module BG_Filler(
 	
 	// background vram
 	BG_vram BG_ram(
-		.addra(addr), .dina(9'b0), .ena(1'b1), .wea(1'b0), .clka(clk), .douta(dout));
+		.addra(addr), .dina(9'b0), .wea(1'b0), .clka(clk), .douta(dout));
 		
 	assign addr = y-300+Xbyte;
-	assign indexOut = indexOutR;
+	assign indexOut = indexOutR;*/
 	
 endmodule
