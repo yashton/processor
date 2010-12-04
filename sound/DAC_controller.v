@@ -34,21 +34,23 @@ module DAC_controller
     );
 	 	 
 	reg [31:0] data;
-	reg [4:0] count;
-	assign MOSI = data[0];
+	reg [5:0] count;
+	assign MOSI = data[31];
 	assign SCK = clk;
 	
 	//parallel in serial out shift register 
    always @(posedge clk) begin
       if (!rst) begin
          data <= 0;
+			count <= 0;
       end
-      else if (load && SCK) begin
+      else if (load) begin
          data <= {8'b11111111, COMMAND, ADDR, total_sound, 4'b0};
+			count <= 6'd32;
       end
-      else if (en && SCK && count < 32) begin
-         data <= data >> 1;
-			count <= count + 1;
+      else if (en && count > 0) begin
+         data <= data << 1;
+			count <= count - 1;
       end
 	end
 					
