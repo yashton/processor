@@ -12,19 +12,19 @@
 		addi $t0,2
 		load $t1, $t0 			# t1 = killed
 		load $t2, counter
-		load $t3, sprite_state
+		load $t3, sprite_frame
 		cmpi $t2, 15			# cycles to next animation frame
-		beq  next_sprite_state
+		beq  next_sprite_frame
 		addi $t2, 1
 		buc	 end_counter_logic
-	next_spriteState:
+	next_sprite_frame:
 		movi $t2, 0				# reset counter
 		cmpi $t3, 3
-		beq  reset_sprite_state
+		beq  reset_sprite_frame
 		addi $t3, 1
 		buc  end_counter_logic
-	reset_sprite_state:
-		movi $t3, 0				# reset state
+	reset_sprite_frame:
+		movi $t3, 0				# reset frame
 	end_counter_logic:
 		cmpi $t1, 1
 		beq dead_duck
@@ -125,4 +125,4 @@
 .data
 	counter: 0 # count 15 is a counter used to determine 
 	# when to switch to a frame for animation
-	sprite_state: 0 # state machine storage
+	sprite_frame: 0 # state machine storage
