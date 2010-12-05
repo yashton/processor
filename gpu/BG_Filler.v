@@ -25,7 +25,12 @@ module BG_Filler(
     output [8:0] indexOut
     );
 	 
-/*	parameter [1:0] s0 = 2'b00, s1=2'b01, s2 = 2'b10;
+	parameter [4:0] palette = 5'b00000;
+	parameter [9:0] stopSky = 10'd300;
+	parameter [9:0] startGround = 10'd428;
+	parameter [3:0] skyIndex = 4'b0101;
+	parameter [3:0] groundIndex = 4'b0111;
+	parameter [1:0] s0 = 2'b00, s1=2'b01, s2 = 2'b10;
 	reg [1:0] state,next_state;
 	reg [3:0] Xbyte;
 	wire[10:0] addr;
@@ -61,22 +66,22 @@ module BG_Filler(
 	//bg drawing logic
 	always @(posedge clk)
 	begin
-	if (y<300)
+	if (y<stopSky)
 		begin
-			indexOutR = 9'b00000101; // sky color index in pallette 0
+			indexOutR = {palette,skyIndex}; // sky color index in pallette 0
 		end
-	else if (y<428)
+	else if (y<startGround)
 		begin
 			case (state)
-				s0: indexOutR = {5'b0,dout[8:6]};
-				s1: indexOutR = {5'b0,dout[5:3]};
-				s2: indexOutR = {5'b0,dout[2:0]};
-				default indexOutR = 8'b00000101; // should never happen
+				s0: indexOutR = {palette,dout[8:6]};
+				s1: indexOutR = {palette,dout[5:3]};
+				s2: indexOutR = {palette,dout[2:0]};
+				default indexOutR = {palette,skyIndex}; // should never happen
 			endcase
 		end
 		else
 		begin
-			indexOutR = 8'b00000111; // ground color index in pallette 0
+			indexOutR = {palette,groundIndex}; // ground color index in pallette 0
 		end
 	end
 	
@@ -85,6 +90,6 @@ module BG_Filler(
 		.addra(addr), .dina(9'b0), .wea(1'b0), .clka(clk), .douta(dout));
 		
 	assign addr = y-300+Xbyte;
-	assign indexOut = indexOutR;*/
+	assign indexOut = indexOutR;
 	
 endmodule
