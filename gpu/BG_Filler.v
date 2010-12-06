@@ -23,10 +23,13 @@ module BG_Filler(
 	 input rst,
     input [9:0] y,
     input [9:0] x,
-    output reg [8:0] indexOut
+    output reg [8:0] indexOut,
+	 output reg [4:0] bg_palette,
+	 input [15:0] write_data,
+	 input mem_write,
+	 input mem_enable
     );
 	
-	parameter [4:0] palette = 5'b00000;
 	parameter [9:0] stopSky = 10'd300;
 	parameter [9:0] startGround = 10'd428;
 	parameter [3:0] skyIndex = 4'b0101;
@@ -37,6 +40,15 @@ module BG_Filler(
 	wire[10:0] addr;
 	wire[8:0] dout;
 	reg last_x;			//used to store previous value of x[0]
+	
+	always @(posedge clk) begin
+		if(!rst) begin
+			bg_bg_palette = 0;
+		end
+		else if(mem_enable && mem_write) begin
+			bg_bg_palette = write_data[4:0];
+		end
+	end
 	
 	//state machine used in grass
 	always @ (*) begin
@@ -72,18 +84,18 @@ module BG_Filler(
 	//bg drawing logic
 	always @(*) begin
 		if (y < stopSky) begin
-			indexOut <= {palette,skyIndex}; // sky color index in pallette 0
+			indexOut <= {bg_palette,skyIndex}; // sky color index in pallette 0
 		end
 		else if (y < startGround) begin
 			case (state)
-				s0: indexOut <= {palette,0,dout[8:6]};
-				s1: indexOut <= {palette,0,dout[5:3]};
-				s2: indexOut <= {palette,0,dout[2:0]};
-				default indexOut <= {palette,skyIndex}; // should never happen
+				s0: indexOut <= {bg_palette,0,dout[8:6]};
+				s1: indexOut <= {bg_palette,0,dout[5:3]};
+				s2: indexOut <= {bg_palette,0,dout[2:0]};
+				default indexOut <= {bg_palette,skyIndex}; // should never happen
 			endcase
 		end
 		else begin
-			indexOut <= {palette,groundIndex}; // ground color index in pallette 0
+			indexOut <= {bg_palette,groundIndex}; // ground color index in pallette 0
 		end
 	end
 	

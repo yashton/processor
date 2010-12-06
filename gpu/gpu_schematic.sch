@@ -36,7 +36,6 @@
         <signal name="memwrite" />
         <signal name="x(9:0)" />
         <signal name="tile_memenable" />
-        <signal name="rst" />
         <signal name="clk" />
         <signal name="XLXN_319" />
         <signal name="palette_memdata(15:0)" />
@@ -47,6 +46,18 @@
         <signal name="XLXN_551(8:0)" />
         <signal name="XLXN_552(8:0)" />
         <signal name="XLXN_553(8:0)" />
+        <signal name="rst" />
+        <signal name="bg_palette(4:0)" />
+        <signal name="bg_write_data(15:0)" />
+        <signal name="bg_mem_write" />
+        <signal name="bg_mem_enable" />
+        <signal name="XLXN_560" />
+        <signal name="XLXN_561" />
+        <signal name="XLXN_562" />
+        <signal name="XLXN_563" />
+        <signal name="XLXN_564" />
+        <signal name="XLXN_573" />
+        <signal name="XLXN_574" />
         <port polarity="Input" name="writedata(15:0)" />
         <port polarity="Input" name="y(9:0)" />
         <port polarity="Input" name="vlookahead" />
@@ -64,11 +75,15 @@
         <port polarity="Input" name="memwrite" />
         <port polarity="Input" name="x(9:0)" />
         <port polarity="Input" name="tile_memenable" />
-        <port polarity="Input" name="rst" />
         <port polarity="Input" name="clk" />
         <port polarity="Output" name="palette_memdata(15:0)" />
         <port polarity="Input" name="palette_memenable" />
         <port polarity="Input" name="sprite_priority(7:0)" />
+        <port polarity="Input" name="rst" />
+        <port polarity="Input" name="bg_palette(4:0)" />
+        <port polarity="Input" name="bg_write_data(15:0)" />
+        <port polarity="Input" name="bg_mem_write" />
+        <port polarity="Input" name="bg_mem_enable" />
         <blockdef name="palette">
             <timestamp>2010-12-2T22:31:11</timestamp>
             <rect width="336" x="64" y="-448" height="524" />
@@ -194,15 +209,22 @@
             <line x2="544" y1="32" y2="32" x1="480" />
         </blockdef>
         <blockdef name="BG_Filler">
-            <timestamp>2010-12-2T22:39:6</timestamp>
-            <rect width="256" x="64" y="-320" height="200" />
-            <line x2="0" y1="-288" y2="-288" x1="64" />
-            <rect width="64" x="320" y="-300" height="24" />
-            <line x2="384" y1="-288" y2="-288" x1="320" />
-            <rect width="64" x="0" y="-236" height="24" />
-            <line x2="0" y1="-224" y2="-224" x1="64" />
-            <rect width="64" x="0" y="-172" height="24" />
-            <line x2="0" y1="-160" y2="-160" x1="64" />
+            <timestamp>2010-12-6T6:18:18</timestamp>
+            <rect width="256" x="64" y="-448" height="440" />
+            <line x2="0" y1="-416" y2="-416" x1="64" />
+            <rect width="64" x="320" y="-428" height="24" />
+            <line x2="384" y1="-416" y2="-416" x1="320" />
+            <rect width="64" x="0" y="-252" height="24" />
+            <line x2="0" y1="-240" y2="-240" x1="64" />
+            <rect width="64" x="0" y="-316" height="24" />
+            <line x2="0" y1="-304" y2="-304" x1="64" />
+            <line x2="64" y1="-368" y2="-368" x1="0" />
+            <rect width="64" x="0" y="-208" height="28" />
+            <line x2="64" y1="-192" y2="-192" x1="0" />
+            <line x2="64" y1="-144" y2="-144" x1="0" />
+            <line x2="64" y1="-80" y2="-80" x1="0" />
+            <line x2="320" y1="-352" y2="-352" x1="384" />
+            <rect width="64" x="320" y="-364" height="24" />
         </blockdef>
         <blockdef name="color_mux">
             <timestamp>2010-12-3T4:1:35</timestamp>
@@ -292,9 +314,14 @@
         </block>
         <block symbolname="BG_Filler" name="background">
             <blockpin signalname="clk" name="clk" />
-            <blockpin signalname="XLXN_552(8:0)" name="indexOut(8:0)" />
-            <blockpin signalname="y(9:0)" name="y(9:0)" />
             <blockpin signalname="x(9:0)" name="x(9:0)" />
+            <blockpin signalname="y(9:0)" name="y(9:0)" />
+            <blockpin signalname="rst" name="rst" />
+            <blockpin signalname="bg_write_data(15:0)" name="write_data(15:0)" />
+            <blockpin signalname="bg_mem_write" name="mem_write" />
+            <blockpin signalname="bg_mem_enable" name="mem_enable" />
+            <blockpin signalname="bg_palette(4:0)" name="bg_palette(4:0)" />
+            <blockpin signalname="XLXN_552(8:0)" name="indexOut(8:0)" />
         </block>
         <block symbolname="color_mux" name="colormux">
             <blockpin signalname="XLXN_553(8:0)" name="index(8:0)" />
@@ -322,10 +349,10 @@
             <wire x2="1168" y1="672" y2="672" x1="464" />
             <wire x2="1168" y1="672" y2="736" x1="1168" />
             <wire x2="1616" y1="736" y2="736" x1="1168" />
-            <wire x2="2176" y1="304" y2="304" x1="1168" />
-            <wire x2="2176" y1="304" y2="656" x1="2176" />
-            <wire x2="2256" y1="656" y2="656" x1="2176" />
-            <wire x2="1168" y1="304" y2="672" x1="1168" />
+            <wire x2="1168" y1="432" y2="672" x1="1168" />
+            <wire x2="2160" y1="432" y2="432" x1="1168" />
+            <wire x2="2160" y1="432" y2="576" x1="2160" />
+            <wire x2="2400" y1="576" y2="576" x1="2160" />
         </branch>
         <branch name="XLXN_273">
             <wire x2="592" y1="400" y2="928" x1="592" />
@@ -441,24 +468,13 @@
             <wire x2="1328" y1="592" y2="592" x1="1296" />
             <wire x2="1328" y1="592" y2="672" x1="1328" />
             <wire x2="1616" y1="672" y2="672" x1="1328" />
-            <wire x2="2160" y1="320" y2="320" x1="1328" />
-            <wire x2="2160" y1="320" y2="720" x1="2160" />
-            <wire x2="2256" y1="720" y2="720" x1="2160" />
-            <wire x2="1328" y1="320" y2="592" x1="1328" />
+            <wire x2="1328" y1="416" y2="592" x1="1328" />
+            <wire x2="2128" y1="416" y2="416" x1="1328" />
+            <wire x2="2128" y1="416" y2="640" x1="2128" />
+            <wire x2="2400" y1="640" y2="640" x1="2128" />
         </branch>
         <branch name="tile_memenable">
             <wire x2="1616" y1="2304" y2="2304" x1="1456" />
-        </branch>
-        <branch name="rst">
-            <wire x2="624" y1="208" y2="208" x1="512" />
-            <wire x2="624" y1="208" y2="864" x1="624" />
-            <wire x2="672" y1="864" y2="864" x1="624" />
-            <wire x2="1488" y1="208" y2="208" x1="624" />
-            <wire x2="1488" y1="208" y2="544" x1="1488" />
-            <wire x2="1520" y1="544" y2="544" x1="1488" />
-            <wire x2="1616" y1="544" y2="544" x1="1520" />
-            <wire x2="1520" y1="544" y2="1648" x1="1520" />
-            <wire x2="1616" y1="1648" y2="1648" x1="1520" />
         </branch>
         <instance x="1616" y="2448" name="tile_tbl" orien="R0">
         </instance>
@@ -520,37 +536,78 @@
             <wire x2="1616" y1="480" y2="480" x1="1536" />
             <wire x2="1536" y1="480" y2="1584" x1="1536" />
             <wire x2="1616" y1="1584" y2="1584" x1="1536" />
-            <wire x2="2192" y1="144" y2="144" x1="1536" />
-            <wire x2="2192" y1="144" y2="592" x1="2192" />
-            <wire x2="2256" y1="592" y2="592" x1="2192" />
-            <wire x2="2864" y1="144" y2="144" x1="2192" />
+            <wire x2="2256" y1="144" y2="144" x1="1536" />
+            <wire x2="2864" y1="144" y2="144" x1="2256" />
             <wire x2="2864" y1="144" y2="1168" x1="2864" />
             <wire x2="2880" y1="1168" y2="1168" x1="2864" />
+            <wire x2="2256" y1="144" y2="464" x1="2256" />
+            <wire x2="2400" y1="464" y2="464" x1="2256" />
         </branch>
         <instance x="2880" y="1584" name="palette_output" orien="R0">
         </instance>
-        <branch name="XLXN_550">
-            <wire x2="2208" y1="1232" y2="1232" x1="2112" />
-        </branch>
-        <branch name="XLXN_551(8:0)">
-            <wire x2="2208" y1="1296" y2="1296" x1="2112" />
-        </branch>
-        <branch name="XLXN_552(8:0)">
-            <wire x2="2656" y1="912" y2="912" x1="2128" />
-            <wire x2="2128" y1="912" y2="1168" x1="2128" />
-            <wire x2="2208" y1="1168" y2="1168" x1="2128" />
-            <wire x2="2656" y1="592" y2="592" x1="2640" />
-            <wire x2="2656" y1="592" y2="912" x1="2656" />
-        </branch>
         <iomarker fontsize="28" x="1296" y="592" name="x(9:0)" orien="R180" />
-        <instance x="2256" y="880" name="background" orien="R0">
+        <instance x="2400" y="880" name="background" orien="R0">
         </instance>
-        <instance x="2208" y="1328" name="colormux" orien="R0">
-        </instance>
+        <branch name="rst">
+            <wire x2="624" y1="208" y2="208" x1="512" />
+            <wire x2="624" y1="208" y2="864" x1="624" />
+            <wire x2="672" y1="864" y2="864" x1="624" />
+            <wire x2="1488" y1="208" y2="208" x1="624" />
+            <wire x2="1488" y1="208" y2="224" x1="1488" />
+            <wire x2="1488" y1="224" y2="544" x1="1488" />
+            <wire x2="1520" y1="544" y2="544" x1="1488" />
+            <wire x2="1616" y1="544" y2="544" x1="1520" />
+            <wire x2="1520" y1="544" y2="1648" x1="1520" />
+            <wire x2="1616" y1="1648" y2="1648" x1="1520" />
+            <wire x2="2176" y1="224" y2="224" x1="1488" />
+            <wire x2="2176" y1="224" y2="512" x1="2176" />
+            <wire x2="2400" y1="512" y2="512" x1="2176" />
+        </branch>
+        <branch name="bg_palette(4:0)">
+            <wire x2="2944" y1="528" y2="528" x1="2784" />
+        </branch>
+        <iomarker fontsize="28" x="2944" y="528" name="bg_palette(4:0)" orien="R0" />
+        <branch name="bg_write_data(15:0)">
+            <wire x2="2240" y1="688" y2="768" x1="2240" />
+            <wire x2="2336" y1="768" y2="768" x1="2240" />
+            <wire x2="2336" y1="768" y2="880" x1="2336" />
+            <wire x2="2400" y1="688" y2="688" x1="2240" />
+        </branch>
+        <branch name="bg_mem_write">
+            <wire x2="2368" y1="944" y2="944" x1="2336" />
+            <wire x2="2400" y1="736" y2="736" x1="2368" />
+            <wire x2="2368" y1="736" y2="944" x1="2368" />
+        </branch>
+        <branch name="bg_mem_enable">
+            <wire x2="2400" y1="800" y2="800" x1="2384" />
+            <wire x2="2384" y1="800" y2="1024" x1="2384" />
+        </branch>
+        <iomarker fontsize="28" x="2336" y="880" name="bg_write_data(15:0)" orien="R180" />
         <branch name="XLXN_553(8:0)">
             <wire x2="2752" y1="1168" y2="1168" x1="2640" />
             <wire x2="2752" y1="1168" y2="1296" x1="2752" />
-            <wire x2="2880" y1="1296" y2="1296" x1="2752" />
+            <wire x2="2864" y1="1296" y2="1296" x1="2752" />
+            <wire x2="2880" y1="1296" y2="1296" x1="2864" />
         </branch>
+        <branch name="XLXN_551(8:0)">
+            <wire x2="2128" y1="1296" y2="1296" x1="2112" />
+            <wire x2="2208" y1="1296" y2="1296" x1="2128" />
+        </branch>
+        <branch name="XLXN_550">
+            <wire x2="2128" y1="1232" y2="1232" x1="2112" />
+            <wire x2="2208" y1="1232" y2="1232" x1="2128" />
+        </branch>
+        <branch name="XLXN_552(8:0)">
+            <wire x2="2848" y1="1056" y2="1056" x1="2192" />
+            <wire x2="2192" y1="1056" y2="1168" x1="2192" />
+            <wire x2="2208" y1="1168" y2="1168" x1="2192" />
+            <wire x2="2800" y1="464" y2="464" x1="2784" />
+            <wire x2="2848" y1="464" y2="464" x1="2800" />
+            <wire x2="2848" y1="464" y2="1056" x1="2848" />
+        </branch>
+        <instance x="2208" y="1328" name="colormux" orien="R0">
+        </instance>
+        <iomarker fontsize="28" x="2336" y="944" name="bg_mem_write" orien="R180" />
+        <iomarker fontsize="28" x="2384" y="1024" name="bg_mem_enable" orien="R180" />
     </sheet>
 </drawing>

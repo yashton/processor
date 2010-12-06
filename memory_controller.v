@@ -33,7 +33,8 @@ module memory_controller
 		parameter CONA_ADDR = 16'h480a,
 		parameter CONB_ADDR = 16'h480b,
 		parameter SOUND_ADDR = 16'h480c,
-		parameter SOUND_TOP_ADDR = 16'h4825
+		parameter SOUND_TOP_ADDR = 16'h4825,
+		parameter BG_PALETTE_ADDR = 16'h4827
 	)
 	(
 		input clk,
@@ -46,8 +47,9 @@ module memory_controller
 		output [15:0] instruction,
 		// Memory mapped input and other RAM blocks.
 		// GPU VRAM blocks
-		input [15:0] sprite_object_data, tile_data, palette_data,
-		output sprite_object_enable, tile_data_enable, palette_enable,
+		input [4:0] bg_pallete,
+		input [15:0] sprite_object_data, tile_data, palette_data, bg_write_data,
+		output sprite_object_enable, tile_data_enable, palette_enable, bg_mem_write,  bg_mem_enable,
 		output [9:0] sprite_object_addr,
 		output [12:0] tile_data_addr,
 		output [9:0] palette_addr,
@@ -63,7 +65,6 @@ module memory_controller
 		input [15:0] plyra_input,
 		//nes zapper
 		input [15:0] plyrb_input,
-
 		// Rotary encoder
 		input [15:0] rot_count,
 		output rot_en,
@@ -81,6 +82,7 @@ module memory_controller
 	assign sprite_object_enable = (memaddr >= SPRITE_ADDR) && (memaddr < SPRITE_TOP_ADDR);
 	assign tile_data_enable = (memaddr >= TILE_ADDR) && (memaddr < TILE_TOP_ADDR);
 	assign palette_enable = (memaddr >= PALETTE_ADDR) && (memaddr < PALETTE_ADDR);
+	assign bg_mem_enable = memaddr == BG_PALETTE_ADDR;
 	assign rot_en = memaddr == ROT_ADDR;
 	assign dma_en = memaddr[15:2] == DMA_REGS;
 	assign dma_mode = memaddr[1:0];
@@ -120,6 +122,12 @@ module memory_controller
 					sprite_priority <= writedata;
 				end
 				other_memdata <= sprite_priority;
+			end
+			else if ( memaddr == BG_PALETTE_ADDR) begin
+				if (bg_mem_write) begin
+					bg_write_data <= writedata;
+				end
+				other_memdata <= bg_write_data;
 			end
 			else if (memaddr == GPU_SR_ADDR) begin
 				other_memdata <= {hbright, vbright}; 

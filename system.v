@@ -71,6 +71,11 @@ module system
 	wire palette_memenable;
 	wire [15:0] palette_memdata;
 	wire [9:0] palette_addr;
+	
+	wire [15:0] bg_write_data;
+	wire bg_mem_write;
+	wire bg_mem_enable;
+	wire bg_palette;
 
 	// rotary encoder
 	wire [15:0] rot_count;
@@ -145,7 +150,11 @@ module system
 //			.dma_mode(dma_mode),
 			.sound_data(sound_data),
 			.sound_select(sound_select),
-			.sound_en(sound_en)
+			.sound_en(sound_en),
+			.bg_write_data(bg_write_data),
+			.bg_mem_write(bg_mem_write),
+			.bg_mem_enable(bg_mem_enable),
+			.bg_palette(bg_palette)
 	  );
 	  
 	gpu_schematic  gpu (
@@ -170,7 +179,11 @@ module system
 		 .B(B), 
 		 .sprite_memdata(sprite_memdata), 
 		 .tile_memdata(tile_memdata),
-		 .palette_memdata(palette_memdata)
+		 .palette_memdata(palette_memdata),
+		 .bg_write_data(bg_write_data),
+		 .bg_mem_write(bg_mem_write),
+		 .bg_mem_enable(bg_mem_enable),
+		 .bg_palette(bg_palette)
 		);
 		
 	assign VGA_RED = R[7];
