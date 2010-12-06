@@ -18,14 +18,15 @@ module nes_zap
 		input rst, 
 		input sensor, 
 		input trigger, 
-		output reg shot, 
-		output reg hit
+		output [15:0] plyr_input
 	);
+	reg shot, hit;
 	reg sensor_sync, trigger_sync, sensor_temp, trigger_temp;
-	
+	assign plyr_input = {hit, shot};
 	//TIMER INSTALL
 	wire time_up;
 	reg start, stop;
+	
 	shot_timer timer
 	(
 		.clk(clk),
