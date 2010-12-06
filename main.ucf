@@ -39,9 +39,9 @@ NET "pulse" LOC = "F7" | IOSTANDARD = LVTTL | DRIVE = 6 | SLEW = SLOW;
 
 # controller B (lightgun)
 #NET "datab" LOC = "B4" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 6 ;
-NET "shot" LOC = "A4" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 6 ;
+//NET "shot" LOC = "A4" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 6 ;
 NET "sensor" LOC = "D5" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 6 ;
-NET "pulse" LOC = "C5" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 6 ;
+NET "trigger" LOC = "C5" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 6 ;
 
 #LEDs -- note that LED pins are shared by VGA, so you get one or the other.
 #NET "plyr_input<7>" LOC = "F9" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 8 ;
