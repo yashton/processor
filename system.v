@@ -8,12 +8,11 @@ module system
 		input data,
 		output latch,
 		output pulse,
-		input shot,
 		input sensor,
 		input trigger,
 		//snes controller input
 		output [15:0] plyra_input,
-		output [11:0] plyrb_input,
+		output [15:0] plyrb_input,
 		// VGA
 		output bright, hsync, vsync,
 		output [7:0] R, G, B,
@@ -267,8 +266,7 @@ module system
 		.rst(rst),
 		.sensor(sensor),
 		.trigger(trigger), 
-		.shot(datab),
-		.hit(plyrb_input)
+		.plyr_input(plyrb_input)
 	);
 	
 	snes_cont gameinput_snescont (
