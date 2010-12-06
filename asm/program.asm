@@ -20,7 +20,7 @@
 .define CONTROL_8  		0x0100
 .define RANDOM_DIRMASK 7
 .define RANDOM 			0x4809
-
+.define BLANK_TIME_UP	0x4826
 .define GPU_SR 0x4800
 .define VBRIGHT 1
 
@@ -56,7 +56,7 @@ play_game:
 	push $a2 
 	movi $s0, 0					# finished = false 
 	movi $s1, 0					# rounds = 0  
-	movwi $s3, DUCK_SPRITE	# duck = 0x2000	
+	movwi $s3, DUCK_SPRITE		# duck = 0x2000	
 	movi $a1, 0 				# killed = 0	
 	movi $s2, NORMAL			# state = NORMAL
 	
@@ -78,12 +78,18 @@ play_game:
 		call next_state			# state = next_state(state)
 		mov $s2, $v0
 		pop $a1					# load killed from stack
-		cmpi $s2, BLANK_SCREEN
-		bne else_if_hit
-			mov $a0, $s3		# a0 = DUCK_SPRITE
+		
+		movwi $t2, BLANK_TIME_UP
+		load $t3, $t2
+		cmpi $t3, 1
+		bne else_if_blank
+			# mov $a0, $s3		# a0 = DUCK_SPRITE
+			call unblank_screen
+			buc if_blank_finished
+		else_if_blank:
 			call blank_screen
-			buc finished
-		else_if_hit:
+		if_blank_finished:
+		
 		cmpi $s2, HIT
 		bne finished
 			call unblank_screen
