@@ -1,0 +1,3 @@
+NEWPROJECT "U:/blue/blue_project/ipcore_dir/coregen.cgp"
+SETPROJECT "U:/blue/blue_project/ipcore_dir/coregen.cgp"
+LAUNCHXCO "U:/blue/blue_project/ipcore_dir/BG_vram.xco"
