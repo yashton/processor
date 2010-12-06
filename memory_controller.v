@@ -62,7 +62,7 @@ module memory_controller
 		//snes controller
 		input [15:0] plyra_input,
 		//nes zapper
-		input [11:0] plyrb_input,
+		input [15:0] plyrb_input,
 
 		// Rotary encoder
 		input [15:0] rot_count,
