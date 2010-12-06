@@ -36,7 +36,8 @@ module system
 		// SPI 
 		output MOSI,
 		output DAC_cs,
-		output SCK
+		output SCK,
+		output DAC_CLR
 	);
 	wire rst;
 	assign rst = !rst_btn;
@@ -214,6 +215,7 @@ module system
 		.MOSI(MOSI),
 		.DAC_cs(DAC_cs),
 		.SCK(SCK),
+		.CLR(DAC_CLR),
 		.sound_select(sound_select),
 		.writedata(writedata),
 		.memwrite(memwrite),

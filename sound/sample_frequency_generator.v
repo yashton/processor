@@ -27,19 +27,21 @@ module sample_frequency_generator(
 		output DAC_load,
 		output sound_load
     );
-
+	parameter flash_lt = 1070;
+	parameter sample_rate = 1134;
+	
 	reg [10:0] count;
 	always @(posedge clk) begin
 		if(!rst)
 			count <= 0;
-		else if (count < 1134)
+		else if (count < sample_rate)
 			count <= count + 1;
 		else
 			count <= 0;
 	end
 	assign sound_load = (count == 0);
 
-	parameter flash_lt = 1050;
-	assign DAC_cs = 1;
+	
+	assign DAC_cs = !(count >= flash_lt && count < (sample_rate));
 	assign DAC_load = (count == flash_lt);
 endmodule

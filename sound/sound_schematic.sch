@@ -44,6 +44,7 @@
         <signal name="rom_ready" />
         <signal name="rom_load" />
         <signal name="rom_addr(23:0)" />
+        <signal name="CLR" />
         <port polarity="Input" name="writedata(15:0)" />
         <port polarity="Input" name="sound_select(6:0)" />
         <port polarity="Input" name="mem_en" />
@@ -59,6 +60,7 @@
         <port polarity="Input" name="rom_ready" />
         <port polarity="Output" name="rom_load" />
         <port polarity="Output" name="rom_addr(23:0)" />
+        <port polarity="Output" name="CLR" />
         <blockdef name="mixer">
             <timestamp>2010-12-2T1:33:46</timestamp>
             <rect width="256" x="64" y="-1280" height="1280" />
@@ -168,7 +170,7 @@
             <rect width="64" x="400" y="20" height="24" />
         </blockdef>
         <blockdef name="DAC_controller">
-            <timestamp>2010-12-2T1:56:28</timestamp>
+            <timestamp>2010-12-5T23:15:29</timestamp>
             <rect width="256" x="64" y="-320" height="320" />
             <line x2="0" y1="-288" y2="-288" x1="64" />
             <line x2="0" y1="-224" y2="-224" x1="64" />
@@ -178,6 +180,7 @@
             <line x2="0" y1="-32" y2="-32" x1="64" />
             <line x2="384" y1="-288" y2="-288" x1="320" />
             <line x2="384" y1="-32" y2="-32" x1="320" />
+            <line x2="384" y1="-160" y2="-160" x1="320" />
         </blockdef>
         <blockdef name="sample_frequency_generator">
             <timestamp>2010-12-3T2:39:37</timestamp>
@@ -250,10 +253,11 @@
             <blockpin signalname="clk" name="clk" />
             <blockpin signalname="rst" name="rst" />
             <blockpin signalname="XLXN_150" name="load" />
-            <blockpin signalname="en" name="en" />
+            <blockpin signalname="DAC_cs" name="cs" />
             <blockpin signalname="XLXN_21(11:0)" name="total_sound(11:0)" />
             <blockpin signalname="MOSI" name="MOSI" />
             <blockpin signalname="SCK" name="SCK" />
+            <blockpin signalname="CLR" name="CLR" />
         </block>
         <block symbolname="sample_frequency_generator" name="freq_gen">
             <blockpin signalname="rst" name="rst" />
@@ -356,9 +360,10 @@
             <wire x2="2688" y1="816" y2="816" x1="2592" />
         </branch>
         <branch name="DAC_cs">
-            <wire x2="2656" y1="2448" y2="2448" x1="576" />
-            <wire x2="2656" y1="2448" y2="2464" x1="2656" />
-            <wire x2="2672" y1="2464" y2="2464" x1="2656" />
+            <wire x2="2048" y1="2448" y2="2448" x1="576" />
+            <wire x2="2720" y1="2448" y2="2448" x1="2048" />
+            <wire x2="2208" y1="752" y2="752" x1="2048" />
+            <wire x2="2048" y1="752" y2="2448" x1="2048" />
         </branch>
         <branch name="XLXN_150">
             <wire x2="2192" y1="2512" y2="2512" x1="576" />
@@ -369,19 +374,10 @@
             <wire x2="1168" y1="2096" y2="2096" x1="1136" />
         </branch>
         <iomarker fontsize="28" x="1168" y="2096" name="sound_data(15:0)" orien="R0" />
-        <branch name="en">
-            <wire x2="416" y1="208" y2="208" x1="112" />
-            <wire x2="1920" y1="208" y2="208" x1="416" />
-            <wire x2="1920" y1="208" y2="752" x1="1920" />
-            <wire x2="2208" y1="752" y2="752" x1="1920" />
-            <wire x2="416" y1="208" y2="1072" x1="416" />
-            <wire x2="672" y1="1072" y2="1072" x1="416" />
-        </branch>
         <instance x="672" y="2064" name="sound_ctrl" orien="R0">
         </instance>
         <iomarker fontsize="28" x="2672" y="560" name="MOSI" orien="R0" />
         <iomarker fontsize="28" x="2688" y="816" name="SCK" orien="R0" />
-        <iomarker fontsize="28" x="2672" y="2464" name="DAC_cs" orien="R0" />
         <iomarker fontsize="28" x="112" y="128" name="rst" orien="R180" />
         <instance x="192" y="2608" name="freq_gen" orien="R0">
         </instance>
@@ -427,5 +423,16 @@
             <wire x2="1168" y1="688" y2="688" x1="1136" />
         </branch>
         <iomarker fontsize="28" x="1168" y="688" name="rom_addr(23:0)" orien="R0" />
+        <branch name="en">
+            <wire x2="416" y1="208" y2="208" x1="112" />
+            <wire x2="416" y1="208" y2="1072" x1="416" />
+            <wire x2="672" y1="1072" y2="1072" x1="416" />
+        </branch>
+        <iomarker fontsize="28" x="2720" y="2448" name="DAC_cs" orien="R0" />
+        <branch name="CLR">
+            <wire x2="2608" y1="688" y2="688" x1="2592" />
+            <wire x2="2672" y1="688" y2="688" x1="2608" />
+        </branch>
+        <iomarker fontsize="28" x="2672" y="688" name="CLR" orien="R0" />
     </sheet>
 </drawing>

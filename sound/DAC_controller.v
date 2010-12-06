@@ -21,23 +21,29 @@
 module DAC_controller
 	#(
 		parameter COMMAND = 4'b0011,
-		parameter ADDR = 4'b0
+		parameter ADDR = 4'b1111
 	)
 	(
 		input clk, 
 		input rst,
 		input load,
-		input en,
+		input cs,
 		input [11:0] total_sound,
 		output MOSI,
-		output SCK
+		output reg SCK,
+		output CLR
     );
 	 	 
 	reg [31:0] data;
 	reg [5:0] count;
 	assign MOSI = data[31];
-	assign SCK = clk;
-	
+	always @(posedge clk) begin
+		if (!rst)
+			SCK <= 0;
+		else
+			SCK <= !SCK;
+	end
+	assign CLR = 1;
 	//parallel in serial out shift register 
    always @(posedge clk) begin
       if (!rst) begin
@@ -48,10 +54,11 @@ module DAC_controller
          data <= {8'b11111111, COMMAND, ADDR, total_sound, 4'b0};
 			count <= 6'd32;
       end
-      else if (en && count > 0) begin
+      else if (!cs && SCK && count > 0) begin
          data <= data << 1;
 			count <= count - 1;
       end
+			
 	end
 					
 endmodule

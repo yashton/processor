@@ -16,7 +16,7 @@ module romController
 	#(
 		parameter WIDTH = 8,
 		parameter ROM_ADDR = 24,
-		parameter PAGE_SIZE = 3,
+		parameter PAGE_SIZE = 4,
 		parameter P_MISS = 4, // clock cycles required for a page miss
 		parameter P_HIT = 2 // clock cycles require for page hit
 	)
@@ -30,7 +30,7 @@ module romController
 		output ready,
 		// pin interface
 		input [WIDTH-1:0] SF_D,
-		output [ROM_ADDR:0] SF_A, // SF_A is byte address, needs extra bit
+		output [ROM_ADDR-1:0] SF_A,
 		output SF_CE0,
 		output SF_OE,
 		output SF_WE,
@@ -47,27 +47,23 @@ module romController
 	assign SF_CE0 = 0;
 	assign SF_OE = 0;
 	assign SF_WE = 1;
-	assign SF_BYTE = 1;
+	assign SF_BYTE = 0;
 	// SF_A addresses are byte, not word, so shift left by 1.
-	assign SF_A = {page, word, 1'b0};
+	assign SF_A = {page, word};
+
 	assign data = SF_D;
-	
+
 	assign ready = !(delay < top);
 
 	always @(posedge clk)	begin
 		if (!rst) begin
-			top <= 0;
+			top <= P_MISS - 1;
 			page <= 0;
 			word <= 0;
 			delay <= 0;
 		end
 		else if (load) begin
-			if (page == addr[ROM_ADDR-1:PAGE_SIZE]) begin
-				top <= P_HIT - 1;
-			end
-			else begin
-				top <= P_MISS - 1;
-			end
+			top <= (page == addr[ROM_ADDR-1:PAGE_SIZE]) ? P_HIT - 1: P_MISS - 1;
 			page <= addr[ROM_ADDR-1:PAGE_SIZE];
 			word <= addr[PAGE_SIZE-1:0];
 			delay <= 0;
