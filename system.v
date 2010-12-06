@@ -1,6 +1,12 @@
 `timescale 1ns / 1ps
 `define foo 6
+//`define USE_VGA // comment out to use LEDs
+//`define USE_DMA
+
 module system
+	#(
+		parameter SF_D_WIDTH = 8
+	)
 	(
 		input clk,
 		input rst_btn,
@@ -15,7 +21,13 @@ module system
 		output [15:0] plyrb_input,
 		// VGA
 		output bright, hsync, vsync,
+		`ifdef USE_VGA
 		output [7:0] R, G, B,
+		`else
+		// LEDs
+		output [7:0] led_out,
+		`endif
+		
 		output vga_dac_clk,
 		// physical switches
 		input [7:0] switches,
@@ -23,7 +35,7 @@ module system
 		input rot_a,
 		input rot_b,
 		// StrataFlash ROM
-		input [15:0] SF_D,
+		input [SF_D_WIDTH-1:0] SF_D,
 		output [23:0] SF_A,
 		output SF_CE0,
 		output SF_OE,
@@ -37,7 +49,13 @@ module system
 		output DAC_cs,
 		output SCK,
 		output DAC_CLR
+		
 	);
+	
+	`ifndef USE_VGA
+		wire [7:0] R, G, B;
+	`endif
+	
 	wire rst;
 	assign rst = !rst_btn;
 	
@@ -72,25 +90,26 @@ module system
 	wire [15:0] palette_memdata;
 	wire [9:0] palette_addr;
 	
-	wire [15:0] bg_write_data;
-	wire bg_mem_write;
 	wire bg_mem_enable;
-	wire bg_palette;
+	wire [4:0] bg_palette;
 
 	// rotary encoder
 	wire [15:0] rot_count;
 	wire rot_en;
 	
 	// DMA controller
-//	wire dma_en;
-//	wire [1:0] dma_mode;
 	wire [23:0] rom_addr;
-	wire [15:0] rom_data;
+	wire [SF_D_WIDTH-1:0] rom_data;
 	wire rom_load;
 	wire rom_ready;
-//	wire [15:0] dma_writedata;
-//	wire [15:0] dma_memaddr;
-//	wire dma_memwrite;
+	
+	`ifdef USE_DMA
+	wire dma_en;
+	wire [1:0] dma_mode;
+	wire [15:0] dma_writedata;
+	wire [15:0] dma_memaddr;
+	wire dma_memwrite;
+	`endif
 	
 	//sound controller
 	wire sound_en;
@@ -110,15 +129,17 @@ module system
 			.memwrite(proc_memwrite)
 		);
 		
-//	assign memaddr = proc_en ? proc_memaddr : dma_memaddr;
-//	assign memwrite = proc_en ? proc_memwrite : dma_memwrite;
-//	assign writedata = proc_en ? proc_writedata : dma_writedata;
-		
-	assign memaddr = proc_memaddr;
-	assign memwrite = proc_memwrite;
-	assign writedata = proc_writedata;
-	assign proc_en = 1'b1;
-		
+	`ifdef USE_DMA
+		assign memaddr = proc_en ? proc_memaddr : dma_memaddr;
+		assign memwrite = proc_en ? proc_memwrite : dma_memwrite;
+		assign writedata = proc_en ? proc_writedata : dma_writedata;
+	`else
+		assign memaddr = proc_memaddr;
+		assign memwrite = proc_memwrite;
+		assign writedata = proc_writedata;
+		assign proc_en = 1'b1;
+	`endif
+	
 	memory_controller  memory (
 			.clk(clk), 
 			.rst(rst), 
@@ -146,13 +167,19 @@ module system
 			.plyrb_input(plyrb_input),
 			.rot_count(rot_count),
 			.rot_en(rot_en),
-//			.dma_en(dma_en),
-//			.dma_mode(dma_mode),
+			
+			`ifdef USE_DMA
+			.dma_en(dma_en),
+			.dma_mode(dma_mode),
+			`endif
+			 
+			 `ifndef USE_VGA
+			 .led_out(led_out),
+			 `endif
+			 
 			.sound_data(sound_data),
 			.sound_select(sound_select),
 			.sound_en(sound_en),
-			.bg_write_data(bg_write_data),
-			.bg_mem_write(bg_mem_write),
 			.bg_mem_enable(bg_mem_enable),
 			.bg_palette(bg_palette)
 	  );
@@ -180,8 +207,6 @@ module system
 		 .sprite_memdata(sprite_memdata), 
 		 .tile_memdata(tile_memdata),
 		 .palette_memdata(palette_memdata),
-		 .bg_write_data(bg_write_data),
-		 .bg_mem_write(bg_mem_write),
 		 .bg_mem_enable(bg_mem_enable),
 		 .bg_palette(bg_palette)
 		);
@@ -191,7 +216,6 @@ module system
 	assign VGA_BLUE = B[7];
 	assign VGA_HSYNC = hsync;
 	assign VGA_VSYNC = vsync;
-	
 	
 	vga  vga_ctrl (
 			.clk(clk), 
@@ -239,7 +263,7 @@ module system
 		.rom_data(rom_data)
 	);
 	
-	romController rom (
+	romController #(.WIDTH(SF_D_WIDTH)) rom (
 			.clk(clk),
 			.rst(rst),
 			.addr(rom_addr),
@@ -254,24 +278,26 @@ module system
 			.SF_BYTE(SF_BYTE)
 		);
 		
-//	dma dma_controller (
-//		.clk(clk),
-//		.rst(rst),
-//		.src_addr(rom_addr),
-//		.load_rom(rom_load),
-//		.src_data(rom_data),
-//		.ready(rom_ready),
-//		// memory interface
-//		.dst_addr(dma_memaddr),
-//		.dst_write(dma_memwrite),
-//		.dst_data(dma_writedata),
-//		.proc_en(proc_en),
-//		// system interface
-//		.en(dma_en),
-//		.write(memwrite),
-//		.wr_mode(dma_mode),
-//		.ctrl_data(writedata)
-//	);
+	`ifdef USE_DMA
+	dma dma_controller (
+		.clk(clk),
+		.rst(rst),
+		.src_addr(rom_addr),
+		.load_rom(rom_load),
+		.src_data(rom_data),
+		.ready(rom_ready),
+		// memory interface
+		.dst_addr(dma_memaddr),
+		.dst_write(dma_memwrite),
+		.dst_data(dma_writedata),
+		.proc_en(proc_en),
+		// system interface
+		.en(dma_en),
+		.write(memwrite),
+		.wr_mode(dma_mode),
+		.ctrl_data(writedata)
+	);
+	`endif
 	
 	nes_zap gameinput_neszap (
 		.clk(clk),

@@ -8,8 +8,8 @@
 // Project Name: CS3710
 // Description: 16-bit pseudo-random number generator.
 // Each bit is fed by a 32 bit LFSR. Reading from the generator causes each 
-// LFSR to shift. Writing a seed value writes the corresponding bit from the
-// seed instead of the feedback value.
+// LFSR to shift. Writing a seed value writes the corresponding bit combined
+// with each LFSR seed into each LFSR.
 // 
 // The seed values of each of the LFSR are as follows:
 // 0x0
@@ -47,7 +47,7 @@ module rng
 	generate
 		for (i = 0; i < WIDTH; i = i + 1) begin: bits
 			lfsr #(.SEED(i*266440973)) stage (.clk(clk), .rst(rst), .en(en), 
-				.write(write), .din(seed[i]), .bit(random[i]));
+				.write(write), .din(seed[i]), .rand_bit(random[i]));
 		end
 	endgenerate
 endmodule

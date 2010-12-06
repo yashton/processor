@@ -47,9 +47,9 @@ module memory_controller
 		output [15:0] instruction,
 		// Memory mapped input and other RAM blocks.
 		// GPU VRAM blocks
-		input [4:0] bg_pallete,
-		input [15:0] sprite_object_data, tile_data, palette_data, bg_write_data,
-		output sprite_object_enable, tile_data_enable, palette_enable, bg_mem_write,  bg_mem_enable,
+		input [4:0] bg_palette,
+		input [15:0] sprite_object_data, tile_data, palette_data,
+		output sprite_object_enable, tile_data_enable, palette_enable, bg_mem_enable,
 		output [9:0] sprite_object_addr,
 		output [12:0] tile_data_addr,
 		output [9:0] palette_addr,
@@ -59,7 +59,9 @@ module memory_controller
 		output reg [7:0] sprite_priority,
 		output reg [7:0] brightness,
 		//inputs and outputs for switches and leds
-		//output reg [7:0] test_out,
+		`ifndef USE_VGA
+		output reg [7:0] led_out,
+		`endif
 		input [7:0] switches,
 		//snes controller
 		input [15:0] plyra_input,
@@ -69,8 +71,10 @@ module memory_controller
 		input [15:0] rot_count,
 		output rot_en,
 		// DMA controller
+		`ifdef USE_DMA
 		output dma_en,
 		output [1:0] dma_mode,
+		`endif
 		//sound controller
 		input [15:0] sound_data,
 		output sound_en,
@@ -84,10 +88,8 @@ module memory_controller
 	assign palette_enable = (memaddr >= PALETTE_ADDR) && (memaddr < PALETTE_ADDR);
 	assign bg_mem_enable = memaddr == BG_PALETTE_ADDR;
 	assign rot_en = memaddr == ROT_ADDR;
-	assign dma_en = memaddr[15:2] == DMA_REGS;
-	assign dma_mode = memaddr[1:0];
-	
 	assign sound_en = (memaddr >= SOUND_ADDR) && (memaddr < SOUND_TOP_ADDR);
+	
 	assign sound_select = memaddr - SOUND_ADDR;
 	assign sprite_object_addr = memaddr - SPRITE_ADDR;
 	assign tile_data_addr = memaddr - TILE_ADDR;
@@ -97,6 +99,11 @@ module memory_controller
 	//									 .addrb(pcaddr[12:0]), .web(1'b0), .dinb(16'b0), .doutb(instruction), .rstb(~rst));
 	exmem programMemory( .clk(clk), .adr(memaddr[12:0]), .pcaddr(pcaddr[12:0]), .memwrite(memwrite), .en(programen), .writedata(writedata), 
 			.programout(programout), .instruction(instruction));
+
+	`ifdef USE_DMA
+	assign dma_en = memaddr[15:2] == DMA_REGS;
+	assign dma_mode = memaddr[1:0];
+	`endif
 
 	wire rng_en;
 	wire [15:0] random;
@@ -124,28 +131,27 @@ module memory_controller
 				other_memdata <= sprite_priority;
 			end
 			else if ( memaddr == BG_PALETTE_ADDR) begin
-				if (bg_mem_write) begin
-					bg_write_data <= writedata;
-				end
-				other_memdata <= bg_write_data;
+				other_memdata <= bg_palette;
 			end
 			else if (memaddr == GPU_SR_ADDR) begin
 				other_memdata <= {hbright, vbright}; 
 			end
 			else if (memaddr ==  SWITCH_LED_ADDR) begin
-//				if (memwrite) begin
-//					test_out <= writedata;
-//				end
+				`ifndef USE_VGA
+				if (memwrite) begin
+					led_out <= writedata;
+				end
+				`endif
 				other_memdata <= switches;
 			end
 			else if (memaddr == ROT_ADDR) begin
 				other_memdata <= rot_count;
 			end
 			else if ( memaddr == CONA_ADDR) begin
-				other_memdata <= {4'b0, plyra_input};
+				other_memdata <= plyra_input;
 			end
 			else if ( memaddr == CONB_ADDR) begin
-				other_memdata <= {4'b0, plyrb_input};
+				other_memdata <= plyrb_input;
 			end
 			else if (rng_en) begin
 				other_memdata <= random;

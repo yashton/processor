@@ -23,10 +23,10 @@ module lfsr
 		input rst,
 		input write,
 		input din,
-		output bit
+		output rand_bit
 	);	
 	reg [WIDTH-1:0] data;
-  assign bit = data[0];
+  assign rand_bit = data[0];
   
 	always @(posedge clk) begin
 		if (!rst) begin
@@ -34,8 +34,8 @@ module lfsr
 		end
 		else if (en) begin
 			if (write) begin
-				data[WIDTH-2:0] <= SEED;
-				data[WIDTH-1] <= din;
+				data[WIDTH-1:1] <= SEED[WIDTH-1:1];
+				data[0] <= din;
 			end
 			else begin
 				data[WIDTH-1:1] <= data[WIDTH-2:0];

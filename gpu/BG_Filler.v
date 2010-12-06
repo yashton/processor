@@ -43,10 +43,10 @@ module BG_Filler(
 	
 	always @(posedge clk) begin
 		if(!rst) begin
-			bg_bg_palette = 0;
+			bg_palette = 0;
 		end
 		else if(mem_enable && mem_write) begin
-			bg_bg_palette = write_data[4:0];
+			bg_palette = write_data[4:0];
 		end
 	end
 	
@@ -99,11 +99,9 @@ module BG_Filler(
 		end
 	end
 	
-	// background vram
-	BG_vram BG_ram(
+	// background rom
+	bg_rom background(
 		.addra(addr), 
-		.dina(9'b0), 
-		.wea(1'b0), 
 		.clka(clk), 
 		.douta(dout)
 	);

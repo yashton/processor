@@ -202,7 +202,7 @@ end
 //stores sound data in registers
 	reg [23:0] tmp_rom_addr;
 	reg [3:0] tmp_amp;
-	reg [15:0] tmp_duration, tmp_duration_total;
+	reg [15:0] tmp_duration;
 	always @(posedge clk) begin
 		if (!rst) begin
 			b_rom_addr <= 24'h0454B9;
@@ -258,7 +258,6 @@ end
 					sound_select == 23 || sound_select == 28 || sound_select == 33 || sound_select == 38 ||
 					sound_select == 43 || sound_select == 48) begin
 					tmp_duration <= writedata;
-					tmp_duration_total <= writedata;
 				end
 				else if (sound_select == 4) begin
 					b_rom_addr <= tmp_rom_addr;

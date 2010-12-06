@@ -1,7 +1,48 @@
+.define SPRITE_TABLE 0x2000
+.define SPRITE_TILE 0x2400
+.define PALETTE_DATA 0x4400
+.define GPU_STATUS 0x4800
+.define SPRITE_PRIORITY 0x4801
+.define SCREEN_BRIGHTNESS 0x4802
+.define SWITCHES 0x4803
+.define DMA_SRC_LOWER 0x4804
+.define DMA_SRC_UPPER 0x4805
+.define DMA_DST 0x4806
+.define DMA_AMT 0x4807
+.define ROTARY_ENC 0x4808
+.define RANDOM_GENERATOR 0x4809
 # snes controller
 .define CONTROLLER_A 0x480a
 # nes zapper
 .define CONTROLLER_B 0x480b
+.define BG_ROM_ADDR_LOWER 0x480c
+.define BG_ROM_ADDR_UPPER 0x480d
+.define BG_AMP 0x480e
+.define BG_DURATION_LOWER 0x480f
+.define BG_DURATION_UPPER 0x4810
+.define SFX0_ROM_ADDR_LOWER 0x4811
+.define SFX0_ROM_ADDR_UPPER 0x4812
+.define SFX0_AMP 0x4813
+.define SFX0_DURATION_LOWER 0x4814
+.define SFX0_DURATION_UPPER 0x4815
+.define SFX1_ROM_ADDR_LOWER 0x4816
+.define SFX1_ROM_ADDR_UPPER 0x4817
+.define SFX1_AMP 0x4818
+.define SFX1_DURATION_LOWER 0x4819
+.define SFX1_DURATION_UPPER 0x481a
+.define SFX2_ROM_ADDR_LOWER 0x481b
+.define SFX2_ROM_ADDR_UPPER 0x481c
+.define SFX2_AMP 0x481d
+.define SFX2_DURATION_LOWER 0x481e
+.define SFX2_DURATION_UPPER 0x481f
+.define SFX3_ROM_ADDR_LOWER 0x4820
+.define SFX3_ROM_ADDR_UPPER 0x4821
+.define SFX3_AMP 0x4822
+.define SFX3_DURATION_LOWER 0x4823
+.define SFX3_DURATION_UPPER 0x4824
+.define ZAPPER_BLANK 0x4826
+.define BG_PALETTE 0x4827
+
 .define DUCK_SPRITE 0x2000
 .define ROUND_TIME 600
 .define NORMAL 1
@@ -24,7 +65,7 @@
 .define GPU_SR 0x4800
 .define VBRIGHT 1
 
-.define bit11hi 2048
+.define HFLIP_MASK 0x0010
 
 .text
 main:					# while(true)
@@ -582,8 +623,8 @@ unblank_screen:
 	delta_x: 0x0
 	delta_y: 0x0
 	counter: 0 # a counter used to determine
-	animation_counter:	# counter  
 	# when to switch to a frame for animation
+	animation_counter:	# counter  
 	sprite_frame: 0 # state machine for current frame
 	dead_counter: 0 # a counter for duck death animation
 	dead_frame: 0 # state machine for current dead duck frame

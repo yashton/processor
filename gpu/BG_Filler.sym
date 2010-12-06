@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <symbol version="7" name="BG_Filler">
     <symboltype>BLOCK</symboltype>
-    <timestamp>2010-12-6T6:18:18</timestamp>
+    <timestamp>2010-12-6T22:26:51</timestamp>
     <attr value="BG_Filler" name="VeriModel" />
     <pin polarity="Input" x="0" y="-416" name="clk" />
     <pin polarity="Input" x="0" y="-240" name="x(9:0)" />
@@ -10,7 +10,7 @@
     <pin polarity="Input" x="0" y="-192" name="write_data(15:0)" />
     <pin polarity="Input" x="0" y="-144" name="mem_write" />
     <pin polarity="Input" x="0" y="-80" name="mem_enable" />
-    <pin polarity="Input" x="384" y="-352" name="bg_palette(4:0)" />
+    <pin polarity="Output" x="384" y="-352" name="bg_palette(4:0)" />
     <pin polarity="Output" x="384" y="-416" name="indexOut(8:0)" />
     <graph>
         <rect width="256" x="64" y="-448" height="440" />
