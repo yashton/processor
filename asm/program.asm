@@ -451,14 +451,15 @@ unblank_screen:
 		frame
 		push $s0
 		push $s1
+		push $s2
 		mov $t0,$fp
 		addi $t0,2
 		load $t1, $t0 			# t1 = killed
 		mov   $t0, $a0			# t0 = duck sprite address
-		addi  $t0, 1
-		cmpi $t1, 1
-		beq dead_duck
-		movwi $s0, counter
+		addi  $t0, 1			# t0 = addr+ 1
+		cmpi $t1, 1		
+		beq dead_duck			# branch to dead duck code
+		movwi $s0, counter		#
 		load $t2, $s0
 		movwi $s1, sprite_frame
 		load $t3, $s1
@@ -492,127 +493,171 @@ unblank_screen:
 			addi $t2, 1
 			buc	 end_dead_counter_logic
 		next_dead_frame:
-			movi $t2, 0				# reset counter
+			movi $t2, 0				# reset dead counter
 			cmpi $t3, 4
-			bge  reset_dead_frame
+			bgt  reset_dead_frame
 			addi $t3, 1
 			buc  end_dead_counter_logic
 		reset_dead_frame:
-			movi $t3, 0				# reset frame
+			movi $t3, 0				# reset dead frame
 		end_dead_counter_logic:
-			cmpi  $t2,0
+			cmpi  $t3,0
 			beq  dead_duck_1
-			cmpi  $t2, 1
+			cmpi  $t3, 1
 			beq  dead_duck_2
-			cmpi  $t2, 2
+			cmpi  $t3, 2
 			beq  dead_duck_3
-			cmpi  $t2, 3
+			cmpi  $t3, 3
 			beq  dead_duck_4
-			movi $v0, 0
+			movi $v0, 0				# duck is done dying
 			buc  dead_duck_4
 			dead_duck_1:
-				movwi $t1, 45064		# dead duck frame 1
+				load  $t1, $t0		
+				movwi $s3, 0x000A	# masks in the 
+				or    $t1, $s3		# index for the 
+				movwi $s3, 0xFF0A	# correct duck
+				and   $t1, $s3		# dead duck frame 1
 				stor  $t0, $t1			
 				buc end_dead_duck_sprite
 			dead_duck_2:
-				movwi $t1, 46088		# dead duck frame 2
+				load  $t1, $t0		
+				movwi $s3, 0x004A	# masks in the 
+				or    $t1, $s3		# index for the 
+				movwi $s3, 0xFF4A	# correct duck
+				and   $t1, $s3		# dead duck frame 2
 				stor  $t0, $t1			
 				buc end_dead_duck_sprite
 			dead_duck_3:
-				movwi $t1, 47112		# dead duck frame 3
+				load  $t1, $t0		
+				movwi $s3, 0x008A	# masks in the 
+				or    $t1, $s3		# index for the 
+				movwi $s3, 0xFF8A	# correct duck
+				and   $t1, $s3		# dead duck frame 3
 				stor  $t0, $t1			
 				buc end_dead_duck_sprite
 			dead_duck_4:
-				movwi $t1, 48136		# dead duck frame 4
+				load  $t1, $t0		
+				movwi $s3, 0x00CA	# masks in the 
+				or    $t1, $s3		# index for the 
+				movwi $s3, 0xFFCA	# correct duck
+				and   $t1, $s3		# dead duck frame 4
 				stor  $t0, $t1			
 				buc end_dead_duck_sprite
 		end_dead_duck_sprite:
-			movwi $t0, counter
-			stor $s0, $t0
-			movwi $t0, sprite_frame
-			stor $s1, $t0
+			stor $s0, $t2
+			stor $s1, $t3
 			buc  end_update_duck_sprite
 		west:
-			mov	 $t0, $a0			# get address of duck sprite
-			addi $t0, 3				# add 3 to get to addr + 3 
+			addi $t0, 2				# add 2 to get to addr + 3 
 			load $t1, $t0			# load the value from that location into t1
-			movwi $s2, bit11hi		# $s2 = 0000 1000 0000 0000		
-			or   $t1, $s2			# $t1 = xxxx 1xxx xxxx xxxx
-			mov	 $t0, $a0			# get the address back into $t0	
-			addi $t0, 3				# add 3 again
-			stor $t0, $t1			# store t1 back where it came from
+			movwi $s2, HFLIP_MASK	# $s2 = 0000 0000 0001 0000		
+			or   $t1, $s2			# $t1 = xxxx xxxx xxx1 xxxx
+			stor $t1, $t0			# store t1 back where it came from
+			subi $t0, 2				# put t0 back to addr + 1
 			cmpi $a2, 0
 			bgt  angular
 			buc  sideways
 		east:
-			mov	 $t0, $a0			# get address of duck sprite
-			addi $t0, 3				# add 3 to get to addr + 3 
+			addi $t0, 2				# add 2 to get to addr + 3 
 			load $t1, $t0			# load the value from that location into t1
-			movwi $s2, bit11hi		# $s2 = 0000 1000 0000 0000
-			not	  $s2				# $s2 = 1111 0111 1111 1111
-			and   $t1, $s2			# $t1 = xxxx 0xxx xxxx xxxx
-			mov	 $t0, $a0			# get the address back into $t0	
-			addi $t0, 3				# add 3 again
-			stor $t0, $t1			# store t1 back where it came from
+			movwi $s2, HFLIP_MASK	# $s2 = 0000 0000 0001 0000		
+			not  $s2				# $s2 = 1111 1111 1110 1111
+			and  $t1, $s2			# $t1 = xxxx xxxx xxx0 xxxx
+			stor $t1, $t0			# store t1 back where it came from
+			subi $t0, 2				# put t0 back to addr + 1
 			cmpi $a2, 0
 			bgt  angular
 			buc  sideways
 		angular:
-			cmpi  $t2,0
+			cmpi  $t3,0
 			beq   angular_duck_1
-			cmpi  $t2, 2
+			cmpi  $t3, 2
 			beq   angular_duck_3
 			angular_duck_2_and_4:
-				movwi $t1, 17416		# angular duck frame 2 and 4
-				stor  $t0, $t1		
+				load  $t1, $t0		
+				movwi $s3, 0x0044	# masks in the 
+				or    $t1, $s3		# index for the 
+				movwi $s3, 0xFF44	# correct duck
+				and   $t1, $s3		# angular duck 2 and 4
+				stor  $t1, $t0		
 				buc   end_living_duck
 			angular_duck_1:
-				movwi $t1, 16392		# angular duck frame 1
+				load  $t1, $t0		
+				movwi $s3, 0x0004	# masks in the 
+				or    $t1, $s3		# index for the 
+				movwi $s3, 0xFF04	# correct duck
+				and   $t1, $s3		# angular duck 1
 				stor  $t0, $t1		
 				buc	  end_living_duck
 			angular_duck_3:
-				movwi $t1, 18440		# angular duck frame 3
+				load  $t1, $t0		
+				movwi $s3, 0x0084	# masks in the 
+				or    $t1, $s3		# index for the 
+				movwi $s3, 0xFF84	# correct duck
+				and   $t1, $s3		# angular duck 3
 				stor  $t0, $t1		
 				buc   end_living_duck
 		sideways:
-			cmpi $t2, 0
+			cmpi $t3, 0
 			beq  sideways_duck_1
-			cmpi $t2, 2
+			cmpi $t3, 2
 			beq  sideways_duck_3
 			sideways_duck_2_and_4:
-				movwi  $t1, 5128		# sideways duck fram 2 & 4
+				load  $t1, $t0		
+				movwi $s3, 0x0041	# masks in the 
+				or    $t1, $s3		# index for the 
+				movwi $s3, 0xFF41	# correct duck
+				and   $t1, $s3		# sideways duck fram 2 & 4
 				stor   $t0, $t1
 				buc   end_living_duck
 			sideways_duck_1:
-				movwi  $t1, 4104		# sideways duck frame 1
+				load  $t1, $t0		
+				movwi $s3, 0x0001	# masks in the 
+				or    $t1, $s3		# index for the 
+				movwi $s3, 0xFF01	# correct duck
+				and   $t1, $s3		# sideways duck frame 1
 				stor   $t0, $t1
 				buc   end_living_duck
 			sideways_duck_3:
-				movwi  $t1, 6152		# sideways duck frame 3
+				load  $t1, $t0		
+				movwi $s3, 0x0081	# masks in the 
+				or    $t1, $s3		# index for the 
+				movwi $s3, 0xFF81	# correct duck
+				and   $t1, $s3		# sideways duck frame 3
 				stor   $t0, $t1
 				buc   end_living_duck
 		vertical:
-			cmpi $t2, 0
+			cmpi $t3, 0
 			beq  vertical_duck_1
-			cmpi $t2, 2
+			cmpi $t3, 2
 			beq  vertical_duck_3
 			vertical_duck_2_and_4:
-				movwi  $t1, 29704		# vertical duck fram 2 & 4
+				load  $t1, $t0		
+				movwi $s3, 0x0047	# masks in the 
+				or    $t1, $s3		# index for the 
+				movwi $s3, 0xFF47	# correct duck
+				and   $t1, $s3		# vertical duck fram 2 & 4
 				stor   $t0, $t1
 				buc   end_living_duck
 			vertical_duck_1:
-				movwi  $t1, 28680		# vertical duck frame 1
+				load  $t1, $t0		
+				movwi $s3, 0x0007	# masks in the 
+				or    $t1, $s3		# index for the 
+				movwi $s3, 0xFF07	# correct duck
+				and   $t1, $s3		# vertical duck frame 1
 				stor   $t0, $t1
 				buc   end_living_duck
 			vertical_duck_3:
-				movwi  $t1, 30728		# vertical duck frame 3
+				load  $t1, $t0		
+				movwi $s3, 0x0087	# masks in the 
+				or    $t1, $s3		# index for the 
+				movwi $s3, 0xFF87	# correct duck
+				and   $t1, $s3		# vertical duck frame 3
 				stor   $t0, $t1
 				buc   end_living_duck
 		end_living_duck_sprite:
-		movwi $t0, counter
-		stor $s0, $t0
-		movwi $t0, sprite_frame
-		stor $s1, $t0
+		stor $s0, $t2
+		stor $s1, $t3
 		end_update_duck_sprite:
 		pop $s2
 		pop $s1
@@ -623,12 +668,8 @@ unblank_screen:
 	delta_x: 0x0
 	delta_y: 0x0
 	counter: 0 # a counter used to determine
-	# when to switch to a frame for animation
-	animation_counter:	# counter  
-	sprite_frame: 0 # state machine for current frame
+	animation_counter:	# counter used to determinehen to switch frame for animation
+	sprite_frame: 0 # counter for current frame
 	dead_counter: 0 # a counter for duck death animation
-	dead_frame: 0 # state machine for current dead duck frame
-
-
-
-
+	dead_frame: 0 # counter for current dead duck frame
+	
