@@ -1,0 +1,17 @@
+# Output products list for <bg_rom>
+_xmsgs\pn_parser.xmsgs
+bg_rom.asy
+bg_rom.gise
+bg_rom.mif
+bg_rom.ngc
+bg_rom.sym
+bg_rom.v
+bg_rom.veo
+bg_rom.vhd
+bg_rom.vho
+bg_rom.xco
+bg_rom.xise
+bg_rom_flist.txt
+bg_rom_xmdf.tcl
+blk_mem_gen_ds512.pdf
+blk_mem_gen_readme.txt
