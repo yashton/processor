@@ -1,72 +1,74 @@
-.define SPRITE_TABLE 0x2000
-.define SPRITE_TILE 0x2400
-.define PALETTE_DATA 0x4400
-.define GPU_STATUS 0x4800
-.define SPRITE_PRIORITY 0x4801
-.define SCREEN_BRIGHTNESS 0x4802
-.define SWITCHES 0x4803
-.define DMA_SRC_LOWER 0x4804
-.define DMA_SRC_UPPER 0x4805
-.define DMA_DST 0x4806
-.define DMA_AMT 0x4807
-.define ROTARY_ENC 0x4808
-.define RANDOM_GENERATOR 0x4809
+.define SPRITE_TABLE 		0x2000
+.define SPRITE_TILE 		0x2400
+.define PALETTE_DATA 		0x4400
+.define GPU_STATUS 			0x4800
+.define SPRITE_PRIORITY 	0x4801
+.define SCREEN_BRIGHTNESS 	0x4802
+.define SWITCHES 			0x4803
+.define DMA_SRC_LOWER 		0x4804
+.define DMA_SRC_UPPER 		0x4805
+.define DMA_DST 			0x4806
+.define DMA_AMT 			0x4807
+.define ROTARY_ENC 			0x4808
+.define RANDOM_GENERATOR 	0x4809
 # snes controller
-.define CONTROLLER_A 0x480a
+.define CONTROLLER_A 		0x480a
 # nes zapper
-.define CONTROLLER_B 0x480b
-.define BG_ROM_ADDR_LOWER 0x480c
-.define BG_ROM_ADDR_UPPER 0x480d
-.define BG_AMP 0x480e
-.define BG_DURATION_LOWER 0x480f
-.define BG_DURATION_UPPER 0x4810
+.define CONTROLLER_B 		0x480b
+.define BG_ROM_ADDR_LOWER 	0x480c
+.define BG_ROM_ADDR_UPPER 	0x480d
+.define BG_AMP 				0x480e
+.define BG_DURATION_LOWER 	0x480f
+.define BG_DURATION_UPPER 	0x4810
 .define SFX0_ROM_ADDR_LOWER 0x4811
 .define SFX0_ROM_ADDR_UPPER 0x4812
-.define SFX0_AMP 0x4813
+.define SFX0_AMP 			0x4813
 .define SFX0_DURATION_LOWER 0x4814
 .define SFX0_DURATION_UPPER 0x4815
 .define SFX1_ROM_ADDR_LOWER 0x4816
 .define SFX1_ROM_ADDR_UPPER 0x4817
-.define SFX1_AMP 0x4818
+.define SFX1_AMP 			0x4818
 .define SFX1_DURATION_LOWER 0x4819
 .define SFX1_DURATION_UPPER 0x481a
 .define SFX2_ROM_ADDR_LOWER 0x481b
 .define SFX2_ROM_ADDR_UPPER 0x481c
-.define SFX2_AMP 0x481d
+.define SFX2_AMP 			0x481d
 .define SFX2_DURATION_LOWER 0x481e
 .define SFX2_DURATION_UPPER 0x481f
 .define SFX3_ROM_ADDR_LOWER 0x4820
 .define SFX3_ROM_ADDR_UPPER 0x4821
-.define SFX3_AMP 0x4822
+.define SFX3_AMP 			0x4822
 .define SFX3_DURATION_LOWER 0x4823
 .define SFX3_DURATION_UPPER 0x4824
-.define ZAPPER_BLANK 0x4826
-.define BG_PALETTE 0x4827
+.define BLANK_TIME_UP		0x4826
+.define BG_PALETTE 			0x4827
 
-.define DUCK_SPRITE 0x2000
-.define STRING_START 0x2300
-.define ROUND_TIME 600
-.define NORMAL 1
-.define HIT 2
-.define BLANK_SCREEN 3
-.define POINTS 5
-
+.define DUCK_SPRITE 		0x2000
+.define ROUND_TIME 			600
+.define NORMAL 				1
+.define HIT 				2
+.define BLANK_SCREEN 		3
+.define POINTS 				5
+.define RANDOM_DIRMASK 		7
 .define DUCK_SIZE_X 		32
-.define DUCK_SIZE_Y		24
+.define DUCK_SIZE_Y			24
 .define SCR_WIDTH			640
-.define SCR_HEIGHT		250
-.define CONTROLLER_MASK 0xF000
-.define CONTROL_11 		0x0800
-.define CONTROL_10 		0x0400
-.define CONTROL_9  		0x0200
-.define CONTROL_8  		0x0100
+.define SCR_HEIGHT			250
+.define CONTROLLER_MASK 	0xF000
+.define CONTROL_11 			0x0800
+.define CONTROL_10 			0x0400
+.define CONTROL_9  			0x0200
+.define CONTROL_8  			0x0100
 .define RANDOM_DIRMASK 7
 .define RANDOM 			0x4809
 .define BLANK_TIME_UP	0x4826
 .define GPU_SR 0x4800
 .define VBRIGHT 1
 
-.define HFLIP_MASK 0x0010
+.define GPU_SR 				0x4800
+.define VBRIGHT 			1
+
+.define HFLIP_MASK 			0x0010
 
 .text
 main:					# while(true)
@@ -109,7 +111,8 @@ play_game:
 		load $t1, $t0
 		subi $t1, 1				# time--
 		stor $t1, $t0
-		push $a1				# save killed to stack
+		
+		push $a1	 			# save killed to stack
 		mov $a0, $s2
 		movwi $t2, CONTROLLER_B # shot and hit are stored consecutively in memory at CONT_B
 		load $a1, $t2		# a1 = shot
