@@ -1,6 +1,5 @@
 `timescale 1ns / 1ps
-`define foo 6
-//`define USE_VGA // comment out to use LEDs
+`define USE_VGA // comment out to use LEDs
 //`define USE_DMA
 
 module system
