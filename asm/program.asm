@@ -44,6 +44,7 @@
 .define BG_PALETTE 0x4827
 
 .define DUCK_SPRITE 0x2000
+.define STRING_START 0x2300
 .define ROUND_TIME 600
 .define NORMAL 1
 .define HIT 2
@@ -108,8 +109,7 @@ play_game:
 		load $t1, $t0
 		subi $t1, 1				# time--
 		stor $t1, $t0
-		
-		push $a1	 			# save killed to stack
+		push $a1				# save killed to stack
 		mov $a0, $s2
 		movwi $t2, CONTROLLER_B # shot and hit are stored consecutively in memory at CONT_B
 		load $a1, $t2		# a1 = shot
@@ -201,6 +201,8 @@ next_state:
 
 update_duck:
 	frame
+	mov $t0, $fp	# get duck killed
+	addi $t0, 2
 	push $a0
 	push $a1
 	push $a2
@@ -208,7 +210,8 @@ update_duck:
 	push $s1
 	push $s2
 	push $s3
-	#get duck killed
+	push $t0		# store duck killed back to the stack
+	# get duck killed
 	# *duck_sprite		$a0
 	#  duck_sprite_x 	$a0
 	#  duck_sprite_y	$a0+1 = s1
@@ -226,10 +229,9 @@ update_duck:
 	duck_alive:
 		# if under control of p2
 		movwi $t0, CONTROLLER_MASK
-		and $t0, $a2 
+		and $t0, $a2
 		test $t0, $t0
-		movwi $t1, cpu_control
-		beq cpu_control	#if t1 != 0, p2 is in control 				
+		beq cpu_control	# if t0 != 0, p2 is in control
 		
 		p2_control:
 			# if(left_pressed)
@@ -349,6 +351,9 @@ update_duck:
 		
 		
 	end:
+	pop $t0		# killed state gets popped off the stack 
+				# first to make sure the stack is the way
+				# the caller had it.
 	pop $s3
 	pop $s2
 	pop $s1
@@ -442,24 +447,47 @@ unblank_screen:
 	movi $t2, DUCK_NORMAL_PALETTE
 	stor $t2, $t3
 	juc $ra
-		
+
+# string_to_screen
+	string_to_screen
+	# a0 pointer to start of string
+	# a1 X coordinate of first character
+	# a2 Y coordinate of first character
+	# pointer to start of string sprites, 
+	# typically 0x2300 is available for this purpose
+	frame
+	mov  $t0, $fp
+	addi $t0, 2
+	load $t0, $t0
+	push $a0
+	push $a1
+	push $a2
+	# TODO: ADD CODE
+	pop $a2
+	pop $a1
+	pop $a0
+	leave
+	juc $ra
+
+	
 # update duck sprite	
 	update_duck_sprite:
 	# a0 pointer to duck sprite
 	# a1 delta x
 	# a2 delta y
+	# killed state has been pushed to the stack
 		frame
+		mov $t0, $fp
+		addi $t0, 2
+		load $t1, $t0 			# t1 = killed
 		push $s0
 		push $s1
 		push $s2
-		mov $t0,$fp
-		addi $t0,2
-		load $t1, $t0 			# t1 = killed
 		mov   $t0, $a0			# t0 = duck sprite address
 		addi  $t0, 1			# t0 = addr+ 1
 		cmpi $t1, 1		
 		beq dead_duck			# branch to dead duck code
-		movwi $s0, counter		#
+		movwi $s0, animation_counter		
 		load $t2, $s0
 		movwi $s1, sprite_frame
 		load $t3, $s1
@@ -468,13 +496,13 @@ unblank_screen:
 		addi $t2, 1
 		buc	 end_counter_logic
 	next_sprite_frame:
-		movi $t2, 0				# reset counter
+		movi $t2, 0				# reset animation_counter
 		cmpi $t3, 3
 		bge  reset_sprite_frame
 		addi $t3, 1
 		buc  end_counter_logic
 	reset_sprite_frame:
-		movi $t3, 0				# reset frame
+		movi $t3, 0				# reset sprite_frame
 	end_counter_logic:
 		cmpi $a2, 0
 		blt  north
@@ -509,8 +537,8 @@ unblank_screen:
 			beq  dead_duck_3
 			cmpi  $t3, 3
 			beq  dead_duck_4
-			movi $v0, 0				# duck is done dying
-			buc  dead_duck_4
+			movi $v0, 0				# duck is done dying, return 0 to caller know
+			buc  dead_duck_4		# a sprite is still specified
 			dead_duck_1:
 				load  $t1, $t0		
 				movwi $s3, 0x000A	# masks in the 
@@ -667,7 +695,6 @@ unblank_screen:
 .data
 	delta_x: 0x0
 	delta_y: 0x0
-	counter: 0 # a counter used to determine
 	animation_counter:	# counter used to determinehen to switch frame for animation
 	sprite_frame: 0 # counter for current frame
 	dead_counter: 0 # a counter for duck death animation
