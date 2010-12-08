@@ -35,9 +35,12 @@ int play_game()
 		
 		time -= 1
 	
-		if (state == BLANK_SCREEN)
-			set palettes to blank
-		else if (state == HIT)
+		if (BLANK_TIME_UP)
+			blank_screen()
+		else
+			unblank_screen()
+			
+		if (state == HIT)
 			duck.killed = true
 			score += points
 		

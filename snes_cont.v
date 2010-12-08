@@ -21,9 +21,9 @@ module snes_cont
 
 	reg latch1, pulse1, data1;
 
-	reg B, Y, select, start, up, down, left, right, A, X, L, R;
-	reg B1, Y1, select1, start1, up1, down1, left1, right1, A1, X1, L1, R1;
-	assign plyr_input = {left, right, up, down, A, B, X, Y};//, L, R, select, start};              
+	reg B, Y, select, start, up, down, left, right, A, X, L, R, N0, N1, N2, N3;
+	reg B1, Y1, select1, start1, up1, down1, left1, right1, A1, X1, L1, R1, N01, N11, N21, N31;
+	assign plyr_input = {N3,N2,N1,N0,left, right, up, down, A, B, X, Y, L, R, select, start};              
 
 	reg [4:0] state, nextstate, returnstate, nextreturnstate;
 	reg [11:0] count, nextcount; 
@@ -45,7 +45,11 @@ module snes_cont
 	parameter READ_X = 14;
 	parameter READ_L = 15;
 	parameter READ_R = 16;
-
+	parameter READ_N0 = 17;
+	parameter READ_N1 = 18;
+	parameter READ_N2 = 19;
+	parameter READ_N3 = 20;
+	
 	parameter TWELVE_US = 12'h258;//count for 12 us on a 50 MHz clk
 	parameter SIX_US = 12'h12c; 	//count for 6 us on a 50 MHz clk
 
@@ -77,6 +81,10 @@ module snes_cont
 		Y <= Y1;
 		L <= L1;
 		R <= R1;
+		N0<= N01;
+		N1<= N11;
+		N2<= N21;
+		N3<= N31;
 	end
 
 	always @(*)
@@ -97,9 +105,12 @@ module snes_cont
 		Y1 = Y;
 		L1 = L;
 		R1 = R;
-
 		select1 = select;
 		start1 = start;
+		N01 = N0;
+		N11 = N1;
+		N21 = N2;
+		N31 = N3;
 
 		case (state)
 			INIT:
@@ -218,6 +229,30 @@ module snes_cont
 			READ_R:
 			begin
 				R1 = ~data;
+				nextreturnstate = READ_N0;
+				nextstate = WAIT;
+			end
+			READ_N0:
+			begin
+				N01 = ~data;
+				nextreturnstate = READ_N1;
+				nextstate = WAIT;
+			end	
+			READ_N1:
+			begin
+				N11 = ~data;
+				nextreturnstate = READ_N2;
+				nextstate = WAIT;
+			end	
+			READ_N2:
+			begin
+				N21 = ~data;
+				nextreturnstate = READ_N3;
+				nextstate = WAIT;
+			end			
+			READ_N3:
+			begin
+				N31 = ~data;
 				nextstate = IDLE;
 			end
 		endcase

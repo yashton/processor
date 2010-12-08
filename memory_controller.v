@@ -34,7 +34,8 @@ module memory_controller
 		parameter CONB_ADDR = 16'h480b,
 		parameter SOUND_ADDR = 16'h480c,
 		parameter SOUND_TOP_ADDR = 16'h4825,
-		parameter BG_PALETTE_ADDR = 16'h4827
+		parameter BG_PALETTE_ADDR = 16'h4827,
+		parameter BLANK_TIME_ADDR = 16'h4826
 	)
 	(
 		input clk,
@@ -67,6 +68,7 @@ module memory_controller
 		input [15:0] plyra_input,
 		//nes zapper
 		input [15:0] plyrb_input,
+		input blank_time_up,
 		// Rotary encoder
 		input [15:0] rot_count,
 		output rot_en,
@@ -155,6 +157,9 @@ module memory_controller
 			end
 			else if (rng_en) begin
 				other_memdata <= random;
+			end
+			else if (memaddr == BLANK_TIME_ADDR) begin
+				other_memdata <= blank_time_up;
 			end
 			else begin
 				other_memdata <= 0;

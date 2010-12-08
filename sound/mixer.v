@@ -36,16 +36,16 @@ module mixer(
 		output [11:0] data	//might have to be a 24bit word since that is what DAC is expecting
     );
 	
-		assign data = (sfx0 >> sfx_amp0) 
-				+ (sfx1 >> sfx_amp1)
-				+ (sfx2 >> sfx_amp2)
-				+ (sfx3 >> sfx_amp3)
-			   + (sfx4 >> sfx_amp4)
-			   + (sfx5 >> sfx_amp5)
-			   + (sfx6 >> sfx_amp6)
-				+ (sfx7 >> sfx_amp7)
-				+ (sfx8 >> sfx_amp8)
-				+ (bground >> bg_amp);
+		assign data = ({sfx0, 2'b00} >> sfx_amp0) 
+				+ ({sfx1, 2'b00} >> sfx_amp1)
+				+ ({sfx2, 2'b00} >> sfx_amp2)
+				+ ({sfx3, 2'b00} >> sfx_amp3)
+			   + ({sfx4, 2'b00} >> sfx_amp4)
+			   + ({sfx5, 2'b00} >> sfx_amp5)
+			   + ({sfx6, 2'b00} >> sfx_amp6)
+				+ ({sfx7, 2'b00} >> sfx_amp7)
+				+ ({sfx8, 2'b00} >> sfx_amp8)
+				+ ({bground, 3'b00} >> bg_amp);
 
 
 endmodule

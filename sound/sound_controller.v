@@ -203,9 +203,11 @@ end
 	reg [23:0] tmp_rom_addr;
 	reg [3:0] tmp_amp;
 	reg [15:0] tmp_duration;
+	reg [24:0] b_rom_addr_first;
 	always @(posedge clk) begin
 		if (!rst) begin
-			b_rom_addr <= 24'h0454B9;
+			b_rom_addr <= 24'h0;
+			b_rom_addr_first <= 24'h0;
 			b_duration <= 32'h0B6000;
 			b_duration_total <= 32'h0B6000;
 			s0_rom_addr <= 0;
@@ -263,6 +265,7 @@ end
 					b_rom_addr <= tmp_rom_addr;
 					bamp <= tmp_amp;
 					b_duration <= {writedata, tmp_duration};
+					b_rom_addr_first <= tmp_rom_addr;
 					b_duration_total <= {writedata, tmp_duration};
 				end	
 				else if (sound_select == 9) begin
@@ -313,10 +316,13 @@ end
 			end
 			if (en && load) begin
 				b_rom_addr <= b_rom_addr + 1;
-				if (b_duration == 0)
+				if (b_duration == 0) begin
+					b_rom_addr <= b_rom_addr_first;
 					b_duration <= b_duration_total;
-				else
+				end
+				else begin
 					b_duration  <= b_duration - 1;
+				end
 				s0_rom_addr <= s0_rom_addr + 1;
 				if(s0_duration)
 					s0_duration <= s0_duration - 1;

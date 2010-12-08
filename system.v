@@ -16,9 +16,6 @@ module system
 		output pulse,
 		input sensor,
 		input trigger,
-		//snes controller input
-		output [15:0] plyra_input,
-		output [15:0] plyrb_input,
 		// VGA
 		output bright, hsync, vsync,
 		`ifdef USE_VGA
@@ -116,6 +113,11 @@ module system
 	wire [15:0] sound_data;
 	wire [6:0] sound_select;
 
+	//snes controller input
+	wire [15:0] plyra_input;
+	wire [15:0] plyrb_input;
+	wire blank_time_up; 
+
 	
 	processor proc (
 			.clk(clk),
@@ -165,6 +167,7 @@ module system
 			.switches(switches),
 			.plyra_input(plyra_input),
 			.plyrb_input(plyrb_input),
+			.blank_time_up(blank_time_up),
 			.rot_count(rot_count),
 			.rot_en(rot_en),
 			
@@ -305,6 +308,7 @@ module system
 		.rst(rst),
 		.sensor(sensor),
 		.trigger(trigger), 
+		.blank_time_up(blank_time_up),
 		.plyr_input(plyrb_input)
 	);
 	

@@ -208,12 +208,7 @@
       <association xil_pn:name="BehavioralSimulation"/>
       <association xil_pn:name="Implementation"/>
     </file>
-    <file xil_pn:name="sound_test.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation"/>
-      <association xil_pn:name="PostMapSimulation"/>
-      <association xil_pn:name="PostRouteSimulation"/>
-      <association xil_pn:name="PostTranslateSimulation"/>
-    </file>
+    <file xil_pn:name="sound_test.v" xil_pn:type="FILE_VERILOG"/>
     <file xil_pn:name="ipcore_dir/tile_vram.xco" xil_pn:type="FILE_COREGEN">
       <association xil_pn:name="BehavioralSimulation"/>
       <association xil_pn:name="Implementation"/>
@@ -226,8 +221,7 @@
       <association xil_pn:name="BehavioralSimulation"/>
       <association xil_pn:name="Implementation"/>
     </file>
-    <file xil_pn:name="ipcore_dir/BG_vram.xco" xil_pn:type="FILE_COREGEN"/>
-    <file xil_pn:name="ipcore_dir/bg_rom.xco" xil_pn:type="FILE_COREGEN">
+    <file xil_pn:name="ipcore_dir/bg_rom.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation"/>
       <association xil_pn:name="Implementation"/>
     </file>
@@ -247,12 +241,6 @@
       <association xil_pn:name="Implementation"/>
     </file>
     <file xil_pn:name="ipcore_dir/sprite_object_vram.xise" xil_pn:type="FILE_COREGENISE">
-      <association xil_pn:name="Implementation"/>
-    </file>
-    <file xil_pn:name="ipcore_dir/BG_vram.xise" xil_pn:type="FILE_COREGENISE">
-      <association xil_pn:name="Implementation"/>
-    </file>
-    <file xil_pn:name="ipcore_dir/bg_rom.xise" xil_pn:type="FILE_COREGENISE">
       <association xil_pn:name="Implementation"/>
     </file>
   </files>

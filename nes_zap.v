@@ -18,6 +18,7 @@ module nes_zap
 		input rst, 
 		input sensor, 
 		input trigger, 
+		output blank_time_up, 
 		output [15:0] plyr_input
 	);
 	reg shot, hit;
@@ -38,7 +39,6 @@ module nes_zap
 	
 	//BLANK TIMER INSTALL
 	reg blank_start, blank_stop;
-	wire blank_time_up;
 	blank_timer timer2
 	(
 		.clk(clk),

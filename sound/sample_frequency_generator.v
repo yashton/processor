@@ -27,8 +27,8 @@ module sample_frequency_generator(
 		output DAC_load,
 		output sound_load
     );
-	parameter flash_lt = 1070;
-	parameter sample_rate = 1134;
+	parameter flash_lt = 503;
+	parameter sample_rate = 567;
 	
 	reg [10:0] count;
 	always @(posedge clk) begin
