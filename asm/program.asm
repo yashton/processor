@@ -471,7 +471,6 @@ unblank_screen:
 	pop $a0
 	leave
 	juc $ra
-
 	
 # update duck sprite	
 	update_duck_sprite:
@@ -494,7 +493,7 @@ unblank_screen:
 		load $t2, $s0			# load value from that address
 		movwi $s1, sprite_frame				# get address for sprite frame counter
 		load $t3, $s1			# load value from that address
-		cmpi $t2, 5			# check if cycles to next frame have been met
+		cmpi $t2, 5				# check if cycles to next frame have been met
 		bge  next_sprite_frame	# if so, change frame, and reset counter
 		addi $t2, 1				# if not, increment counter
 		buc	 end_counter_logic	# go to sprite selection logic
