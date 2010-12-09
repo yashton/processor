@@ -1,5 +1,5 @@
-.define SPR_X 0x2004
-.define SPR_A 0x2005
+.define SPR_X 0x2000
+.define SPR_A 0x2001
 .define SPR_Y 0x2002
 .define SPR_B 0x2003
 

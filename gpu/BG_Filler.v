@@ -88,9 +88,9 @@ module BG_Filler(
 		end
 		else if (y < startGround) begin
 			case (state)
-				s0: indexOut <= {bg_palette,0,dout[8:6]};
-				s1: indexOut <= {bg_palette,0,dout[5:3]};
-				s2: indexOut <= {bg_palette,0,dout[2:0]};
+				s0: indexOut <= {bg_palette,1'b0,dout[8:6]};
+				s1: indexOut <= {bg_palette,1'b0,dout[5:3]};
+				s2: indexOut <= {bg_palette,1'b0,dout[2:0]};
 				default indexOut <= {bg_palette,skyIndex}; // should never happen
 			endcase
 		end

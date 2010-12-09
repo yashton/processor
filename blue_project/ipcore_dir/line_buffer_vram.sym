@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <symbol version="7" name="line_buffer_vram">
     <symboltype>BLOCK</symboltype>
-    <timestamp>2010-11-14T1:18:57</timestamp>
+    <timestamp>2010-12-9T22:8:35</timestamp>
     <pin polarity="Input" x="0" y="80" name="addra[8:0]" />
     <pin polarity="Input" x="0" y="112" name="dina[35:0]" />
     <pin polarity="Input" x="0" y="144" name="ena" />

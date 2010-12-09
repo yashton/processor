@@ -10,7 +10,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="28" />
+   <WVObjectSize size="23" />
    <wvobject fp_name="/gpu_test/B" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">B[7:0]</obj_property>
       <obj_property name="ObjectShortName">B[7:0]</obj_property>
@@ -75,62 +75,90 @@
       <obj_property name="ElementShortName">sprite_priority[7:0]</obj_property>
       <obj_property name="ObjectShortName">sprite_priority[7:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/gpu_test/fileid" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">fileid[31:0]</obj_property>
-      <obj_property name="ObjectShortName">fileid[31:0]</obj_property>
+   <wvobject fp_name="/gpu_test/UUT/sprites/sprite_i" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">sprite_i[7:0]</obj_property>
+      <obj_property name="ObjectShortName">sprite_i[7:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/gpu_test/UUT/palette_output/red" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">red[7:0]</obj_property>
-      <obj_property name="ObjectShortName">red[7:0]</obj_property>
+   <wvobject fp_name="/gpu_test/UUT/sprites/sprite_addr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">sprite_addr[8:0]</obj_property>
+      <obj_property name="ObjectShortName">sprite_addr[8:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/gpu_test/UUT/sprites/loaded_sprite_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">loaded_sprite_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">loaded_sprite_data[31:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/gpu_test/UUT/palette_output/green" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">green[7:0]</obj_property>
-      <obj_property name="ObjectShortName">green[7:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
+   <wvobject fp_name="/gpu_test/UUT/sprites/active" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">active</obj_property>
+      <obj_property name="ObjectShortName">active</obj_property>
    </wvobject>
-   <wvobject fp_name="/gpu_test/UUT/palette_output/blue" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">blue[7:0]</obj_property>
-      <obj_property name="ObjectShortName">blue[7:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
+   <wvobject fp_name="/gpu_test/UUT/sprites/state" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">state[4:0]</obj_property>
+      <obj_property name="ObjectShortName">state[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/gpu_test/UUT/palette_output/colorData" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">colorData[31:0]</obj_property>
-      <obj_property name="ObjectShortName">colorData[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
+   <wvobject fp_name="/gpu_test/UUT/sprites/next_state" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">next_state[4:0]</obj_property>
+      <obj_property name="ObjectShortName">next_state[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/gpu_test/UUT/palette_output/redData" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">redData[7:0]</obj_property>
-      <obj_property name="ObjectShortName">redData[7:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/gpu_test/UUT/palette_output/greenData" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">greenData[7:0]</obj_property>
-      <obj_property name="ObjectShortName">greenData[7:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/gpu_test/UUT/palette_output/blueData" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">blueData[7:0]</obj_property>
-      <obj_property name="ObjectShortName">blueData[7:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/gpu_test/UUT/palette_output/reducedRed" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">reducedRed[8:0]</obj_property>
-      <obj_property name="ObjectShortName">reducedRed[8:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/gpu_test/UUT/palette_output/reducedGreen" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">reducedGreen[8:0]</obj_property>
-      <obj_property name="ObjectShortName">reducedGreen[8:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/gpu_test/UUT/palette_output/reducedBlue" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">reducedBlue[8:0]</obj_property>
-      <obj_property name="ObjectShortName">reducedBlue[8:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/gpu_test/UUT/palette_output/index" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">index[8:0]</obj_property>
-      <obj_property name="ObjectShortName">index[8:0]</obj_property>
+   <wvobject fp_name="group80" type="group">
+      <obj_property name="label">Palette</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/gpu_test/UUT/palette_output/red" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">red[7:0]</obj_property>
+         <obj_property name="ObjectShortName">red[7:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gpu_test/UUT/palette_output/green" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">green[7:0]</obj_property>
+         <obj_property name="ObjectShortName">green[7:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gpu_test/UUT/palette_output/blue" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">blue[7:0]</obj_property>
+         <obj_property name="ObjectShortName">blue[7:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gpu_test/UUT/palette_output/colorData" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">colorData[31:0]</obj_property>
+         <obj_property name="ObjectShortName">colorData[31:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gpu_test/UUT/palette_output/redData" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">redData[7:0]</obj_property>
+         <obj_property name="ObjectShortName">redData[7:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gpu_test/UUT/palette_output/greenData" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">greenData[7:0]</obj_property>
+         <obj_property name="ObjectShortName">greenData[7:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gpu_test/UUT/palette_output/blueData" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">blueData[7:0]</obj_property>
+         <obj_property name="ObjectShortName">blueData[7:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gpu_test/UUT/palette_output/reducedRed" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">reducedRed[8:0]</obj_property>
+         <obj_property name="ObjectShortName">reducedRed[8:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gpu_test/UUT/palette_output/reducedGreen" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">reducedGreen[8:0]</obj_property>
+         <obj_property name="ObjectShortName">reducedGreen[8:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gpu_test/UUT/palette_output/reducedBlue" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">reducedBlue[8:0]</obj_property>
+         <obj_property name="ObjectShortName">reducedBlue[8:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gpu_test/UUT/palette_output/index" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">index[8:0]</obj_property>
+         <obj_property name="ObjectShortName">index[8:0]</obj_property>
+      </wvobject>
    </wvobject>
 </wave_config>

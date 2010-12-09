@@ -203,7 +203,7 @@ end
 	reg [23:0] tmp_rom_addr;
 	reg [3:0] tmp_amp;
 	reg [15:0] tmp_duration;
-	reg [24:0] b_rom_addr_first;
+	reg [23:0] b_rom_addr_first;
 	always @(posedge clk) begin
 		if (!rst) begin
 			b_rom_addr <= 24'h0;

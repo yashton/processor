@@ -132,8 +132,10 @@ module sprite_controller
 	// sprite lookup calculations.
 	wire sprite_offset;
 	wire [8:0] sprite_addr;
-	assign sprite_addr = {sprite_i, sprite_offset}; // address is calculated by 2 * i + offset;
-	assign sprite_offset = state == START || state == INCR;
+	assign sprite_addr[8:1] = sprite_i;
+	assign sprite_addr[0] = sprite_offset; // address is calculated by 2 * i + offset;
+//	assign sprite_offset = state == START || state == INCR;
+	assign sprite_offset = next_state == LOAD_Y;
 
 	// Data loading.
 	always @(posedge clk) begin
@@ -143,7 +145,7 @@ module sprite_controller
 		else if (state == START) begin
 			sprite_i <= sprite_priority;
 		end
-		else if (state == INCR) begin
+		else if (next_state == INCR) begin
 			sprite_i <= sprite_i + 1;
 		end
 		
