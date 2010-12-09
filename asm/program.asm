@@ -79,10 +79,12 @@ main:					# while(true)
 	buc main
 	
 draw_splash:
+	# TODO add splash screen code
 	juc $ra
-	# splash screen code here
+	
 
 draw_result:
+	# TODO add show result code
 	juc $ra
 	
 play_game:
@@ -456,12 +458,12 @@ unblank_screen:
 	# a0 pointer to start of string
 	# a1 X coordinate of first character
 	# a2 Y coordinate of first character
-	# pointer to start of string sprites, 
+	# pointer to start of string sprites must have been pushed to stack, 
 	# typically 0x2300 is available for this purpose
 	frame
-	mov  $t0, $fp
-	addi $t0, 2
-	load $t0, $t0
+	mov $t0, $fp			# get frame pointer address
+	addi $t0, 2				# go back 2 into the heap
+	load $t0, $t0			# load address for sprites into $t0
 	push $a0
 	push $a1
 	push $a2
@@ -471,7 +473,7 @@ unblank_screen:
 	pop $a0
 	leave
 	juc $ra
-	
+		
 # update duck sprite	
 	update_duck_sprite:
 	# a0 pointer to duck sprite
@@ -689,6 +691,712 @@ unblank_screen:
 		pop $s0						# restore s0
 		leave						
 		juc $ra
+		
+# number_to_screen
+	number_to_screen
+	# a0 register containing number to be shown
+	# a1 X coordinate of first digit
+	# a2 Y coordinate of first digit
+	# pointer to start of sprites to display the number must have been 
+	# pushed to the stack.  typically 0x2380 is available for this purpose
+	frame
+	mov $t0, $fp			# get frame pointer address
+	addi $t0, 2				# go back 2 into the heap
+	load $t0, $t0			# load address for sprites into $t0
+	push $a0
+	push $a1
+	check_60000:
+		movwi $t1, 0xEA60		# load the decimal value 60000 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 60000
+		blt check_50000			# if the value is less than 6000, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0810		# set data for a 6 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_9000			# branch to 9000 check
+	check_50000:
+		movwi $t1, 0xC350		# load the decimal value 50000 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 50000
+		blt check_40000			# if the value is less than 50000, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0610		# set data for a 5 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_9000
+	check_40000:
+		movwi $t1, 0x9C40		# load the decimal value 40000 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 40000
+		blt check_30000:		# if the value is less than 40000, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0410		# set data for a 4 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_9000
+	check_30000:
+		movwi $t1, 0x7530		# load the decimal value 30000 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 30000
+		blt check_20000:		# if the value is less than 30000, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0A00		# set data for a 3 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_9000
+	check_20000:
+		movwi $t1, 0x4E20		# load the decimal value 20000 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 20000
+		blt check_10000:		# if the value is less than 20000, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0800		# set data for a 2 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_9000
+	check_10000:
+		movwi $t1, 0x2710		# load the decimal value 10000 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 10000
+		blt check_9000:		# if the value is less than 10000, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0600		# set data for a 1 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_9000
+	check_9000:
+		movwi $t1, 0x2328		# load the decimal value 9000 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 9000
+		blt check_8000:			# if the value is less than 9000, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0620		# set data for a 9 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_900
+	check_8000:
+		movwi $t1, 0x1F40		# load the decimal value 8000 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 8000
+		blt check_7000:			# if the value is less than 8000, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0420		# set data for a 8 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_900
+	check_7000:
+		movwi $t1, 0x1B58		# load the decimal value 7000 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 7000
+		blt check_6000:			# if the value is less than 7000, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0A10		# set data for a 7 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_900
+	check_6000:
+		movwi $t1, 0x1770		# load the decimal value 6000 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 6000
+		blt check_5000			# if the value is less than 6000, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0810		# set data for a 6 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_900			# branch to 900 check
+	check_5000:
+		movwi $t1, 0x1388		# load the decimal value 5000 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 5000
+		blt check_4000			# if the value is less than 5000, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0610		# set data for a 5 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_900
+	check_4000:
+		movwi $t1, 0x0FA0		# load the decimal value 40000 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 40000
+		blt check_3000:			# if the value is less than 40000, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0410		# set data for a 4 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_900
+	check_3000:
+		movwi $t1, 0x0BB8		# load the decimal value 3000 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 3000
+		blt check_2000:			# if the value is less than 3000, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x07D0		# set data for a 3 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_900
+	check_2000:
+	movwi $t1, 0x07D0		# load the decimal value 2000 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 2000
+		blt check_1000:			# if the value is less than 2000, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0800		# set data for a 2 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_900
+	check_1000:
+		movwi $t1, 0x03E8		# load the decimal value 10000 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 10000
+		blt check_900:			# if the value is less than 10000, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0600		# set data for a 1 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_900
+	check_900:
+		movwi $t1, 0x2328		# load the decimal value 900 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 900
+		blt check_800:			# if the value is less than 900, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0620		# set data for a 9 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to
+		addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_90
+	check_800:
+		movwi $t1, 0x1F40		# load the decimal value 800 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 800
+		blt check_700:			# if the value is less than 800, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0420		# set data for a 8 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_90
+	check_700:
+		movwi $t1, 0x1F40		# load the decimal value 700 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 700
+		blt check_600:			# if the value is less than 700, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0A10		# set data for a 7 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_90
+	check_600:
+		movwi $t1, 0xEA60		# load the decimal value 600 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 600
+		blt check_500			# if the value is less than 600, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0810		# set data for a 6 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_90
+	check_500:
+		movwi $t1, 0xC350		# load the decimal value 500 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 500
+		blt check_400			# if the value is less than 500, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0610		# set data for a 5 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_90
+	check_400:
+		movwi $t1, 0x9C40		# load the decimal value 400 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 400
+		blt check_300:			# if the value is less than 400, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0410		# set data for a 4 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_90
+	check_300:
+		movwi $t1, 0x7530		# load the decimal value 300 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 300
+		blt check_200:			# if the value is less than 300, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0A00		# set data for a 3 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_90
+	check_200:
+		movwi $t1, 0x4E20		# load the decimal value 200 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 200
+		blt check_100:			# if the value is less than 200, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0800		# set data for a 2 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_90
+	check_100:
+		movwi $t1, 0x2710		# load the decimal value 100 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 100
+		blt check_90:			# if the value is less than 100, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0600		# set data for a 1 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_90	
+	check_90:
+		movwi $t1, 0x2328		# load the decimal value 90 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 90
+		blt check_80:			# if the value is less than 90, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0620		# set data for a 9 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to
+		addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_9
+	check_80:
+		movwi $t1, 0x1F40		# load the decimal value 80 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 80
+		blt check_70:			# if the value is less than 80, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0420		# set data for a 8 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_9
+	check_70:
+		movwi $t1, 0x1F40		# load the decimal value 70 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 70
+		blt check_60:			# if the value is less than 70, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0A10		# set data for a 7 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_9
+	check_60:
+		movwi $t1, 0xEA60		# load the decimal value 60 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 60
+		blt check_50			# if the value is less than 60, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0810		# set data for a 6 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_9
+	check_50:
+		movwi $t1, 0xC350		# load the decimal value 50 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 50
+		blt check_40			# if the value is less than 50, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0610		# set data for a 5 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_9
+	check_40:
+		movwi $t1, 0x9C40		# load the decimal value 40 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 40
+		blt check_30:			# if the value is less than 40, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0410		# set data for a 4 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_9
+		check_30:
+		movwi $t1, 0x7530		# load the decimal value 30 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 30
+	blt check_20:			# if the value is less than 30, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0A00		# set data for a 3 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_9
+	check_20:
+		movwi $t1, 0x4E20		# load the decimal value 20 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 20
+		blt check_10:			# if the value is less than 20, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0800		# set data for a 2 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_9
+	check_10:
+		movwi $t1, 0x2710		# load the decimal value 10 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 10
+		blt check_9:			# if the value is less than 10, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0600		# set data for a 1 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc check_9
+	check_9:
+		movwi $t1, 0x2328		# load the decimal value 9 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 9
+		blt check_8:			# if the value is less than 9, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0620		# set data for a 9 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to
+		addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc number_done
+	check_8:
+		movwi $t1, 0x1F40		# load the decimal value 8 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 8
+		blt check_7:			# if the value is less than 8, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0420		# set data for a 8 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc number_done
+	check_7:
+		movwi $t1, 0x1F40		# load the decimal value 7 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 7
+		blt check_6:			# if the value is less than 70, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0A10		# set data for a 7 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc number_done
+	check_6
+		movwi $t1, 0xEA60		# load the decimal value 6 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 6
+		blt check_5			# if the value is less than 6, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0810		# set data for a 6 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc number_done
+	check_5:
+		movwi $t1, 0xC350		# load the decimal value 5 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 5
+		blt check_4				# if the value is less than 5, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0610		# set data for a 5 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc number_done
+	check_4:
+		movwi $t1, 0x9C40		# load the decimal value 4 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 4
+		blt check_3:			# if the value is less than 4, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0410		# set data for a 4 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc number_done
+	check_3:
+		movwi $t1, 0x7530		# load the decimal value 3 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 3
+		blt check_2:			# if the value is less than 3, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0A00		# set data for a 3 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc number_done
+	check_2:
+		movwi $t1, 0x4E20		# load the decimal value 2 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 2
+		blt check_1:			# if the value is less than 2, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0800		# set data for a 2 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc number_done
+	check_1:
+		movwi $t1, 0x2710		# load the decimal value 10 into $t1
+		cmp	$a0, $t1			# check what a0 is in relation to 10
+		blt check_0:		# if the value is less than 10, skip to next check
+		sub $a0, $t1			# subtract for future number calculations
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0600		# set data for a 1 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+		buc number_done:
+	check_0
+		stor $t0, $a1			# set x coordinate for sprite
+		addi $t0, 1				# increment to addr + 1
+		movwi $t1, 0x0400		# set data for a 0 sprite
+		stor $t0, $t1			# put sprite into addr + 1
+		addi $t0, 1				# increment to addr +2
+		stor $t0, $a2			# set y coordinate for sprite
+		addi $t0, 1				# increment to addr +3
+		movwi $t1, 0x0130		# set data for addr +3
+		addi $t0, 1				# increment to next sprite
+		addi $a1, 8				# move to XY location for next sprite
+	number_done:	
+	pop $a1
+	pop $a0
+	leave
+	juc $ra
+
 .data
 	delta_x: 0x0
 	delta_y: 0x0
