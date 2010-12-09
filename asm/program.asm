@@ -1424,7 +1424,7 @@ unblank_screen:
 .data
 	delta_x: 0x0
 	delta_y: 0x0
-	animation_counter:	# counter used to determinehen to switch frame for animation
+	animation_counter: 0 # counter used to determinehen to switch frame for animation
 	sprite_frame: 0 # counter for current frame
 	dead_counter: 0 # a counter for duck death animation
 	dead_frame: 0 # counter for current dead duck frame
