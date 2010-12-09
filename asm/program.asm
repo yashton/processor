@@ -206,8 +206,8 @@ next_state:
 
 update_duck:
 	frame
-	mov $t0, $fp	# get duck killed
-	addi $t0, 2
+	mov $t0, $fp	# get frame pointer
+	addi $t0, 2		# go two into the stack to get killed address
 	push $a0
 	push $a1
 	push $a2
@@ -216,17 +216,16 @@ update_duck:
 	push $s2
 	push $s3
 	push $t0		# store duck killed back to the stack
-	# get duck killed
 	# *duck_sprite		$a0
 	#  duck_sprite_x 	$a0
-	#  duck_sprite_y	$a0+1 = s1
+	#  duck_sprite_y	$a0 + 2 = s1
 	#  duck_killed 	$a1
 	#  controls			$a2
 	movi $s0, 0   #counter in s0
 	
-	#mov $t0, $a0	# t0 = duck_sprite_x
-	movi $s1, 1		# s1 = 1
-	add $s1, $a0 	# s1 = 1 + *duck_sprite = duck_sprite_y
+	# mov $t0, $a0	# t0 = duck_sprite_x
+	movi $s1, 2		# s1 = 2
+	add $s1, $a0 	# s1 = 2 + *duck_sprite = duck_sprite_y
 	
 	test $a1, $a1		# a1 & a1 returns true if a1 is 1
 	beq duck_alive
@@ -255,19 +254,19 @@ update_duck:
 			left_pressed:
 				movwi $s2, delta_x
 				movwi $t1, 0xFFFF 
-				stor $t1, $s2		#delta_x = -1
+				stor $t1, $s2		# delta_x = -1
 				buc check_up_down
 				
 			right_pressed:
 				movwi $s2, delta_x
 				movi $t1, 0x1
-				stor $t1, $s2		#delta_x = 1
+				stor $t1, $s2		# delta_x = 1
 				buc check_up_down
 				
 			right_nor_left:
 				movwi $s2, delta_x
 				movi $t1, 0x0
-				stor $t1, $s2		#delta_x = 0
+				stor $t1, $s2		# delta_x = 0
 				buc check_up_down
 				
 			check_up_down:
@@ -302,9 +301,9 @@ update_duck:
 			cpu_control:				
 				cmpi $s0, 60
 				bne update_pos
-				#ranx = random();
+				# ranx = random();
 				# read from 0x4809
-				#if counter == 60
+				# if counter == 60
 
 					movi $s0, 0x0 # counter = 0;
 					call random_direction # $v0 = random delta X, $v1 = random delta Y
@@ -316,7 +315,7 @@ update_duck:
 				# if( (duck.x(a0) + delta_x(s2)) != SCR_WIDTH )
 				mov $t0, $a0
 				mov $t1, $s2
-				add $t0, $t1 #duck.x(a0) + delta_x(s2)
+				add $t0, $t1 # duck.x(a0) + delta_x(s2)
 				cmpi $t0, SCR_WIDTH 
 				beq reverse_x #else if at right screen bound
 				# within bounds
@@ -327,7 +326,7 @@ update_duck:
 					mov $t0, $s1
 					mov $t1, $s3
 					add $t0, $t1
-					cmpi $t0, SCR_HEIGHT #else if at bottom screen bound
+					cmpi $t0, SCR_HEIGHT # else if at bottom screen bound
 					beq reverse_y
 					# within bounds
 					add $s1, $s3
@@ -336,23 +335,23 @@ update_duck:
 						# delta_x = -1;
 						movwi $s2, delta_x
 						movwi $t1, 0xFFFF 
-						stor $t1, $s2		#delta_x = -1
+						stor $t1, $s2		# delta_x = -1
 						buc set_update_sprite_args
 			
 					reverse_y:
 						# delta_y = -1;
 						movwi $s3, delta_y
 						movwi $t1, 0xFFFF 
-						stor $t1, $s3	#delta_y = -1
+						stor $t1, $s3	# delta_y = -1
 						buc set_update_sprite_args
 				set_update_sprite_args:
 					# *duck already stored in a0
-					mov $a1, $s2 #move delta_x to a1
-					mov $a2, $s3 #move delta_y to a2
+					mov $a1, $s2 # move delta_x to a1
+					mov $a2, $s3 # move delta_y to a2
 					call update_duck_sprite
-					#increment counter;
+					# increment counter;
 					addi $s0, 1
-					buc end #leave function
+					buc end # leave function
 		
 		
 	end:
@@ -540,33 +539,33 @@ unblank_screen:
 			buc  dead_duck_4		# else use dead duck frame 4 (explosion decay)
 			dead_duck_1:			# code for dead duck sprite 1 (shot)
 				load  $t1, $t0		# load the current sprite settings from addr+1
-				movwi $s3, 0x000A	# get value for masking 1's for correct sprite
+				movwi $s3, 0x0103	# get value for masking 1's for correct sprite
 				or    $t1, $s3		# mask in the 1's
-				movwi $s3, 0xFF0A	# get value for masking 0's for correct sprite
+				movwi $s3, 0xFF03	# get value for masking 0's for correct sprite
 				and   $t1, $s3		# mask in the 0's
 				stor  $t0, $t1		# store the sprite to memory
 				buc end_dead_duck_sprite # end dead duck code
 			dead_duck_2:			# code for dead duck sprite 2 (sideways, bloody)
 				load  $t1, $t0		# load the current sprite settings from addr+1
-				movwi $s3, 0x004A	# get value for masking 1's for correct sprite
+				movwi $s3, 0x0183	# get value for masking 1's for correct sprite
 				or    $t1, $s3		# mask in the 1's
-				movwi $s3, 0xFF4A	# get value for masking 0's for correct sprite
+				movwi $s3, 0xFF83	# get value for masking 0's for correct sprite
 				and   $t1, $s3		# mask in the 0's
 				stor  $t0, $t1		# store the sprite to memory
 				buc end_dead_duck_sprite # end dead duck code
 			dead_duck_3:			# clode for dead duck sprite 3 (exploding)
 				load  $t1, $t0		# load the current sprite settings from addr+1
-				movwi $s3, 0x008A	# get value for masking 1's for correct sprite
+				movwi $s3, 0x0109	# get value for masking 1's for correct sprite
 				or    $t1, $s3		# mask in the 1's
-				movwi $s3, 0xFF8A	# get value for masking 0's for correct sprite
+				movwi $s3, 0xFF09	# get value for masking 0's for correct sprite
 				and   $t1, $s3		# mask in the 0's
 				stor  $t0, $t1		# store the sprite to memory
 				buc end_dead_duck_sprite # end dead duck code
 			dead_duck_4:			# code for dead duck sprite 4 (explosion decay)
 				load  $t1, $t0		# load the current sprite settings from addr+1
-				movwi $s3, 0x00CA	# get value for masking 1's for correct sprite
+				movwi $s3, 0x0189	# get value for masking 1's for correct sprite
 				or    $t1, $s3		# mask in the 1's
-				movwi $s3, 0xFFCA	# get value for masking 0's for correct sprite
+				movwi $s3, 0xFF89	# get value for masking 0's for correct sprite
 				and   $t1, $s3		# mask in the 0's
 				stor  $t0, $t1		# store the sprite to memory
 				buc end_dead_duck_sprite # end dead duck code
@@ -595,90 +594,60 @@ unblank_screen:
 			cmpi $a2, 0				# check delta y
 			blt  angular			# if less than zero duck is flying at a northerly angle
 			buc  sideways			# all other east flying ducks will use the sideways sprite
-		vertical:					# code for straight norht, or south ducks
-			cmpi $t3, 0				# check current animation frame
-			beq  vertical_duck_1	# if zero use vertical sprite #1 (wings down)
-			cmpi $t3, 2				# check current animation frame
-			beq  vertical_duck_3	# if two use vertical sprite #3	(wings up)
-			vertical_duck_2_and_4:  # else use vertical sprite #2 (wings horizontal
-				load  $t1, $t0		# load the current sprite settings from addr +1
-				movwi $s3, 0x0047	# get value for masking 1's for correct sprite
-				or    $t1, $s3		# mask in the 1's
-				movwi $s3, 0xFF47	# get value for masking 0's for correct sprite
-				and   $t1, $s3		# mask in the 0's
-				stor   $t0, $t1		# store the sprite to memory
-				buc   end_living_duck # end living duck code
+		vertical:					# code for straight north, or south ducks
+			cmpi $t3, 1				# check current animation frame
+			beq  vertical_duck_2	# if two use vertical sprite #2	(wings up)
 			vertical_duck_1:		# code for vertical sprite #1 (wings down)
 				load  $t1, $t0		# load the current sprite settings from addr +1
-				movwi $s3, 0x0007	# get value for masking 1's for correct sprite
+				movwi $s3, 0x000D	# get value for masking 1's for correct sprite
 				or    $t1, $s3		# mask in the 1's
-				movwi $s3, 0xFF07	# get value for masking 0's for correct sprite
+				movwi $s3, 0xFF0D	# get value for masking 0's for correct sprite
 				and   $t1, $s3		# mask in the 0's
 				stor   $t0, $t1     # store the sprite to memory
 				buc   end_living_duck # end living duck code
-			vertical_duck_3:		# code for vertical sprite #1 (wings down)
+			vertical_duck_2:		# code for vertical sprite #2 (wings up)
 				load  $t1, $t0		# load the current sprite settings from addr +1
-				movwi $s3, 0x0087	# get value for masking 1's for correct sprite
+				movwi $s3, 0x008D	# get value for masking 1's for correct sprite
 				or    $t1, $s3		# mask in the 1's
-				movwi $s3, 0xFF87	# get value for masking 0's for correct sprite# correct duck
+				movwi $s3, 0xFF8D	# get value for masking 0's for correct sprite# correct duck
 				and   $t1, $s3		# mask in the 0's
 				stor   $t0, $t1		# store the sprite to memory
 				buc   end_living_duck # end living duck code
 		angular:					# code for angular (north-east or north-west) flying ducks
-			cmpi  $t3,0				# check the current animation frame
-			beq   angular_duck_1	# if zero use angular sprite #1 (wings down)
-			cmpi  $t3, 2			# check the current animation frame
-			beq   angular_duck_3	# if two use angular sprite #3 (wings up)
-			angular_duck_2_and_4:	# else use angular sprite #2 (wings horizontal)
-				load  $t1, $t0		# load the current sprite settings from addr+1
-				movwi $s3, 0x0044	# get the value for masking 1's for correct sprite
-				or    $t1, $s3		# mask in the 1's
-				movwi $s3, 0xFF44	# get the value for masking 0's for correct sprite
-				and   $t1, $s3		# mask in the 0's
-				stor  $t1, $t0		# store the sprite to memory
-				buc   end_living_duck # end living duck code
+			cmpi  $t3, 1			# check the current animation frame
+			beq   angular_duck_2	# if two use angular sprite #2 (wings up)
 			angular_duck_1:			# code for angular sprite #1 (wings down)
 				load  $t1, $t0		# load the current sprite settings from addr+1
-				movwi $s3, 0x0004	# get the value for masking 1's for correct sprite
+				movwi $s3, 0x0007	# get the value for masking 1's for correct sprite
 				or    $t1, $s3		# mask in the 1's
-				movwi $s3, 0xFF04	# get the value for masking 0's for correct sprite
+				movwi $s3, 0xFF07	# get the value for masking 0's for correct sprite
 				and   $t1, $s3		# mask in the 0's
 				stor  $t0, $t1		# store sprite to memory
 				buc	  end_living_duck # end living duck code
-			angular_duck_3:			# code for angular sprite #3 (wings up)
+			angular_duck_2:			# code for angular sprite #2 (wings up)
 				load  $t1, $t0		# load the current sprite settings from addr+1
-				movwi $s3, 0x0084	# get the value for masking 1's for correct sprite
+				movwi $s3, 0x0087	# get the value for masking 1's for correct sprite
 				or    $t1, $s3		# mask in the 1's
-				movwi $s3, 0xFF84	# get the value for masking 0's for correct sprite
+				movwi $s3, 0xFF87	# get the value for masking 0's for correct sprite
 				and   $t1, $s3		# mask in the 0's
 				stor  $t0, $t1		# store sprite to memory
 				buc   end_living_duck # end living duck code
 			sideways:				# code for sideways flying duck(east, west, south-east, south west)
-			cmpi $t3, 0				# check the current animation frame
-			beq  sideways_duck_1	# if zero use sideways sprite #1 (wings down)
-			cmpi $t3, 2				# check the current animation frame
-			beq  sideways_duck_3	# if two use sideways  sprite #3 (wings up)
-			sideways_duck_2_and_4:	# else use sideways sptie #2 (wings horizontal)
-				load  $t1, $t0		# load the current sprite settings from addr+1
-				movwi $s3, 0x0041	# get the value for masking 1's for the correct sprite
-				or    $t1, $s3		# mask in the 1's
-				movwi $s3, 0xFF41	# get the value for masking 0's for the correct sprite
-				and   $t1, $s3		# mask in the 0's
-				stor   $t0, $t1		# store sprite to memory
-				buc   end_living_duck # end living duck code
+			cmpi $t3, 1				# check the current animation frame
+			beq  sideways_duck_2	# if two use sideways  sprite #2 (wings up)
 			sideways_duck_1:		# code for sideways sprite #1 (wings down)
-				load  $t1, $t0		# load the current sprite settings from addr+1
-				movwi $s3, 0x0081	# get the value for masking 1's for the correct sprite
-				or    $t1, $s3		# mask in the 1's
-				movwi $s3, 0xFF81	# get the value for masking 0's for the correct sprite
-				and   $t1, $s3		# mask in the 0's
-				stor   $t0, $t1		# store sprite to memory
-				buc   end_living_duck # end living duck code
-			sideways_duck_3:		# code for sideways sprite #3 (wings up)
 				load  $t1, $t0		# load the current sprite settings from addr+1
 				movwi $s3, 0x0001	# get the value for masking 1's for the correct sprite
 				or    $t1, $s3		# mask in the 1's
 				movwi $s3, 0xFF01	# get the value for masking 0's for the correct sprite
+				and   $t1, $s3		# mask in the 0's
+				stor   $t0, $t1		# store sprite to memory
+				buc   end_living_duck # end living duck code
+			sideways_duck_2:		# code for sideways sprite #2 (wings up)
+				load  $t1, $t0		# load the current sprite settings from addr+1
+				movwi $s3, 0x0008	# get the value for masking 1's for the correct sprite
+				or    $t1, $s3		# mask in the 1's
+				movwi $s3, 0xFF08	# get the value for masking 0's for the correct sprite
 				and   $t1, $s3		# mask in the 0's
 				stor   $t0, $t1		# store sprite to memory
 				buc   end_living_duck # end living duck code
@@ -706,9 +675,7 @@ unblank_screen:
 	push $a0
 	push $a1
 	push $s0
-	movi $t1, 5				# total number of digits to check (D)
-	movi $t2, 6				# maximum value of first digit (V)
-
+	# from here to 'number_done' is an unrolled loop
 	check_60000:
 		movwi $t1, 0xEA60		# load the decimal value 60000 into $t1
 		cmp	$a0, $t1			# check what a0 is in relation to 60000
@@ -716,7 +683,7 @@ unblank_screen:
 		sub $a0, $t1			# subtract for future number calculations
 		stor $t0, $a1			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
-		movwi $t1, 0x0810		# set data for a 6 sprite
+		movwi $t1, 0x0810		# set data for a 6 sprite(
 		stor $t0, $t1			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
 		stor $t0, $a2			# set y coordinate for sprite
@@ -1338,7 +1305,7 @@ unblank_screen:
 		addi $t0, 1				# increment to next sprite
 		addi $a1, 8				# move to XY location for next sprite
 		buc number_done_relay
-	check_6
+	check_6:
 		movwi $t1, 0xEA60		# load the decimal value 6 into $t1
 		cmp	$a0, $t1			# check what a0 is in relation to 6
 		blt check_5			# if the value is less than 6, skip to next check
@@ -1461,4 +1428,3 @@ unblank_screen:
 	sprite_frame: 0 # counter for current frame
 	dead_counter: 0 # a counter for duck death animation
 	dead_frame: 0 # counter for current dead duck frame
-	
