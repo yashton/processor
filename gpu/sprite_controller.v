@@ -134,7 +134,7 @@ module sprite_controller
 	wire [8:0] sprite_addr;
 	assign sprite_addr = {sprite_i, sprite_offset}; // address is calculated by 2 * i + offset;
 	assign sprite_offset = state == START || state == INCR;
-	
+
 	// Data loading.
 	always @(posedge clk) begin
 		if (!rst) begin

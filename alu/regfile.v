@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: University of Utah
-// Engineer: Team Blue
+// Engineer: Matthew Steadman, Jacob Sanders
 // 
 // Design Name: Register file
 // Module Name: regfile

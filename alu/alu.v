@@ -2,7 +2,7 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: University of Utah
-// Engineer: Team Blue
+// Engineer: Jacob Sanders, Ashton Snelgrove, Matthew Steadman
 // 
 // Design Name: Arithmetic logic unit
 // Module Name: alu

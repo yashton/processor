@@ -1,7 +1,7 @@
 ##############################################################
 #
 # Xilinx Core Generator version 12.2
-# Date: Thu Oct 21 09:41:29 2010
+# Date: Tue Nov 02 23:47:57 2010
 #
 ##############################################################
 #
@@ -39,7 +39,7 @@ CSET additional_inputs_for_power_estimation=false
 CSET algorithm=Fixed_Primitives
 CSET assume_synchronous_clk=true
 CSET byte_size=9
-CSET coe_file=no_coe_file_loaded
+CSET coe_file=U:\blue\program.coe
 CSET collision_warnings=ALL
 CSET component_name=main_memory
 CSET disable_collision_warnings=false
@@ -50,7 +50,7 @@ CSET enable_a=Use_ENA_Pin
 CSET enable_b=Always_Enabled
 CSET error_injection_type=Single_Bit_Error_Injection
 CSET fill_remaining_memory_locations=false
-CSET load_init_file=false
+CSET load_init_file=true
 CSET memory_type=True_Dual_Port_RAM
 CSET operating_mode_a=WRITE_FIRST
 CSET operating_mode_b=WRITE_FIRST
@@ -63,7 +63,7 @@ CSET port_a_write_rate=50
 CSET port_b_clock=100
 CSET port_b_enable_rate=100
 CSET port_b_write_rate=50
-CSET primitive=8kx2
+CSET primitive=1kx18
 CSET read_width_a=16
 CSET read_width_b=16
 CSET register_porta_input_of_softecc=false
@@ -85,9 +85,9 @@ CSET use_regcea_pin=false
 CSET use_regceb_pin=false
 CSET use_rsta_pin=false
 CSET use_rstb_pin=false
-CSET write_depth_a=9216
+CSET write_depth_a=8192
 CSET write_width_a=16
 CSET write_width_b=16
 # END Parameters
 GENERATE
-# CRC:  b6dad26
+# CRC: 93ac8211
