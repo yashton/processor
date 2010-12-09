@@ -1259,7 +1259,7 @@ unblank_screen:
 	check_9:
 		movwi $t1, 0x2328		# load the decimal value 9 into $t1
 		cmp	$a0, $t1			# check what a0 is in relation to 9
-		blt check_8:			# if the value is less than 9, skip to next check
+		blt check_8				# if the value is less than 9, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
 		stor $t0, $a1			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
