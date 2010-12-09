@@ -681,7 +681,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 60000
 		blt check_50000			# if the value is less than 6000, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0810		# set data for a 6 sprite(
 		stor $t0, $t1			# put sprite into addr + 1
@@ -697,7 +697,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 50000
 		blt check_40000			# if the value is less than 50000, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0610		# set data for a 5 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -713,7 +713,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 40000
 		blt check_30000			# if the value is less than 40000, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0410		# set data for a 4 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -729,7 +729,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 30000
 		blt check_20000			# if the value is less than 30000, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0A00		# set data for a 3 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -745,7 +745,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 20000
 		blt check_10000			# if the value is less than 20000, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0800		# set data for a 2 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -761,7 +761,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 10000
 		blt 0XXXX				# if the value is less than 10000, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0600		# set data for a 1 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -773,7 +773,7 @@ unblank_screen:
 		addi $a1, 8				# move to XY location for next sprite
 		buc check_9000
 	0XXXX:
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0400		# set data for a 0 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -788,7 +788,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 9000
 		blt check_8000			# if the value is less than 9000, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0620		# set data for a 9 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -804,7 +804,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 8000
 		blt check_7000			# if the value is less than 8000, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0420		# set data for a 8 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -820,7 +820,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 7000
 		blt check_6000			# if the value is less than 7000, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0A10		# set data for a 7 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -836,7 +836,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 6000
 		blt check_5000			# if the value is less than 6000, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0810		# set data for a 6 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -854,7 +854,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 5000
 		blt check_4000			# if the value is less than 5000, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0610		# set data for a 5 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -870,7 +870,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 40000
 		blt check_3000			# if the value is less than 40000, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0410		# set data for a 4 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -886,7 +886,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 3000
 		blt check_2000			# if the value is less than 3000, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x07D0		# set data for a 3 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -902,7 +902,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 2000
 		blt check_1000			# if the value is less than 2000, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0800		# set data for a 2 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -918,7 +918,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 10000
 		blt X0XXX				# if the value is less than 10000, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0600		# set data for a 1 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -930,7 +930,7 @@ unblank_screen:
 		addi $a1, 8				# move to XY location for next sprite
 		buc check_900
 	X0XXX:
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0400		# set data for a 0 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -945,7 +945,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 900
 		blt check_800			# if the value is less than 900, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0620		# set data for a 9 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -962,7 +962,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 800
 		blt check_700			# if the value is less than 800, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0420		# set data for a 8 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -978,7 +978,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 700
 		blt check_600			# if the value is less than 700, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0A10		# set data for a 7 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -994,7 +994,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 600
 		blt check_500			# if the value is less than 600, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0810		# set data for a 6 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -1012,7 +1012,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 500
 		blt check_400			# if the value is less than 500, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0610		# set data for a 5 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -1028,7 +1028,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 400
 		blt check_300			# if the value is less than 400, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0410		# set data for a 4 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -1044,7 +1044,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 300
 		blt check_200			# if the value is less than 300, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0A00		# set data for a 3 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -1060,7 +1060,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 200
 		blt check_100			# if the value is less than 200, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0800		# set data for a 2 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -1076,7 +1076,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 100
 		blt XX0XX				# if the value is less than 100, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0600		# set data for a 1 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -1088,7 +1088,7 @@ unblank_screen:
 		addi $a1, 8				# move to XY location for next sprite
 		buc check_90
 	XX0XX:
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0400		# set data for a 0 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -1103,7 +1103,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 90
 		blt check_80			# if the value is less than 90, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0620		# set data for a 9 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -1120,7 +1120,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 80
 		blt check_70			# if the value is less than 80, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0420		# set data for a 8 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -1136,7 +1136,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 70
 		blt check_60			# if the value is less than 70, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0A10		# set data for a 7 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -1152,7 +1152,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 60
 		blt check_50			# if the value is less than 60, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0810		# set data for a 6 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -1170,7 +1170,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 50
 		blt check_40			# if the value is less than 50, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0610		# set data for a 5 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -1186,7 +1186,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 40
 		blt check_30			# if the value is less than 40, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0410		# set data for a 4 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -1202,7 +1202,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 30
 	blt check_20			# if the value is less than 30, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0A00		# set data for a 3 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -1218,7 +1218,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 20
 		blt check_10			# if the value is less than 20, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0800		# set data for a 2 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -1234,7 +1234,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 10
 		blt XXX0X			# if the value is less than 10, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0600		# set data for a 1 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -1246,7 +1246,7 @@ unblank_screen:
 		addi $a1, 8				# move to XY location for next sprite
 		buc check_9
 	XXX0X:
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0400		# set data for a 0 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -1261,7 +1261,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 9
 		blt check_8				# if the value is less than 9, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0620		# set data for a 9 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -1278,7 +1278,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 8
 		blt check_7			# if the value is less than 8, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0420		# set data for a 8 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -1294,7 +1294,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 7
 		blt check_6			# if the value is less than 70, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0A10		# set data for a 7 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -1310,7 +1310,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 6
 		blt check_5			# if the value is less than 6, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0810		# set data for a 6 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -1328,7 +1328,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 5
 		blt check_4				# if the value is less than 5, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0610		# set data for a 5 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -1344,7 +1344,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 4
 		blt check_3			# if the value is less than 4, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0410		# set data for a 4 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -1360,7 +1360,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 3
 		blt check_2			# if the value is less than 3, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0A00		# set data for a 3 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -1376,7 +1376,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 2
 		blt check_1			# if the value is less than 2, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0800		# set data for a 2 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -1392,7 +1392,7 @@ unblank_screen:
 		cmp	$a0, $t1			# check what a0 is in relation to 10
 		blt XXXX0		# if the value is less than 10, skip to next check
 		sub $a0, $t1			# subtract for future number calculations
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0600		# set data for a 1 sprite
 		stor $t0, $t1			# put sprite into addr + 1
@@ -1404,7 +1404,7 @@ unblank_screen:
 		addi $a1, 8				# move to XY location for next sprite
 		buc number_done:
 	XXXX0:
-		stor $t0, $a1			# set x coordinate for sprite
+		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0400		# set data for a 0 sprite
 		stor $t0, $t1			# put sprite into addr + 1
