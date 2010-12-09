@@ -1402,7 +1402,7 @@ unblank_screen:
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
 		addi $a1, 8				# move to XY location for next sprite
-		buc number_done:
+		buc number_done
 	XXXX0:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
