@@ -1,2 +1,2 @@
 SETPROJECT "U:/blue/blue_project/ipcore_dir/coregen.cgp"
-LAUNCHXCO "U:/blue/blue_project/ipcore_dir/main_memory.xco"
+LAUNCHXCO "U:/blue/blue_project/ipcore_dir/sprite_object_vram.xco"

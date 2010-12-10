@@ -77,7 +77,7 @@
 .define BACKGROUND_NORMAL_PALETTE 0x0000
 .define OR_MASK_8x5_SPRITE  0x0781
 .define AND_MASK_8x5_SPRITE	0xFF9F
-.define or_MASK_8x8_SPRITE  0x07E1
+.define OR_MASK_8x8_SPRITE  0x07E1
 .define AND_MASK_8x8_SPRITE 0xFFFF
 
 # sound data
@@ -132,6 +132,11 @@
 .define DUCK_TRANSLATION_Y 3
 .define DUCK_TRANSLATION_X 4
 
+.define DUCK_INITIAL_POSITION_X 0x0040
+.define DUCK_INITIAL_POSITION_Y 0x0040
+.define DUCK_INITIAL_META_A 0x0001
+.define DUCK_INITIAL_META_B 0x0347
+
 .define HFLIP_MASK 			0x0010
 
 .text
@@ -142,6 +147,7 @@ movwi $fp, STACK_BOTTOM
 
 main:					# while(true)
 	call draw_splash	# draw_splash();
+	call init_duck
 	call play_game
 	mov $a0, $v0		# int score = play_game();
 	call draw_result	# draw_result(score)
@@ -156,6 +162,24 @@ draw_result:
 	# TODO add show result code
 	juc $ra
 	
+init_duck:
+	movwi $t0, DUCK_SPRITE
+	movwi $t1, DUCK_INITIAL_POSITION_X
+	stor $t1, $t0
+	
+	addi $t0, 1
+	movwi $t1, DUCK_INITIAL_META_A
+	stor $t1, $t0
+	
+	addi $t0, 1
+	movwi $t1, DUCK_INITIAL_POSITION_Y
+	stor $t1, $t0
+	
+	addi $t0, 1
+	movwi $t1, DUCK_INITIAL_META_B
+	stor $t1, $t0
+	juc $ra
+	
 play_game:
 	frame
 	push $s0					# save registers are pushed to 
@@ -166,86 +190,87 @@ play_game:
 	push $a1
 	push $a2 
 	
-	movi $t0, 0 				# score = 0
-	push $t0					# score is pushed to stack
+#	movi $t0, 0 				# score = 0
+#	push $t0					# score is pushed to stack
 	
-	movwi $t1, ROUND_TIME		# time = 600
-	push $t1					# time is pushed to stack
+#	movwi $t1, ROUND_TIME		# time = 600
+#	push $t1					# time is pushed to stack
 	
-	movi $s0, 0					# finished = false 
-	movi $s1, 0					# rounds = 0  
+#	movi $s0, 0					# finished = false 
+#	movi $s1, 0					# rounds = 0  
 	movwi $s3, DUCK_SPRITE		# duck = 0x2000	
 	movi $a1, 0 				# killed = 0
-	movi $s2, NORMAL_STATE		# state = NORMAL_STATE
+#	movi $s2, NORMAL_STATE		# state = NORMAL_STATE
 	
-	play_game_do:				# play_game, done 60 x per second
-		mov  $t0, $fp			# get address of frame pointer
-		subi $t0, 8				# go eight into stack for time address
-		load $t1, $t0			# t1 = time
-		subi $t1, 1				# time--
-		stor $t1, $t0			# save updated time back where it came from
+	play_loop_start:			# play_game, done 60 x per second
+#		mov  $t0, $fp			# get address of frame pointer
+#		subi $t0, 8				# go eight into stack for time address
+#		load $t1, $t0			# t1 = time
+#		subi $t1, 1				# time--
+#		stor $t1, $t0			# save updated time back where it came from
 		
-		push $a1				# save killed on the stack
-		mov  $a0, $s2			# move state into $a0
-		movwi $t2, CONTROLLER_B # trigger and hit are stored in memory at CONT_B
-		load $a1, $t2			# $a1 = controller_b values
-		mov $a2, $a1			# copy into $a2
-		andi $a1, ZAPPER_TRIGGER # a1 = mask trigger 
-		andi $a2, ZAPPER_HIT	# a2 = mask hit
-		call next_state			# state = next_state(state)
-		mov $s2, $v0			
-		pop $a1					# load killed from stack
+#		push $a1				# save killed on the stack
+#		mov  $a0, $s2			# move state into $a0
+#		movwi $t2, CONTROLLER_B # trigger and hit are stored in memory at CONT_B
+#		load $a1, $t2			# $a1 = controller_b values
+#		mov $a2, $a1			# copy into $a2
+#		andi $a1, ZAPPER_TRIGGER # a1 = mask trigger 
+#		andi $a2, ZAPPER_HIT	# a2 = mask hit
+#		call next_state			# state = next_state(state)
+#		mov $s2, $v0			
+#		pop $a1					# load killed from stack
 		
-		movwi $t2, BLANK_TIME_UP # check for zapper blanking
-		load $t3, $t2
-		cmpi $t3, 1				# if (BLANK_TIME_UP)
-		bne else_if_blank
-			call unblank_screen 
-			buc if_blank_finished
-		else_if_blank:
-			call blank_screen
+#		movwi $t2, BLANK_TIME_UP # check for zapper blanking
+#		load $t3, $t2
+#		cmpi $t3, 1				# if (BLANK_TIME_UP)
+#		bne else_if_blank
+#			call unblank_screen 
+#			buc if_blank_finished
+#		else_if_blank:
+#			call blank_screen
 			
-		if_blank_finished:
+#		if_blank_finished:
 		
-		cmpi $s2, HIT_STATE 	# if (state == HIT_STATE)
-		bne finished
-			call unblank_screen
-			call play_sound_explode
-			movi $a1, 1		 	# killed = true
+#		cmpi $s2, HIT_STATE 	# if (state == HIT_STATE)
+#		bne finished
+#			call unblank_screen
+#			call play_sound_explode
+#			movi $a1, 1		 	# killed = true
 			
-			mov $t0, $fp		# load points from stack (fp + 7)
-			addi $t0, 7			
-			load $t1, $t0
-			
-			addi $t1, POINTS 	# score += points
-			stor $t1, $t0		# store points on stack (fp + 7)
-		finished:
+#			mov $t0, $fp		# load points from stack (fp + 7)
+#			addi $t0, 7			
+#			load $t1, $t0
+#			
+#			addi $t1, POINTS 	# score += points
+#			stor $t1, $t0		# store points on stack (fp + 7)
+#		finished:
 
 		mov $a0, $s3			# a0 = DUCK_SPRITE
 		movwi $t3, CONTROLLER_A
 		load $a2, $t3			# a2 = controls
 		call update_duck 		# finished = update_duck(duck, killed, controls)
-		mov $s0, $v0
-		
-		mov $t0, $fp			# load fp
-		subi $t0, 8				# point t0 to time (fp + 8)
-		load $t1, $t0			# $t0 = time
-		
-		test $t1, $t1
-		sne $t2					# t0 = (time == 0)
-		or $t2, $s0				# finished || (time == 0)
-		bne update_round_finished
-			addi $s1, 1			# rounds++
-			movi $a1, 0			# killed = false
-		update_round_finished:
+#		mov $s0, $v0
+#		
+#		mov $t0, $fp			# load fp
+#		subi $t0, 8				# point t0 to time (fp + 8)
+#		load $t1, $t0			# $t0 = time
+#		
+#		test $t1, $t1
+#		sne $t2					# t0 = (time == 0)
+#		or $t2, $s0				# finished || (time == 0)
+#		bne update_round_finished
+#			addi $s1, 1			# rounds++
+#			movi $a1, 0			# killed = false
+#		update_round_finished:
 		
 		call wait_until_frame
 		
-		cmpi $s1, 3				# rounds - 3 < 0
-		blt play_game_do
+#		cmpi $s1, 3				# rounds - 3 < 0
+#		blt play_game_do
+		buc play_loop_start
 	
-	addi $sp, 1	# pop time
-	pop $v0		# pop score	
+#	addi $sp, 1	# pop time
+#	pop $v0		# pop score	
 	pop $a2		# restoring saved registers
 	pop $a1
 	pop $a0
@@ -256,35 +281,35 @@ play_game:
 	leave
 	juc $ra							# return score
 	
-next_state:
-	movi $v0, 0 					# next_state = 0
-	cmpi $a0, NORMAL_STATE				# if (state == NORMAL_STATE)
-	bne else_if_blank_screen
-		cmpi $a1, 1					# if (trigger_pulled == 1)
-		bne else_trigger
-			movwi $t0, shot_count	# gets shot count
-			load $t1, $t0			# load shot_count into t1
-			subi $t1, 1				# shot_count-- 
-			stor $t1, $t0			# store shot_count into $t0
-			
-			movi $v0, BLANK_SCREEN	# next_state = BLANK_SCREEN
-			juc $ra
-		else_trigger:				# else
-			movi $v0, NORMAL_STATE		# next_state = NORMAL_STATE
-			juc $ra
-	else_if_blank_screen:
-		cmpi $a0, BLANK_SCREEN		# else if (state = BLANK_SCREEN)
-		bne else_hit
-			cmpi $a2, 1				# if (gun_hit == 1)
-			bne else_gun
-				movi $v0, HIT_STATE		# next_state = HIT_STATE
-				juc $ra
-			else_gun:
-				movi $v0, NORMAL_STATE
-				juc $ra
-	else_hit:
-		movi $v0, NORMAL_STATE	
-	juc $ra	
+#next_state:
+#	movi $v0, 0 					# next_state = 0
+#	cmpi $a0, NORMAL_STATE				# if (state == NORMAL_STATE)
+#	bne else_if_blank_screen
+#		cmpi $a1, 1					# if (trigger_pulled == 1)
+#		bne else_trigger
+#			movwi $t0, shot_count	# gets shot count
+#			load $t1, $t0			# load shot_count into t1
+#			subi $t1, 1				# shot_count-- 
+#			stor $t1, $t0			# store shot_count into $t0
+#			
+#			movi $v0, BLANK_SCREEN	# next_state = BLANK_SCREEN
+#			juc $ra
+#		else_trigger:				# else
+#			movi $v0, NORMAL_STATE		# next_state = NORMAL_STATE
+#			juc $ra
+#	else_if_blank_screen:
+#		cmpi $a0, BLANK_SCREEN		# else if (state = BLANK_SCREEN)
+#		bne else_hit
+#			cmpi $a2, 1				# if (gun_hit == 1)
+#			bne else_gun
+#				movi $v0, HIT_STATE		# next_state = HIT_STATE
+#				juc $ra
+#			else_gun:
+#				movi $v0, NORMAL_STATE
+#				juc $ra
+#	else_hit:
+#		movi $v0, NORMAL_STATE	
+#	juc $ra	
 
 # *duck_sprite		$a0
 #  duck_killed 		$a1
@@ -299,41 +324,42 @@ update_duck:
 	push $s2
 	push $s3
 	
-	movwi $t0, CTRL_IS_ACTIVE
-	test $t0, $a2
-	sne $s0 # $s0 true if under cpu control
+#	movwi $t0, CTRL_IS_ACTIVE
+#	test $t0, $a23
+#	sne $s0 # $s0 true if under cpu control
 	
 	test $a1, $a1		# a1 & a1 returns true if a1 is 1
-	bne end_update_duck		# if duck is not alive, skip.
+	beq end_update_duck		# if duck is not alive, skip.
 	
 	duck_alive:
 		# if under control of cpu
-		test $s0, $s0
-		bne cpu_control	# if masked bits are non-zero, computer is in control
+#		test $s0, $s0
+#		bne cpu_control	# if masked bits are non-zero, computer is in control
 		
 		p2_control:
 			call player_direction # player_direction(NULL, NULL, controls)
 			# $v0 = deltaX, $v1 = deltaY
 			buc update_pos 
 			
-		cpu_control:				
-			movwi $s1, delta_x # load &delta_x
-			movwi $s2, delta_y # load &delta_y
-			movwi $s3, delta_counter # load &delta_counter
+#		cpu_control:				
+#			movwi $s1, delta_x # load &delta_x
+#			movwi $s2, delta_y # load &delta_y
+#			movwi $s3, delta_counter # load &delta_counter
 			
-			load $t0, $s3
-			cmpi $t0, 60 # if (counter == 60)
-			bne else_delta_unchanged
-				movi $t0, 0x0 # counter = 0
-				stor $t0, $s3 # store counter
+#			load $t0, $s3
+#			cmpi $t0, 60 # if (counter == 60)
+#			bne else_delta_unchanged
+#				movi $t0, 0x0 # counter = 0
+#				stor $t0, $s3 # store counter
 				
-				call random_direction # $v0 = random delta X, $v1 = random delta Y
-				stor $v0, $s1  # store new delta X into delta_x
-				stor $v1, $s2 	# store new delta Y into delta_y
-				buc update_pos
-			else_delta_unchanged:				
-				load $v0, $s1
-				load $v1, $s2
+#				call random_direction # $v0 = random delta X, $v1 = random delta Y
+#				stor $v0, $s1  # store new delta X into delta_x
+#				stor $v1, $s2 	# store new delta Y into delta_y
+#				buc update_pos
+#			else_delta_unchanged:				
+#				load $v0, $s1
+#				load $v0, $s1
+#				load $v1, $s2
 			
 		update_pos:	
 			mov $s1, $v0 
@@ -357,16 +383,18 @@ update_duck:
 		#	finish_control:
 		
 		# add deltas to duck sprite
+		
 		load $t0, $a0 # load duck->x (&duck + 0)
-		add $t0, $s0 # duck->x += deltaX
+		addi $t0, 4
+		add $t0, $s1 # duck->x += deltaX
 		stor $t0, $a0 # store duck->y
 		
 		mov $t2, $a0	# load duck->y (&duck + 2)
 		addi $t2, 2
 		load $t1, $t2	
-		add $t1, $s1	# duck->y += deltaY
+		add $t1, $s2	# duck->y += deltaY
 		stor $t1, $t2	# store duck->y
-		
+				
 	end_update_duck:
 	
 	# restore caller's registers
@@ -571,9 +599,9 @@ update_duck_sprite:
 		beq dead_duck			# branch to dead duck code
 		addi  $t0, 3			# increment a0 to addr +3
 		load  $t2, $t0			# load addr + 3 into t2
-		load  $t3, OR_MASK_8x5_SPRITE # load or mask to set sprite size
+		movwi  $t3, OR_MASK_8x5_SPRITE # load or mask to set sprite size
 		or    $t2, $t3			# mask in 1's mask
-		load  $t3, AND_MASK_8x5_SPRITE # load and mask to set sprite size
+		movwi  $t3, AND_MASK_8x5_SPRITE # load and mask to set sprite size
 		and   $t2, $t3			# mask in 0's mask
 		stor  $t2, $t0			# store size
 		subi  $t0, 2			# t0 to addr + 1 for future calculations
@@ -601,9 +629,9 @@ update_duck_sprite:
 	dead_duck:					# code for dead duck animation
 			addi  $t0, 3			# increment a0 to addr +3
 			load  $t2, $t0			# load addr + 3 into t2
-			load  $t3, OR_MASK_8x8_SPRITE # load or mask to set sprite size
+			movwi  $t3, OR_MASK_8x8_SPRITE # load or mask to set sprite size
 			or    $t2, $t3			# mask in 1's mask
-			load  $t3, AND_MASK_8x8_SPRITE # load and mask to set sprite size
+			movwi  $t3, AND_MASK_8x8_SPRITE # load and mask to set sprite size
 			and   $t2, $t3			# mask in 0's mask
 			stor  $t2, $t0			# store size
 			subi  $t0, 2			# t0 to addr + 1 for future calculations

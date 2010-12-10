@@ -5,8 +5,8 @@
 
 
 .define CONTROL 0x480a
-.define DUCK_A 0x0041
-.define DUCK_B 0x0347
+.define DUCK_A 0x0201
+.define DUCK_B 0x0783
 
 .define GPU_SR 0x4800
 .define VBRIGHT 1
@@ -51,13 +51,13 @@ loop:
 	movwi $t0, CTRL_RIGHT
 	test $t0, $a0 # if (control.RIGHT)
 	beq else_if_left_x
-		addi $a1, 1 # move sprite RIGHT (+1)
+		addi $a1, 4 # move sprite RIGHT (+4)
 		buc done_x
 	else_if_left_x: # else if (control.LEFT)
 	movwi $t1, CTRL_LEFT # test for LEFT
 	test $t1, $a0
 	beq done_x
-		subi $a1, 1 # move sprite LEFT (-1)
+		subi $a1, 4 # move sprite LEFT (-4)
 		
 	done_x:
 	stor $a1, $s1
@@ -66,50 +66,50 @@ loop:
 	movwi $t0, CTRL_UP
 	test $t0, $a0 # if (control.UP)
 	beq else_if_up_y
-		subi $a2, 1 # move sprite UP (-1)
+		subi $a2, 3 # move sprite UP (-3)
 		buc done_y
 	else_if_up_y: # else if (control.DOWN)
 	movwi $t1, CTRL_DOWN # test for DOWN
 	test $t1, $a0
 	beq done_y
-		addi $a2, 1 # move sprite down (+1)
+		addi $a2, 3 # move sprite down (+3)
 		
 	done_y:
 	stor $a2, $s2
 
 	# Meta A
-	movwi $t1, SPR_A
-	load $t2, $t1
-	movwi $t0, CTRL_X
-	test $t0, $a0 # if (control.RIGHT)
-	beq else_if_a
-		addi $t2, 1 # move sprite RIGHT (+1)
-		buc done_a
-	else_if_a: # else if (control.LEFT)
-	movwi $t0, CTRL_Y # test for LEFT
-	test $t0, $a0
-	beq done_a
-		subi $t2, 1 # move sprite LEFT (-1)
+#	movwi $t1, SPR_A
+#	load $t2, $t1
+#	movwi $t0, CTRL_X
+#	test $t0, $a0 # if (control.RIGHT)
+#	beq else_if_a
+#		addi $t2, 1 # move sprite RIGHT (+1)
+#		buc done_a
+#	else_if_a: # else if (control.LEFT)
+#	movwi $t0, CTRL_Y # test for LEFT
+#	test $t0, $a0
+#	beq done_a
+#		subi $t2, 1 # move sprite LEFT (-1)
 		
-	done_a:
-	stor $t2, $t1
+#	done_a:
+#	stor $t2, $t1
 
 	# Meta B
-	movwi $t1, SPR_B
-	load $t2, $t1
-	movwi $t0, CTRL_A
-	test $t0, $a0 # if (control.RIGHT)
-	beq else_if_b
-		addi $t2, 1 # move sprite RIGHT (+1)
-		buc done_b
-	else_if_b: # else if (control.LEFT)
-	movwi $t0, CTRL_B # test for LEFT
-	test $t0, $a0
-	beq done_b
-		subi $t2, 1 # move sprite LEFT (-1)
+#	movwi $t1, SPR_B
+#	load $t2, $t1
+#	movwi $t0, CTRL_A
+#	test $t0, $a0 # if (control.RIGHT)
+#	beq else_if_b
+#		addi $t2, 1 # move sprite RIGHT (+1)
+#		buc done_b
+#	else_if_b: # else if (control.LEFT)
+#	movwi $t0, CTRL_B # test for LEFT
+#	test $t0, $a0
+#	beq done_b
+#		subi $t2, 1 # move sprite LEFT (-1)
 		
-	done_b:
-	stor $t2, $t1
+#	done_b:
+#	stor $t2, $t1
 	
 	call wait_until_frame
 	buc loop
