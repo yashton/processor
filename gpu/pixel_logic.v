@@ -46,7 +46,7 @@ module pixel_logic
 	// mux wires and conditions
 	reg [3:0] dataW, dataX, dataY, dataZ;
 	wire [2:0] test;
-	assign test = {first, offset};
+	assign test = {~first, offset};
 	
 	always @(*) begin
 		case (test)
@@ -82,10 +82,10 @@ module pixel_logic
 			1: dataX = sliceA;
 			2: dataX = previousH;
 			3: dataX = previousG;
-			4: dataX = sliceG;
-			5: dataX = sliceF;
-			6: dataX = sliceE;
-			7: dataX = sliceD;
+			4: dataX = sliceF;
+			5: dataX = sliceE;
+			6: dataX = sliceD;
+			7: dataX = sliceC;
 			default: dataX = sliceB;
 		endcase
 	end
@@ -118,18 +118,4 @@ module pixel_logic
 	assign pixel_out_data[26:18] = pixel_out_updated[2] ? {line_palette, dataY} : pixel_in_data[26:18];
 	assign pixel_out_data[17:9] = pixel_out_updated[1] ? {line_palette, dataX} : pixel_in_data[17:9];
 	assign pixel_out_data[8:0] = pixel_out_updated[0] ? {line_palette, dataW} : pixel_in_data[8:0];
-	
-//	wire [7:0] combined_z, combined_y, combined_x, combined_w;
-//	assign combined_z = {line_palette[3:0], dataZ};
-//	assign combined_y = {line_palette[3:0], dataY};
-//	assign combined_x = {line_palette[3:0], dataX};
-//	assign combined_w = {line_palette[3:0], dataW};
-//	assign pixel_out_data[35] = pixel_out_updated[3] ? line_palette[4] : pixel_in_data[35];
-//	assign pixel_out_data[31:24] = pixel_out_updated[3] ? combined_z : pixel_in_data[31:24];
-//	assign pixel_out_data[34] = pixel_out_updated[2] ? line_palette[4] : pixel_in_data[34];
-//	assign pixel_out_data[23:16] = pixel_out_updated[2] ? combined_y : pixel_in_data[23:16];
-//	assign pixel_out_data[33] = pixel_out_updated[1] ? line_palette[4] : pixel_in_data[33];
-//	assign pixel_out_data[15:8] = pixel_out_updated[1] ? combined_x : pixel_in_data[15:8];
-//	assign pixel_out_data[32] = pixel_out_updated[0] ? line_palette[4] : pixel_in_data[32];
-//	assign pixel_out_data[7:0] = pixel_out_updated[0] ? combined_w : pixel_in_data[7:0];
 endmodule

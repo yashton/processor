@@ -10,7 +10,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="23" />
+   <WVObjectSize size="24" />
    <wvobject fp_name="/gpu_test/B" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">B[7:0]</obj_property>
       <obj_property name="ObjectShortName">B[7:0]</obj_property>
@@ -159,6 +159,91 @@
       <wvobject fp_name="/gpu_test/UUT/palette_output/index" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">index[8:0]</obj_property>
          <obj_property name="ObjectShortName">index[8:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group63" type="group">
+      <obj_property name="label">line_buff</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/gpu_test/UUT/line_buff/completed_first" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">completed_first</obj_property>
+         <obj_property name="ObjectShortName">completed_first</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gpu_test/UUT/line_buff/current_tile" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">current_tile[3:0]</obj_property>
+         <obj_property name="ObjectShortName">current_tile[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gpu_test/UUT/line_buff/offset" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">offset[1:0]</obj_property>
+         <obj_property name="ObjectShortName">offset[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gpu_test/UUT/line_buff/pixel/test" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">test[2:0]</obj_property>
+         <obj_property name="ObjectShortName">test[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gpu_test/UUT/line_buff/tile_data" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">tile_data[31:0]</obj_property>
+         <obj_property name="ObjectShortName">tile_data[31:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gpu_test/UUT/line_buff/pixel_read_data" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">pixel_read_data[35:0]</obj_property>
+         <obj_property name="ObjectShortName">pixel_read_data[35:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gpu_test/UUT/line_buff/pixel_write_data" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">pixel_write_data[35:0]</obj_property>
+         <obj_property name="ObjectShortName">pixel_write_data[35:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gpu_test/UUT/line_buff/remaining" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">remaining[11:0]</obj_property>
+         <obj_property name="ObjectShortName">remaining[11:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gpu_test/UUT/line_buff/previous" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">previous[11:0]</obj_property>
+         <obj_property name="ObjectShortName">previous[11:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gpu_test/UUT/line_buff/state" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">state[3:0]</obj_property>
+         <obj_property name="ObjectShortName">state[3:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gpu_test/UUT/line_buff/next_state" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">next_state[3:0]</obj_property>
+         <obj_property name="ObjectShortName">next_state[3:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gpu_test/UUT/line_buff/WAIT" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">WAIT[31:0]</obj_property>
+         <obj_property name="ObjectShortName">WAIT[31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gpu_test/UUT/line_buff/START" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">START[31:0]</obj_property>
+         <obj_property name="ObjectShortName">START[31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gpu_test/UUT/line_buff/FIRST" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">FIRST[31:0]</obj_property>
+         <obj_property name="ObjectShortName">FIRST[31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gpu_test/UUT/line_buff/WRFIRST" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">WRFIRST[31:0]</obj_property>
+         <obj_property name="ObjectShortName">WRFIRST[31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gpu_test/UUT/line_buff/SECOND" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">SECOND[31:0]</obj_property>
+         <obj_property name="ObjectShortName">SECOND[31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/gpu_test/UUT/line_buff/WRSECOND" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">WRSECOND[31:0]</obj_property>
+         <obj_property name="ObjectShortName">WRSECOND[31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
    </wvobject>
 </wave_config>

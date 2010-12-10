@@ -97,10 +97,10 @@ module memory_controller
 	assign tile_data_addr = memaddr - TILE_ADDR;
 	assign palette_addr = memaddr - PALETTE_ADDR;
 	wire [15:0] programout;
-	//main_memory programMemory (.clka(clk), .clkb(clk), .addra(memaddr[12:0]), .wea(memwrite), .ena(programen), .dina(writedata), .douta(programout), 
-	//									 .addrb(pcaddr[12:0]), .web(1'b0), .dinb(16'b0), .doutb(instruction), .rstb(~rst));
-	exmem programMemory( .clk(clk), .adr(memaddr[12:0]), .pcaddr(pcaddr[12:0]), .memwrite(memwrite), .en(programen), .writedata(writedata), 
-			.programout(programout), .instruction(instruction));
+	main_memory programMemory (.clka(clk), .clkb(clk), .addra(memaddr[12:0]), .wea(memwrite), .ena(programen), .dina(writedata), .douta(programout), 
+										 .addrb(pcaddr[12:0]), .web(1'b0), .dinb(16'b0), .doutb(instruction), .rstb(~rst));
+	//exmem programMemory( .clk(clk), .adr(memaddr[12:0]), .pcaddr(pcaddr[12:0]), .memwrite(memwrite), .en(programen), .writedata(writedata), 
+	//		.programout(programout), .instruction(instruction));
 
 	`ifdef USE_DMA
 	assign dma_en = memaddr[15:2] == DMA_REGS;

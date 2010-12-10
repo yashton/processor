@@ -180,7 +180,7 @@ module line_buffer
 	
 	always @(posedge clk) begin		
 		if (!rst || load) begin
-			previous <= 0;
+			previous <= 12'h0;
 		end
 		else if (state == WRSECOND) begin
 			previous <= remaining;
