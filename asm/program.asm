@@ -217,7 +217,7 @@ update_duck:
 	# *duck_sprite		$a0
 	#  duck_sprite_x 	$a0
 	#  duck_sprite_y	$a0 + 2 = s1
-	#  duck_killed 	$a1
+	#  duck_killed 		$a1
 	#  controls			$a2
 	movi $s0, 0   #counter in s0
 	
@@ -371,7 +371,7 @@ random_direction:
 	movi $v0, 0 # x = 0
  	movi $v1, 0 # y = 0
 	
-	movwi $t0, RANDOM_NUMBER # load a random number
+	movwi $t0, RANDOM_GENERATOR # load a random number
 	load $t1, $t0
 	andi $t1, 7
 	

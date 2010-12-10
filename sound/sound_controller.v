@@ -206,16 +206,20 @@ end
 	reg [23:0] b_rom_addr_first;
 	always @(posedge clk) begin
 		if (!rst) begin
+			tmp_rom_addr <= 24'h0;
+			tmp_amp <= 4'h0;
+			tmp_duration <= 16'h0;
+			b_rom_addr_first <= 24'h0;
 			b_rom_addr <= 24'h0;
 			b_rom_addr_first <= 24'h0;
-			b_duration <= 32'h0B6000;
-			b_duration_total <= 32'h0B6000;
-			s0_rom_addr <= 0;
-			s0_duration <= 0;
-			s1_rom_addr <= 0;
-			s1_duration <= 0;
-			s2_rom_addr <= 0;
-			s2_duration <= 0;
+			b_duration <= 32'h0;
+			b_duration_total <= 32'h0;
+			s0_rom_addr <= 24'h0;
+			s0_duration <= 32'h0;
+			s1_rom_addr <= 24'h0;
+			s1_duration <= 32'h0;
+			s2_rom_addr <= 24'h0;
+			s2_duration <= 32'h0;
 			s3_rom_addr <= 0;
 			s3_duration <= 0;
 			s4_rom_addr <= 0;
@@ -261,80 +265,114 @@ end
 					sound_select == 43 || sound_select == 48) begin
 					tmp_duration <= writedata;
 				end
-				else if (sound_select == 4) begin
-					b_rom_addr <= tmp_rom_addr;
-					bamp <= tmp_amp;
-					b_duration <= {writedata, tmp_duration};
-					b_rom_addr_first <= tmp_rom_addr;
-					b_duration_total <= {writedata, tmp_duration};
-				end	
-				else if (sound_select == 9) begin
-					s0_rom_addr <= tmp_rom_addr;
-					sfx_amp0 <= tmp_amp;
-					s0_duration  <= {writedata, tmp_duration};
-				end
-				else if (sound_select == 14) begin
-					s1_rom_addr <= tmp_rom_addr;
-					sfx_amp1 <= tmp_amp;
-					s1_duration  <= {writedata, tmp_duration};
-				end
-				else if (sound_select == 19) begin
-					s2_rom_addr <= tmp_rom_addr;
-					sfx_amp2 <= tmp_amp;
-					s2_duration  <= {writedata, tmp_duration};
-				end
-				else if (sound_select == 24) begin
-					s3_rom_addr <= tmp_rom_addr;
-					sfx_amp3 <= tmp_amp;
-					s3_duration  <= {writedata, tmp_duration};
-				end
-				else if (sound_select == 29) begin
-					s4_rom_addr <= tmp_rom_addr;
-					sfx_amp4 <= tmp_amp;
-					s4_duration  <= {writedata, tmp_duration};
-				end
-				else if (sound_select == 34) begin
-					s5_rom_addr <= tmp_rom_addr;
-					sfx_amp5 <= tmp_amp;
-					s5_duration  <= {writedata, tmp_duration};
-				end
-				else if (sound_select == 39) begin
-					s6_rom_addr <= tmp_rom_addr;
-					sfx_amp6 <= tmp_amp;
-					s6_duration  <= {writedata, tmp_duration};
-				end
-				else if (sound_select == 44) begin
-					s7_rom_addr <= tmp_rom_addr;
-					sfx_amp7 <= tmp_amp;
-					s7_duration  <= {writedata, tmp_duration};
-				end
-				else if (sound_select == 49) begin
-					s8_rom_addr <= tmp_rom_addr;
-					sfx_amp8 <= tmp_amp;
-					s8_duration  <= {writedata, tmp_duration};
-				end
 			end
-			if (en && load) begin
-				b_rom_addr <= b_rom_addr + 1;
+			
+			if (mem_en && memwrite && sound_select == 4) begin
+				b_rom_addr <= tmp_rom_addr;
+				bamp <= tmp_amp;
+				b_duration <= {writedata, tmp_duration};
+				b_rom_addr_first <= tmp_rom_addr;
+				b_duration_total <= {writedata, tmp_duration};
+			end	
+			else if (en && load) begin
 				if (b_duration == 0) begin
 					b_rom_addr <= b_rom_addr_first;
 					b_duration <= b_duration_total;
 				end
 				else begin
+					b_rom_addr <= b_rom_addr + 1;
 					b_duration  <= b_duration - 1;
 				end
+			end
+			
+			if (mem_en && memwrite && sound_select == 9) begin
+				s0_rom_addr <= tmp_rom_addr;
+				sfx_amp0 <= tmp_amp;
+				s0_duration  <= {writedata, tmp_duration};
+			end
+			else if (en && load && s0_duration) begin
 				s0_rom_addr <= s0_rom_addr + 1;
-				if(s0_duration)
-					s0_duration <= s0_duration - 1;
+				s0_duration <= s0_duration - 1;
+			end
+			
+			if (mem_en && memwrite && sound_select == 14) begin
+				s1_rom_addr <= tmp_rom_addr;
+				sfx_amp1 <= tmp_amp;
+				s1_duration  <= {writedata, tmp_duration};
+			end
+			else if (en && load && s1_duration) begin
 				s1_rom_addr <= s1_rom_addr + 1;
-				if (s1_duration)
-					s1_duration <= s1_duration - 1;
+				s1_duration <= s1_duration - 1;
+			end
+			
+			if (mem_en && memwrite && sound_select == 19) begin
+				s2_rom_addr <= tmp_rom_addr;
+				sfx_amp2 <= tmp_amp;
+				s2_duration  <= {writedata, tmp_duration};
+			end
+			else if (en && load && s2_duration) begin
 				s2_rom_addr <= s2_rom_addr + 1;
-				if(s2_duration)
-					s2_duration <= s2_duration - 1;
+				s2_duration <= s2_duration - 1;
+			end
+			
+			if (mem_en && memwrite && sound_select == 24) begin
+				s3_rom_addr <= tmp_rom_addr;
+				sfx_amp3 <= tmp_amp;
+				s3_duration  <= {writedata, tmp_duration};
+			end
+			else if (en && load && s3_duration) begin
 				s3_rom_addr <= s3_rom_addr + 1;
-				if (s3_duration)
-					s3_duration <= s3_duration - 1;
+				s3_duration <= s3_duration - 1;
+			end
+			
+			if (mem_en && memwrite && sound_select == 29) begin
+				s4_rom_addr <= tmp_rom_addr;
+				sfx_amp4 <= tmp_amp;
+				s4_duration  <= {writedata, tmp_duration};
+			end
+			else if (en && load && s4_duration) begin
+				s4_rom_addr <= s4_rom_addr + 1;
+				s4_duration <= s4_duration - 1;
+			end
+			
+			if (mem_en && memwrite && sound_select == 34) begin
+				s5_rom_addr <= tmp_rom_addr;
+				sfx_amp5 <= tmp_amp;
+				s5_duration  <= {writedata, tmp_duration};
+			end
+			else if (en && load && s5_duration) begin
+				s5_rom_addr <= s5_rom_addr + 1;
+				s5_duration <= s5_duration - 1;
+			end
+			
+			if (mem_en && memwrite && sound_select == 39) begin
+				s6_rom_addr <= tmp_rom_addr;
+				sfx_amp6 <= tmp_amp;
+				s6_duration  <= {writedata, tmp_duration};
+			end
+			else if (en && load && s6_duration) begin
+				s6_rom_addr <= s6_rom_addr + 1;
+				s6_duration <= s6_duration - 1;
+			end
+			
+			if (mem_en && memwrite && sound_select == 44) begin
+				s7_rom_addr <= tmp_rom_addr;
+				sfx_amp7 <= tmp_amp;
+				s7_duration  <= {writedata, tmp_duration};
+			end
+			else if (en && load && s7_duration) begin
+				s7_rom_addr <= s7_rom_addr + 1;
+				s7_duration <= s7_duration - 1;
+			end
+			
+			if (mem_en && memwrite && sound_select == 49) begin
+				s8_rom_addr <= tmp_rom_addr;
+				sfx_amp8 <= tmp_amp;
+				s8_duration  <= {writedata, tmp_duration};
+			end
+			else if (en && load && s8_duration) begin
+				s8_rom_addr <= s8_rom_addr + 1;
+				s8_duration <= s8_duration - 1;
 			end
 		end
 	end

@@ -1,3 +1,2 @@
-NEWPROJECT "U:/blue3/trunk/blue_project/ipcore_dir/coregen.cgp"
-SETPROJECT "U:/blue3/trunk/blue_project/ipcore_dir/coregen.cgp"
-LAUNCHXCO "U:/blue3/trunk/blue_project/ipcore_dir/main_memory.xco"
+SETPROJECT "U:/blue/blue_project/ipcore_dir/coregen.cgp"
+LAUNCHXCO "U:/blue/blue_project/ipcore_dir/main_memory.xco"

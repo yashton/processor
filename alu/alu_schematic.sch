@@ -58,8 +58,8 @@
         <port polarity="Input" name="signExtImm" />
         <port polarity="Input" name="Immediate(7:0)" />
         <blockdef name="regfile">
-            <timestamp>2010-10-11T4:24:9</timestamp>
-            <rect width="336" x="64" y="-320" height="336" />
+            <timestamp>2010-12-10T7:14:25</timestamp>
+            <rect width="336" x="64" y="-320" height="400" />
             <rect width="64" x="0" y="-284" height="24" />
             <line x2="0" y1="-272" y2="-272" x1="64" />
             <line x2="0" y1="-208" y2="-208" x1="64" />
@@ -72,6 +72,7 @@
             <rect width="64" x="400" y="-92" height="24" />
             <line x2="464" y1="-80" y2="-80" x1="400" />
             <line x2="0" y1="-16" y2="-16" x1="64" />
+            <line x2="0" y1="48" y2="48" x1="64" />
         </blockdef>
         <blockdef name="bus16Mux">
             <timestamp>2010-10-11T4:8:46</timestamp>
@@ -179,6 +180,7 @@
             <blockpin signalname="src_addr(3:0)" name="src_addr(3:0)" />
             <blockpin signalname="memaddr(15:0)" name="src_data(15:0)" />
             <blockpin signalname="clk" name="clk" />
+            <blockpin signalname="rst" name="rst" />
         </block>
         <block symbolname="bus16Mux" name="pcSrcMux">
             <blockpin signalname="pcSrc" name="c" />
@@ -363,8 +365,10 @@
         <branch name="rst">
             <wire x2="384" y1="1152" y2="1152" x1="240" />
             <wire x2="480" y1="1152" y2="1152" x1="384" />
-            <wire x2="384" y1="1152" y2="2400" x1="384" />
+            <wire x2="384" y1="1152" y2="1808" x1="384" />
+            <wire x2="384" y1="1808" y2="2400" x1="384" />
             <wire x2="2208" y1="2400" y2="2400" x1="384" />
+            <wire x2="1392" y1="1808" y2="1808" x1="384" />
         </branch>
         <instance x="480" y="1184" name="programCounter" orien="R0">
         </instance>

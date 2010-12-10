@@ -1,7 +1,7 @@
 ##############################################################
 #
 # Xilinx Core Generator version 12.2
-# Date: Tue Nov 02 23:47:57 2010
+# Date: Thu Nov 11 22:01:26 2010
 #
 ##############################################################
 #
@@ -84,10 +84,10 @@ CSET use_error_injection_pins=false
 CSET use_regcea_pin=false
 CSET use_regceb_pin=false
 CSET use_rsta_pin=false
-CSET use_rstb_pin=false
+CSET use_rstb_pin=true
 CSET write_depth_a=8192
 CSET write_width_a=16
 CSET write_width_b=16
 # END Parameters
 GENERATE
-# CRC: 93ac8211
+# CRC: 19cf58fb
