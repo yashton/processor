@@ -21,9 +21,34 @@ module nes_zap
 		output blank_time_up, 
 		output [15:0] plyr_input
 	);
+	//reg shot, hit;
+	//reg sensor_sync, trigger_sync, sensor_temp, trigger_temp;
 	reg shot, hit;
-	reg sensor_sync, trigger_sync, sensor_temp, trigger_temp;
+	// Use for game
 	assign plyr_input = {hit, shot};
+	always@(posedge clk) begin
+		if( !rst ) begin
+			hit 	<= 0;
+			shot 	<= 0;
+		end
+		//if sensor && trigger is pulled
+		else if ( sensor && !trigger) begin
+			hit <= 1;
+			shot<=1;
+		end
+		//if trigger is pulled and sensor not detected
+		else if ( !sensor && !trigger ) begin
+			shot <= 1;
+			hit <= 0;
+		end
+		else begin
+			shot <=0;
+			hit <=0;
+		end
+	end
+
+
+/*
 	//TIMER INSTALL
 	wire time_up;
 	reg start, stop;
@@ -122,5 +147,5 @@ module nes_zap
 			end
 			default: next = IDLE;
 		endcase 
-	end 
+	end */
 endmodule // gun_interface
