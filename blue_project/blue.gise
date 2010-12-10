@@ -43,9 +43,6 @@
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="gpu_test_isim_beh.exe"/>
     <file xil_pn:fileType="FILE_ISIM_MISC" xil_pn:name="gpu_test_isim_beh.wdb"/>
     <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="gpu_test_stx_beh.prj"/>
-    <file xil_pn:fileType="FILE_COREGEN_PROJECT" xil_pn:name="ipcore_dir/coregen.cgp"/>
-    <file xil_pn:fileType="FILE_LOG" xil_pn:name="ipcore_dir/coregen.log"/>
-    <file xil_pn:fileType="FILE_RESPONSE" xil_pn:name="ipcore_dir/coregen.rsp"/>
     <file xil_pn:fileType="FILE_SYMBOL" xil_pn:name="ipcore_dir/pixel_updated.sym" xil_pn:origination="imported"/>
     <file xil_pn:fileType="FILE_SYMBOL" xil_pn:name="ipcore_dir/pixel_z_data.sym" xil_pn:origination="imported"/>
     <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="isim"/>
@@ -115,6 +112,10 @@
     <transform xil_pn:end_ts="1291956733" xil_pn:in_ck="-6903929339718111510" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1291956733">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputChanged"/>
+      <status xil_pn:value="OutputChanged"/>
       <outfile xil_pn:name="../alu/alu.v"/>
       <outfile xil_pn:name="../alu/aluController.v"/>
       <outfile xil_pn:name="../alu/alutest.v"/>
@@ -162,6 +163,8 @@
     <transform xil_pn:end_ts="1291947903" xil_pn:in_ck="-2664959377656256048" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="-1422670080563463708" xil_pn:start_ts="1291947903">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="InputChanged"/>
       <outfile xil_pn:name="alu_schematic.vf"/>
       <outfile xil_pn:name="gpu_schematic.vf"/>
       <outfile xil_pn:name="sound_schematic.vf"/>
@@ -169,95 +172,45 @@
     <transform xil_pn:end_ts="1291947188" xil_pn:in_ck="8765807225919443046" xil_pn:name="TRAN_regenerateCoresSim" xil_pn:prop_ck="7039261591081669445" xil_pn:start_ts="1291947182">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <outfile xil_pn:name="ipcore_dir/bg_rom.ngc"/>
-      <outfile xil_pn:name="ipcore_dir/bg_rom.v"/>
-      <outfile xil_pn:name="ipcore_dir/line_buffer_vram.ngc"/>
-      <outfile xil_pn:name="ipcore_dir/line_buffer_vram.v"/>
-      <outfile xil_pn:name="ipcore_dir/main_memory.ngc"/>
-      <outfile xil_pn:name="ipcore_dir/main_memory.v"/>
-      <outfile xil_pn:name="ipcore_dir/palette_vram.ngc"/>
-      <outfile xil_pn:name="ipcore_dir/palette_vram.v"/>
-      <outfile xil_pn:name="ipcore_dir/pixel_updated.ngc"/>
-      <outfile xil_pn:name="ipcore_dir/pixel_updated.v"/>
-      <outfile xil_pn:name="ipcore_dir/pixel_z_data.ngc"/>
-      <outfile xil_pn:name="ipcore_dir/pixel_z_data.v"/>
-      <outfile xil_pn:name="ipcore_dir/sprite_object_vram.ngc"/>
-      <outfile xil_pn:name="ipcore_dir/sprite_object_vram.v"/>
-      <outfile xil_pn:name="ipcore_dir/tile_vram.ngc"/>
-      <outfile xil_pn:name="ipcore_dir/tile_vram.v"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputAdded"/>
+      <status xil_pn:value="InputChanged"/>
+      <status xil_pn:value="InputRemoved"/>
+      <status xil_pn:value="OutputRemoved"/>
     </transform>
     <transform xil_pn:end_ts="1291956734" xil_pn:in_ck="5808816027764139765" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1291956733">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <outfile xil_pn:name="../alu/alu.v"/>
-      <outfile xil_pn:name="../alu/aluController.v"/>
-      <outfile xil_pn:name="../alu/alutest.v"/>
-      <outfile xil_pn:name="../alu/bus16Mux.v"/>
-      <outfile xil_pn:name="../alu/bus16x4Mux.v"/>
-      <outfile xil_pn:name="../alu/pc.v"/>
-      <outfile xil_pn:name="../alu/psr.v"/>
-      <outfile xil_pn:name="../alu/regfile.v"/>
-      <outfile xil_pn:name="../alu/signExtend.v"/>
-      <outfile xil_pn:name="../blank_timer.v"/>
-      <outfile xil_pn:name="../controller.v"/>
-      <outfile xil_pn:name="../dma.v"/>
-      <outfile xil_pn:name="../exmem.v"/>
-      <outfile xil_pn:name="../gpu/BG_Filler.v"/>
-      <outfile xil_pn:name="../gpu/color_mux.v"/>
-      <outfile xil_pn:name="../gpu/gpu_test.v"/>
-      <outfile xil_pn:name="../gpu/line_buffer.v"/>
-      <outfile xil_pn:name="../gpu/palette.v"/>
-      <outfile xil_pn:name="../gpu/pixel_logic.v"/>
-      <outfile xil_pn:name="../gpu/pixel_updated_logic.v"/>
-      <outfile xil_pn:name="../gpu/sprite.v"/>
-      <outfile xil_pn:name="../gpu/sprite_controller.v"/>
-      <outfile xil_pn:name="../gpu/tile_table.v"/>
-      <outfile xil_pn:name="../gpu/vga.v"/>
-      <outfile xil_pn:name="../lfsr.v"/>
-      <outfile xil_pn:name="../memory_controller.v"/>
-      <outfile xil_pn:name="../nes_zap.v"/>
-      <outfile xil_pn:name="../processor.v"/>
-      <outfile xil_pn:name="../rng.v"/>
-      <outfile xil_pn:name="../romController.v"/>
-      <outfile xil_pn:name="../rotary_encoder.v"/>
-      <outfile xil_pn:name="../shot_timer.v"/>
-      <outfile xil_pn:name="../snes_cont.v"/>
-      <outfile xil_pn:name="../sound/DAC_controller.v"/>
-      <outfile xil_pn:name="../sound/mixer.v"/>
-      <outfile xil_pn:name="../sound/sample_frequency_generator.v"/>
-      <outfile xil_pn:name="../sound/sound_controller.v"/>
-      <outfile xil_pn:name="../system.v"/>
-      <outfile xil_pn:name="alu_schematic.vf"/>
-      <outfile xil_pn:name="gpu_schematic.vf"/>
-      <outfile xil_pn:name="ipcore_dir/bg_rom.v"/>
-      <outfile xil_pn:name="ipcore_dir/line_buffer_vram.v"/>
-      <outfile xil_pn:name="ipcore_dir/main_memory.v"/>
-      <outfile xil_pn:name="ipcore_dir/palette_vram.v"/>
-      <outfile xil_pn:name="ipcore_dir/pixel_updated.v"/>
-      <outfile xil_pn:name="ipcore_dir/pixel_z_data.v"/>
-      <outfile xil_pn:name="ipcore_dir/sprite_object_vram.v"/>
-      <outfile xil_pn:name="ipcore_dir/tile_vram.v"/>
-      <outfile xil_pn:name="sound_schematic.vf"/>
-      <outfile xil_pn:name="system_test.v"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForPredecessor"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputChanged"/>
+      <status xil_pn:value="InputRemoved"/>
+      <status xil_pn:value="OutputChanged"/>
+      <status xil_pn:value="OutputRemoved"/>
     </transform>
     <transform xil_pn:end_ts="1291956746" xil_pn:in_ck="5808816027764139765" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="5746298240705415941" xil_pn:start_ts="1291956734">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForPredecessor"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputAdded"/>
+      <status xil_pn:value="InputChanged"/>
+      <status xil_pn:value="InputRemoved"/>
       <status xil_pn:value="OutputChanged"/>
-      <outfile xil_pn:name="fuse.log"/>
-      <outfile xil_pn:name="gpu_test_beh.prj"/>
-      <outfile xil_pn:name="gpu_test_isim_beh.exe"/>
-      <outfile xil_pn:name="isim"/>
-      <outfile xil_pn:name="isim.log"/>
-      <outfile xil_pn:name="xilinxsim.ini"/>
+      <status xil_pn:value="OutputRemoved"/>
     </transform>
     <transform xil_pn:end_ts="1291956746" xil_pn:in_ck="-7349013017544785063" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="2543431396723427656" xil_pn:start_ts="1291956746">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <outfile xil_pn:name="gpu_test_isim_beh.wdb"/>
-      <outfile xil_pn:name="isim.cmd"/>
-      <outfile xil_pn:name="isim.log"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForPredecessor"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputRemoved"/>
+      <status xil_pn:value="OutputChanged"/>
+      <status xil_pn:value="OutputRemoved"/>
     </transform>
     <transform xil_pn:end_ts="1291937829" xil_pn:name="TRAN_copyInitialToXSTAbstractSynthesis" xil_pn:start_ts="1291937829">
       <status xil_pn:value="SuccessfullyRun"/>
@@ -266,6 +219,8 @@
     <transform xil_pn:end_ts="1291937830" xil_pn:in_ck="-2664959377656256048" xil_pn:name="TRAN_schematicsToHdl" xil_pn:prop_ck="7945682418539262174" xil_pn:start_ts="1291937829">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="InputChanged"/>
       <outfile xil_pn:name="alu_schematic.vf"/>
       <outfile xil_pn:name="gpu_schematic.vf"/>
       <outfile xil_pn:name="sound_schematic.vf"/>
