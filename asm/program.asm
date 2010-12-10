@@ -553,7 +553,7 @@ unblank_screen:
 				or    $t1, $s3		# mask in the 1's
 				movwi $s3, 0xFF03	# get value for masking 0's for correct sprite
 				and   $t1, $s3		# mask in the 0's
-				stor  $t0, $t1		# store the sprite to memory
+				stor  $t1, $t0		# store the sprite to memory
 				buc end_dead_duck_sprite # end dead duck code
 			dead_duck_2:			# code for dead duck sprite 2 (sideways, bloody)
 				load  $t1, $t0		# load the current sprite settings from addr+1
@@ -561,7 +561,7 @@ unblank_screen:
 				or    $t1, $s3		# mask in the 1's
 				movwi $s3, 0xFF83	# get value for masking 0's for correct sprite
 				and   $t1, $s3		# mask in the 0's
-				stor  $t0, $t1		# store the sprite to memory
+				stor  $t1, $t0		# store the sprite to memory
 				buc end_dead_duck_sprite # end dead duck code
 			dead_duck_3:			# clode for dead duck sprite 3 (exploding)
 				load  $t1, $t0		# load the current sprite settings from addr+1
@@ -569,7 +569,7 @@ unblank_screen:
 				or    $t1, $s3		# mask in the 1's
 				movwi $s3, 0xFF09	# get value for masking 0's for correct sprite
 				and   $t1, $s3		# mask in the 0's
-				stor  $t0, $t1		# store the sprite to memory
+				stor  $t1, $t0		# store the sprite to memory
 				buc end_dead_duck_sprite # end dead duck code
 			dead_duck_4:			# code for dead duck sprite 4 (explosion decay)
 				load  $t1, $t0		# load the current sprite settings from addr+1
@@ -577,18 +577,18 @@ unblank_screen:
 				or    $t1, $s3		# mask in the 1's
 				movwi $s3, 0xFF89	# get value for masking 0's for correct sprite
 				and   $t1, $s3		# mask in the 0's
-				stor  $t0, $t1		# store the sprite to memory
+				stor  $t1, $t0		# store the sprite to memory
 				buc end_dead_duck_sprite # end dead duck code
 		end_dead_duck_sprite:		# dead dead duck code
-			stor $s0, $t2			# store dead animation counter back to memory
-			stor $s1, $t3			# store dead frame counter back to memory
+			stor $t2, $s0 			# store dead animation counter back to memory
+			stor $t3, $s1			# store dead frame counter back to memory
 			buc  end_update_duck_sprite # end sprite update 
 		west:						# code for west flying duck, first set HFLIP hi
 			addi $t0, 2				# add 2 to get to addr + 3 
 			load $t1, $t0			# load the value from that location into t1
 			movwi $s2, HFLIP_MASK	# $s2 = 0000 0000 0001 0000		
 			or   $t1, $s2			# $t1 = xxxx xxxx xxx1 xxxx
-			stor $t1, $t0			# store HFLIP change to memory
+			stor $t0, $t1			# store HFLIP change to memory
 			subi $t0, 2				# put t0 back to addr + 1
 			cmpi $a2, 0				# check delta y
 			blt  angular			# if less than zero duck is flying at a northerly angle
@@ -599,7 +599,7 @@ unblank_screen:
 			movwi $s2, HFLIP_MASK	# $s2 = 0000 0000 0001 0000		
 			not  $s2				# $s2 = 1111 1111 1110 1111
 			and  $t1, $s2			# $t1 = xxxx xxxx xxx0 xxxx
-			stor $t1, $t0			# store HFLIP change to memory
+			stor $t0, $t1			# store HFLIP change to memory
 			subi $t0, 2				# put t0 back to addr + 1
 			cmpi $a2, 0				# check delta y
 			blt  angular			# if less than zero duck is flying at a northerly angle
@@ -613,7 +613,7 @@ unblank_screen:
 				or    $t1, $s3		# mask in the 1's
 				movwi $s3, 0xFF0D	# get value for masking 0's for correct sprite
 				and   $t1, $s3		# mask in the 0's
-				stor   $t0, $t1     # store the sprite to memory
+				stor   $t1, $t0     # store the sprite to memory
 				buc   end_living_duck # end living duck code
 			vertical_duck_2:		# code for vertical sprite #2 (wings up)
 				load  $t1, $t0		# load the current sprite settings from addr +1
@@ -621,7 +621,7 @@ unblank_screen:
 				or    $t1, $s3		# mask in the 1's
 				movwi $s3, 0xFF8D	# get value for masking 0's for correct sprite# correct duck
 				and   $t1, $s3		# mask in the 0's
-				stor   $t0, $t1		# store the sprite to memory
+				stor   $t1, $t0		# store the sprite to memory
 				buc   end_living_duck # end living duck code
 		angular:					# code for angular (north-east or north-west) flying ducks
 			cmpi  $t3, 1			# check the current animation frame
@@ -632,7 +632,7 @@ unblank_screen:
 				or    $t1, $s3		# mask in the 1's
 				movwi $s3, 0xFF07	# get the value for masking 0's for correct sprite
 				and   $t1, $s3		# mask in the 0's
-				stor  $t0, $t1		# store sprite to memory
+				stor  $t1, $t0		# store sprite to memory
 				buc	  end_living_duck # end living duck code
 			angular_duck_2:			# code for angular sprite #2 (wings up)
 				load  $t1, $t0		# load the current sprite settings from addr+1
@@ -640,7 +640,7 @@ unblank_screen:
 				or    $t1, $s3		# mask in the 1's
 				movwi $s3, 0xFF87	# get the value for masking 0's for correct sprite
 				and   $t1, $s3		# mask in the 0's
-				stor  $t0, $t1		# store sprite to memory
+				stor  $t1, $t0		# store sprite to memory
 				buc   end_living_duck # end living duck code
 			sideways:				# code for sideways flying duck(east, west, south-east, south west)
 			cmpi $t3, 1				# check the current animation frame
@@ -651,7 +651,7 @@ unblank_screen:
 				or    $t1, $s3		# mask in the 1's
 				movwi $s3, 0xFF01	# get the value for masking 0's for the correct sprite
 				and   $t1, $s3		# mask in the 0's
-				stor   $t0, $t1		# store sprite to memory
+				stor  $t1, $t0		# store sprite to memory
 				buc   end_living_duck # end living duck code
 			sideways_duck_2:		# code for sideways sprite #2 (wings up)
 				load  $t1, $t0		# load the current sprite settings from addr+1
@@ -659,11 +659,11 @@ unblank_screen:
 				or    $t1, $s3		# mask in the 1's
 				movwi $s3, 0xFF08	# get the value for masking 0's for the correct sprite
 				and   $t1, $s3		# mask in the 0's
-				stor   $t0, $t1		# store sprite to memory
+				stor  $t1, $t0		# store sprite to memory
 				buc   end_living_duck # end living duck code
 		end_living_duck:		# end living duck sprite
-		stor $s0, $t2				# store animation counter back to memory
-		stor $s1, $t3				# store frame counter back to memory
+		stor $t2, $s0				# store animation counter back to memory
+		stor $t3, $s1				# store frame counter back to memory
 		end_update_duck_sprite:		# end update duck sprite
 		pop $s2						# restore s2
 		pop $s1						# restore s1
@@ -694,9 +694,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0810		# set data for a 6 sprite(
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -710,9 +710,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0610		# set data for a 5 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -726,9 +726,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0410		# set data for a 4 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -742,9 +742,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0A00		# set data for a 3 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -758,9 +758,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0800		# set data for a 2 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -774,9 +774,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0600		# set data for a 1 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -786,9 +786,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0400		# set data for a 0 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -801,9 +801,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0620		# set data for a 9 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -817,9 +817,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0420		# set data for a 8 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -833,9 +833,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0A10		# set data for a 7 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -849,9 +849,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0810		# set data for a 6 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -867,9 +867,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0610		# set data for a 5 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -883,9 +883,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0410		# set data for a 4 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -899,9 +899,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x07D0		# set data for a 3 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -915,9 +915,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0800		# set data for a 2 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -931,9 +931,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0600		# set data for a 1 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -943,9 +943,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0400		# set data for a 0 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -958,9 +958,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0620		# set data for a 9 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -974,9 +974,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0420		# set data for a 8 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -990,9 +990,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0A10		# set data for a 7 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -1006,9 +1006,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0810		# set data for a 6 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -1024,9 +1024,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0610		# set data for a 5 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -1040,9 +1040,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0410		# set data for a 4 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -1056,9 +1056,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0A00		# set data for a 3 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -1072,9 +1072,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0800		# set data for a 2 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -1088,9 +1088,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0600		# set data for a 1 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -1100,9 +1100,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0400		# set data for a 0 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -1115,9 +1115,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0620		# set data for a 9 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -1131,9 +1131,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0420		# set data for a 8 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -1147,9 +1147,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0A10		# set data for a 7 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -1163,9 +1163,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0810		# set data for a 6 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -1181,9 +1181,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0610		# set data for a 5 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -1197,9 +1197,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0410		# set data for a 4 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -1213,9 +1213,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0A00		# set data for a 3 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -1229,9 +1229,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0800		# set data for a 2 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -1245,9 +1245,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0600		# set data for a 1 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -1257,9 +1257,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0400		# set data for a 0 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -1272,9 +1272,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0620		# set data for a 9 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -1288,9 +1288,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0420		# set data for a 8 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -1304,9 +1304,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0A10		# set data for a 7 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -1320,9 +1320,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0810		# set data for a 6 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -1338,9 +1338,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0610		# set data for a 5 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -1354,9 +1354,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0410		# set data for a 4 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -1370,9 +1370,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0A00		# set data for a 3 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -1386,9 +1386,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0800		# set data for a 2 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -1402,9 +1402,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0600		# set data for a 1 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
@@ -1414,9 +1414,9 @@ unblank_screen:
 		stor $a1, $t0			# set x coordinate for sprite
 		addi $t0, 1				# increment to addr + 1
 		movwi $t1, 0x0400		# set data for a 0 sprite
-		stor $t0, $t1			# put sprite into addr + 1
+		stor $t1, $t0			# put sprite into addr + 1
 		addi $t0, 1				# increment to addr +2
-		stor $t0, $a2			# set y coordinate for sprite
+		stor $a2, $t0			# set y coordinate for sprite
 		addi $t0, 1				# increment to addr +3
 		movwi $t1, 0x0120		# set data for addr +3
 		addi $t0, 1				# increment to next sprite
