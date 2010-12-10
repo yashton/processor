@@ -251,14 +251,14 @@ update_duck:
 					
 			left_pressed:
 				movwi $s2, delta_x
-				movwi $t1, 0xFFFF 
-				stor $t1, $s2		# delta_x = -1
+				movwi $t1, 0xFFFC 
+				stor $t1, $s2		# delta_x = -4
 				buc check_up_down
 				
 			right_pressed:
 				movwi $s2, delta_x
-				movi $t1, 0x1
-				stor $t1, $s2		# delta_x = 1
+				movi $t1, 0x0004
+				stor $t1, $s2		# delta_x = 4
 				buc check_up_down
 				
 			right_nor_left:
@@ -283,18 +283,18 @@ update_duck:
 				
 				up_pressed:
 					movwi $s3, delta_y
-					movwi $t1, 0xFFFF 
-					stor $t1, $s3	#delta_y = -1
+					movwi $t1, 0xFFFD 
+					stor $t1, $s3	# delta_y = -3
 					buc update_pos
 				down_pressed:
 					movwi $s3, delta_y
-					movi $t1, 0x1
-					stor $t1, $s3	#delta_y = 1
+					movi $t1, 0x0003
+					stor $t1, $s3	# delta_y = 3
 					buc update_pos
 				up_nor_down:
 					movwi $s3, delta_y
 					movi $t1, 0x0
-					stor $t1, $s3	#delta_y = 0
+					stor $t1, $s3	# delta_y = 0
 					buc update_pos
 			cpu_control:				
 				cmpi $s0, 60
@@ -302,7 +302,6 @@ update_duck:
 				# ranx = random();
 				# read from 0x4809
 				# if counter == 60
-
 					movi $s0, 0x0 # counter = 0;
 					call random_direction # $v0 = random delta X, $v1 = random delta Y
 					stor $v0, $s2 # store new delta X into delta_x
@@ -391,32 +390,32 @@ random_direction:
 		buc random_dir_down_right
 	
 	random_dir_up:
-		subi $v1, 1
+		subi $v1, 3				# delta y = -3
 		buc random_dir_finish
 	random_dir_down:
-		addi $v1, 1
+		addi $v1, 3				# delta y = 3
 		buc random_dir_finish
 	random_dir_left:
-		subi $v0, 1
+		subi $v0, 4				# delta x = -4
 		buc random_dir_finish
 	random_dir_right:
-		addi $v1, 1
+		addi $v1, 4				# delta x = 4
 		buc random_dir_finish
 	random_dir_up_left:
-		subi $v0, 1
-		subi $v1, 1
+		subi $v0, 4				# delta x = -4
+		subi $v1, 3				# delta y = -3
 		buc random_dir_finish
 	random_dir_up_right:
-		addi $v0, 1
-		subi $v1, 1
+		addi $v0, 4				# delta x = 4
+		subi $v1, 3				# delta y = -3
 		buc random_dir_finish
 	random_dir_down_left:
-		subi $v0, 1
-		addi $v1, 1
+		subi $v0, 4				# delta x = -4
+		addi $v1, 3				# delta y = 3
 		buc random_dir_finish
 	random_dir_down_right:
-		addi $v0, 1
-		addi $v1, 1
+		addi $v0, 4				# delta x = 4
+		addi $v1, 3				# delta y = 3
 	random_dir_finish:
 	juc $ra
 	
