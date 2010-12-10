@@ -1,20 +1,29 @@
+# Memory map locations
 .define SPRITE_TABLE 		0x2000
 .define SPRITE_TILE 		0x2400
 .define PALETTE_DATA 		0x4400
 .define GPU_STATUS 			0x4800
 .define SPRITE_PRIORITY 	0x4801
 .define SCREEN_BRIGHTNESS 	0x4802
+.define BACKGROUND_PALETTE 	0x4827
+
 .define SWITCHES 			0x4803
+
 .define DMA_SRC_LOWER 		0x4804
 .define DMA_SRC_UPPER 		0x4805
 .define DMA_DST 			0x4806
 .define DMA_AMT 			0x4807
+
 .define ROTARY_ENC 			0x4808
 .define RANDOM_GENERATOR 	0x4809
-# snes controller
+
+# SNES controller
 .define CONTROLLER_A 		0x480a
-# nes zapper
+# NES zapper
 .define CONTROLLER_B 		0x480b
+.define BLANK_TIME_UP		0x4826
+
+# Sound memory map locations
 .define BG_ROM_ADDR_LOWER 	0x480c
 .define BG_ROM_ADDR_UPPER 	0x480d
 .define BG_AMP 				0x480e
@@ -40,41 +49,97 @@
 .define SFX3_AMP 			0x4822
 .define SFX3_DURATION_LOWER 0x4823
 .define SFX3_DURATION_UPPER 0x4824
-.define BLANK_TIME_UP		0x4826
-.define BACKGROUND_PALETTE 	0x4827
+
+# Controller button masks
+.define CTRL_IS_ACTIVE 	0xF000
+.define CTRL_LEFT 0x0800
+.define CTRL_RIGHT 0x0400
+.define CTRL_UP 0x0200
+.define CTRL_DOWN 0x0100
+.define CTRL_A 0x0080
+.define CTRL_B 0x0040
+.define CTRL_X 0x0020
+.define CTRL_Y 0x0010
+.define CTRL_L_SHOULDER 0x0008
+.define CTRL_R_SHOULDER 0x0004
+.define CTRL_SELECT 0x0002
+.define CTRL_START 0x0001
+
+# Zapper status masks
+.define ZAPPER_HIT 0x1
+.define ZAPPER_TRIGGER 0x2
+
+.define STACK_BOTTOM 0x1FFF
+
+.define VBRIGHT 			1
+
 .define BACKGROUND_BLANK_PALETTE 0x0007
-.define BACKGROUND_NORMAL_PALETTE 0x000
-.define DUCK_BLANK_OR_MASK	0x0C00
-.define DUCK_BLANK_AND_MASK 0xEDFF
-.define DUCK_NORMAL_OR_MASK	0x0200
-.define DUCK_NORMAL_AND_MASK 0xE3FF
+.define BACKGROUND_NORMAL_PALETTE 0x0000
 .define OR_MASK_8x5_SPRITE  0x0781
 .define AND_MASK_8x5_SPRITE	0xFF9F
 .define or_MASK_8x8_SPRITE  0x07E1
 .define AND_MASK_8x8_SPRITE 0xFFFF
 
+# sound data
+.define BG_NATURE_LOWER 				0x0000
+.define BG_NATURE_UPPER 				0x0000
+.define BG_NATURE_DURATION_LOWER 		0x91DC
+.define BG_NATURE_DURATION_UPPER 		0x0028
+
+.define DUCK_EXPLODE_LOWER 				0X91DD
+.define DUCK_EXPLODE_UPPER 				0X0028
+.define DUCK_EXPLODE_DURATION_LOWER 	0X2EC7
+.define DUCK_EXPLODE_DURATION_UPPER 	0X0002
+
+.define GUN_RELOAD_LOWER 				0XC0A5
+.define GUN_RELOAD_UPPER 				0X002A
+.define GUN_RELOAD_DURATION_LOWER 		0X0342
+.define GUN_RELOAD_DURATION_UPPER 		0X0002
+
+.define GUN_SHOT_LOWER 					0XC3E8
+.define GUN_SHOT_UPPER 					0X002C
+.define GUN_SHOT_DURATION_LOWER			0X0862
+.define GUN_SHOT_DURATION_UPPER			0X0001
+
+.define QUACK_LOWER						0XCC4B
+.define QUACK_UPPER						0X002D
+.define QUACK_DURATION_LOWER			0X27F4
+.define QUACK_DURATION_UPPER			0X0001
+
+.define WING_FLAP_LOWER					0XF440
+.define WING_FLAP_UPPER					0X002E
+.define WING_FLAP_DURATION_LOWER		0X5872
+.define WING_FLAP_DURATION_UPPER		0X0001
+
 .define DUCK_SPRITE 		0x2000
 .define ROUND_TIME 			600
 .define NORMAL_STATE 		1
-.define HIT 				2
+.define HIT_STATE 				2
 .define BLANK_SCREEN 		3
 .define POINTS 				5
 .define RANDOM_DIRMASK 		7
 .define DUCK_SIZE_X 		32
 .define DUCK_SIZE_Y			24
-.define SCR_WIDTH			640
-.define SCR_HEIGHT			250
-.define CONTROLLER_MASK 	0xF000
-.define CONTROL_11 			0x0800
-.define CONTROL_10 			0x0400
-.define CONTROL_9  			0x0200
-.define CONTROL_8  			0x0100
-.define RANDOM_NUMBER 		0x4809
-.define GPU_SR 				0x4800
-.define VBRIGHT 			1
+.define SCREEN_WIDTH			640
+.define SCREEN_HEIGHT			250
+
+
+.define DUCK_BLANK_OR_MASK	0x0C00
+.define DUCK_BLANK_AND_MASK 0xEDFF
+.define DUCK_NORMAL_OR_MASK	0x0200
+.define DUCK_NORMAL_AND_MASK 0xE3FF
+
+.define DUCK_TRANSLATION_Y 3
+.define DUCK_TRANSLATION_X 4
+
 .define HFLIP_MASK 			0x0010
 
 .text
+# set up initial stack frame
+movi $ra, 0
+movwi $sp, STACK_BOTTOM
+movwi $fp, STACK_BOTTOM
+
 main:					# while(true)
 	call draw_splash	# draw_splash();
 	call play_game
@@ -100,10 +165,13 @@ play_game:
 	push $a0
 	push $a1
 	push $a2 
+	
 	movi $t0, 0 				# score = 0
 	push $t0					# score is pushed to stack
+	
 	movwi $t1, ROUND_TIME		# time = 600
 	push $t1					# time is pushed to stack
+	
 	movi $s0, 0					# finished = false 
 	movi $s1, 0					# rounds = 0  
 	movwi $s3, DUCK_SPRITE		# duck = 0x2000	
@@ -112,52 +180,60 @@ play_game:
 	
 	play_game_do:				# play_game, done 60 x per second
 		mov  $t0, $fp			# get address of frame pointer
-		subi $t0, 2				# go two into stack for time address
+		subi $t0, 8				# go eight into stack for time address
 		load $t1, $t0			# t1 = time
 		subi $t1, 1				# time--
 		stor $t1, $t0			# save updated time back where it came from
 		
-		push $a1	 			# save killed to stack
-		mov  $a0, $s2
-		movwi $t2, CONTROLLER_B # trigger and hit are stored consecutively in memory at CONT_B
-		load $a1, $t2			# a1 = trigger pulled
-		addi $t2, 1
-		load $a2, $t2			# a2 = hit
+		push $a1				# save killed on the stack
+		mov  $a0, $s2			# move state into $a0
+		movwi $t2, CONTROLLER_B # trigger and hit are stored in memory at CONT_B
+		load $a1, $t2			# $a1 = controller_b values
+		mov $a2, $a1			# copy into $a2
+		andi $a1, ZAPPER_TRIGGER # a1 = mask trigger 
+		andi $a2, ZAPPER_HIT	# a2 = mask hit
 		call next_state			# state = next_state(state)
-		mov $s2, $v0
+		mov $s2, $v0			
 		pop $a1					# load killed from stack
 		
-		movwi $t2, BLANK_TIME_UP
+		movwi $t2, BLANK_TIME_UP # check for zapper blanking
 		load $t3, $t2
-		cmpi $t3, 1
+		cmpi $t3, 1				# if (BLANK_TIME_UP)
 		bne else_if_blank
-			# mov $a0, $s3		# a0 = DUCK_SPRITE
-			call unblank_screen
+			call unblank_screen 
 			buc if_blank_finished
 		else_if_blank:
 			call blank_screen
+			
 		if_blank_finished:
 		
-		cmpi $s2, HIT
+		cmpi $s2, HIT_STATE 	# if (state == HIT_STATE)
 		bne finished
 			call unblank_screen
+			call play_sound_explode
 			movi $a1, 1		 	# killed = true
-			load $t0, $fp
-			addi $t0, POINTS 	# score += points
-			stor $t0, $fp
+			
+			mov $t0, $fp		# load points from stack (fp + 7)
+			addi $t0, 7			
+			load $t1, $t0
+			
+			addi $t1, POINTS 	# score += points
+			stor $t1, $t0		# store points on stack (fp + 7)
 		finished:
 
 		mov $a0, $s3			# a0 = DUCK_SPRITE
 		movwi $t3, CONTROLLER_A
 		load $a2, $t3			# a2 = controls
-		call update_duck
+		call update_duck 		# finished = update_duck(duck, killed, controls)
+		mov $s0, $v0
 		
 		mov $t0, $fp			# load fp
-		subi $t0, 1				# point t0 to time
-		load $t1, $t0
+		subi $t0, 8				# point t0 to time (fp + 8)
+		load $t1, $t0			# $t0 = time
+		
 		test $t1, $t1
-		sne $t0					# t0 = (time == 0)
-		or $t0, $s0				# finished || t0
+		sne $t2					# t0 = (time == 0)
+		or $t2, $s0				# finished || (time == 0)
 		bne update_round_finished
 			addi $s1, 1			# rounds++
 			movi $a1, 0			# killed = false
@@ -165,10 +241,11 @@ play_game:
 		
 		call wait_until_frame
 		
-		
 		cmpi $s1, 3				# rounds - 3 < 0
 		blt play_game_do
-		
+	
+	addi $sp, 1	# pop time
+	pop $v0		# pop score	
 	pop $a2		# restoring saved registers
 	pop $a1
 	pop $a0
@@ -176,40 +253,44 @@ play_game:
 	pop $s2
 	pop $s1
 	pop $s0
-	addi $sp, 1	# pop time
-	pop $v0		# pop score
 	leave
 	juc $ra							# return score
 	
 next_state:
-	movi $t0, 0 					# next_state = 0
+	movi $v0, 0 					# next_state = 0
 	cmpi $a0, NORMAL_STATE				# if (state == NORMAL_STATE)
 	bne else_if_blank_screen
 		cmpi $a1, 1					# if (trigger_pulled == 1)
-		bne else_trigger	
-			movi $t0, BLANK_SCREEN	# next_state = BLANK_SCREEN
+		bne else_trigger
+			movwi $t0, shot_count	# gets shot count
+			load $t1, $t0			# load shot_count into t1
+			subi $t1, 1				# shot_count-- 
+			stor $t1, $t0			# store shot_count into $t0
+			
+			movi $v0, BLANK_SCREEN	# next_state = BLANK_SCREEN
 			juc $ra
 		else_trigger:				# else
-			movi $t0, NORMAL_STATE		# next_state = NORMAL_STATE
+			movi $v0, NORMAL_STATE		# next_state = NORMAL_STATE
 			juc $ra
 	else_if_blank_screen:
 		cmpi $a0, BLANK_SCREEN		# else if (state = BLANK_SCREEN)
 		bne else_hit
 			cmpi $a2, 1				# if (gun_hit == 1)
 			bne else_gun
-				movi $t0, HIT		# next_state = HIT
+				movi $v0, HIT_STATE		# next_state = HIT_STATE
 				juc $ra
 			else_gun:
-				movi $t0, NORMAL_STATE
+				movi $v0, NORMAL_STATE
 				juc $ra
 	else_hit:
-		movi $t0, NORMAL_STATE	
+		movi $v0, NORMAL_STATE	
 	juc $ra	
 
+# *duck_sprite		$a0
+#  duck_killed 		$a1
+#  controls			$a2
 update_duck:
 	frame
-	mov $t0, $fp	# get frame pointer
-	addi $t0, 2		# go two into the stack to get killed address
 	push $a0
 	push $a1
 	push $a2
@@ -217,150 +298,78 @@ update_duck:
 	push $s1
 	push $s2
 	push $s3
-	push $t0		# store duck killed back to the stack
-	# *duck_sprite		$a0
-	#  duck_sprite_x 	$a0
-	#  duck_sprite_y	$a0 + 2 = s1
-	#  duck_killed 		$a1
-	#  controls			$a2
-	movi $s0, 0   #counter in s0
 	
-	# mov $t0, $a0	# t0 = duck_sprite_x
-	movi $s1, 2		# s1 = 2
-	add $s1, $a0 	# s1 = 2 + *duck_sprite = duck_sprite_y
+	movwi $t0, CTRL_IS_ACTIVE
+	test $t0, $a2
+	sne $s0 # $s0 true if under cpu control
 	
 	test $a1, $a1		# a1 & a1 returns true if a1 is 1
-	beq duck_alive
+	bne end_update_duck		# if duck is not alive, skip.
 	
 	duck_alive:
-		# if under control of p2
-		movwi $t0, CONTROLLER_MASK
-		and $t0, $a2
-		test $t0, $t0
-		beq cpu_control	# if t0 != 0, p2 is in control
+		# if under control of cpu
+		test $s0, $s0
+		bne cpu_control	# if masked bits are non-zero, computer is in control
 		
 		p2_control:
-			# if(left_pressed)
-			movwi $t0, CONTROL_11 # mask the 11th bit of controls to check if left pressed
-			and $t0, $a2
-			test $t0, $t0
-			bne left_pressed
+			call player_direction # player_direction(NULL, NULL, controls)
+			# $v0 = deltaX, $v1 = deltaY
+			buc update_pos 
 			
-			# else if(right_pressed)
-			movwi $t0, CONTROL_10 # mask the 10th bit of controls to check if right pressed
-			and $t0, $a2
-			test $t0, $t0
-			bne right_pressed
-			bne right_nor_left # niether right or left was pressed
-					
-			left_pressed:
-				movwi $s2, delta_x
-				movwi $t1, 0xFFFC 
-				stor $t1, $s2		# delta_x = -4
-				buc check_up_down
-				
-			right_pressed:
-				movwi $s2, delta_x
-				movi $t1, 0x0004
-				stor $t1, $s2		# delta_x = 4
-				buc check_up_down
-				
-			right_nor_left:
-				movwi $s2, delta_x
-				movi $t1, 0x0
-				stor $t1, $s2		# delta_x = 0
-				buc check_up_down
-				
-			check_up_down:
-				# if(up_pressed)
-				movwi $t0, CONTROL_9 # mask the 9th bit of controls to check if left pressed
-				and $t0, $a2
-				test $t0, $t0
-				bne up_pressed
-				
-				# else if(right_pressed)
-				movwi $t0, CONTROL_8 # mask the 8th bit of controls to check if right pressed
-				and $t0, $a2
-				test $t0, $t0
-				bne down_pressed
-				bne up_nor_down # niether right or left was pressed
-				
-				up_pressed:
-					movwi $s3, delta_y
-					movwi $t1, 0xFFFD 
-					stor $t1, $s3	# delta_y = -3
-					buc update_pos
-				down_pressed:
-					movwi $s3, delta_y
-					movi $t1, 0x0003
-					stor $t1, $s3	# delta_y = 3
-					buc update_pos
-				up_nor_down:
-					movwi $s3, delta_y
-					movi $t1, 0x0
-					stor $t1, $s3	# delta_y = 0
-					buc update_pos
-			cpu_control:				
-				cmpi $s0, 60
-				bne update_pos
-				# ranx = random();
-				# read from 0x4809
-				# if counter == 60
-					movi $s0, 0x0 # counter = 0;
-					call random_direction # $v0 = random delta X, $v1 = random delta Y
-					stor $v0, $s2 # store new delta X into delta_x
-					stor $v1, $s3 # store new delta Y into delta_y
-				
-			update_pos:
-				# check x bounds
-				# if( (duck.x(a0) + delta_x(s2)) != SCR_WIDTH )
-				mov $t0, $a0
-				mov $t1, $s2
-				add $t0, $t1 # duck.x(a0) + delta_x(s2)
-				movwi $t1, SCR_WIDTH
-				cmp  $t0, $t1
-				beq reverse_x # else if at right screen bound
-				# within bounds
-				add $a0, $s2
-				buc check_y_bounds
-				check_y_bounds:
-					#if( (duck.y(s1) + delta_y(s3)) != SCR_HEIGHT)
-					mov $t0, $s1
-					mov $t1, $s3
-					add $t0, $t1
-					movwi $t1, SCR_HEIGHT
-					cmp  $t0, $t1 # else if at bottom screen bound
-					beq reverse_y
-					# within bounds
-					add $s1, $s3
-					buc set_update_sprite_args
-					reverse_x:	
-						# delta_x = -1;
-						movwi $s2, delta_x
-						movwi $t1, 0xFFFF 
-						stor $t1, $s2		# delta_x = -1
-						buc set_update_sprite_args
+		cpu_control:				
+			movwi $s1, delta_x # load &delta_x
+			movwi $s2, delta_y # load &delta_y
+			movwi $s3, delta_counter # load &delta_counter
 			
-					reverse_y:
-						# delta_y = -1;
-						movwi $s3, delta_y
-						movwi $t1, 0xFFFF 
-						stor $t1, $s3	# delta_y = -1
-						buc set_update_sprite_args
-				set_update_sprite_args:
-					# *duck already stored in a0
-					mov $a1, $s2 # move delta_x to a1
-					mov $a2, $s3 # move delta_y to a2
-					call update_duck_sprite
-					# increment counter;
-					addi $s0, 1
-					buc end # leave function
+			load $t0, $s3
+			cmpi $t0, 60 # if (counter == 60)
+			bne else_delta_unchanged
+				movi $t0, 0x0 # counter = 0
+				stor $t0, $s3 # store counter
+				
+				call random_direction # $v0 = random delta X, $v1 = random delta Y
+				stor $v0, $s1  # store new delta X into delta_x
+				stor $v1, $s2 	# store new delta Y into delta_y
+				buc update_pos
+			else_delta_unchanged:				
+				load $v0, $s1
+				load $v1, $s2
+			
+		update_pos:	
+			mov $s1, $v0 
+			mov $s2, $v1
+			
+			# call bounded_x
+			# test $v0, $v0
+			# beq control_boundy	# if (!bounded_x)
+			#	movi $s1, 0
+		#		movwi $t0, CONTROLLER_MASK_ACTIVE
+		#		test $t0, $a2
+		#		bne cpu_control	# if masked bits are non-zero, computer is in control
+		#		
+		#	control_boundy:
+		#	call bounded_y
+		#	test $v0, $v0
+		#	beq finish_control	# if (!bounded_y)
+			#	movi $s2, 0		
+		#	movi $a2, 0
+		#		
+		#	finish_control:
 		
+		# add deltas to duck sprite
+		load $t0, $a0 # load duck->x (&duck + 0)
+		add $t0, $s0 # duck->x += deltaX
+		stor $t0, $a0 # store duck->y
 		
-	end:
-	pop $t0		# killed state gets popped off the stack 
-				# first to make sure the stack is the way
-				# the caller had it.
+		mov $t2, $a0	# load duck->y (&duck + 2)
+		addi $t2, 2
+		load $t1, $t2	
+		add $t1, $s1	# duck->y += deltaY
+		stor $t1, $t2	# store duck->y
+		
+	end_update_duck:
+	
+	# restore caller's registers
 	pop $s3
 	pop $s2
 	pop $s1
@@ -370,20 +379,39 @@ update_duck:
 	pop $a0
 	leave
 	juc $ra
+
+# $a0 - duck pointer 
+# $a1 - deltaX
+# $a2 - deltaY	
+# $v0 - true if bounded
+bounded_x:
+# check x bounds
+	movi $v0, 0
+	juc $ra
+				
+# $a0 - duck pointer 
+# $a1 - deltaX
+# $a2 - deltaY	
+# $v0 - true if bounded
+bounded_y:
+	movi $v0, 0
+	juc $ra
 	
+# $v0 - random deltaX
+# $v1 - random deltaY	
 random_direction:
 	movi $v0, 0 # x = 0
  	movi $v1, 0 # y = 0
 	
-	movwi $t0, RANDOM_GENERATOR # load a random number
+	movwi $t0, RANDOM_GENERATOR # load a random number (0 to 7)
 	load $t1, $t0
 	andi $t1, 7
 	
-	movwi $t2, random_dir_case
+	movwi $t2, random_dir_case # switch(random):
 	add $t2, $t1
 	juc $t2
 	
-	random_dir_case:
+	random_dir_case:	# case statement table
 		buc random_dir_up
 		buc random_dir_down
 		buc random_dir_left
@@ -394,46 +422,85 @@ random_direction:
 		buc random_dir_down_right
 	
 	random_dir_up:
-		subi $v1, 3				# delta y = -3
+		subi $v1, DUCK_TRANSLATION_Y			# delta y = -3
 		buc random_dir_finish
 	random_dir_down:
-		addi $v1, 3				# delta y = 3
+		addi $v1, DUCK_TRANSLATION_Y			# delta y = 3
 		buc random_dir_finish
 	random_dir_left:
-		subi $v0, 4				# delta x = -4
+		subi $v0, DUCK_TRANSLATION_X			# delta x = -4
 		buc random_dir_finish
 	random_dir_right:
-		addi $v1, 4				# delta x = 4
+		addi $v1, DUCK_TRANSLATION_X			# delta x = 4
 		buc random_dir_finish
 	random_dir_up_left:
-		subi $v0, 4				# delta x = -4
-		subi $v1, 3				# delta y = -3
+		subi $v0, DUCK_TRANSLATION_X			# delta x = -4
+		subi $v1, DUCK_TRANSLATION_Y			# delta y = -3
 		buc random_dir_finish
 	random_dir_up_right:
-		addi $v0, 4				# delta x = 4
-		subi $v1, 3				# delta y = -3
+		addi $v0, DUCK_TRANSLATION_X			# delta x = 4
+		subi $v1, DUCK_TRANSLATION_Y			# delta y = -3
 		buc random_dir_finish
 	random_dir_down_left:
-		subi $v0, 4				# delta x = -4
-		addi $v1, 3				# delta y = 3
+		subi $v0, DUCK_TRANSLATION_X			# delta x = -4
+		addi $v1, DUCK_TRANSLATION_Y			# delta y = 3
 		buc random_dir_finish
 	random_dir_down_right:
-		addi $v0, 4				# delta x = 4
-		addi $v1, 3				# delta y = 3
+		addi $v0, DUCK_TRANSLATION_X			# delta x = 4
+		addi $v1, DUCK_TRANSLATION_Y			# delta y = 3
 	random_dir_finish:
 	juc $ra
+
+# $a2 controls
+# $v0 - return deltaX
+# $v1 - return deltaY
+player_direction:	
+	movi $v0, 0
+	movi $v1, 0
 	
+	# X translation
+	movwi $t0, CTRL_RIGHT
+	test $t0, $a2 # if (control.RIGHT)
+	beq else_if_left_x
+		addi $v0, DUCK_TRANSLATION_X # move sprite RIGHT (+4)
+		buc done_x
+	else_if_left_x: # else if (control.LEFT)
+	movwi $t1, CTRL_LEFT # test for LEFT
+	test $t1, $a2
+	beq done_x
+		subi $v0, DUCK_TRANSLATION_X # move sprite LEFT (-4)
+		
+	done_x:
+	
+	# Y translation	
+	movwi $t0, CTRL_UP
+	test $t0, $a2 # if (control.UP)
+	beq else_if_up_y
+		subi $v1, DUCK_TRANSLATION_Y # move sprite UP (-3)
+		buc done_y
+	else_if_up_y: # else if (control.DOWN)
+	movwi $t1, CTRL_DOWN # test for DOWN
+	test $t1, $a2
+	beq done_y
+		addi $v1, DUCK_TRANSLATION_Y # move sprite down (+3)
+		
+	done_y:
+	juc $ra
+	
+	
+# Loops until the beginning of the next VGA refresh vertical blank period
 wait_until_frame:
-	movwi $t0, GPU_SR
+	movwi $t0, GPU_STATUS
+	# if current vblank not over, loop until end.
 	check_not_vbright: # while(!VBRIGHT) 
-		load $t1, $t0			# loop until end of VBLANK
+		load $t1, $t0	# loop until end of VBLANK
 		andi $t1, VBRIGHT
-		bne check_not_vbright
+		beq check_not_vbright
 	check_vbright:
 		load $t1, $t0	# while(VBRIGHT)
 		andi $t1, VBRIGHT # loop until start of VBLANK
-		beq check_vbright
-		juc $ra
+		bne check_vbright
+	juc $ra
 	
 blank_screen:
 	movwi $t0, BACKGROUND_PALETTE
@@ -466,7 +533,7 @@ unblank_screen:
 	juc $ra
 
 # string_to_screen
-	string_to_screen:
+string_to_screen:
 	# a0 pointer to start of string
 	# a1 X coordinate of first character
 	# a2 Y coordinate of first character
@@ -487,7 +554,7 @@ unblank_screen:
 	juc $ra
 		
 # update duck sprite	
-	update_duck_sprite:
+update_duck_sprite:
 	# a0 pointer to duck sprite
 	# a1 delta x
 	# a2 delta y
@@ -690,7 +757,7 @@ unblank_screen:
 		juc $ra
 		
 	# number_to_screen
-	number_to_screen:
+number_to_screen:
 	# a0 register containing number to be shown
 	# a1 X coordinate of first digit
 	# a2 Y coordinate of first digit
@@ -1445,11 +1512,119 @@ unblank_screen:
 	pop $a0
 	leave
 	juc $ra
+	
+play_sound_explode:
+	movwi $t2, DUCK_EXPLODE_LOWER
+	movwi $t0, SFX0_ROM_ADDR_LOWER
+	stor $t2, $t0
+
+	movwi $t3, DUCK_EXPLODE_UPPER
+	movwi $t0, SFX0_ROM_ADDR_UPPER
+	stor $t3, $t0
+	
+	movi $t2, 0
+	movwi $t0, SFX0_AMP 
+	stor $t2, $t0
+
+	movwi $t0, SFX0_DURATION_LOWER
+	movwi $t1, SFX0_DURATION_UPPER
+	movwi $t2, DUCK_EXPLODE_DURATION_LOWER
+	movwi $t3, DUCK_EXPLODE_DURATION_UPPER
+	stor $t2, $t0
+	stor $t3, $t1
+	
+	juc $ra
+	
+play_sound_reload:
+	movwi $t2, GUN_RELOAD_LOWER
+	movwi $t0, SFX1_ROM_ADDR_LOWER
+	stor $t2, $t0
+
+	movwi $t3, GUN_RELOAD_UPPER
+	movwi $t0, SFX1_ROM_ADDR_UPPER
+	stor $t3, $t0
+	
+	movi $t2, 0
+	movwi $t0, SFX1_AMP 
+	stor $t2, $t0
+
+	movwi $t0, SFX1_DURATION_LOWER
+	movwi $t1, SFX1_DURATION_UPPER
+	movwi $t2, GUN_RELOAD_DURATION_LOWER
+	movwi $t3, GUN_RELOAD_DURATION_UPPER
+	stor $t2, $t0
+	stor $t3, $t1
+	juc $ra
+	
+play_sound_shot:
+	movwi $t2, GUN_SHOT_LOWER
+	movwi $t0, SFX2_ROM_ADDR_LOWER
+	stor $t2, $t0
+
+	movwi $t3, GUN_SHOT_UPPER
+	movwi $t0, SFX2_ROM_ADDR_UPPER
+	stor $t3, $t0
+	
+	movi $t2, 0
+	movwi $t0, SFX2_AMP 
+	stor $t2, $t0
+
+	movwi $t0, SFX2_DURATION_LOWER
+	movwi $t1, SFX2_DURATION_UPPER
+	movwi $t2, GUN_SHOT_DURATION_LOWER
+	movwi $t3, GUN_SHOT_DURATION_UPPER
+	stor $t2, $t0
+	stor $t3, $t1
+	juc $ra
+	
+play_sound_quack:
+	movwi $t2, QUACK_LOWER
+	movwi $t0, SFX3_ROM_ADDR_LOWER
+	stor $t2, $t0
+
+	movwi $t3, QUACK_UPPER
+	movwi $t0, SFX3_ROM_ADDR_UPPER
+	stor $t3, $t0
+
+	movi $t2, 0
+	movwi $t0, SFX3_AMP 
+	stor $t2, $t0
+	
+	movwi $t0, SFX3_DURATION_LOWER
+	movwi $t1, SFX3_DURATION_UPPER
+	movwi $t2, QUACK_DURATION_LOWER
+	movwi $t3, QUACK_DURATION_UPPER
+	stor $t2, $t0
+	stor $t3, $t1
+	juc $ra
+	
+play_sound_flap:
+	movwi $t2, WING_FLAP_LOWER
+	movwi $t0, SFX3_ROM_ADDR_LOWER
+	stor $t2, $t0
+
+	movwi $t3, WING_FLAP_UPPER
+	movwi $t0, SFX3_ROM_ADDR_UPPER
+	stor $t3, $t0
+	
+	movi $t2, 0
+	movwi $t0, SFX3_AMP 
+	stor $t2, $t0
+
+	movwi $t0, SFX3_DURATION_LOWER
+	movwi $t1, SFX3_DURATION_UPPER
+	movwi $t2, WING_FLAP_DURATION_LOWER
+	movwi $t3, WING_FLAP_DURATION_UPPER
+	stor $t2, $t0
+	stor $t3, $t1
+	juc $ra
 
 .data
 	delta_x: 0x0
 	delta_y: 0x0
+	delta_counter: 0x0
 	animation_counter: 0 # counter used to determine when to switch frame for animation
 	sprite_frame: 0 # counter for current frame
 	dead_counter: 0 # a counter for duck death animation
 	dead_frame: 0 # counter for current dead duck frame
+	shot_count: 3 # counter for shots
