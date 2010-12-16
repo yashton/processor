@@ -1,36 +1,3 @@
-# Fibn.s - compute the nth Fibonacci number
-#	
-# C-code that this assembly code came from
-#
-# int fibn(void)
-# {
-#  int n = 8;		/* Compute nth Fibonacci number */
-#  int f1 = 1, f2 = -1	/* last two Fibonacci numbers   */
-#  
-#  while (n != 0) {	/* count down to n = 0          */
-#    f1 = f1 + f2;
-#    f2 = f1 - f2;
-#     n = n - 1;
-#   }
-#   return f1;
-#  }
-#
-#
-# Register usage: $3=n, $4=f1, $5=f2
-# return value written to address 255
-#fibn:		addi $3, $0, 8		# initialize n = 8
-#		addi $4, $0, 1		# initialize f1 = 1
-#		addi $5, $0, -1		# initialize f2 = -1
-#loop:		beq $3, $0, end		# Done with loop if n = 0
-#		add $4, $4, $5		# f1 = f1 + f2
-#		sub $5, $4, $5		# f2 = f1 - f2
-#		addi $3, $3, -1		# n = n - 1
-#		j loop			# repeat until done
-#end:		sb $4, 255($0)		# store result in address 255
-	
-
-
-
 .define SWITCHES 0x4803
 # Register usage: $0=n, $1=f1, $2=f2, $3 = i, $4 = x $5 = 0x4803 $6 = temp
 # return value written to register $7
@@ -39,8 +6,8 @@ fibn:	movi $0, 16		# initialize n = 8
 		movi $2, -1		# initialize f2 = -1
 		lui $2, -1
 		movi $3, 0		# int i = 0
-		movwi $6, 0x1000 # pointer to array (accessor)
-		movwi $9, 0x1000 # pointer to array 
+		movwi $6, output # pointer to array (accessor)
+		movwi $9, output # pointer to array 
 		movwi $5, SWITCHES
 loop:	cmpi $0,0 
 		beq  loop2		# Done with loop if n == 0
@@ -59,12 +26,15 @@ loop2:
 		load $4, $7
 		stor $4, $5
 		buc  loop2		# repeat until done
-		
+	
+output: 0, 0, 0, 0, 0, 0, 0, 0
+	
 # C-code that this assembly code came from
+# int output[8];
 #
 # int fibn(void)
 # {
-#	int* result = (int*)128;
+#  int* result = (int*)128;
 #  int n = 14;		/* Compute nth Fibonacci number */
 #  int f1 = 1, f2 = -1	/* last two Fibonacci numbers   */
 #  int i = 0;
@@ -72,7 +42,7 @@ loop2:
 #    f1 = f1 + f2;
 #    f2 = f1 - f2;
 #     n = n - 1;
-#		result[i] = f1;
+#		output[i] = f1;
 #		i++;
 #   }
 #	int* leds = 0xff;
@@ -80,7 +50,7 @@ loop2:
 #	while (1)
 #	{
 #		int x = *switch;
-#		*leds = *(result + x);
+#		*leds = *(output + x);
 #	}
 #  }
 	

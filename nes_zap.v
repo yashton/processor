@@ -148,4 +148,5 @@ module nes_zap
 			default: next = IDLE;
 		endcase 
 	end */
+	assign blank_time_up = 0;
 endmodule // gun_interface
