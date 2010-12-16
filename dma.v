@@ -6,7 +6,9 @@
 // Design Name: Direct memory access controller.
 // Module Name: dma
 // Project Name: CS3710
-// Description: 
+// Description: When activated through the memory mapped interface, halts execution
+// of the processor until the amount specified is copied from the ROM into main
+// memory.
 //////////////////////////////////////////////////////////////////////////////////
 module dma
 	#(
@@ -42,8 +44,11 @@ module dma
 	wire busy;
 	
 	assign dst_data = src_data;
+	// Once the data has been loaded from ROM, write to memory
 	assign dst_write = ready;
+	// Runs until amount has been copied.
 	assign busy = amount != 0;
+	// As long as data is still being copied, suspend processor.
 	assign proc_en = !busy;
 	
 	always @(posedge clk) begin
@@ -53,6 +58,7 @@ module dma
 			amount <= 0;
 		end
 		else if (en && write) begin
+			// Multiplex the input from the memory map into appropriate registers
 			case (wr_mode)
 				WR_SRC_L: src_addr[WIDTH-1:0] <= ctrl_data;
 				WR_SRC_U: src_addr[ROM_ADDR-1:WIDTH] <= ctrl_data;
@@ -64,6 +70,7 @@ module dma
 			endcase
 		end
 		else if (busy && ready) begin
+			// If the system is copying, wait until ready, then advance to next location.
 			src_addr <= src_addr + 1;
 			dst_addr <= dst_addr + 1;
 			amount <= amount - 1;

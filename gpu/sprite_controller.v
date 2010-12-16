@@ -86,13 +86,14 @@ module sprite_controller
 	wire [31:0] loaded_sprite_data;
 	
 	reg active;
-	// Sprite data
+	// Sprite data registers
 	reg [15:0] a, b; // current x and y coord.
 	reg [2:0] sizeY;
 	reg vFlip;
 	reg [3:0] tile_y;
 	wire yintersect; // true if intersects this scan line
 	
+	// The sprite module provides intersection calculations
 	sprite test (a, b, sizeX, sizeY, vFlip, tile_y, y, yintersect, tile_y_total, tile_y_offset, first, last);
 	
 	assign line_addr = a[9:0];
@@ -101,6 +102,7 @@ module sprite_controller
 	reg [4:0] state;
 	reg [4:0] next_state;
 	
+	// State transitions
 	always @(posedge clk) begin
 		if (!rst) begin
 			state <= START;
@@ -110,8 +112,10 @@ module sprite_controller
 		end
 	end
 
+	// Register index into the current sprite in object table
 	reg [7:0] sprite_i;
 
+	// State machine
 	always @(*) begin
 		if (scanline_start) begin
 			next_state <= START;
@@ -188,6 +192,7 @@ module sprite_controller
 		end
 	end
 	
+	// Loads the sprite object into the line buffer when line buffer is not busy
 	assign line_load = state == LOAD_SLICE_WORD && !line_busy;
 
 	// Sprite object vram

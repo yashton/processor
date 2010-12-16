@@ -37,6 +37,7 @@ module palette
 	assign greenData = colorData[15:8];
 	assign blueData = colorData[23:16];
 	
+	// Brightness is calculated by subtracting the amount left over from the color.
 	wire [8:0] reducedRed, reducedGreen, reducedBlue;
 	assign reducedRed = redData - (255 - brightness);
 	assign reducedGreen = greenData - (255 - brightness);

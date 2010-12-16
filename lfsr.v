@@ -25,19 +25,23 @@ module lfsr
 		input din,
 		output rand_bit
 	);	
+
 	reg [WIDTH-1:0] data;
-  assign rand_bit = data[0];
+	assign rand_bit = data[0];
   
 	always @(posedge clk) begin
 		if (!rst) begin
+			// if reset, set to SEED value.
 			data <= SEED;
 		end
 		else if (en) begin
 			if (write) begin
+				// If written to, reset to seed value, fill data[0] with written value.
 				data[WIDTH-1:1] <= SEED[WIDTH-1:1];
 				data[0] <= din;
 			end
 			else begin
+				// otherwise shift data.
 				data[WIDTH-1:1] <= data[WIDTH-2:0];
 				data[0] <= data[TAP_0] ^ data[TAP_1] ^ data[TAP_2] ^ data[TAP_3];
 			end

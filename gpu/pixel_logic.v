@@ -6,8 +6,9 @@
 // Design Name: GPU pixel combination.
 // Module Name: pixel_logic
 // Project Name: CS3710
-// Description: Takes existing data provided from the current line back buffer
-// and updates it with the 
+// Description: Combinational logic for line_buffer manipulation.
+// Takes existing data provided from the current line back buffer
+// and updates it with the data loaded from the current sprite.
 //////////////////////////////////////////////////////////////////////////////////
 module pixel_logic
 	(
@@ -26,6 +27,7 @@ module pixel_logic
 		output [7:0] pixel_out_z
 	);
 
+	// Split the tile_data up into individual pixels.
 	wire [3:0] sliceA, sliceB, sliceC, sliceD, sliceE, sliceF, sliceG, sliceH;
 	assign sliceA = tile_data[3:0];
 	assign sliceB = tile_data[7:4];
@@ -36,6 +38,7 @@ module pixel_logic
 	assign sliceG = tile_data[27:24];
 	assign sliceH = tile_data[31:28];
 	
+	// For the pipelined writing, store the remaining 3 pixels for future use.
 	assign previous_out = {sliceH, sliceG, sliceF}; 
 	
 	wire [3:0] previousF, previousG, previousH;
@@ -44,8 +47,10 @@ module pixel_logic
 	assign previousF = previous[3:0];
 	
 	// mux wires and conditions
+	// dataW-Z are the calculated pixels
 	reg [3:0] dataW, dataX, dataY, dataZ;
 	wire [2:0] test;
+	// test determines which pixel from the tile is placed onto the buffer.
 	assign test = {~first, offset};
 	
 	always @(*) begin
@@ -104,16 +109,21 @@ module pixel_logic
 		endcase
 	end
 	
+	// Uses depth priority (Z-level) to determine whether pixel gets updated.
+	// For pixels that have not been updated at all, always update
+	// for pixels that have been updated, only update when new Z-level is greater than old level
 	assign pixel_out_updated[3] = !pixel_in_updated[3] || ((dataZ != 0) && line_z > pixel_in_z[7:6]);
 	assign pixel_out_updated[2] = !pixel_in_updated[2] || ((dataY != 0) && line_z > pixel_in_z[5:4]);
 	assign pixel_out_updated[1] = !pixel_in_updated[1] || ((dataX != 0) && line_z > pixel_in_z[3:2]);
 	assign pixel_out_updated[0] = !pixel_in_updated[0] || ((dataW != 0) && line_z > pixel_in_z[1:0]);
 		
+	// If pixel is to be updated, save new Z-level
 	assign pixel_out_z[7:6] = pixel_out_updated[3] ? line_z : pixel_in_z[7:6];
 	assign pixel_out_z[5:4] = pixel_out_updated[2] ? line_z : pixel_in_z[5:4];
 	assign pixel_out_z[3:2] = pixel_out_updated[1] ? line_z : pixel_in_z[3:2];
 	assign pixel_out_z[1:0] = pixel_out_updated[0] ? line_z : pixel_in_z[1:0];
 	
+	// If pixel is to be updated, combine pixel value and palette value and then copy into the buffer
 	assign pixel_out_data[35:27] = pixel_out_updated[3] ? {line_palette, dataZ} : pixel_in_data[35:27];
 	assign pixel_out_data[26:18] = pixel_out_updated[2] ? {line_palette, dataY} : pixel_in_data[26:18];
 	assign pixel_out_data[17:9] = pixel_out_updated[1] ? {line_palette, dataX} : pixel_in_data[17:9];

@@ -12,7 +12,7 @@
     <!-- Copyright (c) 1995-2010 Xilinx, Inc.  All rights reserved. -->
   </header>
 
-  <version xil_pn:ise_version="12.2" xil_pn:schema_version="2"/>
+  <version xil_pn:ise_version="12.1" xil_pn:schema_version="2"/>
 
   <files>
     <file xil_pn:name="../alu/alu.v" xil_pn:type="FILE_VERILOG">
@@ -209,12 +209,6 @@
     <file xil_pn:name="ipcore_dir/bg_rom.xco" xil_pn:type="FILE_COREGEN">
       <association xil_pn:name="BehavioralSimulation"/>
       <association xil_pn:name="Implementation"/>
-    </file>
-    <file xil_pn:name="system_test.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation"/>
-      <association xil_pn:name="PostMapSimulation"/>
-      <association xil_pn:name="PostRouteSimulation"/>
-      <association xil_pn:name="PostTranslateSimulation"/>
     </file>
     <file xil_pn:name="ipcore_dir/palette_vram.xco" xil_pn:type="FILE_COREGEN">
       <association xil_pn:name="BehavioralSimulation"/>

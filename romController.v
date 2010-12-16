@@ -47,12 +47,14 @@ module romController
 	assign SF_CE0 = 0;
 	assign SF_OE = 0;
 	assign SF_WE = 1;
-	assign SF_BYTE = 0;
-	// SF_A addresses are byte, not word, so shift left by 1.
+	// Configures in byte or word mode.
+	assign SF_BYTE = WIDTH == 16;
+	// SF_A addresses are byte addresses
 	assign SF_A = {page, word};
 
 	assign data = SF_D;
 
+	// Data is ready after the specified number of delay cycles is up.
 	assign ready = !(delay < top);
 
 	always @(posedge clk)	begin

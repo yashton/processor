@@ -35,13 +35,19 @@ module tile_table
 	// Address calculations
 	reg tile_flip;
 	reg [3:0] line_tile_x;
-	wire [3:0] offset = tile_flip ? (size_x - current_tile) : current_tile;
+	wire [3:0] offset;
 	wire [3:0] tile_x_total;
-	assign tile_x_total = line_tile_x + offset;
+	
 	reg table_addr;
 	reg [3:0] y_total_addr;
 	reg [2:0] y_offset_addr;
 	wire [11:0] tile_addr;
+	
+	// Calculate the final tile_x offset.
+	assign offset = tile_flip ? (size_x - current_tile) : current_tile;
+	assign tile_x_total = line_tile_x + offset;
+	
+	// Final memory calculation
 	assign tile_addr = {table_addr, y_total_addr, tile_x_total, y_offset_addr};
 	
 	// VRAM for sprite tiles
@@ -71,6 +77,7 @@ module tile_table
 	// For horizontal flips, pixel values need to be reversed.
 	always @(*) begin
 		if (tile_flip) begin
+			// Flip the endian-ness to flip the tile.
 			tile_data <= {read_tile_data[3:0], read_tile_data[7:4],
 				read_tile_data[11:8], read_tile_data[15:12], read_tile_data[19:16], 
 				read_tile_data[23:20], read_tile_data[27:24], read_tile_data[31:28]};

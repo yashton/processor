@@ -44,30 +44,39 @@ module controller(
 	parameter [1:0] DECODE = 0, CALCULATE = 1, LOAD_STATE = 2, BOOT = 3;
 	reg [1:0] state, nextstate;
 	
+	// ALU function operands
 	assign oper = instruction[15:12];
 	assign func = instruction[7:4];
 	assign cond = (oper == SPECIAL && func == SCOND) ?  instruction[3:0] : instruction[11:8];
+	
+	// Immediate values
 	assign immediate = instruction[7:0];
 	
+	// Register decoding
 	assign srcaddr = instruction[3:0];
 	assign dstaddr = instruction[11:8];
 	
+	// Program counter mux bits
 	assign pcsrc = !alusrca;
 	assign pcwrite = (oper == SPECIAL && func == LOAD) ? state == LOAD_STATE : state == CALCULATE;
 	assign pcaddrsrc[1] = !pcwrite;
 	assign pcaddrsrc[0] = state == BOOT ? 0 : pcsrc;
 
+	// ALU mux source bits
 	assign alusrca = !(oper == BCOND 
 			|| (oper == SPECIAL && (func == JCOND || func == JAL)));
 	assign alusrcb = (oper[1:0] != 2'b00) 
 			|| (oper == SHIFT && func[3:2] == 2'b00)
 			|| oper == BCOND;
 	
+	// Sign extend immediate control
 	assign sign_ext_imm = ((oper[3:2] == 2'b01 ||  oper[3:2] == 2'b10) && (oper[1:0] != 2'b00))
 			|| oper == BCOND || oper == MULI;
 	
+	// Memory write signal
 	assign memwrite = oper == SPECIAL && func == STOR && state == CALCULATE;
 	
+	// Register update signal
 	assign regwrite = state == LOAD_STATE
 			|| (state == CALCULATE 
 					&& !(oper == CMPI 
@@ -75,6 +84,7 @@ module controller(
 						|| (oper == REGISTER && (func == F_CMP || func == 4'b000)) 
 						|| (oper == SPECIAL && (func == STOR || func == JCOND || func == LOAD))));  
 
+	// Register source mux control
 	always @(*) begin
 		if (oper == SPECIAL && func == JAL)
 			regsrc <= 2'b01;
@@ -84,6 +94,7 @@ module controller(
 			regsrc <= 2'b00;
 	end
 
+	// State machine progression
 	always @(posedge clk) begin
 		if (!rst) begin
 			state <= BOOT;
@@ -93,6 +104,7 @@ module controller(
 		end
 	end 
 
+	// Next state logic.
 	always @(*) begin
 		case (state)
 			BOOT:
@@ -112,6 +124,4 @@ module controller(
 				nextstate <= DECODE;
 		endcase
 	end
-
-
 endmodule

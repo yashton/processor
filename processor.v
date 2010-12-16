@@ -1,12 +1,23 @@
 `timescale 1ns / 1ps
-
+//////////////////////////////////////////////////////////////////////////////////
+// Company: University of Utah
+// Engineer: Ashton Snelgrove (snelgrov@eng.utah.edu)
+// 
+// Design Name: Processor Module
+// Module Name: processor
+// Project Name: CS3710
+// Description: Wires the ALU and the processor controller together into a 
+// single module.
+//////////////////////////////////////////////////////////////////////////////////
 module processor
 	(
 		input clk,
 		input rst,
 		input en,
+		// Instruction memory port
 		output [15:0] pcaddr,
 		input [15:0] instruction,
+		// Main memory port
 		output [15:0] memaddr,
 		input [15:0] memdata,
 		output [15:0] writedata,

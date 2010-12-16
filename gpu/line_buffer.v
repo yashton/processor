@@ -75,14 +75,17 @@ module line_buffer
    );
 	reg [2:0] last_tile;
 	
+	// Determining which buffer is the front or back
 	wire front;
 	assign front = y % 2;
 	
+	// Address calculation registers for back buffer access.
 	reg [7:0] pixel_addr;
 	reg [1:0] offset;
 	
 	wire write_pixel;
-		
+	
+	// Connections to the pixel_logic
 	wire [35:0] pixel_read_data;
 	wire [3:0] pixel_read_updated;
 	wire [7:0] pixel_read_z;
@@ -96,8 +99,10 @@ module line_buffer
 	// Registers for latching inputs	
 	reg completed_first;
 	reg [3:0] state, next_state;
+	// Write pixels to line buffer at the end of every WRITE state
 	assign write_pixel = state == FIRST || state == SECOND;
 	
+	// Latching of input from sprite_controller
 	always @(posedge clk) begin
 		if (!rst) begin
 			offset <= 0;
@@ -113,6 +118,7 @@ module line_buffer
 		end
 	end
 	
+	// Flag set when the first tile has been written. Used for pipelining
 	always @(posedge clk) begin
 		if (!rst || load) begin
 			completed_first <= 0;
@@ -122,6 +128,7 @@ module line_buffer
 		end
 	end
 	
+	// calculate the address of the pixels being copied
 	always @(posedge clk) begin
 		if (!rst) begin
 			pixel_addr <= 0;
@@ -134,6 +141,7 @@ module line_buffer
 		end
 	end
 	
+	// current_tile serves as a counter in the for loop
 	always @(posedge clk) begin		
 		if (!rst) begin
 			current_tile <= 0;
@@ -146,6 +154,7 @@ module line_buffer
 		end
 	end
 	
+	// State transition
 	always @(posedge clk) begin
 		if (!rst || line_start) begin
 			state <= WAIT;
@@ -155,8 +164,10 @@ module line_buffer
 		end
 	end
 	
+	// Assert the busy line until the state is in the idle state
 	assign line_busy = state != WAIT;
 	
+	// Next state logic.
 	always @(*) begin
 		case (state)
 			WAIT: next_state <= load ? START : WAIT;
@@ -173,11 +184,13 @@ module line_buffer
 	reg [11:0] previous;
 	wire calculate_first;
 	assign calculate_first = state == FIRST;
+	// Combinatorial logic module
 	pixel_logic pixel(calculate_first, offset, line_z, line_palette,
 		tile_data, previous, remaining,
 		pixel_read_data, pixel_read_updated, pixel_read_z,
 		pixel_write_data, pixel_write_updated, pixel_write_z);
 	
+	// Register storage of pipelined pixels
 	always @(posedge clk) begin		
 		if (!rst || load) begin
 			previous <= 12'h0;
@@ -187,12 +200,15 @@ module line_buffer
 		end
 	end
 	
+	// Calculation of the actual address into the buffer block RAM for back buffer
 	wire [8:0] buffer_addr;
 	assign buffer_addr = {front, pixel_addr};
 	
+	// Calculation of the actual address into the buffer block RAM for front buffer
 	wire [10:0] output_addr;
 	assign output_addr = {!front, x};
 	
+	// block RAM enable signal sent while doing back buffer calculations
 	wire pixel_enable;
 	assign pixel_enable = state != WAIT;
 	
@@ -202,9 +218,11 @@ module line_buffer
 		.wea(write_pixel), .clka(clk), .douta(pixel_read_data),
 		.addrb(output_addr), .dinb(9'h0), .web(1'b0), .clkb(clk), .doutb(index));
 	
+	// VRAM for stored Z data
 	pixel_z_data pixel_z(.a(pixel_addr), .d(pixel_write_z), .we(write_pixel),
 		.clk(clk), .spo(pixel_read_z));
 	
+	// VRAM for stale state flags.
 	pixel_updated_logic pixel_updated_flag(clk, rst, line_start, pixel_addr, write_pixel,
 		pixel_write_updated, pixel_read_updated, x, enable);
 endmodule

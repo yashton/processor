@@ -1,7 +1,17 @@
 `timescale 1ns / 1ps
 `define USE_VGA // comment out to use LEDs
-//`define USE_DMA
+//`define USE_DMA // Comment out to use sound, uncomment to use DMA
 
+//////////////////////////////////////////////////////////////////////////////////
+// Company: University of Utah
+// Engineer: Ashton Snelgrove, William Graham, Jacob Sander, Matthew Steadman
+// 
+// Design Name: System
+// Module Name: system
+// Project Name: CS3710
+// Description: Top level module, responsible for interconnecting all the system
+// parts together.
+//////////////////////////////////////////////////////////////////////////////////
 module system
 	#(
 		parameter SF_D_WIDTH = 8
@@ -52,22 +62,17 @@ module system
 		wire [7:0] R, G, B;
 	`endif
 	
+	// Reset button. All modules use active low reset
+	// Button is active high, just invert.
 	wire rst;
 	assign rst = !rst_btn;
 	
+	// VGA wires
 	wire hbright;
 	wire vbright;
 	wire [9:0] x, y;
 	wire line_start;
 	wire vlookahead;
-	wire [15:0] tile_memdata;
-	wire [15:0] sprite_memdata;
-	wire [7:0] brightness;
-	wire [7:0] sprite_priority;
-	wire sprite_memenable;
-	wire [9:0] sprite_addr;
-	wire tile_memenable;
-	wire [12:0] tile_addr;
 	
 	// processor
 	wire [15:0] memdata;
@@ -78,17 +83,29 @@ module system
 	wire [15:0] proc_memaddr;
 	wire proc_memwrite;
 	
+	// Memory wires
 	wire [15:0] writedata;
 	wire [15:0] memaddr;
 	wire memwrite;
 	
+	// GPU wires
 	wire palette_memenable;
 	wire [15:0] palette_memdata;
 	wire [9:0] palette_addr;
 	
+	wire sprite_memenable;
+	wire [15:0] sprite_memdata;
+	wire [9:0] sprite_addr;
+	
+	wire tile_memenable;
+	wire [12:0] tile_addr;
+	wire [15:0] tile_memdata;
+	
 	wire bg_mem_enable;
 	wire [4:0] bg_palette;
-
+	wire [7:0] sprite_priority;
+	wire [7:0] brightness;
+	
 	// rotary encoder
 	wire [15:0] rot_count;
 	wire rot_en;
@@ -131,6 +148,8 @@ module system
 		);
 		
 	`ifdef USE_DMA
+		// If using DMA, when proc_en is false due to copying, 
+		// redirect the memory wires.
 		assign memaddr = proc_en ? proc_memaddr : dma_memaddr;
 		assign memwrite = proc_en ? proc_memwrite : dma_memwrite;
 		assign writedata = proc_en ? proc_writedata : dma_writedata;
@@ -213,6 +232,9 @@ module system
 		 .bg_palette(bg_palette)
 		);
 		
+	// These wires are for the on-board VGA.
+	// This reduces a 8 bit color channel to a 1 bit color
+	// Equivalent to VGA_CHANNEL = CHANNEL > 127;
 	assign VGA_RED = R[7];
 	assign VGA_GREEN = G[7];
 	assign VGA_BLUE = B[7];
@@ -245,7 +267,7 @@ module system
 			.writedata(writedata)
 		);	
 		
-		
+	`ifndef USE_DMA
 	sound_schematic sound (
 		.clk(clk),
 		.rst(rst),
@@ -264,6 +286,7 @@ module system
 		.rom_load(rom_load),
 		.rom_data(rom_data)
 	);
+	`endif
 	
 	romController #(.WIDTH(SF_D_WIDTH)) rom (
 			.clk(clk),

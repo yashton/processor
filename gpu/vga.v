@@ -28,12 +28,12 @@ module vga
 		 output [9:0] y, // the screen y coordinate
 		 output hbright,
 		 output vbright,
-		 output vlookahead,
-		 output line_start,
+		 output vlookahead, // 1 scanline ahead of vbright
+		 output line_start, // true at start of scanline
 		 output bright,
 		 output hsync,
 		 output vsync,
-		 output vga_dac_clk
+		 output vga_dac_clk // 25 MHz clock for video DAC
     );
     
 	reg [9:0] hcount, vcount;
@@ -43,6 +43,7 @@ module vga
 	// Vertical and horizontal output if count is inside Tdisplay
 	assign hbright = (hcount >= (hPulseWidth + hBackPorch) && hcount < (hPulse - hFrontPorch));
 	assign vbright = (vcount >= (vPulseWidth + vBackPorch) && vcount < (vPulse - vFrontPorch));
+	// same as vbright, only offset by 1 to allow scan line lookahead calculation.
 	assign vlookahead = (vcount >= (vPulseWidth + vBackPorch - 1) && vcount < (vPulse - vFrontPorch - 1));
 
 	// bright if both horizontal and vertical outputs are enabled.

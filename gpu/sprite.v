@@ -7,7 +7,8 @@
 // Design Name: Sprite
 // Module Name: sprite
 // Project Name: CS3710
-// Description: Combinatorial logic for sprites.
+// Description: Combinatorial logic for sprites. Mostly used for determining
+// scan line intersection and the Y offset tile address.
 //////////////////////////////////////////////////////////////////////////////////
 module sprite
 	(
@@ -33,9 +34,11 @@ module sprite
 
 	reg [5:0] width;
 	reg [5:0] height;
+	// Intersect calculations.
 	//assign xbound = (a + width) >= 0 && a < 640;
 	assign yintersect = y >= b && y <= (b + height);
 	
+	// Small ROMs for size lookup
 	always @(*) begin
 		case (sizeX)
 			0: width <= 7;
@@ -64,19 +67,24 @@ module sprite
 		endcase
 	end
 
+	// Calculate how many tiles from this sprite need to be written to the 
 	always @(*) begin
 		if (a >= 0)
+			// if relative x is not straddling the left boundary, return first tile.
 			first <= 0;
 		else
+			// if is straddling the left boundary, return the tile that overlaps the boundary
 			first <= (-a)/8 + 1;
 			
 		if ((a + width) < 640)
+			// if relative y is not straddling the right boundary, return the horizontal tile count
 			last <= sizeX;
 		else
+			// if is straddling the right boudnary, return the tile that overlaps the boundary.
 			last <= sizeX - ((a + width) - 640)/8;
 	end
 	
-	// relative position
+	// Calculation the y-offset into the tile table from the scanline and relative position
 	wire [3:0] tile_vertical_offset;
 	wire [6:0] n;
 	assign n = vFlip ? (height - (y - b)) : (y - b);

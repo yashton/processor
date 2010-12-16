@@ -1,22 +1,12 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
+// Company: University of Utah
+// Engineer: Jacob Sanders
 // 
-// Create Date:    21:33:59 08/23/2008 
-// Design Name: 
-// Module Name:    exmem 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
+// Design Name: Program Memory
+// Module Name: exmem 
+// Project Name: CS3710
 // Description: 
-//
-// Dependencies: 
-//
-// Revision: 
-// Revision 0.01 - File Created
-// Additional Comments: 
-//
 //////////////////////////////////////////////////////////////////////////////////
 module exmem #(parameter WIDTH = 16, RAM_ADDR_BITS = 13)
    (input clk, en,

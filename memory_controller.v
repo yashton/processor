@@ -6,9 +6,10 @@
 // Engineer: William Graham, Ashton Snelgrove
 // 
 // Design Name: Memory map controller
-// Module Name:    memoryMap 
+// Module Name: memory_controller 
 // Project Name: blue
-// Description: 
+// Description: Responsible for address translations and switching of IO and other
+// memory mapped devices.
 //////////////////////////////////////////////////////////////////////////////////
 module memory_controller
 	#(
@@ -84,6 +85,7 @@ module memory_controller
 		output [6:0] sound_select
 	 );
 
+	// Enable signals for other memory devices.
 	wire programen;
 	assign programen = (memaddr < PROGRAM_TOP_ADDR);
 	assign sprite_object_enable = (memaddr >= SPRITE_ADDR) && (memaddr < SPRITE_TOP_ADDR);
@@ -93,26 +95,32 @@ module memory_controller
 	assign rot_en = memaddr == ROT_ADDR;
 	assign sound_en = (memaddr >= SOUND_ADDR) && (memaddr < SOUND_TOP_ADDR);
 	
+	// Address translation
 	assign sound_select = memaddr - SOUND_ADDR;
 	assign sprite_object_addr = memaddr - SPRITE_ADDR;
 	assign tile_data_addr = memaddr - TILE_ADDR;
 	assign palette_addr = memaddr - PALETTE_ADDR;
-	wire [15:0] programout;
-
 	
+	wire [15:0] programout;
+	
+	// Main 8-kiloword memory source. main_memory is CoreGen block RAM. Uses blue/program.coe
 	`ifdef USE_COREGEN
 	main_memory programMemory (.clka(clk), .clkb(clk), .addra(memaddr[12:0]), .wea(memwrite), .ena(programen), .dina(writedata), .douta(programout), 
 										 .addrb(pcaddr[12:0]), .web(1'b0), .dinb(16'b0), .doutb(instruction), .rstb(~rst));
 	`else
+	// exmem is a Verilog inferred block RAM. Uses blue/program.dat
 	exmem programMemory( .clk(clk), .adr(memaddr[12:0]), .pcaddr(pcaddr[12:0]), .memwrite(memwrite), .en(programen), .writedata(writedata), 
 			.programout(programout), .instruction(instruction));
 	`endif
 	
+	
+	// Direct memory access control
 	`ifdef USE_DMA
 	assign dma_en = memaddr[15:2] == DMA_REGS;
 	assign dma_mode = memaddr[1:0];
 	`endif
 
+	// Random number generator instance
 	wire rng_en;
 	wire [15:0] random;
 	assign rng_en = memaddr == RNG_ADDR;
@@ -173,6 +181,7 @@ module memory_controller
 		end
 	end
 	
+	// Final mux for data returning to the processor.
 	always @(*) begin
 		if (programen)
 			memdata <= programout;
