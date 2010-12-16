@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawing version="7">
-    <attr value="spartan3e" name="DeviceFamilyName">
+    <attr value="xa9500xl" name="DeviceFamilyName">
         <trait delete="all:0" />
         <trait editname="all:0" />
         <trait edittrait="all:0" />
@@ -391,16 +391,16 @@
             <wire x2="2192" y1="1040" y2="1040" x1="1808" />
         </branch>
         <branch name="result(15:0)">
-            <wire x2="64" y1="128" y2="640" x1="64" />
+            <wire x2="64" y1="240" y2="640" x1="64" />
             <wire x2="208" y1="640" y2="640" x1="64" />
-            <wire x2="1088" y1="128" y2="128" x1="64" />
-            <wire x2="1088" y1="128" y2="1072" x1="1088" />
+            <wire x2="1088" y1="240" y2="240" x1="64" />
+            <wire x2="1088" y1="240" y2="1072" x1="1088" />
             <wire x2="1104" y1="1072" y2="1072" x1="1088" />
-            <wire x2="2416" y1="128" y2="128" x1="1088" />
-            <wire x2="2416" y1="128" y2="512" x1="2416" />
+            <wire x2="2416" y1="240" y2="240" x1="1088" />
+            <wire x2="2416" y1="240" y2="512" x1="2416" />
             <wire x2="2528" y1="512" y2="512" x1="2416" />
-            <wire x2="3216" y1="128" y2="128" x1="2416" />
-            <wire x2="3216" y1="128" y2="1632" x1="3216" />
+            <wire x2="3216" y1="240" y2="240" x1="2416" />
+            <wire x2="3216" y1="240" y2="1632" x1="3216" />
             <wire x2="3216" y1="1632" y2="1632" x1="2976" />
         </branch>
         <instance x="1040" y="1264" name="regsrcMux" orien="R0">
