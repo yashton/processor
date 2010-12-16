@@ -1,7 +1,10 @@
-// Verilog test fixture created from schematic /home/yashton/Desktop/blue/system.sch - Sun Oct 24 17:39:50 2010
-
 `timescale 1ns / 1ps
-
+////////////////////////////////////////////////////////////
+// Run simulation on continuous mode. Once a single frame has been drawn, the simulation will exit.
+// A file in the project directory called "screen.dat" will be created.
+// There is a bash script in blue/gpu/utils/screen which contains the commands for converting to a 
+// png image.
+////////////////////////////////////////////////////////////
 module gpu_test();
 
 // Inputs
@@ -72,9 +75,11 @@ module gpu_test();
 	end
 	always @(posedge clk) begin
 	 	if (vga_ctrl.vga_clk_enable && bright) begin
+			// Every time a pixel would be drawn to screen, write it to file.
 	 		$fdisplay(fileid, "%h%h%h", R, G, B);
 	 	end
 	 	if (!bright && vga_ctrl.vcount == 521) begin
+			// Once a single frame has elapsed, close the file and end the simulation.
 	 		$fclose(fileid);
 	 		$finish();
 	 	end

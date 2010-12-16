@@ -1,4 +1,3 @@
-#! /bin/bash
-/cygdrive/c/Python31/python ascii2dat.py ../../blue_project/screen.dat raw.dat &&
+#! python3 ascii2dat.py ../../blue_project/screen.dat raw.dat &&
 convert -depth 8 -size 640x480 rgb:raw.dat screen.png
 
