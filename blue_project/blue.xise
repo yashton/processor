@@ -12,7 +12,7 @@
     <!-- Copyright (c) 1995-2010 Xilinx, Inc.  All rights reserved. -->
   </header>
 
-  <version xil_pn:ise_version="12.1" xil_pn:schema_version="2"/>
+  <version xil_pn:ise_version="12.2" xil_pn:schema_version="2"/>
 
   <files>
     <file xil_pn:name="../alu/alu.v" xil_pn:type="FILE_VERILOG">
@@ -194,10 +194,6 @@
       <association xil_pn:name="BehavioralSimulation"/>
       <association xil_pn:name="Implementation"/>
     </file>
-    <file xil_pn:name="ipcore_dir/sprite_object_vram.xco" xil_pn:type="FILE_COREGEN">
-      <association xil_pn:name="BehavioralSimulation"/>
-      <association xil_pn:name="Implementation"/>
-    </file>
     <file xil_pn:name="ipcore_dir/bg_rom.xco" xil_pn:type="FILE_COREGEN">
       <association xil_pn:name="BehavioralSimulation"/>
       <association xil_pn:name="Implementation"/>
@@ -214,6 +210,10 @@
       <association xil_pn:name="BehavioralSimulation"/>
       <association xil_pn:name="Implementation"/>
     </file>
+    <file xil_pn:name="ipcore_dir/sprite_object_vram.xco" xil_pn:type="FILE_COREGEN">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="Implementation"/>
+    </file>
     <file xil_pn:name="ipcore_dir/pixel_z_data.xise" xil_pn:type="FILE_COREGENISE">
       <association xil_pn:name="Implementation"/>
     </file>
@@ -221,9 +221,6 @@
       <association xil_pn:name="Implementation"/>
     </file>
     <file xil_pn:name="ipcore_dir/line_buffer_vram.xise" xil_pn:type="FILE_COREGENISE">
-      <association xil_pn:name="Implementation"/>
-    </file>
-    <file xil_pn:name="ipcore_dir/sprite_object_vram.xise" xil_pn:type="FILE_COREGENISE">
       <association xil_pn:name="Implementation"/>
     </file>
     <file xil_pn:name="ipcore_dir/bg_rom.xise" xil_pn:type="FILE_COREGENISE">
@@ -236,6 +233,9 @@
       <association xil_pn:name="Implementation"/>
     </file>
     <file xil_pn:name="ipcore_dir/main_memory.xise" xil_pn:type="FILE_COREGENISE">
+      <association xil_pn:name="Implementation"/>
+    </file>
+    <file xil_pn:name="ipcore_dir/sprite_object_vram.xise" xil_pn:type="FILE_COREGENISE">
       <association xil_pn:name="Implementation"/>
     </file>
   </files>
