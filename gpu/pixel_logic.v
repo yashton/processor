@@ -52,32 +52,18 @@ module pixel_logic
 	wire [2:0] test;
 	// test determines which pixel from the tile is placed onto the buffer.
 	assign test = {~first, offset};
-	
+		
 	always @(*) begin
 		case (test)
-			0: dataZ = sliceD;
-			1: dataZ = sliceC;
-			2: dataZ = sliceB;
-			3: dataZ = sliceA;
-			4: dataZ = sliceH;
-			5: dataZ = sliceG;
-			6: dataZ = sliceF;
-			7: dataZ = sliceE;
-			default: dataZ = sliceD;
-		endcase
-	end
-	
-	always @(*) begin
-		case (test)
-			0: dataY = sliceC;
-			1: dataY = sliceB;
-			2: dataY = sliceA;
-			3: dataY = previousH;
-			4: dataY = sliceG;
-			5: dataY = sliceF;
-			6: dataY = sliceE;
-			7: dataY = sliceD;
-			default: dataY = sliceC;
+			0: dataW = sliceA;
+			1: dataW = previousH;
+			2: dataW = previousG;
+			3: dataW = previousF;
+			4: dataW = sliceE;
+			5: dataW = sliceD;
+			6: dataW = sliceC;
+			7: dataW = sliceB;
+			default: dataW = sliceA;
 		endcase
 	end
 	
@@ -97,35 +83,49 @@ module pixel_logic
 	
 	always @(*) begin
 		case (test)
-			0: dataW = sliceA;
-			1: dataW = previousH;
-			2: dataW = previousG;
-			3: dataW = previousF;
-			4: dataW = sliceE;
-			5: dataW = sliceD;
-			6: dataW = sliceC;
-			7: dataW = sliceB;
-			default: dataW = sliceA;
+			0: dataY = sliceC;
+			1: dataY = sliceB;
+			2: dataY = sliceA;
+			3: dataY = previousH;
+			4: dataY = sliceG;
+			5: dataY = sliceF;
+			6: dataY = sliceE;
+			7: dataY = sliceD;
+			default: dataY = sliceC;
+		endcase
+	end
+	
+	always @(*) begin
+		case (test)
+			0: dataZ = sliceD;
+			1: dataZ = sliceC;
+			2: dataZ = sliceB;
+			3: dataZ = sliceA;
+			4: dataZ = sliceH;
+			5: dataZ = sliceG;
+			6: dataZ = sliceF;
+			7: dataZ = sliceE;
+			default: dataZ = sliceD;
 		endcase
 	end
 	
 	// Uses depth priority (Z-level) to determine whether pixel gets updated.
 	// For pixels that have not been updated at all, always update
 	// for pixels that have been updated, only update when new Z-level is greater than old level
-	assign pixel_out_updated[3] = !pixel_in_updated[3] || ((dataZ != 0) && line_z > pixel_in_z[7:6]);
-	assign pixel_out_updated[2] = !pixel_in_updated[2] || ((dataY != 0) && line_z > pixel_in_z[5:4]);
-	assign pixel_out_updated[1] = !pixel_in_updated[1] || ((dataX != 0) && line_z > pixel_in_z[3:2]);
 	assign pixel_out_updated[0] = !pixel_in_updated[0] || ((dataW != 0) && line_z > pixel_in_z[1:0]);
+	assign pixel_out_updated[1] = !pixel_in_updated[1] || ((dataX != 0) && line_z > pixel_in_z[3:2]);
+	assign pixel_out_updated[2] = !pixel_in_updated[2] || ((dataY != 0) && line_z > pixel_in_z[5:4]);
+	assign pixel_out_updated[3] = !pixel_in_updated[3] || ((dataZ != 0) && line_z > pixel_in_z[7:6]);
 		
 	// If pixel is to be updated, save new Z-level
-	assign pixel_out_z[7:6] = pixel_out_updated[3] ? line_z : pixel_in_z[7:6];
-	assign pixel_out_z[5:4] = pixel_out_updated[2] ? line_z : pixel_in_z[5:4];
-	assign pixel_out_z[3:2] = pixel_out_updated[1] ? line_z : pixel_in_z[3:2];
 	assign pixel_out_z[1:0] = pixel_out_updated[0] ? line_z : pixel_in_z[1:0];
+	assign pixel_out_z[3:2] = pixel_out_updated[1] ? line_z : pixel_in_z[3:2];
+	assign pixel_out_z[5:4] = pixel_out_updated[2] ? line_z : pixel_in_z[5:4];
+	assign pixel_out_z[7:6] = pixel_out_updated[3] ? line_z : pixel_in_z[7:6];
 	
 	// If pixel is to be updated, combine pixel value and palette value and then copy into the buffer
-	assign pixel_out_data[35:27] = pixel_out_updated[3] ? {line_palette, dataZ} : pixel_in_data[35:27];
-	assign pixel_out_data[26:18] = pixel_out_updated[2] ? {line_palette, dataY} : pixel_in_data[26:18];
-	assign pixel_out_data[17:9] = pixel_out_updated[1] ? {line_palette, dataX} : pixel_in_data[17:9];
 	assign pixel_out_data[8:0] = pixel_out_updated[0] ? {line_palette, dataW} : pixel_in_data[8:0];
+	assign pixel_out_data[17:9] = pixel_out_updated[1] ? {line_palette, dataX} : pixel_in_data[17:9];
+	assign pixel_out_data[26:18] = pixel_out_updated[2] ? {line_palette, dataY} : pixel_in_data[26:18];
+	assign pixel_out_data[35:27] = pixel_out_updated[3] ? {line_palette, dataZ} : pixel_in_data[35:27];
 endmodule

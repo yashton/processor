@@ -149,7 +149,7 @@ module line_buffer
 		else if (load) begin
 			current_tile <= first;
 		end
-		else if ((offset != 0 && state == FIRST && completed_first) || (offset == 0 && state == SECOND)) begin
+		else if ((offset != 0 && next_state == WRSECOND && completed_first) || (offset == 0 && next_state == SECOND)) begin
 			current_tile <= current_tile + 1;
 		end
 	end
@@ -212,7 +212,7 @@ module line_buffer
 	wire pixel_enable;
 	assign pixel_enable = state != WAIT;
 	
-	// VRAM for line front and back buffer.
+	// VRAM for line front and back buffer.[
 	line_buffer_vram buffer_ram(
 		.addra(buffer_addr), .dina(pixel_write_data), .ena(pixel_enable), 
 		.wea(write_pixel), .clka(clk), .douta(pixel_read_data),

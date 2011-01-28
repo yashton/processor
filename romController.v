@@ -11,21 +11,25 @@
 // When load is asserted, the controller handles data aquisition from the ROM at
 // the given address. When the data is available to be used, the ready line is 
 // asserted. 
+// Addressing is by byte. For 16 byte reads, set byte to high, and assert the 
+// word address as a byte address (shift left by 1). 
+// If data is
 //////////////////////////////////////////////////////////////////////////////////
 module romController
 	#(
-		parameter WIDTH = 8,
+		parameter WIDTH = 16,
 		parameter ROM_ADDR = 24,
 		parameter PAGE_SIZE = 4,
 		parameter P_MISS = 4, // clock cycles required for a page miss
 		parameter P_HIT = 2 // clock cycles require for page hit
 	)
 	(
-		// system interface
 		input clk,
 		input rst,
+		// system interface.
 		input [ROM_ADDR-1:0] addr,
 		input load,
+		input byte,
 		output [WIDTH-1:0] data,
 		output ready,
 		// pin interface
@@ -47,8 +51,8 @@ module romController
 	assign SF_CE0 = 0;
 	assign SF_OE = 0;
 	assign SF_WE = 1;
-	// Configures in byte or word mode.
-	assign SF_BYTE = WIDTH == 16;
+	// Configures in byte or word mode. Active low for byte
+	assign SF_BYTE = byte;
 	// SF_A addresses are byte addresses
 	assign SF_A = {page, word};
 

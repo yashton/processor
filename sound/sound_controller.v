@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 // Company: 
 // Engineer: 
 // 
@@ -17,10 +17,12 @@
 // Revision 0.01 - File Created
 // Additional Comments: 
 //
-//////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 module sound_controller
 	#(
-		parameter MAX_SOUND = 5
+		parameter BIT_DEPTH = 8,
+		parameter DAC_BIT_DEPTH = 12,
+		parameter SOUNDS = 9
 	)
 	(
 		input clk,
@@ -37,153 +39,85 @@ module sound_controller
 		// ROM
 		input [7:0] rom_data,
 		input rom_ready,
+		output rom_byte,
 		output rom_load,
 		output reg [23:0] rom_addr,
 		
-		// mixer outputs
-		output reg [7:0] bground,
-		output reg [3:0] bamp,
-		output [7:0] sfx0, sfx1, sfx2, sfx3, sfx4, sfx5, sfx6, sfx7, sfx8,
-		
-		output reg [3:0] sfx_amp0,
-		output reg [3:0] sfx_amp1,
-		output reg [3:0] sfx_amp2,
-		output reg [3:0] sfx_amp3,
-		output reg [3:0] sfx_amp4,
-		output reg [3:0] sfx_amp5,
-		output reg [3:0] sfx_amp6,
-		output reg [3:0] sfx_amp7,
-		output reg [3:0] sfx_amp8
-    );
+		// DAC outputs
+		output [DAC_BIT_DEPTH-1:0] data
+	);
 	
-	reg [7:0] sfx0_data, sfx1_data, sfx2_data, sfx3_data, sfx4_data;
-	reg [7:0] sfx5_data, sfx6_data, sfx7_data, sfx8_data;
-// registers to store sound data
+	// Active low if byte addressed
+	assign rom_byte = 1'b0;
+	
+	reg [7:0] sfx_out [SOUNDS-1:0];
+	reg [7:0] sfx_data [SOUNDS-1:0];
+	reg [3:0] sfx_amp [SOUNDS-1:0];
+	
+	// registers to store sound data
 	reg [23:0] b_rom_addr;
 	reg [31:0] b_duration;
 	reg [31:0] b_duration_total;
-	reg [23:0] s0_rom_addr;
-	reg [31:0] s0_duration;
-	reg [23:0] s1_rom_addr;
-	reg [31:0] s1_duration;
-	reg [23:0] s2_rom_addr;
-	reg [31:0] s2_duration;
-	reg [23:0] s3_rom_addr;
-	reg [31:0] s3_duration;
-	reg [23:0] s4_rom_addr;
-	reg [31:0] s4_duration;
-	reg [23:0] s5_rom_addr;
-	reg [31:0] s5_duration;
-	reg [23:0] s6_rom_addr;
-	reg [31:0] s6_duration;
-	reg [23:0] s7_rom_addr;
-	reg [31:0] s7_duration;
-	reg [23:0] s8_rom_addr;
-	reg [31:0] s8_duration;
+	reg [23:0] s_rom_addr [SOUNDS-1:0];
+	reg [31:0] s_duration [SOUNDS-1:0];
 
-// states defined
-	localparam [3:0] off_state = 4'b0, wait_state = 4'b01, valid_state = 4'b10, load_state = 4'b11;
+	// states defined
+	localparam [3:0] off_state = 4'b0, wait_state = 4'b01, valid_state = 4'b10;
+	localparam [3:0] load_state = 4'b11;
 
 	reg [3:0] state, next_state;
 	initial state = off_state;
 	
-// synchronous active-low reset	
+	// synchronous active-low reset	
 	always @(posedge clk)
 	begin
 		if (!rst) state <= off_state;
 		else if (en) state <= next_state;
 	end
 
-localparam BG_SWITCH = 0;
-localparam S0_SWITCH = 1;
-localparam S1_SWITCH = 2;
-localparam S2_SWITCH = 3;
-localparam S3_SWITCH = 4;
-localparam S4_SWITCH = 5;
-localparam S5_SWITCH = 6;
-localparam S6_SWITCH = 7;
-localparam S7_SWITCH = 8;
-localparam S8_SWITCH = 9;
-reg [3:0] s_select;
+	reg [3:0] s_select;
 
-always @(*) begin
-	case(s_select)
-		BG_SWITCH:
-			rom_addr <= b_rom_addr;
-		S0_SWITCH:
-			rom_addr <= s0_rom_addr;
-		S1_SWITCH:
-			rom_addr <= s1_rom_addr;
-		S2_SWITCH:
-			rom_addr <= s2_rom_addr;
-		S3_SWITCH:
-			rom_addr <= s3_rom_addr;
-		S4_SWITCH:
-			rom_addr <= s4_rom_addr;
-		S5_SWITCH:
-			rom_addr <= s5_rom_addr;	
-		S6_SWITCH:
-			rom_addr <= s6_rom_addr;
-		S7_SWITCH:
-			rom_addr <= s7_rom_addr;
-		S8_SWITCH:
-			rom_addr <= s8_rom_addr;
-		default:
-			rom_addr <= b_rom_addr;
-	endcase
-end
-	
-	
-
-always @(posedge clk) begin
-	if(state == valid_state) begin
+	always @(*) begin
 		case(s_select)
-			BG_SWITCH:
-				bground <= rom_data;
-			S0_SWITCH:
-				sfx0_data <= rom_data;
-			S1_SWITCH:
-				sfx1_data <= rom_data;
-			S2_SWITCH:
-				sfx2_data <= rom_data;
-			S3_SWITCH:
-				sfx3_data <= rom_data;
-			S4_SWITCH:
-				sfx4_data <= rom_data;
-			S5_SWITCH:
-				sfx5_data <= rom_data;	
-			S6_SWITCH:
-				sfx6_data <= rom_data;
-			S7_SWITCH:
-				sfx7_data <= rom_data;
-			S8_SWITCH:
-				sfx8_data <= rom_data;
+			0: rom_addr <= b_rom_addr;
+				
+			genvar m;
+			generate
+				for (m = 0; m < SOUNDS; m = m + 1) begin: rom_addr_gen
+					(1 + m): rom_addr <= s_rom_addr[m];
+				end
+			endgenerate
+			
+			default:
+				rom_addr <= b_rom_addr;
 		endcase
 	end
-end
-
-//counter
-	reg count;
-	always @(posedge clk)
-	begin
-		if(count < 40)
-			count <= count + 1;
-		else
-			count <= 0;
+	
+	always @(posedge clk) begin
+		if(state == valid_state) begin
+			case(s_select)
+				0: bground <= rom_data;
+				
+				genvar n;
+				generate
+					for (n = 0; n < SOUNDS; n = n + 1) begin: rom_addr_gen
+						(1 + n): sfx_data[n] <= rom_data;
+					end
+				endgenerate
+				
+			endcase
+		end
 	end
 	
-//define cominational logic for next_state
+	//define cominational logic for next_state
 	always @(*)
 	begin
 		case (state)
-			off_state: if(!load) next_state = off_state;
-				 else next_state = load_state;
-			load_state: next_state = wait_state;
-			wait_state: if(!rom_ready) next_state = wait_state;
-				 else next_state = valid_state;
-			valid_state: if(s_select < MAX_SOUND) next_state = load_state;
-				 else next_state = off_state;
-			default: next_state = off_state;
+			off_state: next_state <= !load ? off_state : load_state;
+			load_state: next_state <= wait_state;
+			wait_state: next_state <= !rom_ready ? wait_state : valid_state;
+			valid_state: next_state <= (s_select < SOUND) ? load_state : off_state;
+			default: next_state <= off_state;
 		endcase
 	end
 	
@@ -199,12 +133,13 @@ end
 	end
 	
 	assign rom_load = (state == load_state);
-//stores sound data in registers
+	//stores sound data in registers
 	reg [23:0] tmp_rom_addr;
 	reg [3:0] tmp_amp;
 	reg [15:0] tmp_duration;
 	reg [23:0] b_rom_addr_first;
 	always @(posedge clk) begin
+		// reset states
 		if (!rst) begin
 			tmp_rom_addr <= 24'h0;
 			tmp_amp <= 4'h0;
@@ -212,61 +147,39 @@ end
 			b_rom_addr_first <= 24'h0;
 			b_rom_addr <= 24'h0;
 			b_rom_addr_first <= 24'h0;
+			bamp <= 4'h0;
 			b_duration <= 32'h0;
 			b_duration_total <= 32'h0;
-			s0_rom_addr <= 24'h0;
-			s0_duration <= 32'h0;
-			s1_rom_addr <= 24'h0;
-			s1_duration <= 32'h0;
-			s2_rom_addr <= 24'h0;
-			s2_duration <= 32'h0;
-			s3_rom_addr <= 0;
-			s3_duration <= 0;
-			s4_rom_addr <= 0;
-			s4_duration <= 0;
-			s5_rom_addr <= 0;
-			s5_duration <= 0;
-			s6_rom_addr <= 0;
-			s6_duration <= 0;
-			s7_rom_addr <= 0;
-			s7_duration <= 0;
-			s8_rom_addr <= 0;
-			s8_duration <= 0;
-			bamp <= 0;
-			sfx_amp0 <= 0;
-			sfx_amp1 <= 0;
-			sfx_amp2 <= 0;
-			sfx_amp3 <= 0;
-			sfx_amp4 <= 0;
-			sfx_amp5 <= 0;
-			sfx_amp6 <= 0;
-			sfx_amp7 <= 0;
-			sfx_amp8 <= 0;
+			
+			genvar l;
+			generate
+				for (l = 0; l < SOUNDS; l = l + 1) begin: rst_gen
+					s_rom_addr[l] <= 24'h0;
+					s_duration[l] <= 32'h0;
+					sfx_amp[l] <= 4'h0;
+				end
+			endgenerate
+			
 		end
 		else begin
+			// Temporary memory mapped registers. Upon write to duration_upper
+			// all temporary registers are copied to the correct registers.
 			if(mem_en && memwrite) begin
-				if (sound_select == 0 || sound_select == 5 || sound_select == 10 || sound_select == 15 ||
-					sound_select == 20 || sound_select == 25 || sound_select == 30 || sound_select == 35 ||
-					sound_select == 40 || sound_select == 45) begin
+				if (sound_select == 0) begin
 					tmp_rom_addr [15:0] <= writedata;
 				end
-				else if (sound_select == 1 || sound_select == 6 || sound_select == 11 || sound_select == 16 ||
-					sound_select == 21 || sound_select == 26 || sound_select == 31 || sound_select == 36 ||
-					sound_select == 41 || sound_select == 46) begin
+				else if (sound_select == 1) begin
 					tmp_rom_addr [23:16] <= writedata;
 				end
-				else if (sound_select == 2 || sound_select == 7 || sound_select == 12 || sound_select == 17 ||
-					sound_select == 22 || sound_select == 27 || sound_select == 32 || sound_select == 37 ||
-					sound_select == 42 || sound_select == 47) begin
+				else if (sound_select == 2) begin
 					tmp_amp <= writedata[3:0];
 				end
-				else if (sound_select == 3 || sound_select == 8 || sound_select == 13 || sound_select == 18 ||
-					sound_select == 23 || sound_select == 28 || sound_select == 33 || sound_select == 38 ||
-					sound_select == 43 || sound_select == 48) begin
+				else if (sound_select == 3) begin
 					tmp_duration <= writedata;
 				end
 			end
 			
+			// Background sound write
 			if (mem_en && memwrite && sound_select == 4) begin
 				b_rom_addr <= tmp_rom_addr;
 				bamp <= tmp_amp;
@@ -285,136 +198,47 @@ end
 				end
 			end
 			
-			if (mem_en && memwrite && sound_select == 9) begin
-				s0_rom_addr <= tmp_rom_addr;
-				sfx_amp0 <= tmp_amp;
-				s0_duration  <= {writedata, tmp_duration};
-			end
-			else if (en && load && s0_duration) begin
-				s0_rom_addr <= s0_rom_addr + 1;
-				s0_duration <= s0_duration - 1;
-			end
-			
-			if (mem_en && memwrite && sound_select == 14) begin
-				s1_rom_addr <= tmp_rom_addr;
-				sfx_amp1 <= tmp_amp;
-				s1_duration  <= {writedata, tmp_duration};
-			end
-			else if (en && load && s1_duration) begin
-				s1_rom_addr <= s1_rom_addr + 1;
-				s1_duration <= s1_duration - 1;
-			end
-			
-			if (mem_en && memwrite && sound_select == 19) begin
-				s2_rom_addr <= tmp_rom_addr;
-				sfx_amp2 <= tmp_amp;
-				s2_duration  <= {writedata, tmp_duration};
-			end
-			else if (en && load && s2_duration) begin
-				s2_rom_addr <= s2_rom_addr + 1;
-				s2_duration <= s2_duration - 1;
-			end
-			
-			if (mem_en && memwrite && sound_select == 24) begin
-				s3_rom_addr <= tmp_rom_addr;
-				sfx_amp3 <= tmp_amp;
-				s3_duration  <= {writedata, tmp_duration};
-			end
-			else if (en && load && s3_duration) begin
-				s3_rom_addr <= s3_rom_addr + 1;
-				s3_duration <= s3_duration - 1;
-			end
-			
-			if (mem_en && memwrite && sound_select == 29) begin
-				s4_rom_addr <= tmp_rom_addr;
-				sfx_amp4 <= tmp_amp;
-				s4_duration  <= {writedata, tmp_duration};
-			end
-			else if (en && load && s4_duration) begin
-				s4_rom_addr <= s4_rom_addr + 1;
-				s4_duration <= s4_duration - 1;
-			end
-			
-			if (mem_en && memwrite && sound_select == 34) begin
-				s5_rom_addr <= tmp_rom_addr;
-				sfx_amp5 <= tmp_amp;
-				s5_duration  <= {writedata, tmp_duration};
-			end
-			else if (en && load && s5_duration) begin
-				s5_rom_addr <= s5_rom_addr + 1;
-				s5_duration <= s5_duration - 1;
-			end
-			
-			if (mem_en && memwrite && sound_select == 39) begin
-				s6_rom_addr <= tmp_rom_addr;
-				sfx_amp6 <= tmp_amp;
-				s6_duration  <= {writedata, tmp_duration};
-			end
-			else if (en && load && s6_duration) begin
-				s6_rom_addr <= s6_rom_addr + 1;
-				s6_duration <= s6_duration - 1;
-			end
-			
-			if (mem_en && memwrite && sound_select == 44) begin
-				s7_rom_addr <= tmp_rom_addr;
-				sfx_amp7 <= tmp_amp;
-				s7_duration  <= {writedata, tmp_duration};
-			end
-			else if (en && load && s7_duration) begin
-				s7_rom_addr <= s7_rom_addr + 1;
-				s7_duration <= s7_duration - 1;
-			end
-			
-			if (mem_en && memwrite && sound_select == 49) begin
-				s8_rom_addr <= tmp_rom_addr;
-				sfx_amp8 <= tmp_amp;
-				s8_duration  <= {writedata, tmp_duration};
-			end
-			else if (en && load && s8_duration) begin
-				s8_rom_addr <= s8_rom_addr + 1;
-				s8_duration <= s8_duration - 1;
-			end
+			// Generate statement generating register locations for each sound
+			genvar k;
+			generate
+				for (k = 0; k < SOUNDS; k = k + 1) begin: memwrite_gen
+					if (mem_en && memwrite && sound_select == (k + 5)) begin
+						s_rom_addr[k] <= tmp_rom_addr;
+						sfx_amp[k] <= tmp_amp;
+						s_duration[k]  <= {writedata, tmp_duration};
+					end
+					else if (en && load && s_duration[k]) begin
+						s_rom_addr[k] <= s_rom_addr[k] + 1;
+						s_duration[k] <= s_duration[k] - 1;
+					end
+				end
+			endgenerate
 		end
 	end
 	
-	always @(posedge clk) begin
-		case (sound_select)
-			0:  mem_data <= b_rom_addr [15:0];
-			1:  mem_data <= b_rom_addr [23:16];
-			2:  mem_data <= bamp [3:0];
-			3:	 mem_data <= b_duration[15:0];
-			4:  mem_data <= b_duration[31:16];
-			5:  mem_data <= s0_rom_addr [15:0];
-			6:  mem_data <= s0_rom_addr [23:16];
-			7:  mem_data <= sfx_amp0[3:0];
-			8:  mem_data <= s0_duration [15:0];
-			9:  mem_data <= s0_duration [31:16];
-			10: mem_data <= s1_rom_addr [15:0];
-			11: mem_data <= s1_rom_addr [20:16];
-			12: mem_data <= sfx_amp1 [3:0];
-			13: mem_data <= s1_duration [15:0];
-			14: mem_data <= s1_duration [31:16];
-			15: mem_data <= s2_rom_addr [15:0];
-			16: mem_data <= s2_rom_addr [23:16];
-			17: mem_data <= sfx_amp2 [3:0];
-			18: mem_data <= s2_duration [15:0];
-			19: mem_data <= s2_duration [31:16];
-			20: mem_data <= s3_rom_addr [15:0];
-			21: mem_data <= s3_rom_addr [23:16];
-			22: mem_data <= sfx_amp3 [3:0];
-			23: mem_data <= s3_duration [15:0];
-			24: mem_data <= s3_duration [31:16];
-		endcase
-	end
+	assign memdata = 16'h0;
 	
-	assign sfx0 = s0_duration ? sfx0_data : 8'b0;
-	assign sfx1 = s1_duration ? sfx1_data : 8'b0;
-	assign sfx2 = s2_duration ? sfx2_data : 8'b0;
-	assign sfx3 = s3_duration ? sfx3_data : 8'b0;
-	assign sfx4 = s4_duration ? sfx4_data : 8'b0;
-	assign sfx5 = s5_duration ? sfx5_data : 8'b0;
-	assign sfx6 = s6_duration ? sfx6_data : 8'b0;
-	assign sfx7 = s7_duration ? sfx7_data : 8'b0;
-	assign sfx8 = s8_duration ? sfx8_data : 8'b0;
+	// Outputs only the sounds which have not finished.
+	genvar i;
+	generate
+		for (i = 0; i < SOUNDS; i = i + 1) begin: sfx_gen
+			assign sfx_out[i] = s_duration[i] ? sfx_data[i] : 8'b0;
+		end
+	endgenerate
+	
+	// Sum the output of each sound
+	wire [DAC_BIT_DEPTH-1:0] sum [SOUNDS-1:0];
+	
+	assign data = sum[0];
+	assign sum[0] = ({bground, 3'b00} >> bg_amp)
+		 + ({sfx_out[0], 2'b00} >> sfx_amp[0]);
+
+	genvar j;
+	generate
+		for (j = 1; j < SOUNDS; j = j + 1) begin: sum_stage
+			assign sum[i] = ({sfx_out[j], 2'b00} >> sfx_amp[j]) + sum[j-1];
+		end
+	endgenerate
+
 endmodule
 

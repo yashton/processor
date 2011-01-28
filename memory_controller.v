@@ -35,9 +35,9 @@ module memory_controller
 		parameter CONA_ADDR = 16'h480a,
 		parameter CONB_ADDR = 16'h480b,
 		parameter SOUND_ADDR = 16'h480c,
-		parameter SOUND_TOP_ADDR = 16'h4825,
-		parameter BG_PALETTE_ADDR = 16'h4827,
-		parameter BLANK_TIME_ADDR = 16'h4826
+		parameter SOUND_TOP_ADDR = 16'h481a,
+		parameter BG_PALETTE_ADDR = 16'h481a,
+		parameter BLANK_TIME_ADDR = 16'h481b
 	)
 	(
 		input clk,
