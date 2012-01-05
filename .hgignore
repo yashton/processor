@@ -5,7 +5,9 @@ syntax: glob
 *.jhd
 *.log
 *.mif
+*.out
 *.prj
+*.pyc
 *.stx
 *.vf
 *.wdb
