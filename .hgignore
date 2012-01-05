@@ -1,0 +1,19 @@
+syntax: glob
+*~
+*.cmd
+*.exe
+*.jhd
+*.log
+*.mif
+*.prj
+*.stx
+*.vf
+*.wdb
+*.xmsgs
+*.xst
+blue_project/*.html
+blue_project/*.ini
+blue_project/.lso
+blue_project/isim
+blue_project/sch2HdlBatchFile
+blue_project/xst/work
