@@ -8,10 +8,10 @@
 <!-- Copyright (c) 1995-2010 Xilinx, Inc.  All rights reserved.    -->
 
 <messages>
-<msg type="info" file="ProjectMgmt" num="1062" ><arg fmt="%s" index="1">Parsing Verilog file &quot;//chips/homes/.win_desktop/blue/blue_project/ipcore_dir/main_memory.v&quot; into library work</arg>
+<msg type="info" file="ProjectMgmt" num="1574" ><arg fmt="%s" index="1">Analyzing Verilog file \&quot;/home/yashton/Desktop/blue/blue_project/ipcore_dir/pixel_z_data.v\&quot; into library work</arg>
 </msg>
 
-<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;//chips/homes/.win_desktop/blue/blue_project/ipcore_dir/main_memory.vhd&quot; into library work</arg>
+<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;/home/yashton/Desktop/blue/blue_project/ipcore_dir/pixel_z_data.vhd&quot; into library work</arg>
 </msg>
 
 </messages>

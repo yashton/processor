@@ -595,84 +595,66 @@
            </xilinx:instanceProperties>
             <xilinx:generationHistory>
                <xilinx:fileSet>
-                  <xilinx:name>customization_generator</xilinx:name>
-                  <xilinx:file>
-                     <xilinx:name>./sprite_object_vram.mif</xilinx:name>
-                     <xilinx:userFileType>mif</xilinx:userFileType>
-                     <xilinx:timeStamp>Fri Dec 10 15:23:32 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x4DC5A18B</xilinx:checkSum>
-                  </xilinx:file>
-               </xilinx:fileSet>
-               <xilinx:fileSet>
-                  <xilinx:name>ip_xco_generator</xilinx:name>
-                  <xilinx:file>
-                     <xilinx:name>./sprite_object_vram.xco</xilinx:name>
-                     <xilinx:userFileType>xco</xilinx:userFileType>
-                     <xilinx:timeStamp>Fri Dec 10 15:23:32 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x4912726E</xilinx:checkSum>
-                  </xilinx:file>
-               </xilinx:fileSet>
-               <xilinx:fileSet>
                   <xilinx:name>implementation_netlist_generator</xilinx:name>
                   <xilinx:file>
                      <xilinx:name>./blk_mem_gen_ds512.pdf</xilinx:name>
                      <xilinx:userFileType>pdf</xilinx:userFileType>
-                     <xilinx:timeStamp>Fri Dec 10 15:24:09 GMT 2010</xilinx:timeStamp>
+                     <xilinx:timeStamp>Sat Dec 18 00:46:59 GMT 2010</xilinx:timeStamp>
                      <xilinx:checkSum>0x7914E183</xilinx:checkSum>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./blk_mem_gen_readme.txt</xilinx:name>
                      <xilinx:userFileType>txt</xilinx:userFileType>
-                     <xilinx:timeStamp>Fri Dec 10 15:24:08 GMT 2010</xilinx:timeStamp>
+                     <xilinx:timeStamp>Sat Dec 18 00:46:58 GMT 2010</xilinx:timeStamp>
                      <xilinx:checkSum>0x4F6653C3</xilinx:checkSum>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sprite_object_vram.asy</xilinx:name>
                      <xilinx:userFileType>asy</xilinx:userFileType>
-                     <xilinx:timeStamp>Fri Dec 10 15:23:34 GMT 2010</xilinx:timeStamp>
+                     <xilinx:timeStamp>Sat Dec 18 00:46:26 GMT 2010</xilinx:timeStamp>
                      <xilinx:checkSum>0xAB5CC537</xilinx:checkSum>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sprite_object_vram.mif</xilinx:name>
                      <xilinx:userFileType>mif</xilinx:userFileType>
-                     <xilinx:timeStamp>Fri Dec 10 15:23:34 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x4DC5A18B</xilinx:checkSum>
+                     <xilinx:timeStamp>Sat Dec 18 00:46:26 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x04F3EA9B</xilinx:checkSum>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sprite_object_vram.ngc</xilinx:name>
                      <xilinx:userFileType>ngc</xilinx:userFileType>
-                     <xilinx:timeStamp>Fri Dec 10 15:24:15 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x38CDBD4F</xilinx:checkSum>
+                     <xilinx:timeStamp>Sat Dec 18 00:47:05 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x027E61CE</xilinx:checkSum>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sprite_object_vram.sym</xilinx:name>
                      <xilinx:userFileType>asy</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Fri Dec 10 15:24:09 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0xBD497FB0</xilinx:checkSum>
+                     <xilinx:timeStamp>Sat Dec 18 00:47:00 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0xD6DBE87B</xilinx:checkSum>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sprite_object_vram.v</xilinx:name>
                      <xilinx:userFileType>verilog</xilinx:userFileType>
-                     <xilinx:timeStamp>Fri Dec 10 15:24:09 GMT 2010</xilinx:timeStamp>
+                     <xilinx:timeStamp>Sat Dec 18 00:47:00 GMT 2010</xilinx:timeStamp>
                      <xilinx:checkSum>0x4CE00073</xilinx:checkSum>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sprite_object_vram.veo</xilinx:name>
                      <xilinx:userFileType>veo</xilinx:userFileType>
-                     <xilinx:timeStamp>Fri Dec 10 15:24:09 GMT 2010</xilinx:timeStamp>
+                     <xilinx:timeStamp>Sat Dec 18 00:47:00 GMT 2010</xilinx:timeStamp>
                      <xilinx:checkSum>0xC3978489</xilinx:checkSum>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sprite_object_vram.vhd</xilinx:name>
                      <xilinx:userFileType>vhdl</xilinx:userFileType>
-                     <xilinx:timeStamp>Fri Dec 10 15:24:09 GMT 2010</xilinx:timeStamp>
+                     <xilinx:timeStamp>Sat Dec 18 00:47:00 GMT 2010</xilinx:timeStamp>
                      <xilinx:checkSum>0x19540DAC</xilinx:checkSum>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sprite_object_vram.vho</xilinx:name>
                      <xilinx:userFileType>vho</xilinx:userFileType>
-                     <xilinx:timeStamp>Fri Dec 10 15:24:09 GMT 2010</xilinx:timeStamp>
+                     <xilinx:timeStamp>Sat Dec 18 00:47:00 GMT 2010</xilinx:timeStamp>
                      <xilinx:checkSum>0x021831BB</xilinx:checkSum>
                   </xilinx:file>
                </xilinx:fileSet>
@@ -681,13 +663,13 @@
                   <xilinx:file>
                      <xilinx:name>./sprite_object_vram.veo</xilinx:name>
                      <xilinx:userFileType>veo</xilinx:userFileType>
-                     <xilinx:timeStamp>Fri Dec 10 15:24:15 GMT 2010</xilinx:timeStamp>
+                     <xilinx:timeStamp>Sat Dec 18 00:47:06 GMT 2010</xilinx:timeStamp>
                      <xilinx:checkSum>0xC3978489</xilinx:checkSum>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sprite_object_vram.vho</xilinx:name>
                      <xilinx:userFileType>vho</xilinx:userFileType>
-                     <xilinx:timeStamp>Fri Dec 10 15:24:15 GMT 2010</xilinx:timeStamp>
+                     <xilinx:timeStamp>Sat Dec 18 00:47:06 GMT 2010</xilinx:timeStamp>
                      <xilinx:checkSum>0x021831BB</xilinx:checkSum>
                   </xilinx:file>
                </xilinx:fileSet>
@@ -696,8 +678,8 @@
                   <xilinx:file>
                      <xilinx:name>./sprite_object_vram.xco</xilinx:name>
                      <xilinx:userFileType>xco</xilinx:userFileType>
-                     <xilinx:timeStamp>Fri Dec 10 15:24:21 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x1E3F41D4</xilinx:checkSum>
+                     <xilinx:timeStamp>Sat Dec 18 00:47:12 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x01D29F0F</xilinx:checkSum>
                   </xilinx:file>
                </xilinx:fileSet>
                <xilinx:fileSet>
@@ -706,7 +688,7 @@
                      <xilinx:name>./sprite_object_vram_xmdf.tcl</xilinx:name>
                      <xilinx:userFileType>tclXmdf</xilinx:userFileType>
                      <xilinx:userFileType>tcl</xilinx:userFileType>
-                     <xilinx:timeStamp>Fri Dec 10 15:24:21 GMT 2010</xilinx:timeStamp>
+                     <xilinx:timeStamp>Sat Dec 18 00:47:12 GMT 2010</xilinx:timeStamp>
                      <xilinx:checkSum>0x224D6A51</xilinx:checkSum>
                   </xilinx:file>
                </xilinx:fileSet>
@@ -716,22 +698,22 @@
                      <xilinx:name>./_xmsgs/pn_parser.xmsgs</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Fri Dec 10 15:24:25 GMT 2010</xilinx:timeStamp>
+                     <xilinx:timeStamp>Sat Dec 18 00:47:15 GMT 2010</xilinx:timeStamp>
                      <xilinx:checkSum>0xCE10725A</xilinx:checkSum>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sprite_object_vram.gise</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>gise</xilinx:userFileType>
-                     <xilinx:timeStamp>Fri Dec 10 15:24:25 GMT 2010</xilinx:timeStamp>
+                     <xilinx:timeStamp>Sat Dec 18 00:47:15 GMT 2010</xilinx:timeStamp>
                      <xilinx:checkSum>0x49C8EA66</xilinx:checkSum>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sprite_object_vram.xise</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>xise</xilinx:userFileType>
-                     <xilinx:timeStamp>Fri Dec 10 15:24:25 GMT 2010</xilinx:timeStamp>
-                     <xilinx:checkSum>0x3BC0884F</xilinx:checkSum>
+                     <xilinx:timeStamp>Sat Dec 18 00:47:15 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0xAB9F577F</xilinx:checkSum>
                   </xilinx:file>
                </xilinx:fileSet>
                <xilinx:fileSet>
@@ -744,12 +726,9 @@
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>txtFlist</xilinx:userFileType>
                      <xilinx:userFileType>txt</xilinx:userFileType>
-                     <xilinx:timeStamp>Fri Dec 10 15:24:26 GMT 2010</xilinx:timeStamp>
+                     <xilinx:timeStamp>Sat Dec 18 00:47:16 GMT 2010</xilinx:timeStamp>
                      <xilinx:checkSum>0xD52E4DE5</xilinx:checkSum>
                   </xilinx:file>
-               </xilinx:fileSet>
-               <xilinx:fileSet>
-                  <xilinx:name>view_readme_generator</xilinx:name>
                </xilinx:fileSet>
             </xilinx:generationHistory>
          </spirit:vendorExtensions>

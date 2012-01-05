@@ -18,34 +18,37 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module mixer(
+module mixer
+	#(
+		parameter BIT_DEPTH = 8,
+		parameter DAC_BIT_DEPTH = 12,
+		parameter SOUNDS = 9
+	)
+	(
 		//input clk,
-		input [7:0] bground,
+		input [BIT_DEPTH-1:0] bground,
 		input [3:0] bg_amp,
-		input [7:0] sfx0, sfx1, sfx2, sfx3, sfx4, sfx5, sfx6, sfx7, sfx8,
 		
-		input [3:0] sfx_amp0,
-		input [3:0] sfx_amp1,
-		input [3:0] sfx_amp2,
-		input [3:0] sfx_amp3,
-		input [3:0] sfx_amp4,
-		input [3:0] sfx_amp5,
-		input [3:0] sfx_amp6,
-		input [3:0] sfx_amp7,
-		input [3:0] sfx_amp8,
-		output [11:0] data	//might have to be a 24bit word since that is what DAC is expecting
-    );
+		input [(SOUNDS*BIT_DEPTH)-1:0] sfx,
+		input [(SOUNDS*4)-1:0] sfx_amp,
+		
+		output [DAC_BIT_DEPTH-1:0] data
+	);
 	
-		assign data = ({sfx0, 2'b00} >> sfx_amp0) 
-				+ ({sfx1, 2'b00} >> sfx_amp1)
-				+ ({sfx2, 2'b00} >> sfx_amp2)
-				+ ({sfx3, 2'b00} >> sfx_amp3)
-			   + ({sfx4, 2'b00} >> sfx_amp4)
-			   + ({sfx5, 2'b00} >> sfx_amp5)
-			   + ({sfx6, 2'b00} >> sfx_amp6)
-				+ ({sfx7, 2'b00} >> sfx_amp7)
-				+ ({sfx8, 2'b00} >> sfx_amp8)
-				+ ({bground, 3'b00} >> bg_amp);
+	wire [DAC_BIT_DEPTH-1:0] sum [SOUNDS-1:0];
+	
+	assign data = sum[0];
+	
+	genvar i;
+	generate
+		for (i = 1; i < SOUNDS; i = i + 1) begin: sum_stage
+			assign sum[i] = 
+				({sfx[SOUNDS*(i+1)-1:SOUND(i)], 2'b00} >> sfx_amp[SOUNDS*(i+1)-1:SOUND(i)])
+				 + sum[i-1];
+		end
+		assign sum[SOUNDS-1] = ({bground, 3'b00} >> bg_amp) +
+			({sfx[SOUNDS-1:0], 2'b00} >> sfx_amp[SOUNDS-1:0]);
+	endgenerate
 
 
 endmodule

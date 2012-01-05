@@ -13,7 +13,7 @@
 module dma
 	#(
 		parameter WIDTH = 16,
-		parameter ROM_ADDR = 23,
+		parameter ROM_ADDR = 24,
 		parameter WR_SRC_L = 0,
 		parameter WR_SRC_U = 1,
 		parameter WR_DST = 2,
@@ -24,8 +24,9 @@ module dma
 		input clk,
 		input rst,
 		// romController interface
-		output reg [ROM_ADDR-1:0] src_addr,
+		output reg [ROM_ADDR-1:0] rom_addr,
 		output reg load_rom,
+		output byte,
 		input [WIDTH-1:0] src_data,
 		input ready,
 		// memory interface
@@ -39,6 +40,11 @@ module dma
 		input [1:0] wr_mode,
 		input [WIDTH-1:0] ctrl_data
 	);
+	
+	assign byte = 1'b1;
+	assign rom_addr = {src_addr, 1'b0};
+	
+	reg [ROM_ADDR-2:0] src_addr;
 	
 	reg [15:0] amount;
 	wire busy;

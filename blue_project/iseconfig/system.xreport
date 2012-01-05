@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2010-12-15T20:26:35</DateModified>
+  <DateModified>2010-12-17T18:37:47</DateModified>
   <ModuleName>system</ModuleName>
   <SummaryTimeStamp>Unknown</SummaryTimeStamp>
-  <SavedFilePath>//chips/homes/.win_desktop/blue/blue_project/iseconfig/system.xreport</SavedFilePath>
-  <ImplementationReportsDirectory>//chips/homes/.win_desktop/blue/blue_project\</ImplementationReportsDirectory>
+  <SavedFilePath>/home/yashton/Desktop/blue/blue_project/iseconfig/system.xreport</SavedFilePath>
+  <ImplementationReportsDirectory>/home/yashton/Desktop/blue/blue_project/</ImplementationReportsDirectory>
   <DateInitialized>2010-12-15T18:56:53</DateInitialized>
   <EnableMessageFiltering>true</EnableMessageFiltering>
  </header>
